@@ -36,8 +36,9 @@ function LoginForm() {
       });
 
       if (res.ok) {
-        router.push(from);
-        router.refresh();
+        // Full page navigation so the browser picks up the new auth cookie
+        window.location.href = from;
+        return;
       } else {
         setError("Incorrect password");
         setLoading(false);
