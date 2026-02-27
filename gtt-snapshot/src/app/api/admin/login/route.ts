@@ -8,13 +8,9 @@ export async function POST(request: NextRequest) {
   if (password === ADMIN_PASSWORD) {
     const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
     const cookie = `admin_auth=authenticated; HttpOnly; SameSite=Lax; Path=/; Max-Age=86400${secure}`;
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Set-Cookie': cookie,
-      },
-    });
+    const response = NextResponse.json({ success: true });
+    response.headers.set('Set-Cookie', cookie);
+    return response;
   }
 
   return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
