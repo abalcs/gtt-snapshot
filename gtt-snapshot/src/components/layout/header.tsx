@@ -121,7 +121,17 @@ export function Header() {
   }, []);
 
   return (
-    <header className="flex items-center gap-4 border-b border-[#b2cab8] bg-white px-6 py-3">
+    <header className={`flex items-center gap-4 border-b px-6 py-3 transition-colors ${
+      isAdmin
+        ? "bg-[#fdf6e9] border-[#d4b896]"
+        : "bg-white border-[#b2cab8]"
+    }`}>
+      {isAdmin && (
+        <div className="flex items-center gap-1.5 mr-2">
+          <span className="inline-block h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
+          <span className="text-xs font-semibold uppercase tracking-wider text-amber-700">Admin</span>
+        </div>
+      )}
       <div className="relative flex-1 max-w-xl">
         <div className="relative">
           <svg
