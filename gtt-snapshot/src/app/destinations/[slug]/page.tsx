@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { PricingTable } from "@/components/destinations/pricing-table";
 import { SeasonalityDisplay } from "@/components/destinations/seasonality-display";
 import { ClientTypes } from "@/components/destinations/client-types";
+import { KeyFactsDisplay } from "@/components/destinations/key-facts-display";
 import { getDestinationBySlug } from "@/lib/queries";
 import { getFlagUrl } from "@/lib/country-flags";
 
@@ -131,7 +132,7 @@ export default async function DestinationDetailPage({
           <Separator />
           <div>
             <h2 className="text-lg font-semibold mb-3">Key Facts</h2>
-            <p className="text-sm whitespace-pre-line leading-relaxed">{destination.key_facts}</p>
+            <KeyFactsDisplay keyFacts={destination.key_facts} />
           </div>
         </>
       )}
