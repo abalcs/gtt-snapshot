@@ -58,10 +58,10 @@ export default async function DestinationDetailPage({
             )}
           </div>
         </div>
-        {destination.date_updated && (
-          <p className="text-xs text-muted-foreground">
-            Last updated: {destination.date_updated}
-            {destination.updated_by && ` by ${destination.updated_by}`}
+        {(destination.date_updated || destination.updated_by) && (
+          <p className="text-sm font-medium text-red-600">
+            Last updated{destination.date_updated ? ` on ${destination.date_updated}` : ""}
+            {destination.updated_by ? ` by ${destination.updated_by}` : ""}
           </p>
         )}
       </div>
