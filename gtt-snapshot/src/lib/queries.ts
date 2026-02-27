@@ -152,6 +152,56 @@ export async function getSpecialSectionBySlug(slug: string): Promise<SpecialSect
   return docToSpecialSection(doc.id, doc.data()!);
 }
 
+export async function updateSpecialSection(slug: string, data: { title?: string; content?: string; region_scope?: string | null }): Promise<void> {
+  const existing = await db().collection('special_sections').doc(slug).get();
+  const existingData = existing.data() || {};
+
+  const updateData: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(data)) {
+    updateData[key] = value ?? null;
+  }
+
+  await db().collection('special_sections').doc(slug).update(updateData);
+
+  const changes: { field: string; from?: string; to?: string }[] = [];
+  for (const [key, value] of Object.entries(data)) {
+    const oldVal = existingData[key];
+    const newVal = value ?? null;
+    const oldStr = oldVal != null ? String(oldVal) : '';
+    const newStr = newVal != null ? String(newVal) : '';
+    if (oldStr !== newStr) {
+      changes.push({ field: key, from: oldStr || undefined, to: newStr || undefined });
+    }
+  }
+
+  if (changes.length > 0) {
+    await logAdminAction({
+      action: 'updated',
+      target_name: (data.title as string) || existingData.title || slug,
+      target_slug: slug,
+      updated_by: 'Admin',
+      changes,
+      timestamp: new Date().toISOString(),
+    });
+  }
+}
+
+export async function deleteSpecialSection(slug: string): Promise<void> {
+  const existing = await db().collection('special_sections').doc(slug).get();
+  const existingData = existing.data();
+
+  await db().collection('special_sections').doc(slug).delete();
+
+  await logAdminAction({
+    action: 'deleted',
+    target_name: existingData?.title || slug,
+    target_slug: slug,
+    updated_by: 'Admin',
+    changes: [],
+    timestamp: new Date().toISOString(),
+  });
+}
+
 // ── Search ───────────────────────────────────────────────
 
 export async function searchDestinations(query: string, limit = 20): Promise<SearchResult[]> {
