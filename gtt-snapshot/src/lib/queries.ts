@@ -56,6 +56,7 @@ function docToDestination(id: string, data: FirebaseFirestore.DocumentData): Des
     updated_at: data.updated_at ?? '',
     search_tokens: data.search_tokens ?? [],
     pricing_tiers: data.pricing_tiers ?? [],
+    tags: data.tags ?? [],
   };
 }
 
@@ -275,6 +276,7 @@ export async function createDestination(data: Partial<Destination> & { region_id
     created_at: now,
     updated_at: now,
     pricing_tiers: data.pricing_tiers ?? [],
+    tags: data.tags ?? [],
     search_tokens: generateSearchTokens({
       ...data,
       region_name: regionData.name as string,
@@ -324,7 +326,7 @@ export async function updateDestination(id: string, data: Partial<Destination>):
   await db().collection('destinations').doc(id).update(updateData);
 
   // Build change list for logging
-  const skipFields = ['updated_at', 'search_tokens', 'pricing_tiers'];
+  const skipFields = ['updated_at', 'search_tokens', 'pricing_tiers', 'tags'];
   const changes: { field: string; from?: string; to?: string }[] = [];
   for (const [key, value] of fields) {
     if (skipFields.includes(key)) continue;
@@ -381,6 +383,34 @@ export async function upsertPricingTiers(destinationId: string, tiers: { tier_la
     pricing_tiers: formattedTiers,
     updated_at: new Date().toISOString(),
   });
+}
+
+// ── Tag-based Filtering ─────────────────────────────────
+
+export async function getDestinationsByTags(tagSlugs: string[], regionSlug?: string): Promise<DestinationWithRegion[]> {
+  if (tagSlugs.length === 0) return [];
+
+  const snap = await db().collection('destinations')
+    .where('status', '==', 'active')
+    .get();
+
+  const results: DestinationWithRegion[] = [];
+  for (const doc of snap.docs) {
+    const data = doc.data();
+    if (regionSlug && data.region_slug !== regionSlug) continue;
+    const destTags: string[] = data.tags ?? [];
+    const allMatch = tagSlugs.every(slug => destTags.includes(slug));
+    if (!allMatch) continue;
+    results.push(docToDestination(doc.id, data));
+  }
+
+  results.sort((a, b) => {
+    const regionCmp = (a.region_name || '').localeCompare(b.region_name || '');
+    if (regionCmp !== 0) return regionCmp;
+    return a.name.localeCompare(b.name);
+  });
+
+  return results;
 }
 
 // ── Sidebar Data ─────────────────────────────────────────

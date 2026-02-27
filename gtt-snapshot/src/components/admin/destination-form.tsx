@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { DestinationDetail, RegionWithCount } from "@/lib/types";
+import { TagPicker } from "@/components/admin/tag-picker";
 
 // Common abbreviations that shouldn't trigger sentence splits
 const ABBREVIATIONS = /(?:U\.S|Dr|Mr|Mrs|Jr|Sr|St|vs|etc|approx|govt|dept|avg|min|max|hrs?|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\./gi;
@@ -97,6 +98,7 @@ export function DestinationForm({ destination, regions }: Props) {
   const [clientOkay, setClientOkay] = useState(destination?.client_types_okay || "");
   const [clientBad, setClientBad] = useState(destination?.client_types_bad || "");
   const [updatedBy, setUpdatedBy] = useState(destination?.updated_by || "");
+  const [tags, setTags] = useState<string[]>(destination?.tags || []);
 
   // Seasonality
   const existingSeasonality: SeasonalityForm[] = (() => {
@@ -210,6 +212,7 @@ export function DestinationForm({ destination, regions }: Props) {
       client_types_bad: clientBad || null,
       seasonality: JSON.stringify(seasonality.filter((s) => s.level || s.date_range)),
       updated_by: updatedBy || null,
+      tags,
       pricing_tiers: pricingTiers
         .filter((t) => t.tier_label)
         .map((t, i) => ({ ...t, sort_order: i })),
@@ -449,6 +452,16 @@ export function DestinationForm({ destination, regions }: Props) {
             <Label htmlFor="clientBad" className="text-red-700">Bad For</Label>
             <Textarea id="clientBad" value={clientBad} onChange={(e) => setClientBad(e.target.value)} rows={3} placeholder="Comma-separated list" />
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Tags */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Tags</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <TagPicker selected={tags} onChange={setTags} />
         </CardContent>
       </Card>
 

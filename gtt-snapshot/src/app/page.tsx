@@ -66,6 +66,22 @@ export default async function HomePage() {
         </Card>
       </div>
 
+      {/* Help Me Choose CTA */}
+      <Card className="border-[#3a5f54]/20 bg-[#3a5f54]/5">
+        <CardContent className="pt-6 flex items-center justify-between">
+          <div>
+            <h3 className="font-semibold text-lg">Not sure where to send your client?</h3>
+            <p className="text-sm text-muted-foreground mt-1">Use our tag-based filter to narrow down destinations by travel style, activities, and more.</p>
+          </div>
+          <Link
+            href="/help-me-choose"
+            className="shrink-0 inline-flex items-center justify-center rounded-md bg-[#3a5f54] text-white px-4 py-2 text-sm font-medium hover:bg-[#2a4a40] transition-colors"
+          >
+            Help Me Choose
+          </Link>
+        </CardContent>
+      </Card>
+
       {/* Continent cards */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Continents</h2>

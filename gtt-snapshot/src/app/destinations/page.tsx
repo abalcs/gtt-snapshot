@@ -1,13 +1,14 @@
 import { getAllDestinations, getAllRegions } from "@/lib/queries";
 import { DestinationCard } from "@/components/destinations/destination-card";
 import { DestinationFilters } from "@/components/destinations/destination-filters";
+import { TagFilterBar } from "@/components/destinations/tag-filter-bar";
 
 export const dynamic = 'force-dynamic';
 
 export default function DestinationsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ region?: string }>;
+  searchParams: Promise<{ region?: string; tags?: string }>;
 }) {
   return <DestinationsContent searchParamsPromise={searchParams} />;
 }
@@ -15,17 +16,25 @@ export default function DestinationsPage({
 async function DestinationsContent({
   searchParamsPromise,
 }: {
-  searchParamsPromise: Promise<{ region?: string }>;
+  searchParamsPromise: Promise<{ region?: string; tags?: string }>;
 }) {
-  const { region } = await searchParamsPromise;
+  const { region, tags: tagsParam } = await searchParamsPromise;
   const [allDestinations, regions] = await Promise.all([
     getAllDestinations(),
     getAllRegions(),
   ]);
 
-  const filteredDestinations = region
+  const activeTags = tagsParam ? tagsParam.split(",").filter(Boolean) : [];
+
+  let filteredDestinations = region
     ? allDestinations.filter((d) => d.region_slug === region)
     : allDestinations;
+
+  if (activeTags.length > 0) {
+    filteredDestinations = filteredDestinations.filter((d) =>
+      activeTags.every((tag) => d.tags?.includes(tag))
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
@@ -34,10 +43,13 @@ async function DestinationsContent({
         <p className="text-muted-foreground">
           {filteredDestinations.length} destination{filteredDestinations.length !== 1 ? "s" : ""}
           {region ? ` in selected region` : ""}
+          {activeTags.length > 0 ? ` matching ${activeTags.length} tag${activeTags.length !== 1 ? "s" : ""}` : ""}
         </p>
       </div>
 
       <DestinationFilters regions={regions} currentRegion={region} />
+
+      <TagFilterBar currentTags={activeTags} />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredDestinations.map((dest) => (

@@ -9,6 +9,7 @@ import { ClientTypes } from "@/components/destinations/client-types";
 import { KeyFactsDisplay } from "@/components/destinations/key-facts-display";
 import { getDestinationBySlug } from "@/lib/queries";
 import { getFlagUrl } from "@/lib/country-flags";
+import { TagBadges } from "@/components/destinations/tag-badges";
 
 export const dynamic = 'force-dynamic';
 
@@ -59,6 +60,9 @@ export default async function DestinationDetailPage({
             )}
           </div>
         </div>
+        {destination.tags && destination.tags.length > 0 && (
+          <TagBadges tags={destination.tags} />
+        )}
         {(destination.date_updated || destination.updated_by) && (
           <p className="text-sm font-medium text-red-600">
             Last updated{destination.date_updated ? ` on ${destination.date_updated}` : ""}

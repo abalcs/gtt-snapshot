@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { DestinationWithRegion } from "@/lib/types";
+import { TagBadges } from "@/components/destinations/tag-badges";
 
 export function DestinationCard({ destination }: { destination: DestinationWithRegion }) {
   return (
@@ -34,6 +35,9 @@ export function DestinationCard({ destination }: { destination: DestinationWithR
               </Badge>
             )}
           </div>
+          {destination.tags && destination.tags.length > 0 && (
+            <TagBadges tags={destination.tags} limit={3} />
+          )}
           {destination.pair_with && (
             <p className="text-xs text-muted-foreground">
               <span className="font-medium">Pair with:</span> {destination.pair_with}

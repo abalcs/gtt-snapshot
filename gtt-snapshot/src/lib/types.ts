@@ -36,6 +36,7 @@ export interface Destination {
   updated_at: string;
   search_tokens: string[];
   pricing_tiers: PricingTier[];
+  tags: string[];
 }
 
 export interface DestinationWithRegion extends Destination {}

@@ -103,6 +103,15 @@ export function Sidebar() {
             >
               All Destinations
             </Link>
+            <Link
+              href="/help-me-choose"
+              className={cn(
+                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-colors",
+                pathname === "/help-me-choose" && "bg-white/20 text-white"
+              )}
+            >
+              Help Me Choose
+            </Link>
 
             <div className="pt-3 pb-1 px-3 text-xs font-semibold text-white/60 uppercase tracking-wider">
               Continents

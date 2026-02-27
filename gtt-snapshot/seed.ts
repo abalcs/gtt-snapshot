@@ -43,6 +43,7 @@ interface SeedDestination {
   seasonality?: Array<{ level: string; date_range: string; description: string }> | null;
   pricing_tiers?: Array<{ tier_label: string; price_per_week?: string | null; price_per_day?: string | null; notes?: string | null }>;
   status?: string;
+  tags?: string[];
 }
 
 function generateSearchTokens(dest: SeedDestination, regionName: string): string[] {
@@ -155,6 +156,7 @@ async function seed() {
         created_at: now,
         updated_at: now,
         pricing_tiers: pricingTiers,
+        tags: dest.tags || [],
         search_tokens: generateSearchTokens(dest, region.name),
       });
 
