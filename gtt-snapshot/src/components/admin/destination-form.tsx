@@ -9,6 +9,37 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { DestinationDetail, RegionWithCount } from "@/lib/types";
 
+// Common abbreviations that shouldn't trigger sentence splits
+const ABBREVIATIONS = /(?:U\.S|Dr|Mr|Mrs|Jr|Sr|St|vs|etc|approx|govt|dept|avg|min|max|hrs?|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\./gi;
+
+function splitIntoFacts(text: string): string[] {
+  if (!text.trim()) return [];
+  let safe = text;
+  const abbrevMatches: string[] = [];
+  safe = safe.replace(ABBREVIATIONS, (match) => {
+    abbrevMatches.push(match);
+    return `__ABBREV${abbrevMatches.length - 1}__`;
+  });
+  const raw = safe.split(/\.(?=\s+[A-Z])|\n+/);
+  return raw
+    .map((s) => {
+      let restored = s;
+      for (let i = 0; i < abbrevMatches.length; i++) {
+        restored = restored.replace(`__ABBREV${i}__`, abbrevMatches[i]);
+      }
+      return restored.trim().replace(/\.$/, "").trim();
+    })
+    .filter((s) => s.length > 0);
+}
+
+function factsToString(facts: string[]): string {
+  return facts
+    .map((f) => f.trim())
+    .filter(Boolean)
+    .map((f) => (f.endsWith(".") ? f : f + "."))
+    .join(" ");
+}
+
 interface PricingTierForm {
   tier_label: string;
   price_per_week: string;
@@ -50,7 +81,10 @@ export function DestinationForm({ destination, regions }: Props) {
   const [regionId, setRegionId] = useState(destination?.region_slug || (regions[0]?.slug || ""));
   const [status, setStatus] = useState(destination?.status || "active");
   const [nightMin, setNightMin] = useState(destination?.night_min || "");
-  const [keyFacts, setKeyFacts] = useState(destination?.key_facts || "");
+  const [keyFacts, setKeyFacts] = useState<string[]>(() => {
+    const parsed = splitIntoFacts(destination?.key_facts || "");
+    return parsed.length > 0 ? parsed : [""];
+  });
   const [urgency, setUrgency] = useState(destination?.urgency || "");
   const [soloPricing, setSoloPricing] = useState(destination?.solo_pricing || "");
   const [paxLimit, setPaxLimit] = useState(destination?.pax_limit || "");
@@ -123,6 +157,28 @@ export function DestinationForm({ destination, regions }: Props) {
     setSeasonality(updated);
   };
 
+  const addKeyFact = () => {
+    setKeyFacts([...keyFacts, ""]);
+  };
+
+  const removeKeyFact = (index: number) => {
+    setKeyFacts(keyFacts.filter((_, i) => i !== index));
+  };
+
+  const updateKeyFact = (index: number, value: string) => {
+    const updated = [...keyFacts];
+    updated[index] = value;
+    setKeyFacts(updated);
+  };
+
+  const moveKeyFact = (index: number, direction: -1 | 1) => {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= keyFacts.length) return;
+    const updated = [...keyFacts];
+    [updated[index], updated[newIndex]] = [updated[newIndex], updated[index]];
+    setKeyFacts(updated);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -140,7 +196,7 @@ export function DestinationForm({ destination, regions }: Props) {
       region_id: regionId,
       status,
       night_min: nightMin || null,
-      key_facts: keyFacts || null,
+      key_facts: factsToString(keyFacts) || null,
       urgency: urgency || null,
       solo_pricing: soloPricing || null,
       pax_limit: paxLimit || null,
@@ -295,9 +351,62 @@ export function DestinationForm({ destination, regions }: Props) {
             <Label htmlFor="urgency">Urgency</Label>
             <Textarea id="urgency" value={urgency} onChange={(e) => setUrgency(e.target.value)} rows={3} />
           </div>
-          <div>
-            <Label htmlFor="keyFacts">Key Facts</Label>
-            <Textarea id="keyFacts" value={keyFacts} onChange={(e) => setKeyFacts(e.target.value)} rows={4} />
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label>Key Facts</Label>
+              <Button type="button" variant="outline" size="sm" onClick={addKeyFact}>
+                + Add Fact
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground">Each row is one bullet point on the destination page. Use ALL CAPS for warnings (e.g., &quot;NO SELF-DRIVE&quot;) — they&apos;ll appear as red alert badges.</p>
+            <div className="space-y-2">
+              {keyFacts.map((fact, i) => (
+                <div key={i} className="flex items-start gap-1.5">
+                  <span className="text-muted-foreground text-xs font-mono mt-2.5 w-5 text-right shrink-0">{i + 1}</span>
+                  <Textarea
+                    value={fact}
+                    onChange={(e) => updateKeyFact(i, e.target.value)}
+                    rows={2}
+                    className="flex-1 text-sm"
+                    placeholder="Enter a key fact..."
+                  />
+                  <div className="flex flex-col gap-0.5 shrink-0">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => moveKeyFact(i, -1)}
+                      disabled={i === 0}
+                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                      title="Move up"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => moveKeyFact(i, 1)}
+                      disabled={i === keyFacts.length - 1}
+                      className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                      title="Move down"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeKeyFact(i)}
+                      className="h-6 w-6 p-0 text-red-500 hover:text-red-700"
+                      title="Remove"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
           <div>
             <Label htmlFor="accommodations">Accommodations</Label>
