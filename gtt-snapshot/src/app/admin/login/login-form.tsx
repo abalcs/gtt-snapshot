@@ -36,7 +36,8 @@ function LoginFormInner() {
       });
 
       if (res.ok) {
-        // Full page navigation so the browser picks up the new auth cookie
+        // Set auth cookie client-side (adapter can't handle server-side Set-Cookie)
+        document.cookie = "admin_auth=authenticated; path=/; max-age=86400; SameSite=Lax";
         window.location.href = from;
         return;
       } else {
