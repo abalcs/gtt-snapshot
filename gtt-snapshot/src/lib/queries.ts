@@ -310,7 +310,9 @@ export async function updateDestination(id: string, data: Partial<Destination>):
     updateData[key] = value ?? null;
   }
   const now = new Date().toISOString();
+  const readableDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   updateData.updated_at = now;
+  updateData.date_updated = readableDate;
 
   // If searchable fields changed, regenerate tokens
   const searchableFields = ['name', 'key_facts', 'urgency', 'accommodations', 'client_types_good', 'client_types_okay', 'client_types_bad', 'general_notes_1', 'general_notes_2', 'pair_with', 'region_name'];

@@ -162,7 +162,7 @@ export function AdminLogList({ logs }: { logs: AdminLogEntry[] }) {
       {/* Detail Modal */}
       <Dialog open={!!selectedLog} onOpenChange={(open) => !open && setSelectedLog(null)}>
         {selectedLog && (
-          <DialogContent className="sm:max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-3xl max-h-[85vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
                 <Badge
@@ -198,7 +198,7 @@ export function AdminLogList({ logs }: { logs: AdminLogEntry[] }) {
                         <span className="text-xs font-medium uppercase tracking-wide text-red-600/70 block mb-1">
                           Before
                         </span>
-                        <div className="text-sm bg-red-50 border border-red-100 rounded px-3 py-2 whitespace-pre-wrap break-words">
+                        <div className="text-sm bg-red-50 border border-red-100 rounded px-3 py-2 whitespace-pre-wrap break-words max-h-64 overflow-y-auto">
                           {change.from}
                         </div>
                       </div>
@@ -208,7 +208,7 @@ export function AdminLogList({ logs }: { logs: AdminLogEntry[] }) {
                         <span className="text-xs font-medium uppercase tracking-wide text-green-700 block mb-1">
                           After
                         </span>
-                        <div className="text-sm bg-green-50 border border-green-100 rounded px-3 py-2 whitespace-pre-wrap break-words">
+                        <div className="text-sm bg-green-50 border border-green-100 rounded px-3 py-2 whitespace-pre-wrap break-words max-h-64 overflow-y-auto">
                           {change.to}
                         </div>
                       </div>

@@ -128,6 +128,12 @@ export function DestinationForm({ destination, regions }: Props) {
     setSaving(true);
     setError("");
 
+    if (!updatedBy.trim()) {
+      setError("Please enter your name in the 'Updated By' field before saving.");
+      setSaving(false);
+      return;
+    }
+
     const body = {
       name,
       slug,
@@ -273,8 +279,8 @@ export function DestinationForm({ destination, regions }: Props) {
             </div>
           </div>
           <div>
-            <Label htmlFor="updatedBy">Updated By</Label>
-            <Input id="updatedBy" value={updatedBy} onChange={(e) => setUpdatedBy(e.target.value)} placeholder="Your name" />
+            <Label htmlFor="updatedBy">Updated By <span className="text-red-500">*</span></Label>
+            <Input id="updatedBy" value={updatedBy} onChange={(e) => setUpdatedBy(e.target.value)} placeholder="Your name (required)" required />
           </div>
         </CardContent>
       </Card>
