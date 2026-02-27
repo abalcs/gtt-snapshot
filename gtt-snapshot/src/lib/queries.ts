@@ -333,8 +333,8 @@ export async function updateDestination(id: string, data: Partial<Destination>):
     if (oldStr !== newStr) {
       changes.push({
         field: key,
-        from: oldStr.slice(0, 200) || undefined,
-        to: newStr.slice(0, 200) || undefined,
+        from: oldStr || undefined,
+        to: newStr || undefined,
       });
     }
   }
