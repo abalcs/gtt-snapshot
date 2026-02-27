@@ -1,0 +1,1300 @@
+{
+  "region": {
+    "name": "CANAL",
+    "slug": "canal",
+    "description": "Central America, North America, and Latin America"
+  },
+  "destinations": [
+    {
+      "name": "USA - Alaska",
+      "slug": "usa-alaska",
+      "night_min": 7,
+      "key_facts": "Cruise among the fjords and tidewater glaciers of Kenai Fjords National Park. Fishing from Seward and Homer. Alaska Railroad gold-star service (180-degree glass dome roof, restaurant inside), typically to and from Denali. Skiing at Hotel Alyeska in winter (Girdwood). Winter activities include dog-sledding, snowmobiling, snowshoeing, outdoor hot tub admiring the Alaska Range, and spa treatments at Alyeska Ski Resort. Flights: Main hub is Seattle, then to Anchorage (4-5 hrs) or Fairbanks (6 hrs). Transport: cruising or land-based (self-driving or train). Anything from Anchorage south requires a rental car; north can do rental car or train. Juneau and Ketchikan are common but we have very little product there -- mainly cruise stops.",
+      "urgency": "2025 cannot book 2027 trips until spring 2026. 2025 STOP SELL. Availability is very limited.",
+      "solo_pricing": "$8k-$10k",
+      "pax_limit": "",
+      "accommodations": "Very few nice hotels in Alaska. Emphasis is on experiences and scenery, not hotels. A couple nice properties but no 5-star stays. Cruises offered: Silverseas Expedition line (luxury, all-inclusive, starting at $13K/2 pax), UnCruise (most adventurous expedition-style, 22-74 pax, all-inclusive, starts around $8k pp, more typically $10k-$12k pp). Within the Wild: minimum 3 days, largely all-inclusive but super luxury wilderness trips, private chefs, wildlife, yoga -- get there by boat from Homer or small private aircraft from Anchorage. Tutka Bay Lodge. Borealis Basecamp: dome tents for Northern Lights viewing Nov-Mar, books up 1 year in advance. Sheldon Chalet: $30,000 a night with 3 night min, very remote, 10 people max. Denali Backcountry Lodge: arrive by heli, cabins on river, gourmet meals and activities included. NatHab (Natural Habitat): glamping experience, minimum 6 days, must be booked alongside another trip leg.",
+      "how_to_feature": "",
+      "pair_with": "",
+      "general_notes_1": "Denali National Park: abundant wildlife and Mount Denali, highest mountain in North America. Can't see the mountain from the park. Hotels at park gates or Denali Backcountry Lodge (only lodge within park). Day trips to see grizzly bears on light aircraft to Katmai National Park or Redoubt Bay Lodge. Various lodges accessible by air and water for 2-3 night stays for fishing, bears, glaciers.",
+      "general_notes_2": "Cruising: Silverseas all-inclusive luxury cruise (alcohol, tips, food, shore excursions), all rooms ocean-facing with balconies, butler service included, starting at $13K/2 pax. UnCruise: expedition style, Zodiac boats, sea-kayaking, naturalists on board. Northern Lights Train available for winter travel further south.",
+      "client_types_good": "Adventurers, Nature lovers/wildlife enthusiasts, Birders, Solo or couple travel, 65+ once-in-a-lifetime trip",
+      "client_types_okay": "",
+      "client_types_bad": "Families (not much for kids, restricted from certain things like wildlife treks)",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Mid June - Mid August",
+          "description": "Best summer season"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "June - September",
+          "description": "Season shuts down. September 15 is the absolute cut-off date."
+        },
+        {
+          "level": "low",
+          "date_range": "November - March",
+          "description": "Winter season. Northern Lights viewing. Must book early. Winter season starts mid-November."
+        },
+        {
+          "level": "no-go",
+          "date_range": "April and October",
+          "description": "Alaska is a no-go in April and October. Summer season ends mid-September and winter season starts mid-November."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$7k-$9k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Opulent Options",
+          "price_per_week": "$10k-$20k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$8k-$10k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "USA - California",
+      "slug": "usa-california",
+      "night_min": 7,
+      "key_facts": "National parks/nature: Yosemite, Sequoia, King's Canyon, Death Valley, Joshua Tree and more. Entire coastline has huge variety of marine life -- otters and whales in Monterey, elephant seals by Big Sur, dolphins along the coast. Big Sur has its own national park with huge sequoias on Coastal Rte 1. Yosemite warm months: full-day hikes, wildlife, photography, waterfalls, rock climbing. Cold months: not much offered even if park open. Food/Culture: 90 Michelin starred restaurants, farm-to-table food scene, Napa Valley and Sonoma wine country, tastings in Santa Ynez. Alcatraz: famous prison island visible from SF. Los Angeles: currently pretty dangerous. Coastal Rte 1: scenic winding drive from SF to LA, self-drive, minimum 7-10 days. We DO NOT sell San Diego Zoo, Disney, Universal, or Legoland.",
+      "urgency": "QUALIFY BUDGET. Trips more than a year out are hard to gauge costings and often don't have availability.",
+      "solo_pricing": "$6k-$7k",
+      "pax_limit": "",
+      "accommodations": "Coastal Rte 1: mostly inns, small, quaint, boutique. No luxury. Santa Barbara/SF: hotels get bigger, more luxurious. Yosemite: main option is Tenaya Lodge -- picturesque, almost New England-style stay a mile from the front gates of the park. Other stays are much less nice.",
+      "how_to_feature": "",
+      "pair_with": "",
+      "general_notes_1": "Above areas (Yosemite, Napa/Sonoma, SF Coast) are the areas most clients want to go to. For any off-the-beaten-path areas outside the above, reach out to a CA CS for specific details.",
+      "general_notes_2": "",
+      "client_types_good": "Families, Honeymooners, Domestic travelers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Yosemite/SF/Coast: Late Sept - Nov; Napa/Sonoma: June-Oct (harvest), Mar-May (wine)",
+          "description": "Yosemite/SF/Coast: temps are lower, good for outdoor activities. Napa/Sonoma: harvest and wine seasons."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "Yosemite/SF/Coast: June - early Sept",
+          "description": "Hottest temps, can be dangerous for strenuous hiking."
+        },
+        {
+          "level": "low",
+          "date_range": "Yosemite/SF/Coast: Dec - Mid April; Napa/Sonoma: Dec-March",
+          "description": "Yosemite: hiking not offered, other activities are, chances of park closure are high. Napa/Sonoma: temps will be 50-60."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star Yosemite",
+          "price_per_week": "$10k-$12k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "5-Star Napa/Sonoma/SF Coast",
+          "price_per_week": "$10k-$15k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Audley Standard Yosemite/SF/Coast",
+          "price_per_week": "$5k-$7k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Audley Standard Napa/Sonoma/SF Coast",
+          "price_per_week": "$3.5k-$5k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$6k-$7k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "USA - Hawaii",
+      "slug": "usa-hawaii",
+      "night_min": 6,
+      "key_facts": "Stand alone or stopover on the way to Asia. 2 main airports are on Oahu (Honolulu) and Maui (Kahului). Cruise info: one option with UnCruise (expedition cruising, doesn't go to most popular islands). Capital: Honolulu (Oahu). Oahu: Honolulu, Pearl Harbor, authentic luau, surf lessons, catamaran, snorkel tours. Kauai: 'Adventure Island' -- hiking, ziplining, kayaking, Na Pali Coast, Waimea Canyon (Grand Canyon-esque). Maui: most expensive of bigger islands, mixture of Kauai and Oahu, best self-driving, Haleakala volcano crater sunrise hiking. No longer sell trips to Lahaina (fire), only sell in Wailea. Hawaii (Big Island): largest island, volcanic activity, national parks, star gazing (Maunakea), manta ray night snorkeling, black sand beaches. Lanai: typically only 4 Seasons, could be day trip from Maui. Molokai: smallest island, one hotel, tallest sea cliffs in the world. Whale-watching best on Maui. Transportation: ONLY self-drive or taxi.",
+      "urgency": "QUALIFY BUDGET. Can't plan trips more than 12 months out.",
+      "solo_pricing": "$7k+",
+      "pax_limit": "",
+      "accommodations": "Simple to deluxe. Mainly large, resort-style hotels. Very few boutique options. ALL HOTELS HAVE RESORT FEES (covers wifi, pool, parking etc. -- we can only rarely include resort fees in itineraries). No all-inclusive options.",
+      "how_to_feature": "Stand alone or stopover on the way to Asia.",
+      "pair_with": "Asia (as stopover)",
+      "general_notes_1": "For repeat clients: things in Hawaii aren't as privatized, it is a lot of shared/small group tours. The experience will be different than their previous international trips with us because Hawaii is the most expensive area in the U.S. For Christmas we recommend $2k per person per night.",
+      "general_notes_2": "Whale season: Sept-March. Whales like Maui, dolphins like Kauai.",
+      "client_types_good": "Adventure, Outdoors, Honeymooners, Interested in Polynesian culture, WWII history at Pearl Harbor",
+      "client_types_okay": "Families (Oahu is best option, ok for little kids; other islands not very good especially for smaller children). Accessibility: Oahu can be good (ADA compliant hotels), recommend only Oahu or Maui since easiest to get around.",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "May-Aug and Dec-Jan",
+          "description": "Warm and low rain."
+        },
+        {
+          "level": "low",
+          "date_range": "No bad time weatherwise",
+          "description": "Avoid holidays if you don't like crowds or are on a budget."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High",
+          "price_per_week": "$7k pp/pw",
+          "price_per_day": "$1.5k-$2k pp/pd"
+        },
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$7k pp/pw",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Holidays/High Season",
+          "price_per_week": "$7k-$10k pp/pw",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$7k+",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "USA - New England",
+      "slug": "usa-new-england",
+      "night_min": 5,
+      "key_facts": "Self-drive only, we don't do full train trips. Fall foliage: must book by spring of that year at the latest. If they ask about railroad trips/excursions, we could only research/recommend, couldn't book. Massachusetts: Boston, history, museums, Freedom Trail, day trips to Salem and Gloucester, whale watching, food tours. Berkshires in western MA. Cape Cod (exclusively summer destination), Nantucket, Martha's Vineyard. Vermont: Stowe, Woodstock, Manchester, Green Mountains, outdoor activities/hiking. New Hampshire: White Mountains, Jackson, North Conway, Lake Winnipesaukee, Cog Railway. Maine: Southern (Portland, Kennebunkport), Mid-coast (Rockport, Camden), Northern (Bar Harbor, Acadia Nat'l Park). Rhode Island: only Newport/Providence. Connecticut: only Mystic.",
+      "urgency": "QUALIFY BUDGET. Starting to be pretty low on capacity especially Vermont. Clients need flexibility and budget.",
+      "solo_pricing": "$8k-$12k pp pw (because of double occupancy, not splitting price with anyone)",
+      "pax_limit": "",
+      "accommodations": "Boutique, inns, B&Bs mostly. Some larger resort/lodge style stays (Trapp Family Lodge in VT). Small towns can't support large chain hotels. Smaller boutique inns and B&Bs have relatively few rooms that go for premium when demand is high. Breakfast not included as often as other destinations.",
+      "how_to_feature": "",
+      "pair_with": "",
+      "general_notes_1": "We can now sell to new clients. The excursions we offer and the personalization we can add makes it very much an Audley trip.",
+      "general_notes_2": "Cape Cod is pretty exclusively a summer destination, dead/closed in fall/winter. Martha's Vineyard and Nantucket ferries both come from Hyannis with no ferry between the two. Moosehead Lake north of Bangor available. Ferry from Maine to Nova Scotia possible but requires higher budget.",
+      "client_types_good": "History lovers, Foodies, Couples, Leaf peepers/nature/wildlife lovers",
+      "client_types_okay": "Families (not family un-friendly but not much entertaining/worth it for kids)",
+      "client_types_bad": "Accessibility: difficult region for those with walking difficulties. Accommodations are often historical buildings with no elevators and steep stairs. Excursions are outdoorsy and often literally beaten paths. No local partners, no GHA support.",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "End of Sept - Beginning of Nov",
+          "description": "60-70 degrees. Fall foliage season."
+        },
+        {
+          "level": "peak",
+          "date_range": "Summertime",
+          "description": "70s-90s. Be careful of heat and crowds."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "March - May",
+          "description": "Spring is iffy, depends on the year, muddy and cold."
+        },
+        {
+          "level": "low",
+          "date_range": "End of Nov - Feb",
+          "description": "20-40 degrees. We do not send people in the winter."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star Newport",
+          "price_per_week": "$6k-$8k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$4k-$6k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$8k-$12k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "USA - National Parks",
+      "slug": "usa-national-parks",
+      "night_min": 5,
+      "key_facts": "SELF-DRIVE ONLY (don't offer private drivers). 3 main points: 5 nights minimum, 2 or more destinations, self-drive only (own vehicle allowed) but not self-guided -- private/shared guided tours available. Bigger mix of shared and private tours. Rockies: Yellowstone/Grand Tetons -- scenic drives, wildlife (bears, elk, eagles, beavers, wolves), hiking, rafting, fly-fishing, kayaking, stargazing. Closest airports Bozeman MT and Jackson Hole. We don't offer horseback riding in Yellowstone or Tetons. Glacier Nat'l Park: mid June - early Oct. Southwest: red rocks, high desert, slot canyons, rafting Colorado river, hiking. Grand Canyon/Sedona/Phoenix. Utah's Big 5: Zion, Bryce Canyon, Capital Reef, Arches, Canyonlands. Arches requires timed entry reservations.",
+      "urgency": "QUALIFY BUDGET.",
+      "solo_pricing": "",
+      "pax_limit": "",
+      "accommodations": "Inside parks: pretty mid-range, can't guarantee luxury throughout entire trip, often don't have A/C. Outside parks: med-luxury. Glamping is very popular. Ranches: luxury options (must include other accommodations, no single stays), many have minimum 3-6 nights. Not many high-end luxury accommodations inside Yellowstone area, mostly cabins. More luxury options in Jackson Hole.",
+      "how_to_feature": "",
+      "pair_with": "",
+      "general_notes_1": "Can do Las Vegas but has to be part of a full trip, can't only do Vegas (Sydney Jones only one who sells). Can do Badlands National Park and Mt. Rushmore as add-ons in South Dakota. North Rim of Grand Canyon books out a year in advance (1 hotel), currently burnt down in fall 2025 and not offering it. South Rim has more availability (Jeep/Hummer/Helicopter tours).",
+      "general_notes_2": "Destinations: Arizona, Wyoming, Idaho, Utah, Nevada, Montana, South Dakota, California. Typical routing: fly into Phoenix, drive to Sedona, Grand Canyon (can add Bryce Canyon or Zion), fly home from Vegas. 10 days is best for Utah's Big 5 routing.",
+      "client_types_good": "Adventurous, Outdoorsy families, Active older couples, Sightseeing, Wildlife tours, Independent clients",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "May-Oct (Tetons/Yellowstone); May-Sept (Grand Canyon/Phoenix/Sedona)",
+          "description": "Tetons/Yellowstone park closed rest of year. Weather-dependent after Oct 5th. Grand Canyon/Phoenix/Sedona peak is May-Sept."
+        },
+        {
+          "level": "year-round",
+          "date_range": "Zion/SW: Open year-round",
+          "description": "There is snow in certain areas like Utah, but much longer season."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Zion/SW",
+          "price_per_week": "$3k-$5k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Tetons/Yellowstone",
+          "price_per_week": "$5k-$7k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Grand Canyon/Phoenix/Sedona",
+          "price_per_week": "$3k-$5k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "High/5-Star",
+          "price_per_week": "$10k-$15k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Antarctica",
+      "slug": "antarctica",
+      "night_min": 7,
+      "key_facts": "Arctic Peninsula: famous for jagged mountain peaks and huge glaciers. Penguins, whales, seals, birds. Beginning of season has more animal opportunities, penguin babies around mid-season (Jan), whale migration later in season (March). Two ways to get there: flying (charter flight from tip of Chile to South Shetland Islands, 7-day trip, best for short on time or seasick) or cruising (leave from Ushuaia Argentina, 2 days through Drake Passage each way, 9-10 day trip, 75-80% want this route, cheaper than fly-and-sail). Deception Island: abandoned whaling station. Most cruises don't cross the Antarctic Circle. These trips are dangerous -- clients need to be physically able. Helicopter rides available on Quark (only ship that does it).",
+      "urgency": "Pricing really depends on timing.",
+      "solo_pricing": "$15k+",
+      "pax_limit": "No limit -- some boats only have small number of pax so may be difficult to get lots of cabins.",
+      "accommodations": "Comes down to type of ship, type of cabin, length of cruise, luxury level chosen. Choice of cabin: window picture or porthole (porthole is cheaper). Balconies not ideal and can be upwards of several thousand extra per person. Typically work with ships that have limits of 200 people or less, mostly tend to work with ship sizes of 75 people. Antarctica only lets 100 people on land in one particular area at once.",
+      "how_to_feature": "",
+      "pair_with": "Argentina/Ushuaia (adds around $2k pp to quote), South Georgia, South Shetland Islands, Falklands",
+      "general_notes_1": "South Georgia: 75% covered in glaciers and snowfield, most densely populated wildlife area in the world, only place to see elephant seals and Emperor penguins. Typically more expensive and longer. South Shetland Islands: great feeding grounds for whales, seals, and penguins. Falklands sometimes included in longer cruises but we don't sell it as a standalone destination. Cruises are condition-dependent -- the itinerary given is best case scenario but can never be guaranteed 100%.",
+      "general_notes_2": "April-Oct travel is largely not possible -- departures may start in early Oct and are possible but not ideal. 2-excursions a day: shore landings include seeing penguins, some hiking, Zodiac boat rides, kayaking for extra charge, polar plunge. Both Antarctica and Arctic: free parka most of the time, booze is not included. Not all landing sites are hikes, usually quite flat but could be deep snow or slippery.",
+      "client_types_good": "Well-traveled, Have the money, Bucket list destination",
+      "client_types_okay": "Accessibility: those with mobility issues can go but must stay on the boat (includes wheelchair/walker users)",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "early season",
+          "date_range": "Nov-Dec",
+          "description": "Ice is thick, blue scenic, penguins starting to arrive but not massive colonies."
+        },
+        {
+          "level": "peak",
+          "date_range": "Jan-March",
+          "description": "40s, dry and warm."
+        },
+        {
+          "level": "late season",
+          "date_range": "Dec-Feb",
+          "description": "Penguins hatching, best chance of seeing baby penguins after late Dec. Whale migration in March."
+        },
+        {
+          "level": "low",
+          "date_range": "April-Oct",
+          "description": "Travel is largely not possible. Departures may start in early Oct but not ideal."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard Cruise",
+          "price_per_week": "$8k-$15k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Fly Cruise (or including islands)",
+          "price_per_week": "$15k-$25k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Opulent Options",
+          "price_per_week": "$25k+",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$15k+",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Arctic Svalbard",
+      "slug": "arctic-svalbard",
+      "night_min": 5,
+      "key_facts": "Great tundra ecology and bird species, World Seed Bank, best place in the world to see polar bears (most densely populated area for them). Longyearbyen: one of the world's northernmost settlements. Great overall Arctic experience with dramatic landscapes and high concentration of wildlife -- arctic fox, walrus, reindeer, polar bears, several whale species and incredible birdlife. Can technically sell Canadian Arctic cruising (more culture, scenery, maybe narwhals) but for first-time Arctic experience recommend Svalbard. 14 nights recommended.",
+      "urgency": "Pricing depends on length of cruise, many will stop in Iceland.",
+      "solo_pricing": "$10k-$15k",
+      "pax_limit": "No limit -- some boats only have small number of pax so may be difficult to get lots of cabins.",
+      "accommodations": "Cruising, so depends on ship type, cabin type, luxury level, etc.",
+      "how_to_feature": "It's a peninsula in Norway. Standalone, maybe pair with Iceland or Greenland (cruising only). Most clients fly to Oslo then fly to Longyearbyen to board their cruise.",
+      "pair_with": "Iceland, Greenland (cruising only)",
+      "general_notes_1": "",
+      "general_notes_2": "",
+      "client_types_good": "Enjoys cruising, Well-traveled, Adventurous",
+      "client_types_okay": "",
+      "client_types_bad": "Don't recommend for young kids (bears, gun patrols). 12+ y/o minimum but hard for them to appreciate experience for cost. 15+ y/o ideal.",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "July-Aug",
+          "description": "40s temperature."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "June and Sept",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "Oct-May",
+          "description": "Travel is not possible."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$7k-$12k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Opulent Options",
+          "price_per_week": "$15k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$10k-$15k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Argentina",
+      "slug": "argentina",
+      "night_min": 7,
+      "key_facts": "Buenos Aires: great city to explore, lots of culture, history, speakeasies, well-known for food and tango. Year-round destination. Iguazu Falls: one of the 7 wonders of the natural world on the border of Brazil and Argentina. Year-round destination. Argentinian Patagonia: Perito Moreno Glacier, glacier trekking, for independent adventurous hikers. Cannot connect Chilean Patagonia to Argentinian Patagonia by flights (can drive but 5 hours). Mendoza: vineyards, rafting, fly fishing, hiking, horseback riding. Bariloche/Lakes District: outdoor enthusiasts, lake activities, hiking, biking, kayaking, horseback riding, chocolate capital of Argentina. Whale watching: Sep-Nov southern right whales at Valdes Peninsula. Salta (northwest): 2.5 hour flight from Buenos Aires, north and/or south loop (2-4 days each, lots of driving). Ibera Wetlands: off-the-beaten-path wildlife viewing, 85 species of mammals, avoid Dec-Feb (wet and very hot). 10-14 nights recommended.",
+      "urgency": "Patagonia VERY TIGHT Oct-March. Flexibility is an absolute must, starting $9-11k pp pw. Very low capacity with sellers. Dates and budget are the major qualifying aspects. Any trips planned within 2 months of travel during summer AND shoulder season (Oct-March) have extremely limited availability.",
+      "solo_pricing": "$5k-$7k",
+      "pax_limit": "",
+      "accommodations": "Range from estancias to 5-star luxury properties. Cruises offered to Antarctica and Patagonia cruises as well. Estancias (ranches): some working ranches but generally fully converted for tourism. Gaucho = Argentinian cowboy, not a type of accommodation (clients sometimes confuse with estancias).",
+      "how_to_feature": "Combine with Chile, Brazil, Antarctica.",
+      "pair_with": "Chile, Brazil, Antarctica",
+      "general_notes_1": "North: Salt flats, high altitude, hiking, some Andean culture but not enough to be a draw. South: vivid scenery, winelands, hiking. Bariloche/Lakes District: great self-drive area, Oct-Apr ideal.",
+      "general_notes_2": "Patagonia starting $8k+ for combo Argentina/Chile Patagonia, $10-15k pp for 10 days. Christmas time starting $13-15k.",
+      "client_types_good": "Older couples, Architecture buffs, Horse riders, Wine lovers, Adventurers",
+      "client_types_okay": "Young kids, Family-friendly but best for older kids (long drives, lots of domestic flights, scenery-heavy so not super engaging for young ones)",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Dec-Feb (year-round for BA); Patagonia: October-April",
+          "description": "Year-round destination overall."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "April (wine, 60s-70s); May (Wetlands, 50s-70s); Sep-Oct (whale watching at Peninsula Valdes, 50-70s)",
+          "description": "Various shoulder activities by region."
+        },
+        {
+          "level": "low",
+          "date_range": "May-Sept",
+          "description": "Can't go to Patagonia."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$6k-$8k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Opulent Options",
+          "price_per_week": "$10k-$12k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Patagonia (Arg/Chile combo, 10 days)",
+          "price_per_week": "$10k-$15k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$5k-$7k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Belize",
+      "slug": "belize",
+      "night_min": 5,
+      "key_facts": "Great snorkeling and diving -- second largest barrier reef in the world, largest caving system in the world. Tons of history/culture: Mayan ruins. Good for adventure: caving, tubing, ziplining, hiking. Rainforest with incredible flora and fauna. Blue Hole: tend to discourage folks from actually going (boring in real life). Way richer in culture and history than Costa Rica, less so in wildlife and beaches. Great sell for busy season times.",
+      "urgency": "Switch sell from Costa Rica interest (better availability than CR usually).",
+      "solo_pricing": "$7k-$9k",
+      "pax_limit": "",
+      "accommodations": "Simple (eco lodges or apartment-style with kitchenette) to deluxe, no 5-star, just lovely boutique. Jungle (luxury, boutique options). Beach (lots of variety, from tiny boutique to giant island resorts).",
+      "how_to_feature": "Standalone or pair with Guatemala and Belize. Guatemala for culture and end with Belize for the beach.",
+      "pair_with": "Guatemala",
+      "general_notes_1": "Compared to Costa Rica, way richer in culture and history, less so in wildlife and beaches.",
+      "general_notes_2": "",
+      "client_types_good": "Families and couples, People looking for warm beach to snorkel, Adventurers, Honeymooners, Huge for birders, History buffs",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Dec-April",
+          "description": "70s-80s, very busy at Christmas."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "May-June and Nov",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "July-Oct",
+          "description": "Hurricane season."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$5k-$7k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$7k-$9k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Bolivia",
+      "slug": "bolivia",
+      "night_min": 6,
+      "key_facts": "Capital: La Paz/Sucre. Salar de Uyuni: largest salt flats (4,000 miles). Lake Titicaca: birthplace of the Incas. Amazon Jungle: exploring the Amazon. La Paz: witches markets, textiles, weavings.",
+      "urgency": "",
+      "solo_pricing": "$10k",
+      "pax_limit": "",
+      "accommodations": "Hotels vary from international standard hotels to huts and tents. Airstream campers on salt flats ($$$).",
+      "how_to_feature": "Stand alone or pair with Peru/Chile.",
+      "pair_with": "Peru, Chile",
+      "general_notes_1": "",
+      "general_notes_2": "",
+      "client_types_good": "Have been to Latin America before, Repeats, Active and enjoy the outdoors, Wildlife lovers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "June-Sept",
+          "description": "60s-80s."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "April and Oct",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "Nov-March",
+          "description": "Wet and rainy."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$5.5k-$6k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Opulent Options",
+          "price_per_week": "$10k-$12k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$10k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Brazil",
+      "slug": "brazil",
+      "night_min": 7,
+      "key_facts": "Capital: Brasilia. Rio de Janeiro: most well-known city, Christ the Redeemer statue (one of the 7 wonders of the world). The Rio or Salvador Carnival: festival before Lent, huge crowds, colorful, lots of dancing, around Feb/Mar. Brazilian Carnival 2027: Feb 5-10. Iguazu Falls: on the border of Argentina and Brazil, 275 separate falls. Pantanal: THE wildlife destination of Brazil. Best beaches in Northeast region -- Trancoso, Jericoacoara, Fernando de Noronha, Praia do Forte. The Amazon: jungle walks and boat cruises (manage expectations, won't see a lot of wildlife due to dense forest). Self-drive not available/not recommended. VISA required for American citizens (application is online). Big country with always a lot of flying around. River cruises offered in Amazon and Pantanal.",
+      "urgency": "",
+      "solo_pricing": "",
+      "pax_limit": "",
+      "accommodations": "Huge mix of accommodations. 5-star luxury to small Pousadas (similar to B&Bs). Vibrant cities, golden beaches, and lush rainforest draw people here.",
+      "how_to_feature": "Combines well with Argentina -- Rio + Iguassu Falls + Buenos Aires itinerary.",
+      "pair_with": "Argentina",
+      "general_notes_1": "Rio is year-round (70s-90s). For those not willing to fly much, staying in Rio and surroundings (Paraty/Ilha Grande) could be a good alternative.",
+      "general_notes_2": "",
+      "client_types_good": "Architecture, Beach, Rainforest lovers, Wildlife and nature lovers, Photographers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Dec-March",
+          "description": "70s-90s. Pantanal: June-Sept (dry and best for wildlife)."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "April-May and Sept-Oct",
+          "description": "Pantanal shoulder: Dec-March (rainy season)."
+        },
+        {
+          "level": "low",
+          "date_range": "June-Aug",
+          "description": "Winter."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$5k-$6k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Opulent Options",
+          "price_per_week": "$7k-$10k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$8k starting",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Canada (East)",
+      "slug": "canada-east",
+      "night_min": 7,
+      "key_facts": "WE DO NOT SELL CANADA TO CANADIANS. NOT A GOOD PLACE TO VIEW NORTHERN LIGHTS. NOT RECOMMENDED to pair full Eastern Canada with full Western Canada trip (too big, size of USA; exception is transcontinental train or a few days in a city). Almost always self-drive (rental or own car) and/or train -- private drive $$$. Overnight train 'The Canadian' from Toronto to Vancouver (4-5 nights, $7K, books year in advance). Toronto: biggest city, bohemian vibe, Chinatown, waterfront, CN Tower, Niagara Falls day trip, diverse food scene, film festival. Ottawa: capital, museums, Rideau Canal. Montreal: largest French city, beautiful architecture, Granby Zoo, Biodome. Quebec City: only fortified city on mainland North America, Chateau Frontenac. Maritimes/Atlantic Canada: harbor touring, lobster boats, Hopewell Rocks, UNESCO sites, whale watching, iceberg viewing (May/June).",
+      "urgency": "QUALIFY BUDGET. Not everything available more than 12 months out.",
+      "solo_pricing": "$4k-$6k",
+      "pax_limit": "",
+      "accommodations": "Wide array of properties, mostly hotel-style. Range from Fairmont/Ritz to characterful boutique hotels. Ottawa and Toronto: mostly high-rises, often Fairmont. Montreal and Quebec City: boutique options in historic converted buildings, sometimes with own restaurant. Maritimes: basic accommodations -- inns and B&Bs. Hard to find multi-bed suites or self-catering. Breakfast not included as often as other destinations.",
+      "how_to_feature": "",
+      "pair_with": "",
+      "general_notes_1": "Toronto is the most expensive eastern city. If they just want Montreal and Quebec, they can get away with a lower budget. Montreal and Quebec tours usually start end of May (around Victoria Day) and end in Sept. Atlantic Canada: a lot doesn't open until June/late May, mid-Sept hurricane season starts.",
+      "general_notes_2": "Winter draws: Montreal Un Lumiere Festival (Feb/Mar), Quebec City Carnival (late Jan/early Feb), Ottawa Winterlude (early Feb), Toronto Christmas markets. Outside cities: Algonquin Nat'l Park, Malbait in QC, north and east of Quebec City areas, Atlantic Canada typically separated from Eastern Canada trips.",
+      "client_types_good": "Family-friendly (not Atlantic Canada), Active clients, City and culture lovers, Often older well-traveled people who have been to Canada before",
+      "client_types_okay": "Accessibility: Downtown Quebec City tough for wheelchairs (cobblestones, steep hills). Montreal has cobblestones in old/downtown areas. Toronto and Ottawa more walkable and modern.",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "June-Sept",
+          "description": "Warm."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "May and Oct",
+          "description": "Cooler, fall foliage. Lots of things close mid-May until Sept."
+        },
+        {
+          "level": "low",
+          "date_range": "Nov-April",
+          "description": "Dark and cold. Lots of things close mid-May until Sept."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$5k-$7k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$4k-$5k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Low (barebones)",
+          "price_per_week": "$2.5k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$4k-$6k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Canada (West)",
+      "slug": "canada-west",
+      "night_min": 9,
+      "key_facts": "WE DO NOT SELL CANADA TO CANADIANS. NOT A GOOD PLACE TO VIEW NORTHERN LIGHTS EXCEPT YUKON/NW TERRITORIES. NOT RECOMMENDED to pair with Eastern Canada unless just a city stopover (exception is transcontinental train). Almost always self-drive and/or train. 10-14 nights recommended. Rocky Mountaineer train: Vancouver to Jasper or Banff (or vice versa), typically 2-day journey with stop in Kamloops, booked as excursion within itinerary. Silver leaf (standard) or Gold leaf (luxury with glass-top roof, all meals/drinks included). Vancouver: huge, clean, coastal city, Stanley Park, food tours. Vancouver Island: Victoria, Tofino, Campbell River. Canadian Rockies: 5 national parks with turquoise lakes and abundant wildlife. Jasper: fire in summer '24 but encourage travel. Banff: alpine town, busy but Canmore 25 min away. Yukon/NW Territories: excellent for Northern Lights (Sept-end of April). Polar Bears: Churchill Bears (starting $10k pp) or Adventure Canada Expedition Cruise ($7-20k pp, min 12 nights). Oct/Nov peak season, book 8-12 months in advance.",
+      "urgency": "QUALIFY BUDGET. Best availability no less than 4 months before travel. June and September availability getting limited -- push urgency. Not everything available more than 12 months out. Trains book up far in advance.",
+      "solo_pricing": "$9k-$11k",
+      "pax_limit": "",
+      "accommodations": "Wide array of properties, mostly Fairmont (most expensive but 99% of clients due to amenities/locations). Some medium-high end hotels in Vancouver, Victoria, Banff, Calgary. Some boutique properties in Tofino, Banff, and Jasper (limited). Cabins and multi-bed options generally available. Lodges: remote lodges ranging from simple to luxurious, all meals and activities included. Some B&Bs and boutique options, some ranches including horseback riding. Silverseas Cruise option: very Audley, all-inclusive luxury, leaves from Vancouver.",
+      "how_to_feature": "Stand alone or can pair western Canada with Alaskan cruise.",
+      "pair_with": "Alaskan cruise",
+      "general_notes_1": "Overnight train 'The Canadian' from Toronto to Vancouver (4-5 nights, $7K, books year+ in advance, 1 night on train in bunks). Excursions/activities: mountains, lakes, hikes, rafting, horseback riding, ziplining, fishing, sightseeing, small group tours, skiing in some areas (should not be focus of trip), bear/elk/wildlife viewing, snowmobiling, dog sledding, snowshoeing in winter.",
+      "general_notes_2": "Polar bear trips: Churchill Wild (highest end, lodges on tundra), Lazy Bear Lodge (mid-range, tundra buggy tours), Natural Habitat (mid-low end hotel, daily tundra buggy tours). Also summer options with beluga whales. Children 8+ technically allowed but very expensive and not fun for kids. Oct/Nov peak (week after Halloween is absolute peak). Book 8-12 months in advance. 6 nights absolute min, try for 7.",
+      "client_types_good": "Active clients, Wildlife and outdoor lovers, Older couples, Family-friendly, Food lovers",
+      "client_types_okay": "6+ y/o, nothing for very small kids. Accessibility: lots of options including wildlife, rafting, and helicopter tours designed to be accessible.",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "June-Sept",
+          "description": "Warm."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "May and Sept-Oct",
+          "description": "Cooler, foliage in fall, rainy/snowy in spring. Rockies/blue lakes may still be frozen including Lake Louise."
+        },
+        {
+          "level": "low",
+          "date_range": "Nov and April",
+          "description": "Dark and cold, many excursions closed."
+        },
+        {
+          "level": "winter",
+          "date_range": "Dec-Mar",
+          "description": "Winter season activities available."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$10k-$14k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$7k-$9k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Jasper/Banff",
+          "price_per_week": "",
+          "price_per_day": "$700-$1000 pp/pd"
+        },
+        {
+          "tier_label": "Vancouver/Victoria Only",
+          "price_per_week": "$5k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$9k-$11k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Colombia",
+      "slug": "colombia",
+      "night_min": 5,
+      "key_facts": "Capital: Bogota, cosmopolitan city tucked on a high plateau in the Andes, 2,640 meters (8,661 feet) above sea level. Medellin: country's second largest city, located in a bowl in the Andes mountains. The Amazon: vast expanse of jungle and wildlife, accounts for a third of the country's total area. Mostly private transfers except for Isla Macura (shared boat transfer between pier and island hotel, private transfer to/from pier in Cartagena).",
+      "urgency": "",
+      "solo_pricing": "$8k-$15k",
+      "pax_limit": "",
+      "accommodations": "Range of cost, simple to first class. Colonial architecture. Eco-lodges.",
+      "how_to_feature": "",
+      "pair_with": "",
+      "general_notes_1": "",
+      "general_notes_2": "",
+      "client_types_good": "Coffee, Wildlife, Architecture lovers, Good for 2nd or 3rd time to South America",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Dec-Feb",
+          "description": "70s-90s."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "March-Sept",
+          "description": "80s-90s."
+        },
+        {
+          "level": "low",
+          "date_range": "Oct-Nov",
+          "description": "Wet and rainy."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$4k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Opulent Options",
+          "price_per_week": "$10k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$8k-$15k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Costa Rica",
+      "slug": "costa-rica",
+      "night_min": 5,
+      "key_facts": "Biggest draws: eco-tourism, beaches, wildlife, volcano, cloud forest, and adventure. Common routing: 10-day trip to Monteverde for wildlife, end with beach. Could do 2+ weeks and not get bored. Two sides: beach-centric and inland/forest-centric. Beaches: book super far in advance. Inland: volcano experiences, Cloud Forest, jungle/rainforest, rivers. Other activities: surfing, hiking, ziplining, birding. No good snorkeling places -- switch sell to Belize. No culture or history draws. Be comfortable with puddle jumper planes. Option to self-drive. Availability is MADNESS, need to book a year out at minimum.",
+      "urgency": "March and April are extremely hard to book. Set expectation to clients we need to book ASAP.",
+      "solo_pricing": "",
+      "pax_limit": "",
+      "accommodations": "Wide variety from simple guesthouses to more luxurious properties. Find out whether they want beach-front property right at start since that can be tricky with all the protected parks. All-inclusive resorts get pricey -- steer clients away. Resort-style trips are doable but value isn't as good through us (contracts not as good). Better off taking boutique route for off-the-beaten-path experience/value.",
+      "how_to_feature": "",
+      "pair_with": "Switch sell opportunities: Belize (history/culture, has beaches, better availability), Belize + Guatemala (beach), Panama (city-lovers, history, always has availability)",
+      "general_notes_1": "No all-inclusives sold. No good snorkeling -- switch sell to Belize. WE DO NOT SELL COPPER CANYON due to Dept of State guidelines (this note actually applies to Mexico but relevant for Central America switch-sells).",
+      "general_notes_2": "",
+      "client_types_good": "Honeymooners, Families, Active/adventurous travelers, Wildlife lovers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Dec-April",
+          "description": "70s-90s, dry and warm."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "April-May and Nov",
+          "description": "90s, can be rainy."
+        },
+        {
+          "level": "low",
+          "date_range": "Sept-Oct",
+          "description": "Hurricane season."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$6k-$10k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$4k-$5k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Ecuador",
+      "slug": "ecuador",
+      "night_min": 5,
+      "key_facts": "Capital: Quito. How to feature: Pair Ecuador and Galapagos together. People rarely do a week here, mostly stopover to get to Galapagos. Cloud Forest: birding haven, some of the best birding lodges in the world. Cotopaxi: world's highest active volcano, located in the Ecuadorian Andes. The Amazon Jungle: Ecuadorian Amazon is more authentic than Peruvian, intense journey to get there (fly in then go down river, takes full day to get to lodge). Cuenca: built by the conquistadors, has historic parts. Guayaquil: nothing there, we don't suggest it. 4 different climate options depending on location.",
+      "urgency": "",
+      "solo_pricing": "",
+      "pax_limit": "",
+      "accommodations": "Large range -- everything from boutique to standard hotels to haciendas (old ranches converted into hotels); huge variety. In Amazon it's all eco lodges.",
+      "how_to_feature": "Pair Ecuador and Galapagos together.",
+      "pair_with": "Galapagos",
+      "general_notes_1": "People rarely do a week here -- mostly stopover to get to Galapagos.",
+      "general_notes_2": "",
+      "client_types_good": "Wildlife lovers/birders, Looking for cultural experience, Off the beaten path, Families",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "June-Sept",
+          "description": "Warm, light showers."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "Oct-Nov",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "Dec-May",
+          "description": "Cooler and rainy."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$6k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Chile",
+      "slug": "chile",
+      "night_min": 7,
+      "key_facts": "Capital: Santiago. Torres Del Paine (Patagonia): the most popular place in Patagonia, primarily focused on hiking but don't need to hike all day every day, all-inclusive, excursions in very small groups. W trek: one night of camping/trekking tour (hotels and one night tented). Can switch sell to El Chalten if availability is tight. Northern Lakes Region. Easter Island (Rapa Nui): 5-hour flight from Santiago, hundreds of stone statues, 5 days minimum (1 night Santiago, 3 days EI, 1 night Santiago), one flight in/out per day. Atacama Desert: desert day trips, stargazing (main draw), 4x4 tours, hiking, horseback riding, thermal pools, salt flats, geysers. Santiago: huge arts scene, lies in a bowl-shaped valley in the Andes. Wine: produced for over 400 years, easy day trip from Santiago (Casablanca most popular, also Maipo). Lakes District: Chiloe/Puerto Varas, volcanoes, national parks, outdoor activities, birdwatching. Astralis Cruise: 4 nights through Patagonia. Getting to Patagonia is very difficult, closest airport is 3 hours away.",
+      "urgency": "Patagonia VERY TIGHT October-March. Flexibility is absolute must, starting $9-11k pp pw. Dates and budget are major qualifying aspects. Very low capacity with sellers. Any trips planned within 2 months of travel during summer AND shoulder season have extremely limited availability.",
+      "solo_pricing": "$12k-$15k",
+      "pax_limit": "",
+      "accommodations": "Good selection of hotel styles and price ranges. Easter Island: Explora or Nayara (super high-end, $8k-$9k pp for 5 days) or other 3-4 star options ($4k-$5k, not much in between).",
+      "how_to_feature": "Standalone or combine with Antarctica cruise.",
+      "pair_with": "Antarctica, Argentina (Patagonia), Bolivia, Ecuador",
+      "general_notes_1": "Easter Island: automatically add on at least $4,500 pp for that 5-day excursion. Strongly recommend not doing just Easter Island through us, try to get them to add another destination. For Northern Chile/EI 10 days, starting at $7,500 pp.",
+      "general_notes_2": "Chilean Patagonia is famous for Torres Del Paine National Park and the W trek (biggest draw). More set up for tourism than Argentine side (scenic drives, trekking, horseback riding, 4x4, fishing). Really hard to connect Chilean to Argentine Patagonia by flights (can drive 5 hours). Skorpios Kaweskar Route cruise from Puerto Natales through fjords. Astralis Cruise: 4 nights, 3-4 star level, around 200 pax, 'Antarctica-lite'.",
+      "client_types_good": "Couples and families, Honeymooners, Older couples, Active/athletic, Big hikers, Food and wine lovers, Combines well with Antarctica cruisers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "October - first week in April",
+          "description": "60s-80s."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "April and Sept-Nov",
+          "description": "April is good for wine (60s-70s)."
+        },
+        {
+          "level": "low",
+          "date_range": "June-Aug",
+          "description": "Patagonia is a NO."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$6k-$8k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Patagonia",
+          "price_per_week": "$7k-$9k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Arg/Chile Patagonia (10 days)",
+          "price_per_week": "$10k-$15k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$12k-$15k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Galapagos",
+      "slug": "galapagos",
+      "night_min": 7,
+      "key_facts": "Stunning volcanic archipelago with amazing marine life and variety of tropical animals. Cruises offered. Quito: picturesque city with Spanish colonial architecture. Markets are integral part of Ecuadorian life. Typical itinerary: 2 nights in Quito, 7-night cruise, 3-star ship, 1 night at end in airport hotel. $100 pp park entrance fee and $20 transit control card. Shortest cruise is 3 nights (not recommended). Can do mix of cruise and land-based. Land-based recommended for those with specific dates or wanting beach time. Cruises have set itinerary of excursions (AM and PM) with small group from ship, no customization. Must be with guide at all times due to Galapagos National Park guidelines. May is great for blue-footed booby and tortoises. 7 nights + 2 in Quito.",
+      "urgency": "",
+      "solo_pricing": "$10k-$11k",
+      "pax_limit": "",
+      "accommodations": "Cruises: some hold 16 passengers, some hold 100. Island hotels: 3-4 star hotels with pools and some spa options (Santa Cruz). Very few 5-star hotels. Possible to avoid single supplement on some ships for solos, or can choose to pay it/bunk with other solos on ship.",
+      "how_to_feature": "Pair with Ecuador.",
+      "pair_with": "Ecuador",
+      "general_notes_1": "Audley Value: we can tailor-make time in Quito before cruise (incredible guides), help with accommodation on either end, and the real value is having a Specialist that ensures the right vessel for budget and priorities.",
+      "general_notes_2": "If clients don't like boats: can stay on land at Santa Cruz island. Can only fly by light aircraft, 3.5 hours from Ecuador.",
+      "client_types_good": "Wildlife lovers, Cruisers, Honeymooners, People who like group travel",
+      "client_types_okay": "Families (kids should not be younger than 8-10 y/o), People with mobility issues (can go but would stay on boat, including wheelchair and walker users -- should be honest about abilities)",
+      "client_types_bad": "Children younger than 10 years old",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Nov-Dec",
+          "description": "Dry and warm."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "Jan-March",
+          "description": "Wet and sunny."
+        },
+        {
+          "level": "low",
+          "date_range": "July-Oct",
+          "description": "High winds and choppy water."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Land Only",
+          "price_per_week": "$8.5k-$9.5k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "4-Star with Cruise",
+          "price_per_week": "$9k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "3-Star with Cruise",
+          "price_per_week": "$8k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$10k-$11k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Guatemala",
+      "slug": "guatemala",
+      "night_min": 5,
+      "key_facts": "Capital: Guatemala City. Off-the-beaten-path, focus on colonial town, mountain, volcanic lake regions, amazing scenery. Less touristy. Not a great beach destination. We do not recommend spending much time in Guatemala City aside from a couple museums and the main zocalo. Drive from Guatemala City to Antigua is about an hour. Highlands: steep beautiful mountainous/volcanic region, including Antigua (original capital, colonial architecture, Capuchin convent) and villages surrounding Lake Atitlan (beautiful lake surrounded by volcanoes). Peten region: flat jungle in northern half, Flores, jungle lodges, Mayan ruins (Tikal, Uaxactun), wildlife. Colorful indigenous markets alongside Catholic churches from the Conquest. Fascinating history of Maya and Spanish conquistadors clash. Indigenous Mayan culture still very present. Pre-Classic and Classic Mayan Ruins. Semana Santa: Easter week in Antigua with musicians and flower carpets.",
+      "urgency": "",
+      "solo_pricing": "$7k-$9k",
+      "pax_limit": "",
+      "accommodations": "Boutique hotels from simple to first class.",
+      "how_to_feature": "Combine with Belize or Mexico if client wants beach (Guatemala is not a white sand beach destination).",
+      "pair_with": "Belize, Mexico",
+      "general_notes_1": "Not a white sand beach destination.",
+      "general_notes_2": "",
+      "client_types_good": "Cultural immersion, 2nd-3rd trip to Latin America, Wildlife lovers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Nov-April",
+          "description": "Warm and dry."
+        },
+        {
+          "level": "low",
+          "date_range": "May-Nov",
+          "description": "Wet and rainy."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$5k-$7k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$7k-$9k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Mexico",
+      "slug": "mexico",
+      "night_min": 5,
+      "key_facts": "Capital: Mexico City. Not your typical Mexico trip -- more cultural. Typical itinerary would be Merida + beach to really make it Audley. WE DO NOT SELL COPPER CANYON due to Dept of State guidelines. NO ALL-INCLUSIVES. We sell: Yucatan, Chiapas, Oaxaca, Mexico City, San Miguel de Allende, Baja California. Can't sell level 3 travel advisory or higher. Places of note: Merida (cultural city), Oaxaca, Puebla, San Miguel de Allende (ex-pat town). Ancient civilizations, colonial history, food, art, music. Cenotes: deep natural pit or sinkhole characteristic of Mexico. White sandy beaches in less-known areas. We do not offer great snorkeling -- switch sell to Belize. Off-the-beaten-path, very different experience than booking Mexico on their own. There's no quality control on own -- we personally vet all products.",
+      "urgency": "No sellers until 6/11.",
+      "solo_pricing": "",
+      "pax_limit": "",
+      "accommodations": "Wide range of boutique hotels. Colorful haciendas.",
+      "how_to_feature": "Stand alone, but can combine with any other Central America country.",
+      "pair_with": "Central America countries, Belize (for snorkeling)",
+      "general_notes_1": "Travel advisory map must be checked. Red: can NOT sell. Orange: often can sell but need a waiver. Yellow: wide open.",
+      "general_notes_2": "",
+      "client_types_good": "Usually first time in Latin America, Honeymooners, Families, History lovers, Cuisine, Culture lovers, Wildlife",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Dec-April",
+          "description": "Dry and warm."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "July-Aug",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "May-June and Sept-Nov",
+          "description": "Wet and hurricanes."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star City",
+          "price_per_week": "$6k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "5-Star Beach",
+          "price_per_week": "$8.5k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "4-Star City",
+          "price_per_week": "$4.5k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "4-Star Beach",
+          "price_per_week": "$6k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "3-Star City",
+          "price_per_week": "$3k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "3-Star Beach",
+          "price_per_week": "$4.5k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Peru",
+      "slug": "peru",
+      "night_min": 5,
+      "key_facts": "Capital: Lima. How to feature: standalone or combine with Ecuador, Bolivia, Chile, Brazil. Most common trips: Classic Peru (Lima, Cusco, Sacred Valley, Machu Picchu, 8-9 days), Classic Peru + Amazon (add min 3 nights, adds $1500-$2k pp, 10-12 nights), Classic Peru + Southern Peru (Lake Titicaca, Arequipa, adds $1500-$2k pp, 10-12 days). Lima: metropolitan city, one of top culinary cities in world, food tours, cathedrals, typically 2-night stop. Cusco: original Incan capital, walkable, Spanish colonial architecture, Saqsaywaman ruins, 10,000 ft altitude, gateway to Machu Picchu. Sacred Valley: between Cusco and Machu Picchu, cultural, off the beaten path, outdoorsy excursions, archaeology, Inca Trail trek. Machu Picchu: must go through Cusco or Sacred Valley, train then bus or hike, very remote. Arequipa: similar to Cusco, worthy add-on. Amazon: southern part most popular, lodges or cruises (from Iquitos, 4-5 days). Lake Titicaca: highest navigable lake in the world, floating islands, typically 2-night stop. 2 seasons: Jan-Jun (warm), Jul-Dec (cold).",
+      "urgency": "Machu Picchu sold out through late August 2025.",
+      "solo_pricing": "$8k-$15k",
+      "pax_limit": "",
+      "accommodations": "",
+      "how_to_feature": "Standalone or combine with Ecuador, Bolivia, Chile, Brazil.",
+      "pair_with": "Ecuador, Bolivia, Chile, Brazil",
+      "general_notes_1": "Machu Picchu: can't fit into a 4-5 day trip. Two main approaches: train/bus (train from Sacred Valley to Aguas Calientes, then bus up) or hike (short option: KM104 day trek; long option: very intensive 4-5 days with camping and porters).",
+      "general_notes_2": "Lake Titicaca: can take train ride from Cusco to Lake Titicaca then to Arequipa, or fly in. Not big on accommodations, more remote location. More of an add-on than a must-see.",
+      "client_types_good": "",
+      "client_types_okay": "",
+      "client_types_bad": "Accessibility: Physical limitations such as vertigo, asthma, or difficulties with high altitude will have issues even in cities. Clients can use a walking stick but there are a lot of stairs even without hiking, not safest option for mobility issues.",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "June-Aug",
+          "description": "Dry and warm."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "March-May and Sept-Nov",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "Dec-Feb",
+          "description": "Rainy. Coincides with warm season. Trains close in Feb."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$7k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$4k-$6k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Solo",
+          "price_per_week": "$8k-$15k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Panama",
+      "slug": "panama",
+      "night_min": 5,
+      "key_facts": "Capital: Panama City. Switch sell from Costa Rica/Belize or those who've already done those two destinations. Great for off-the-beaten-path travelers. Bocas del Toro: islands close to Costa Rica, rainforest, coral reefs, clear water, beautiful beaches. Panama City: financial district, skyscrapers, casinos. Casco Viejo: neighborhood in Panama City, old colonial architecture (looks like Havana), historical district. City, light (untouched) beach, culture. Doesn't have dense rainforest like CR or Belize, won't lose sight of cityscapes, remote landscape would be more like Cloud Forest. The Canal Zone: boat tours to travel the length of canal. El Valle: country town, located in crater of extinct volcano, secret hideaway from tourists.",
+      "urgency": "",
+      "solo_pricing": "",
+      "pax_limit": "",
+      "accommodations": "Private island resorts that take up entire island. Not many 4-star options. Large price difference between 3-5 star. Has over-water bungalows but $2-3k a night. Some multi-bedroom accommodations/houses open during holidays.",
+      "how_to_feature": "Switch sell from Costa Rica/Belize.",
+      "pair_with": "Costa Rica, Belize",
+      "general_notes_1": "Dec-April is higher in pricing due to surcharges. Pricing makes big jumps from 3 to 5 star, not many 4-star options especially at beaches, city has more variety.",
+      "general_notes_2": "",
+      "client_types_good": "Families, Couples, History buffs, Divers and beach goers, City lovers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Dec-April",
+          "description": "Dry, holidays are busy."
+        },
+        {
+          "level": "low",
+          "date_range": "June-Nov",
+          "description": ""
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$4k-$5k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "Opulent Options",
+          "price_per_week": "$6k-$15k",
+          "price_per_day": ""
+        },
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$8k-$15k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Uruguay",
+      "slug": "uruguay",
+      "night_min": 5,
+      "key_facts": "Capital: Montevideo. Colonia del Sacramento: small town founded by the Portuguese, now a UNESCO World Heritage Site. Carmelo: beautiful wine country, off the beaten path, not many tourists.",
+      "urgency": "",
+      "solo_pricing": "",
+      "pax_limit": "",
+      "accommodations": "Elegant beach hotels. Variety from family-run guest houses. Restored historic buildings.",
+      "how_to_feature": "Can add Argentina or Brazil.",
+      "pair_with": "Argentina, Brazil",
+      "general_notes_1": "",
+      "general_notes_2": "",
+      "client_types_good": "Off the beaten path, Families, Beach bums, Self-drivers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Nov-Feb",
+          "description": "Dry. Year-round destination."
+        },
+        {
+          "level": "shoulder",
+          "date_range": "March-May and Sept-Oct",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "June-Aug",
+          "description": "Wet."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard (self-drive)",
+          "price_per_week": "$2.5k",
+          "price_per_day": ""
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Honduras",
+      "slug": "honduras",
+      "night_min": null,
+      "key_facts": "Currently not selling.",
+      "urgency": "",
+      "solo_pricing": "",
+      "pax_limit": "",
+      "accommodations": "",
+      "how_to_feature": "",
+      "pair_with": "",
+      "general_notes_1": "",
+      "general_notes_2": "",
+      "client_types_good": "",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [],
+      "pricing_tiers": [],
+      "status": "not_selling"
+    },
+    {
+      "name": "Cuba",
+      "slug": "cuba",
+      "night_min": null,
+      "key_facts": "Currently not selling.",
+      "urgency": "",
+      "solo_pricing": "",
+      "pax_limit": "",
+      "accommodations": "",
+      "how_to_feature": "",
+      "pair_with": "",
+      "general_notes_1": "",
+      "general_notes_2": "",
+      "client_types_good": "",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [],
+      "pricing_tiers": [],
+      "status": "not_selling"
+    },
+    {
+      "name": "Paraguay",
+      "slug": "paraguay",
+      "night_min": null,
+      "key_facts": "Currently not selling.",
+      "urgency": "",
+      "solo_pricing": "",
+      "pax_limit": "",
+      "accommodations": "",
+      "how_to_feature": "",
+      "pair_with": "",
+      "general_notes_1": "",
+      "general_notes_2": "",
+      "client_types_good": "",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [],
+      "pricing_tiers": [],
+      "status": "not_selling"
+    }
+  ]
+}

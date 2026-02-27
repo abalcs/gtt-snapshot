@@ -1,0 +1,264 @@
+{
+  "region": {
+    "name": "ANZ + Pacific",
+    "slug": "anz-pacific",
+    "description": "Australia, New Zealand, and Pacific Islands"
+  },
+  "destinations": [
+    {
+      "name": "Australia",
+      "slug": "australia",
+      "night_min": "5 if already there; 9 excluding travel if traveling there (10 nights to 2 weeks recommended). Takes 2 full days to get there — cross international date line, flight itself is not 48 hours.",
+      "key_facts": "Popular routing: Sydney (city), Uluru (outback), and Cairns (rainforest/reef) — possible in 9 nights excluding travel. Minimum 9-10 days to see the highlights. Australia is nearly as large as the US. Probably 90% of enquiries are to see the East Coast. 95% of itineraries start/end in Sydney, Brisbane, or Melbourne. Capital is Canberra (people don't go there). Country is very spread out so requires many long trips between cities. Afraid of long flight? Flights can be broken up by doing layovers, including short stays in Hawaii, French Polynesia, or elsewhere on the way there — discuss sparingly as advice for people afraid of the long flight.",
+      "urgency": "Sydney books out far in advance for New Years. Sydney is the most popular NYE tourist destination on the planet — harbor boat cruises and NYE-related tours can be very difficult to find, sometimes books out 2 years in advance. Set expectations to be flexible with options. Australia is a big hub for a slew of events: F1, Australian Open, concerts like Drake and Taylor Swift, Rugby tournaments and many others. These events put constraints on availability in the major cities, and also impact contracted rates. Locking in contracted rates earlier is incredibly beneficial before these events have hit the calendar. Dynamic pricing — unlike some other destinations, we don't have holds on land arrangements, so our quote expirations are short (72 hrs) and subject to change even within that period.",
+      "solo_pricing": "$6k-$7k per week",
+      "pax_limit": "Over 8 becomes difficult",
+      "accommodations": "Wide variety from basic to opulent. Boutique hotels, BnBs, chain hotels in cities, high-end glamping in the outback, luxury lodges, treehouse stays, super unique options.",
+      "how_to_feature": null,
+      "pair_with": "Standalone, NZ or South Pacific",
+      "general_notes_1": "Sydney: main city, Opera House, Sydney Bridge, Taronga Zoo, Blue Mountain National Park for hiking, Bondi Beach, Hunter Valley. Melbourne: cosmopolitan city, great for day trips to many highlights including wildlife, wine, Great Ocean Road; can get chilly. Uluru: Ayers Rock, Outback and aboriginal sacred experiences. Uluru is an unofficial 2-night max — there's just not a whole lot to do, you're basically going to visit Ayers Rock. Barossa/Yarra: Wine country. Noosa: surfing, national park walk, beautiful beaches, high end, family friendly. Cairns: Great Barrier Reef, Tablelands, Daintree Rainforest, Port Douglas. Kangaroo Island: wildlife, a lot of nature, fauna, rock formations, beaches, outdoorsy destination. Tasmania: wildlife, national parks, hiking, cities, similar to KI (outdoorsy), known as Australia's New Zealand. Outback: Northern Territory, Darwin, The Ghan rail, Flinders Ranges, Cattle Stations and wildlife luxury lodges. Western Australia: Perth, Margaret River Region known for wine, Northern WA known for Kimberley cruising and swimming with Whale Sharks.",
+      "general_notes_2": "Kangaroo Island: add $2k per person minimum. Ayers Rock: add $1k per person minimum. Cannot book US Open or similar sporting events. Northern wet season: Dec-March (hot and rainy, not good for Great Barrier Reef). Christmas/NYE: very busy. Easter: many places shut down for a few days. $500 pp/pd is probably about as low as we can manage for an Audley trip, then it really goes up from there. Generally $750 pp/pd is pretty average (4 stars, some tours, sprinkling in small group tours). Flag clients that discuss exchange rate a lot — in-country food and souvenirs will be cheap but don't expect a budget trip. We can arrange tickets for events (Opera House, US Open, NFL etc.) but it will be more expensive and we don't add a lot of value. Recommend clients book tickets themselves and we will accommodate everything around it. Great for independent-minded travelers because car hire is so accessible. Return travelers: Perth and Exmouth are great, Perth and Margaret River to the NW for scenery and wine country, Ningaloo Reef to the North for world heritage marine wonderland — you can swim with whale sharks ethically. Wine lovers: South Oz (Adelaide area) runs the gambit on different types of wines. Tasmania in particular is world renowned for sparkling wines, particularly Chardonnay and Pinot Noir blends rivaling Champagnes in quality. Australia is wider than the width of the moon — extremely unrealistic to do a lot in 6 days. We do offer luxury trains. Audley value: seamless itinerary builds spanning the breadth of the country, all logistics and tours made for you. ATS, our GHA, have been long-standing partners of Audley for 15+ years. Itineraries typically have more domestic flights than any other country. Perceived safety: land arrangements as Australia during peak season is prone to severe inclement weather (cyclones, bush fires, tropical systems) — we always get refunds on cancelled tours.",
+      "client_types_good": "Bucket list trips, Wildlife, Family and multi-gen, Water activities, Opulent",
+      "client_types_okay": "Folks with mobility issues, Young kids (very outdoor involved)",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "Dec-March",
+          "description": "70s-90s. Also the wet season in the northern 1/3 of the country with cyclones, tropical storms, thunderstorms. Peak season directly coincides with the holidays."
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-June, Sept-Nov",
+          "description": "Dry and warm. Cooler temps, particularly in Uluru (80s and 90s vs 110 in the summer)."
+        },
+        {
+          "level": "Low",
+          "date_range": "July-Aug",
+          "description": "60s-70s, can be colder in the South. They can still go — it is a warm country. Just set expectations that some cities may be a bit cooler."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$7k-$10k+",
+          "price_per_day": "$800"
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$6k",
+          "price_per_day": "$750"
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$4.5k-$5k",
+          "price_per_day": "$650"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "New Zealand",
+      "slug": "new-zealand",
+      "night_min": "5 if already there; 7 excluding travel time (10 total). Takes 2 full days to get there. Afraid of long flight? Flights can be broken up by doing layovers, including short stays in Hawaii, French Polynesia, or elsewhere on the way there — discuss sparingly as advice for people afraid of the long flight.",
+      "key_facts": "We can work with camper vans. North Island: culture, government, Lord of the Rings. Auckland. Napier: town/wine region, completely restored in Art Deco after an earthquake destroyed it. Geothermal hot springs. High-end golfing. Most of Maori culture on this island. Cruises offered (South Island). South Island: outdoorsy, giant gorgeous scenery. What everyone thinks of when they think NZ. National parks. Mountains. Milford Sound (day/overnight cruising). Queenstown — adventure capital of the world. Dunedin: penguins, marine wildlife. Christchurch. Milford Track — offered multi or single days. Transalpine Train goes through the Southern Alps; other routes but this one is popular. We don't offer long/overnight train journeys, mostly just day trips. Glaciers: hiking, scenery, helicopter scenic flights. Agricultural industry: beef/sheep. Poor Knights Island: just north of Auckland, is the only place for diving in NZ, very cold.",
+      "urgency": "",
+      "solo_pricing": "$4.5k (low season) to $7k (high season). AU/NZ combined: $7k starting.",
+      "pax_limit": "Over 8 becomes difficult",
+      "accommodations": "Unique and well-run BnBs 3*-5*. Modern hotels 3*-5*. Lots of boutique lodges. Super luxurious 6* lodges. Purepods. Camper vans but limited supply.",
+      "how_to_feature": null,
+      "pair_with": "Australia, South Pacific",
+      "general_notes_1": "North Island: culture, government, Lord of the Rings. Auckland. Napier: town/wine region, completely restored in Art Deco after an earthquake destroyed it. Geothermal hot springs. High-end golfing. Most of Maori culture is on this island. South Island: outdoorsy, giant gorgeous scenery — what everyone thinks of when they think NZ. National parks. Mountains. Milford Sound (day/overnight cruising). Queenstown — adventure capital of the world. Dunedin: penguins, marine wildlife. Christchurch. Milford Track offered multi or single days. Transalpine Train goes through the Southern Alps. Glaciers: hiking, scenery, helicopter scenic flights. Agricultural industry: beef/sheep. Poor Knights Island: just north of Auckland, only place for diving in NZ, very cold.",
+      "general_notes_2": "",
+      "client_types_good": "Adventure seekers, Hikers, Lord of the Rings fans, Lovers of landscapes, Families",
+      "client_types_okay": "People with mobility issues (stay in smaller towns)",
+      "client_types_bad": "People with lots of mobility issues (landscapes make it difficult)",
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "Dec-March",
+          "description": "Summer, dry and warm."
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May, Sept-Nov",
+          "description": "Fall/Spring."
+        },
+        {
+          "level": "Low",
+          "date_range": "June-Aug",
+          "description": "Cold and rainy. South Island gets lots of snow. Winter."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$7k-$9k",
+          "price_per_day": "$800+"
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$6k",
+          "price_per_day": "$800"
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$4.5k-$5k",
+          "price_per_day": "$650"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Cook Islands",
+      "slug": "cook-islands",
+      "night_min": "7",
+      "key_facts": "These islands give the most rustic/real cultural experience out of the 3 South Pacific islands, with strong historical influence. Calm waters, easier dives. Not very commercialized.",
+      "urgency": "",
+      "solo_pricing": null,
+      "pax_limit": "",
+      "accommodations": "Medium to Deluxe. NO overwater bungalows.",
+      "how_to_feature": "Standalone or combine with AU/NZ. Combination is preferred as flight routing is tricky directly from the states.",
+      "pair_with": "Australia, New Zealand",
+      "general_notes_1": "These islands give the most rustic/real cultural experience out of the 3 South Pacific islands, with strong historical influence. Calm waters, easier dives. Not very commercialized.",
+      "general_notes_2": "",
+      "client_types_good": "Couples, Honeymooners, Beginner divers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-Aug",
+          "description": "70s-80s. Dry and warm."
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April, Nov",
+          "description": "Transitional months."
+        },
+        {
+          "level": "Low",
+          "date_range": "Dec-March",
+          "description": "80s. Wet and cyclones."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$5k-$6k",
+          "price_per_day": "$600"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Fiji",
+      "slug": "fiji",
+      "night_min": "3-4 for an add-on; 7 standalone",
+      "key_facts": "Most popular of the three South Pacific Islands. Big for honeymoons. More built up / infrastructure. Good year-round diving opportunities.",
+      "urgency": "December through April is rainy/cyclone season so there are only a few months to plan in.",
+      "solo_pricing": null,
+      "pax_limit": "",
+      "accommodations": "All beachfront properties. NO overwater bungalows. Full board inclusive options (food and soft drinks — NO alcohol). Some resorts have activities and meals included.",
+      "how_to_feature": "Standalone or pair with AU/NZ.",
+      "pair_with": "Australia, New Zealand",
+      "general_notes_1": "Most popular of the three South Pacific Islands. Big for honeymoons. More built up with infrastructure. Good year-round diving opportunities.",
+      "general_notes_2": "",
+      "client_types_good": "Honeymooners, Families",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "May-Nov",
+          "description": "70s-80s. Dry and warm."
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "December",
+          "description": "Wet and rainy."
+        },
+        {
+          "level": "Low",
+          "date_range": "Jan-April",
+          "description": "80s but wet and cyclones."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$6.5k-$7k+",
+          "price_per_day": "$800"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "French Polynesia",
+      "slug": "french-polynesia",
+      "night_min": "7 (10 recommended)",
+      "key_facts": "French Polynesia is on our side of the dateline so you don't lose a day in transit, but flights often get in right at or after midnight (SF to FP flight is around 8 hrs). All flights route through the international airport in Tahiti, then you would go to whichever other island by either boat or small plane. Can stay on one island or island-hop, depends on the client. Already sold on Audley or has enough elements in their itinerary that we make sense for it, otherwise it's a very transparent, low-product intensity location. Honeymooners/anniversary celebration, can be but super expensive.",
+      "urgency": "December through April is rainy/cyclone season so there are only a few months to plan in.",
+      "solo_pricing": "N/A",
+      "pax_limit": "",
+      "accommodations": "Big on resorts, but some islands offer boutique options (Taha'a, Raiatea, Huahine), private villas. Over-water bungalows: always more expensive than overland accommodations, but prices vary depending on the island — some are cheaper than others. Overwater Bungalow on Moorea: $7k-$9k pp pw. Overwater Bungalow on Bora Bora: $9k-$10k pp pw. NOT all-inclusive; wouldn't make sense for clients to book with us that way. We do have some full board options that include food and soft beverages, no alcohol.",
+      "how_to_feature": "Most commonly standalone trip. Can pair with NZ (5 hrs from Auckland), sometimes AU (9 hrs from Sydney), the Cooks, or Hawaii. Cruises offered.",
+      "pair_with": "Standalone, New Zealand, Australia, Cook Islands, Hawaii",
+      "general_notes_1": "Groups of Islands: Marquesas — no white sand beaches, little to no snorkeling but great for cultural features/authentic traditional Polynesian culture and walking. Tuamotus — best for snorkelers and divers. Society Islands (Tahiti, Moorea, Bora Bora, Raiatea, Taha'a, Huahine). Tahiti: good for a 2-night stopover, more if they want history/museums/markets. Moorea: easy sub for folks who say they want Tahiti; cheaper than Bora Bora but good experience; adventure-oriented, lots of activities to do; appeals to younger crowd. Bora Bora: big emphasis on romantic trips — honeymoons, anniversaries, vow renewals; snorkeling. Taha'a: much smaller, bit more culture to it, more boutique-y, appeals to snorkelers or off the beaten path clients; no commercial development; culture rich; great lagoon for diving/snorkeling; limited hotel product, more boutique. Raiatea: top yachting location, nature lovers delight (including a flower found nowhere else in the world — very long hike, don't raise it but clients may ask), best stops for snorkeling and diving in the Society Islands, Polynesian culture, not resort-style hotels, no beaches, need to be independent. Huahine: traditional island life, best kept secret.",
+      "general_notes_2": "Rangiroa and Tikehau in the Tuamotu — great for diving/marine and off the beaten path experiences, but have luxury and boutique resorts. Cruises: Paul Gauguin for luxury island hopping, typically 7 nights covering Tahiti, Taha'a, Huahine, Bora Bora, Moorea. Aranui is a cruising freighter ship for adventure travelers to remote island ports with off-the-grid experiences. Cruise pricing: Aranui $10k pp, Paul Gauguin luxury. Opulent: Four Seasons Bora Bora $50k. Holidays Xmas/NYE: $10k+.",
+      "client_types_good": "Clients already sold on Audley, Snorkelers/divers, Boat trips, Guided 4x4 drives, Whale watching, Water sports, Polynesian culture, Hiking",
+      "client_types_okay": "",
+      "client_types_bad": "Kids, Clients that want a lot packed into their itinerary",
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "April, June-Nov",
+          "description": "70s-80s. Dry and warm. Year-round destination with light scattered showers. July-Aug can be windy."
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "May, Sept",
+          "description": "80s. Holidays and things may be closed."
+        },
+        {
+          "level": "Low",
+          "date_range": "Dec-March",
+          "description": "Wet and cyclones."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High/Shoulder Season",
+          "price_per_week": "$7k",
+          "price_per_day": "$1000"
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$6.5k",
+          "price_per_day": "$900"
+        },
+        {
+          "tier_label": "Holidays (Xmas/NYE)",
+          "price_per_week": "$10k+",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Opulent (Four Seasons Bora Bora)",
+          "price_per_week": "$50k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Overwater Bungalow Moorea",
+          "price_per_week": "$7k-$9k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Overwater Bungalow Bora Bora",
+          "price_per_week": "$9k-$10k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    }
+  ]
+}

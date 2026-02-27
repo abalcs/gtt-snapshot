@@ -1,0 +1,456 @@
+{
+  "region": {
+    "name": "WEMEA",
+    "slug": "wemea",
+    "description": "Western Europe, Middle East, and Africa"
+  },
+  "destinations": [
+    {
+      "name": "Iceland",
+      "slug": "iceland",
+      "night_min": 4,
+      "key_facts": "We do not offer igloo stays or dog sledding in Iceland (Scandinavia does). NO SELF-DRIVE October-April, have to use a private driver. Iceland has 3 domestic airports that can also be used instead of driving. Private transfer trips are expensive because most guides live in Reykjavik or Akureyri - clients pay for 8 hours of touring per day plus guide accommodations. Recommend full 2 weeks for the full ring road. Recommend full week for a Northern Lights trip. Capital: Reykjavik. Activities: Hike on age-old glaciers, snorkel between diverging tectonic plates, hike into ice caves, learn to cook on a local farm, bathe in natural hot pools, chase northern lights, whale watching in traditional Icelandic fishing boats. South Shore: lots of waterfalls. Golden Circle. Puffins: May to September. Orca Whales: Winter. Humpback Whales: Summer. Ring Road: 24 hours non-stop, 10-12 days very fast paced, 2-3 weeks better. Early to mid August 2026 very tight due to solar eclipse - expect 3x cost.",
+      "urgency": "EARLY TO MID AUGUST 2026 VERY TIGHT DUE TO SOLAR ECLIPSE - EXPECT 3X COST AND TAKING WHAT THEY GET",
+      "solo_pricing": "$8k-$25k ($15k-$25k for private driver/opulent options)",
+      "pax_limit": "12 or less is ideal (GHA can book large buses but need good budget)",
+      "accommodations": "Nordic and Scandinavian style, very simple but super expensive. Notable properties: Deplar Farm, The Retreat, Skalakot Manor, Torfhus Retreat.",
+      "how_to_feature": "Standalone or pair with Norway or Greenland",
+      "pair_with": "Norway, Greenland",
+      "general_notes_1": "Northern lights are best mid September to mid April. Puffins are best mid May to mid August. Holidays can range from $7k-$14k. Availability in southeast Iceland and the east fjords is very bad for summer.",
+      "general_notes_2": "Small group tours of Golden Circle and South Coast available during winter but pricing would need to be given by CS.",
+      "client_types_good": "Families, Outdoor enthusiasts, Nature lovers, Science lovers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "May-September",
+          "description": "40s-50s, midnight sun"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "May-June, September-October",
+          "description": "70s-80s"
+        },
+        {
+          "level": "Low",
+          "date_range": "October-March",
+          "description": "30s-40s"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Opulent Options (private driver)",
+          "price_per_week": "$10k-$15k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Private Driver",
+          "price_per_week": "$8.5k-$13k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Self-Drive (not available Oct-Apr)",
+          "price_per_week": "$4k-$7k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Ireland",
+      "slug": "ireland",
+      "night_min": 4,
+      "key_facts": "Ideally 5 nights, 7-10 days recommended. At least 14 days for fleshed out UK/Ireland trip. Routing: Train and car can be used for most routing. Northern Route: Dublin start, loop north through Belfast, Giant's Causeway, Donegal and can end in Galway. Wild Atlantic Way: Drive along west coast, ocean, farmland, Dingle peninsula, Ring of Kerry, Cliffs of Moher. Southern Route: Dublin start, loop south through Cork, Dingle, and end in Galway. Capital: Dublin - can be done in about two days. Trinity College (Book of Kells), Guinness Factory Tour, Jameson Distillery, St. Patrick's Cathedral. Cork: Titanic Museum, Kinsale, near Blarney Castle. Killarney: cute town, Ring of Kerry scenic driving route. Galway City: coastal city, close to Cliffs of Moher. Excursions: cooking classes, Irish soda bread making, major site tours, hiking, kayaking, fishing. Self-drive available (no motorcycles). We do NOT sell the Isle of Man. Ryder Cup (golf) in 2027 hosted at Adare - no availability in 2027 and likely increased demand for 2026. Ireland is really beautiful, best known for villages and rolling hills, also offers great pub life.",
+      "urgency": "Summer is VERY limited - needs to be okay with what's left or plan for 2026. Groups bigger than 4 will struggle with availability for summer.",
+      "solo_pricing": "$7k-$9k",
+      "pax_limit": null,
+      "accommodations": "Wide range of choices, castle properties (expensive). Expansive portfolio in Dublin. Smaller, boutique and more B&B style hotels in the country. B&B/more traditional properties may not have air con or elevators. Hard to find rooms that accommodate more than 2 adults, rooms tend to be small.",
+      "how_to_feature": "Standalone or pair with England or Scotland",
+      "pair_with": "England, Scotland",
+      "general_notes_1": null,
+      "general_notes_2": null,
+      "client_types_good": "Heritage trips, First timers out of the states, Whiskey lovers, Self-drivers, Independent travelers, Golfers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "May-September",
+          "description": "55-60s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April, October",
+          "description": "40s-50s"
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": ""
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$7k (self-drive), $8k-$9k (private)",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "4-Star",
+          "price_per_week": "$6k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "3-Star",
+          "price_per_week": "$4k-$5k (more bare bones, less Audley)",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "England",
+      "slug": "england",
+      "night_min": 4,
+      "key_facts": "Ideally 5 nights, 7-10 days recommended. At least 14 days for fleshed out UK/Ireland trip. Train can be used for a lot of routing. Known for: Literary history, lakes, rolling hills, beautiful villages, architecture, gardens, history, diverse topography. Capital: London - Tower of London, Westminster Abbey, London Eye, Buckingham Palace (only open for tours July-Sep), different markets, Theatre. Stonehenge and Oxford relatively close, can do long day trips. Cotswolds: Pretty and photogenic villages, including Bath. Oxford: History, Oxford College, charming English countryside, near Cotswolds. Lake District: Green fields, mountainsides, and beautiful lakes, many small villages. York: Medieval Viking history, middle ages, picturesque city. Cornwall: Beach/coastline. Stratford-upon-Avon: Shakespeare's hometown, less well traveled. WALES: newer Audley destination, more driving involved, more spread out than Southern England. Self drive not typically recommended for clients who aren't comfortable international drivers. Excursions: Cooking classes, major sites, garden tours, mini cooper tours, Paddington tours, hiking, fishing, theatre tickets. Premier League tickets can be booked (say 'we can look into arranging that'). Can't book Wimbledon. Transfers: either half or full can be up to $1,500 per day.",
+      "urgency": "Summer is VERY limited - needs to be okay with what's left or plan for 2026. No groups bigger than 4 for summer.",
+      "solo_pricing": "$10k-$15k",
+      "pax_limit": null,
+      "accommodations": "Medium to Deluxe. Castles: Only a few available in Wales, some in England quite luxurious including spa options and more high tech than Scotland but more overall in Scotland. Wide hotel portfolio in London. In countryside: more B&B style. B&B/more traditional properties may not have air con or elevators. Hard to find rooms that accommodate more than 2 adults, rooms tend to be small.",
+      "how_to_feature": "Stand alone or pair with France, Scotland, or Ireland",
+      "pair_with": "France, Scotland, Ireland",
+      "general_notes_1": "London peak no less than $7k.",
+      "general_notes_2": null,
+      "client_types_good": "First time travelers, History buffs, Soccer and sport fans, Theatre lovers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "May-October",
+          "description": "70s, crowds"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April",
+          "description": "60s"
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": ""
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$7k-$9k (self-drive), $8k-$9k (private drive)",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$7k-$8k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$7k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Portugal",
+      "slug": "portugal",
+      "night_min": 4,
+      "key_facts": "Minimum 5 nights, 7 recommended. We do not have off the beaten path in Portugal. Basically just the Algarve/Lisbon area/Porto and Douro Valley area. Hotels in a few other places but zero excursions. Capital: Lisbon (direct flights to US) - architecture, tuk-tuk tours, hiking, fado shows, great seafood and wine, day trip to Cascais. Douro Valley: GREAT for wine, boat between vineyards. Can do day trip or stay there. April and September for the harvest. Porto: direct flights from Boston, second largest city, overlooking Douro River Estuary, UNESCO recognized, busy in peak months. Algarve: Beaches, very hot in summer, adventurous with known cliffs, lots of resorts, busy during high season. Azores: Direct flights from Boston and NYC, rains frequently, great for flora and fauna, rugged coastline, volcanic scenery, crater lakes, geothermal springs. Madeira: some direct flights from NYC, volcanic island, mainly black pebble beaches, weather unpredictable. Self-drive only recommended in Southern Portugal and Northern Spain. We launched Portugal at Audley within the last 4 years. Great spot for any female solo travelers.",
+      "urgency": null,
+      "solo_pricing": "At least 20% more expensive as a solo traveler",
+      "pax_limit": "6 pax max",
+      "accommodations": "Mostly 4 or 5-star properties. Wine estates to historic hotels.",
+      "how_to_feature": "Pairs well with Spain and Morocco",
+      "pair_with": "Spain, Morocco",
+      "general_notes_1": "Portugal really known for seafood. Lisbon is a foody heaven and the Algarve has tons of fishing villages. Whale watching May through end of summer in Azores.",
+      "general_notes_2": "We have a tour to Fatima and clients can get to Estoril on their own, but we have no accommodations in either place. If somebody is going in winter, will be pretty rainy particularly in the north so keep more to the south.",
+      "client_types_good": "Wine lovers, History enthusiasts, Horse lovers, Female solo travelers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-August",
+          "description": "70s-80s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May, September-October",
+          "description": "70s, our preferred time"
+        },
+        {
+          "level": "Low",
+          "date_range": "December-early March",
+          "description": "50s-60s. Rains begin November-December but not every day."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$8k-$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$7k-$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$6k-$7k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Azores",
+      "slug": "azores",
+      "night_min": null,
+      "key_facts": "Part of Portugal. Direct flights from Boston and NYC. Great for flora and fauna, rugged coastline (not 'beach'), volcanic scenery, crater lakes, geothermal springs. Sao Miguel is the largest island with crater lakes, hot springs, tea plantations, and the capital of Ponta Delgada. Rains frequently. Whale watching May through end of summer. Fishing, biking, hiking. Clients are highly unlikely to spend much time hanging out on a beach and will need to be prepared for adverse weather.",
+      "urgency": null,
+      "solo_pricing": "$6k-$8k",
+      "pax_limit": null,
+      "accommodations": null,
+      "how_to_feature": "Pair with mainland Portugal",
+      "pair_with": "Portugal",
+      "general_notes_1": null,
+      "general_notes_2": null,
+      "client_types_good": "Nature lovers, Hikers, Whale watchers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-August",
+          "description": ""
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May, September-October",
+          "description": ""
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": ""
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High (June-August)",
+          "price_per_week": "$8k-$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Mid (April-May, September-October)",
+          "price_per_week": "$7k-$9k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low (November-March)",
+          "price_per_week": "$5k-$8k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Scotland",
+      "slug": "scotland",
+      "night_min": 4,
+      "key_facts": "Ideally 5 nights, 7-10 days recommended. At least 14 days for fleshed out UK/Ireland trip. Car needed more to get around in Scotland, especially the Highlands, compared to England and Ireland. Capital: Edinburgh - lots of golf, Harry Potter train, great fishing, national parks like Cairngorms. Cobblestone, hills, and stairs can make mobility issues tricky. Glasgow: more industrialized than Edinburgh, less popular, often skipped unless there's interest. Lochs (lakes): very romantic, cycling, boat tours. Inverness: close to Loch Ness, where Loch Ness Monster legend is based. Isle of Skye: island north of Scotland, well known but 10 day minimum for trip to include. Best for those looking for more outdoor activity. Excursions: Historical sites, cooking classes, hiking, kayaking, fishing. Scotland is wild and active, offers mountains and dramatic cliffs. Royal Scotsman: Luxury train tour departing from Edinburgh (books up VERY quickly, particularly in summer).",
+      "urgency": "Summer is VERY limited - needs to be okay with what's left or plan for 2026. No groups bigger than 4 for summer.",
+      "solo_pricing": "$12k",
+      "pax_limit": null,
+      "accommodations": "Medium to Deluxe. Wide hotel portfolio in Edinburgh, more B&B in the countryside. Castles - more historical/traditional than England. B&B/more traditional properties may not have air con or elevators. Hard to find rooms that accommodate more than 2 adults, rooms tend to be small.",
+      "how_to_feature": "Stand alone, with Ireland or any other country in Europe",
+      "pair_with": "Ireland, England",
+      "general_notes_1": null,
+      "general_notes_2": null,
+      "client_types_good": "Scottish heritage trips, Lovers of adventure (hiking/outdoor activities), Self-drivers, Golfers",
+      "client_types_okay": null,
+      "client_types_bad": "Can be difficult for people with accessibility issues, lots of hills and cobblestone/stairs in Edinburgh",
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-August",
+          "description": "60s-70s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May, September-October",
+          "description": "60s"
+        },
+        {
+          "level": "Low",
+          "date_range": "December-March",
+          "description": "40s-50s"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$7k-$9k (self-drive), $8k-$9k (private driver)",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$7k-$9k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$5k-$6.5k (more bare bones, less Audley)",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Spain",
+      "slug": "spain",
+      "night_min": 4,
+      "key_facts": "5 nights minimum, 7 recommended. Capital: Madrid (main airport) - Art museums, incredible architecture, history, modern metropolis of innovative cuisine and boutique shops. Barcelona: Huge art and architecture culture, medieval cathedrals, the Sagrada Familia, the Picasso Museum, Las Ramblas, beaches. Costa del Sol (Malaga and Marbella): Beach, Marbella more luxurious and very expensive, less cultural. Malaga has the Picasso Museum and more cultural points of interest. Seville: great for families, Muslim and Christian history, Flamenco, riverfront town. Granada: Alhambra (most visited site in Spain) and Albaicin Quarter. Cadiz: One of Europe's oldest cities, beach, Cadiz Cathedral, laid back vibes. Cordoba: Mezquita Catedral, Jewish Quarter. Toledo: Historic capital of Spain, Romans/Moors/Christians/Jews all lived here, UNESCO. Basque Country: San Sebastian and Bilbao, known for food, beach, and culture. La Rioja Region: wine region, least populated area in Spain. Santiago de Compostela: Cathedral and UNESCO old town. Self-drive available but hard in major cities. Northern Spain: definitely a second trip destination, really just food/wine focused but super beautiful. Islands: Azores, Mallorca, Menorca (not during off-season), Ibiza. Do not offer Canary Islands or Pamplona. Costa Brava in Northern Spain.",
+      "urgency": "Summer is VERY limited - needs to be okay with what's left or plan for 2026. No groups bigger than 4 for summer.",
+      "solo_pricing": null,
+      "pax_limit": "7 for one transfer",
+      "accommodations": "4-5 star hotels. Local Spanish chains but still feels like a boutique (not like Hiltons - they feel very Classical Spain vibes). All of our hotels almost always have elevators and A/C. Mobility wheelchair bound: Barcelona is one of the most accessible cities in the world. Madrid and Barcelona very flat.",
+      "how_to_feature": "Combine with Portugal or Morocco, can also combine with France if going to the North",
+      "pair_with": "Portugal, Morocco, France",
+      "general_notes_1": "Northern Spain will be more expensive during peak season.",
+      "general_notes_2": "Self-drive is available but hard to drive in major cities, use it as a way to get in between destinations. Trains are more reliable in some areas than others. Can have private transfers but they get expensive in the Northwest and Galicia.",
+      "client_types_good": "Wine lovers, History enthusiasts, Art lovers, Food lovers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-August",
+          "description": "70s-80s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May, September-October",
+          "description": "70s"
+        },
+        {
+          "level": "Low",
+          "date_range": "December-March",
+          "description": "50s-60s"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$8k-$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$7k-$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$6k-$7k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "River Cruises",
+      "slug": "river-cruises",
+      "night_min": null,
+      "key_facts": "Ideally pair with land packages. Do not block a sale if they just want the cruise but encourage a before/after land package. Be careful of pushing them to the AMA website because quotes will be different (less). Largest river cruise has gym, spa, laundry, pool, pickleball court, 102-196 pax count. AMA has 3 excursions per day (variety of comfort levels) vs Viking which has 1. Accessible for those with mobility issues ON BOAT, but getting off can be very difficult (may walk up to top deck, over to another boat, down stairs). Be cautious with complete wheelchair bound clients. Food: part of the most prestigious food and wine. No drink packages (beer, wine, and non-alcoholic beverages included in every meal). Most rooms have balconies, no underwater cabins. Boutique atmosphere. We offer every cruise on the AMAWaterways website (at least in Europe). Main destinations: France, Spain/Portugal, Benelux, Switzerland, Austria, Hungary. Danube and Rhine are the most popular rivers. Rhine: Netherlands, Germany, France, Switzerland. Danube: Germany, Austria, Slovakia, Hungary, Romania, Serbia, Bulgaria. Christmas Market Cruises are fully booked for 2025 and book out a year in advance.",
+      "urgency": null,
+      "solo_pricing": null,
+      "pax_limit": null,
+      "accommodations": "Boutique atmosphere on-board. Most rooms have balconies. No underwater cabins.",
+      "how_to_feature": "Pair with land packages in Europe",
+      "pair_with": "France, Spain, Portugal, Benelux, Switzerland, Austria, Hungary",
+      "general_notes_1": "Cost: $7k-$13k pp per week dependent on the cruise (7 nights).",
+      "general_notes_2": "Specialists trained on river cruises: Taylor Lack.",
+      "client_types_good": null,
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [],
+      "pricing_tiers": [
+        {
+          "tier_label": "AMAWaterways Cruises (7 nights)",
+          "price_per_week": "$7k-$13k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Egypt",
+      "slug": "egypt",
+      "night_min": 7,
+      "key_facts": "Advantage of booking with us is the on-the-ground safety/security and coordination through in-country partners. Emphasis on thoughtful travel in the Middle East sets us apart. Capital: Cairo - 3 nights recommended (full day Pyramids, museums, and sites downtown). Pyramids and Nile river. Luxor and Aswan: Where the Nile cruises start and finish. Red Sea: diving. Now offer Sharm el Sheikh and Hurghada. Also offer the North Coast for relaxation, and Siwa (off the beaten track, very authentic, cultural and historical experiences). Can arrange a day trip to Dendera and Abydos (ancient complex north of Luxor) but NO accommodations there. All guides are certified Egyptologists. Nile cruises offered. 3 night cruise options almost always depart on Fridays; 4 night cruise options almost always depart on Mondays. Waiver for level 3 travel. BE MINDFUL OF RAMADAN (done off lunar calendar, generally spring). Clients can still travel during Ramadan but can be disruptive for itineraries. Can't eat or drink in public/outdoors, no alcohol until after sunset at hotels. Can be less busy time to travel, can join families to break the fast for a special experience.",
+      "urgency": "2027 Solar Eclipse trips not doable - max capacity",
+      "solo_pricing": "$8k-$9k",
+      "pax_limit": null,
+      "accommodations": "Big international chains. Family friendly resorts. Nile cruises.",
+      "how_to_feature": "Stand alone, or combine with Jordan or Israel",
+      "pair_with": "Jordan, Israel",
+      "general_notes_1": "$600-$800 pp pd.",
+      "general_notes_2": "AVOID RAMADAN. Ramadan is done off lunar calendar so always a little different date wise from year to year (generally spring but not always).",
+      "client_types_good": "First timers to Middle East, History and ancient civilization lovers, Cultural immersion seekers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "February-April, September-December",
+          "description": ""
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May",
+          "description": "Warm and pleasant"
+        },
+        {
+          "level": "Low",
+          "date_range": "July-August",
+          "description": "100+ degrees, do not recommend"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High (without cruise)",
+          "price_per_week": "$6k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "High (with cruise)",
+          "price_per_week": "$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low (without cruise)",
+          "price_per_week": "$3k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low (with cruise)",
+          "price_per_week": "$6k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    }
+  ]
+}

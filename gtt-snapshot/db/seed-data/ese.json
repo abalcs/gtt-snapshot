@@ -1,0 +1,858 @@
+{
+  "region": {
+    "name": "ESE",
+    "slug": "ese",
+    "description": "Europe and Southeast Europe"
+  },
+  "destinations": [
+    {
+      "name": "Austria",
+      "slug": "austria",
+      "night_min": null,
+      "key_facts": "Classical music, cobblestone streets, WW2 history, salt mines, where Sound of Music was filmed, Mozart's homeland, castles and palaces. Vienna: Capital. Cultural location, hiking and outdoor opportunities. Thriving coffeehouse culture, the grand Schonbrunn Palace, a rich tradition of Jewish life and classical music. Wachau Valley for Austrian wine. Innsbruck: Medieval houses set against a snowy mountain backdrop. Great for winter sports, Tyrolian culture (yodeling and lederhosen), history, and music. Held the Winter Olympics there. Swarovski crystal headquarters and museum. Transportation: Train travel is really accessible. Can offer self-drive but tends to be better for those who have driven in Europe before. Parking can be difficult and not much signage in English. Right hand side of the road.",
+      "urgency": null,
+      "solo_pricing": null,
+      "pax_limit": null,
+      "accommodations": "Simple to Deluxe. First class and Deluxe properties are very baroque and art deco. Great variety of interesting boutique properties. Nothing too modern or contemporary. Old world luxury feel or small mountain chalet.",
+      "how_to_feature": null,
+      "pair_with": null,
+      "general_notes_1": null,
+      "general_notes_2": null,
+      "client_types_good": "WW2/History buffs, Classical music lovers, Winter sport athletes, Couples, Families",
+      "client_types_okay": "Might not be best with wheelchair due to cobblestones",
+      "client_types_bad": "Clients who have been before and want a more in-depth trip (we don't have the product for it)",
+      "seasonality": [],
+      "pricing_tiers": [],
+      "status": "active"
+    },
+    {
+      "name": "Belgium",
+      "slug": "belgium",
+      "night_min": 5,
+      "key_facts": "Capital: Brussels. Cosmopolitan city, rich history and cultural attractions, museums, Grand Palace, and Belgian beer hub. Antwerp: 16th-century architecture, Dutch Old Masters, fashion, vibrant nightlife and a world-renowned diamond industry. Bruges: One of the best-preserved medieval towns in Europe, fortresses, canals, breweries, museums. Ghent: Medieval castles, world-renowned artwork and an eclectic range of culinary delights. Self-drive is an option but not always easy to park in some smaller cities and parking can get expensive. Belgium is relatively flat so makes it easier for people with handicap issues.",
+      "urgency": null,
+      "solo_pricing": "$10k-$12k",
+      "pax_limit": null,
+      "accommodations": "Family-run guesthouses and hotels in restored historic buildings. Medium to Deluxe. Boutique is the most common. Most of the more modern options are in Brussels or Antwerp. Ranges from luxury properties.",
+      "how_to_feature": "Standalone or paired best with Netherlands, Luxembourg, France, or Germany",
+      "pair_with": "Netherlands, Luxembourg, France, Germany",
+      "general_notes_1": null,
+      "general_notes_2": null,
+      "client_types_good": "Beer lovers, Medieval architecture enthusiasts, Cuisine lovers, WW1 and WW2 history buffs, People with handicap issues",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-October",
+          "description": "70s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May, September-October",
+          "description": ""
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": "40s-50s"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$6.5k-$7k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$6k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$5k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Croatia",
+      "slug": "croatia",
+      "night_min": 5,
+      "key_facts": "5 night min but they're not going to see much. Need 11-14 days for whole country. 8-10 days for the coast. Popular routing: 1) Split, Hvar, Dubrovnik. 2) Zagreb, Plitvice Lakes, Split, Hvar, Dubrovnik. Islands: 1,200 but we mainly sell Hvar, Brac, and Korcula - plenty of sun, swimming, and relaxation. Mode of transport: primarily ferries and private drivers. Not likely to see internal planes, buses, trains. Difficult logistically to get around. Split: Diocletian's Palace, day trips to the islands, Krka National Park, Roman ruins, historic towns, rafting and ziplining. Great base for day trips. Dubrovnik: famous city walls, Game of Thrones filming, historic buildings, near islands and national parks. Istria: Hilltop villages and historic seaside towns, wine, olive oil and truffle region. The foodie and wine location. Bosnia & Herzegovina: mostly day trips, blend of east and west, heavy Ottoman influence. Slovenia: chill, charming capital of Ljubljana and Lake Bled. Can do a few nights. Montenegro: scenic waterfront towns, history, hiking, boat trips. Day trip or stay a few nights. Great day trip from Dubrovnik. GHA is fantastic, very detail orientated. Flights: essentially no direct options. Only one is Newark to Dubrovnik on United/Lufthansa.",
+      "urgency": "Included in booking calendar trial. Only one seller at the moment - please set expectations.",
+      "solo_pricing": "$7k",
+      "pax_limit": null,
+      "accommodations": "Mid-level to deluxe. Small boutique hotels in historic areas. Larger full service resorts by the waterfronts. Smaller hotels in city centers, don't work with any chain properties. GHA is more geared towards luxury - don't have a ton of 3-star properties. Have some that are more simple.",
+      "how_to_feature": "Pairs well with Greece or Italy",
+      "pair_with": "Greece, Italy",
+      "general_notes_1": "In-line with Italy, Greece, Eastern Europe pricing.",
+      "general_notes_2": "Food: lots of seafood and fresh produce, can try a few traditional Croatian dishes but really a mix of Mediterranean influence.",
+      "client_types_good": "Foodies, Adventure seekers, History lovers, Families, Honeymooners, Little more off the beaten path compared to western Europe, Good range of activities and being by the water with interesting recent history",
+      "client_types_okay": "Clients with mobility issues: Dubrovnik has a lot of steps and hills, cobblestone and older streets throughout the country. Split and islands are a bit flatter.",
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-August",
+          "description": "Super busy, 80s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April, September-October",
+          "description": "Quieter but still open"
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": "A lot is closed - would just be Split/Dubrovnik/inland"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$9k-$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "4-Star",
+          "price_per_week": "$8k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "3-Star",
+          "price_per_week": "$7k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Czech Republic (Prague)",
+      "slug": "czech-republic-prague",
+      "night_min": 5,
+      "key_facts": "We only sell Prague in the Czech Republic at the moment. Vienna, Budapest, and Prague all sit on the same train line so a great week long trip. Cultural and Political heart of Czechia - the city's narrow streets are packed with historical architecture and a long, complicated history. Castles, walk through the old town, city's parks, pubs. March through May and September and October are excellent times with good weather, moderate crowds, and plenty of festivals. Summer months of June through August are warmer with temperatures in the low to mid 70s F. 4 nights if multi-repeat client.",
+      "urgency": null,
+      "solo_pricing": null,
+      "pax_limit": null,
+      "accommodations": null,
+      "how_to_feature": "Vienna, Budapest, and Prague all sit on the same train line so a great week long trip",
+      "pair_with": "Austria, Hungary",
+      "general_notes_1": "Architecture: neo-gothic/baroque. History: 9th-century founding as Bohemia to the Cold War. Beer/Pub culture.",
+      "general_notes_2": "Hard to price as it is usually an addon with Austria/Hungary/Germany etc.",
+      "client_types_good": "Architecture lovers, History buffs, Beer and pub culture enthusiasts",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-August",
+          "description": ""
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May, September-October",
+          "description": ""
+        },
+        {
+          "level": "Low",
+          "date_range": "November-February",
+          "description": ""
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$4k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "France",
+      "slug": "france",
+      "night_min": 7,
+      "key_facts": "Capital: Paris. Paris: food and wine, Eiffel Tower, museums, Louvre, Versailles, gardens. Provence: lavender fields and food. Lyon, Bordeaux, Loire Valley and Provence are the major wine regions. Lyon is cheaper and offers more share excursions and tours. Provence is more expensive and mostly private. Normandy: Expensive region, $1,000 pp pd. Just Paris: 4 nights. St. Tropez: have to fly into Nice, then have private transfer or take a public ferry (2.5 hour) $1,200-$1,500 pp pd. River cruises offered.",
+      "urgency": null,
+      "solo_pricing": "$5.6k-$7k",
+      "pax_limit": null,
+      "accommodations": "Boutique stays. Country retreats. Villas on an ad hoc basis.",
+      "how_to_feature": "Standalone or offer stopover in Paris or London",
+      "pair_with": null,
+      "general_notes_1": null,
+      "general_notes_2": null,
+      "client_types_good": "Anniversary trips, Honeymooners (if they have the money), Families, Wine lovers, History buffs",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "July-August",
+          "description": "Super busy"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "May-June, September-October",
+          "description": "70s-80s, we recommend"
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": "Seasonal areas are closed, cold and rainy"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$9k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "4-Star",
+          "price_per_week": "$8k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "3-Star",
+          "price_per_week": "$7k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Denmark",
+      "slug": "denmark",
+      "night_min": 5,
+      "key_facts": "Capital: Copenhagen. Cruise through canals, cycle or stroll on waterfront, explore palaces and museums, tours of old town and architecture, learn how to make smorrebrod and visit the oldest amusement park in Europe. Don't offer any accommodations outside of Copenhagen. Highlights: Food, Rosenberg Castle, River Cruise in Copenhagen, Baking and cooking classes, Viking history in Roskilde. Transportation: Private driver is ideal. Don't need a car in Copenhagen unless you take a day trip. Trains can be used to easily get to Stockholm which is commonly paired. We do not offer Faroe Island as a destination in either Denmark or Iceland. Best to book at least 1 year in advance for summer/smaller villages in the fjords.",
+      "urgency": "Summer solstice is June 21 and can be busy as well as Christmas",
+      "solo_pricing": "$10k-$11k",
+      "pax_limit": null,
+      "accommodations": "Converted waterfront warehouses. Moorish style castles. First class and deluxe properties.",
+      "how_to_feature": "Commonly paired with Sweden and Norway",
+      "pair_with": "Sweden, Norway",
+      "general_notes_1": "Northern Lights are best between December-March.",
+      "general_notes_2": "River cruises offered.",
+      "client_types_good": "History lovers, Architecture enthusiasts",
+      "client_types_okay": null,
+      "client_types_bad": "First timers in Europe",
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "July-August",
+          "description": "70s-80s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "May-June, August-September",
+          "description": ""
+        },
+        {
+          "level": "Low",
+          "date_range": "November-February",
+          "description": "Cold but still a good time to travel"
+        },
+        {
+          "level": "Shoulder-Low",
+          "date_range": "March-April, October-early November",
+          "description": "Activities are not ideal at this time"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$9k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "4-Star",
+          "price_per_week": "$8k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "3-Star",
+          "price_per_week": "$7k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Germany",
+      "slug": "germany",
+      "night_min": 5,
+      "key_facts": "Capital: Berlin. Berlin to Munich: at least 7 nights. Full Germany tour: at least two weeks. Berlin: Complex history, neoclassical monuments and an edgy street art scene, modern capital with historical tours, exceptional shopping and vibrant nightlife. Munich: Host of Oktoberfest. Classic castle scenes. Baroque churches, Gothic facades and cobbled squares with Holy Roman Empire heritage. Frankfurt: Largely modern metropolis with a gleaming skyline of glass, steel and concrete skyscrapers. Oberammergau: Part of Germany where the Passion Play is held (town is Garmisch). Can get tickets but needs to be booked in advance (every 10 years). Mountain town bordering Switzerland, great hiking. Highest mountain in Germany. Bavarian Alps: active adventure. Oktoberfest: Audley has a private area on upper portion to avoid table dancing, beer sloshing - fits up to 10. Cruises: AMAwaterways luxury $4k-$10k pp. River Cruises offered.",
+      "urgency": null,
+      "solo_pricing": "$10k-$12k (private driver)",
+      "pax_limit": null,
+      "accommodations": "Medium to Deluxe. A variety of accommodations from castles to normal hotels. Very traditional in countryside, more modern in the cities. Minimal doubles, so can be tougher for families and friends (as well as the open showers/bathrooms). AC not everywhere.",
+      "how_to_feature": null,
+      "pair_with": null,
+      "general_notes_1": null,
+      "general_notes_2": null,
+      "client_types_good": "History and architecture lovers, Beer and German cuisine fanatics, Families, Couples",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [],
+      "pricing_tiers": [],
+      "status": "active"
+    },
+    {
+      "name": "Greece",
+      "slug": "greece",
+      "night_min": 5,
+      "key_facts": "5 night min, 10 recommended. Most popular routing: Mykonos, Santorini, and Athens (potentially with one lesser island). Athens: usually 2-3 nights at beginning or end of itinerary. Acropolis, street food market tours, Temple of Zeus, day trips to Delphi and Peloponnese. Athens Riviera offers high end beach less than an hour from central Athens. High-speed Ferry is the common mode of transportation. Many domestic flights route through Athens. Mykonos: nightlife and beaches, proper sandy beaches, popular beach clubs, history via ancient archaeological site on Dilos. Santorini: Picturesque blue domes, Cycladic Island, tons of stairs (not mobility friendly), better for shopping, views, spas, beautiful hotels with infinity pools. Crete: largest island, typically 2nd timers to Greece, comparable to Sicily, lots to do. Peloponnese: archaeological sites, wine making region, great food hub. Typically stay in Nafplio. Meteora: beautiful monasteries built into cliffs, great for active clients. Thessaloniki: 2nd largest city, foodie destination. Self-drive offered on mainland, Crete, Naxos, and Milos (closer to $4k pp pw). Not available on Mykonos or Santorini. Flights: always fly in and out of Athens. Exclusively book premium-class ferries.",
+      "urgency": "Included in booking calendar trial",
+      "solo_pricing": "$10k (with an island or 2)",
+      "pax_limit": "9+ not possible",
+      "accommodations": "Lovely boutiques ranging from medium to deluxe. Most bed and breakfast basis, not many all-inclusive. On islands: typical option is in town or on beach. For families: not always kid friendly, some have age limits. Santorini: not a lot of twin bed options. Some hotels offer villa style rooms on the property that fit 6-10 people (higher-end, especially in Santorini). One private charter option in Naxos/Paros with a set itinerary (5 day or 7 day option).",
+      "how_to_feature": "Stand alone, or combine with Italy",
+      "pair_with": "Italy, Croatia, Turkey, Cyprus",
+      "general_notes_1": "Santorini will definitely be the most expensive island we offer (both in transfers and accommodations). If they have a lower budget and have interest in islands, we can likely still accommodate it, just don't promise Santorini.",
+      "general_notes_2": "Mainland areas are far away from each other, usually lots of 3-5 hour drives. Don't do cruising (have one 6-night private cruise option, super expensive). BA and Delta contracts, can book for clients but not always the better deal.",
+      "client_types_good": "Families (some accommodations have age limits), Mythology lovers, People who like adventure, Honeymooners, Couples",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-September",
+          "description": "Hot and busy"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May, October",
+          "description": "Be mindful of Orthodox Easter"
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": "Islands close down mid October to April. Santorini is the only year-round island but wouldn't recommend."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$9k-$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "4-Star (mainland)",
+          "price_per_week": "$6k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "4-Star (islands)",
+          "price_per_week": "$7k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "3-Star (mainland)",
+          "price_per_week": "$5k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "3-Star (islands)",
+          "price_per_week": "$6k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Hungary (Budapest)",
+      "slug": "hungary-budapest",
+      "night_min": 5,
+      "key_facts": "We only sell Budapest at the moment. Vienna, Budapest, and Prague all sit on the same train line so a great week long trip. 4 nights if multi-repeat client.",
+      "urgency": null,
+      "solo_pricing": null,
+      "pax_limit": null,
+      "accommodations": null,
+      "how_to_feature": "Vienna, Budapest, and Prague all sit on the same train line so a great week long trip",
+      "pair_with": "Austria, Czech Republic",
+      "general_notes_1": null,
+      "general_notes_2": null,
+      "client_types_good": null,
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-August",
+          "description": ""
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May, September-October",
+          "description": ""
+        },
+        {
+          "level": "Low",
+          "date_range": "November-February",
+          "description": ""
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$4k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Italy",
+      "slug": "italy",
+      "night_min": 6,
+      "key_facts": "Capital: Rome (5 nights if only Rome). Rome: Big city, history hub, 'an open air museum', Vatican City and Sistine Chapel, the Colosseum, Roman Forum. Florence: Renaissance art, younger crowd, more pedestrianized, independent touring, David statue, Arno River, the Uffizi, Duomo. Venice: Art, very unique, no taxis, traditional gondola ride (very crowded). Tuscany: countryside, wineries, Florence and Sienna, history, leaning tower of Pisa. Self-drive offered. Closed Nov-Easter (good switch sell is Umbria). Amalfi Coast: Beautiful scenery, Pompeii, Capri, Positano, cooking classes, hiking, boat rides, and ruins. Closed Nov-Easter. Do not send people before March. Not recommended for families (most accommodations in Positano are 12+ age limit). NOT a self driving destination. Cinque Terre: Five villages, hiking between each town or train. Beaches and very picturesque. Good for honeymooners. Closed for low season. Sicily: heritage trips, Italian/African/Spanish influence. Self-drive offered. Lake Region: Lake Como, Lake Garda, Lake Maggiore. Stunning views of the Alps. Seasonal (open around Easter). Lake Como is most expensive. Puglia: Ancient city, caves, olive groves and olive oil tasting. Closed during low season. Sardinia: Cost effective for Italy, great bang for your buck, very self-drive friendly. Umbria: affordable alternative to Tuscany. Lots of cooking classes throughout the country. All guided tours offer skip-the-line fast passes.",
+      "urgency": "Rome Jubilee has increased tourists so hotels selling out earlier. Always popular. Seasonal areas (Amalfi Coast, Lake Como, Cinque Terre) sell out early. 'Shoulder season' (May/September) is now high season.",
+      "solo_pricing": "$14K+",
+      "pax_limit": null,
+      "accommodations": "Mostly boutique hotels. Rome will have larger apartment/villa style accommodations (we have only 3-star hotel). Tuscan resort-like properties in wineries, old castles, etc. Some apartment style or little villas onsite. Villas can be difficult as they won't have basic kitchen items. Recommend staying at a property that has all luxuries of a hotel but the feel of a remote villa.",
+      "how_to_feature": "Standalone, offer stopover in Paris or London",
+      "pair_with": "Switzerland, France, Greece",
+      "general_notes_1": "Switch sell to Sardinia if budget is an issue - more cost effective. Lakes Region and the Amalfi Coast always the most expensive areas, especially in peak season. The Amalfi Coast is seasonal. Positano-Amalfi-Capri open mid to late April through mid to late October. Sorrento and Naples are open year round.",
+      "general_notes_2": "ALWAYS UNDER PROMISE AND OVER DELIVER FOR ITALY. Common Europe combos: Italy/Switzerland ($6,500 pp/pw), Italy/France ($8,000 pp/pw), Italy/Greece ($8,000 pp/pw), Greece/Turkey ($8,500 pp/pw), France/Switzerland ($7,500 pp/pw). BEACHES: best beaches in Italy are Puglia and Sardinia.",
+      "client_types_good": "90% of clients first time out of country, Anniversary trips, Honeymooners, Families, Foodies, Wine lovers, First time travelers, Art and history buffs, Photographers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "May-September",
+          "description": "80s-90s. August/July are so hot people are less inclined to go, can find slightly cheaper rates and availability."
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April, October",
+          "description": "70s. Recommended for weather but prices are high and availability is low."
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": "Mid-40s to low 60s. Select tourist areas could be closed, but good for art, culture, history, smaller crowds, and guides are excited for tours."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$9k-$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "4-Star",
+          "price_per_week": "$8k-$9k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "3-Star",
+          "price_per_week": "$7k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Sardinia",
+      "slug": "sardinia",
+      "night_min": 5,
+      "key_facts": "Italian Island. A lot of cultural influences completely different from the Mainland. Clients that want a Lake Como vibe would not really be looking for Sardinia. A very lived in Italy. You get culture from old influences, and experiencing the region. Not a go to museums kind of place. Very self-drive friendly. A manual car needs to be requested ahead of time.",
+      "urgency": null,
+      "solo_pricing": null,
+      "pax_limit": null,
+      "accommodations": null,
+      "how_to_feature": null,
+      "pair_with": null,
+      "general_notes_1": "Cost effective for Italy. Great bang for your buck.",
+      "general_notes_2": "Example of a really cool cultural experience.",
+      "client_types_good": null,
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "High season",
+          "description": ""
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "Mid season",
+          "description": ""
+        },
+        {
+          "level": "Low",
+          "date_range": "Low season",
+          "description": ""
+        }
+      ],
+      "pricing_tiers": [],
+      "status": "active"
+    },
+    {
+      "name": "Luxembourg",
+      "slug": "luxembourg",
+      "night_min": 2,
+      "key_facts": "Capital: Luxembourg. WW2 history. Castles. Wine region Mosel. Luxembourg City: Medieval tunnel systems, modern museums and a confluence of German, French and Dutch culture. Luxembourg is the wealthiest country in the world but despite that Luxembourg is relatively reasonable financially. People in Luxembourg love Americans. Luxembourg City is built on a hill. If a client is looking to visit all of Benelux (Belgium, Netherlands, Luxembourg) then 10 days will allow them to see all of the area.",
+      "urgency": null,
+      "solo_pricing": null,
+      "pax_limit": null,
+      "accommodations": "Most hotels are boutique. Medium to first class.",
+      "how_to_feature": "Typically most will spend about 3-4 days and will pair with another country like Belgium/France/Netherlands",
+      "pair_with": "Belgium, France, Netherlands",
+      "general_notes_1": null,
+      "general_notes_2": null,
+      "client_types_good": "WW2 history buffs, Architecture lovers, Museum goers, Hiking enthusiasts, Wine region lovers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "July-August",
+          "description": ""
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "May-June, September",
+          "description": ""
+        },
+        {
+          "level": "Low",
+          "date_range": "October-March",
+          "description": ""
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$6.5k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$4.5k-$5k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$4.5k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Netherlands",
+      "slug": "netherlands",
+      "night_min": 5,
+      "key_facts": "Capital: Amsterdam. Canals, museums, historical sites, Jewish history from WW2 (including Anne Frank House). Rotterdam: A blend of old and new architecture post WW2 (bombing destroyed city), in a beautiful seaport. The Hague: Seat of international justice and peace negotiations, haven of arts and culture. Private driving is an option but can be very costly. Netherlands is relatively flat so makes it easier for people with handicap issues. If a client is looking to visit all of Benelux (Belgium, Netherlands, Luxembourg) then 10 days will allow them to see all of the area.",
+      "urgency": null,
+      "solo_pricing": "$12k-$15k",
+      "pax_limit": null,
+      "accommodations": "Simple to Deluxe.",
+      "how_to_feature": "Standalone or paired with Belgium, Luxembourg",
+      "pair_with": "Belgium, Luxembourg",
+      "general_notes_1": "These prices are based off most of the time spent in Amsterdam.",
+      "general_notes_2": null,
+      "client_types_good": "People with accessibility issues, WW2 history enthusiasts, Architecture lovers, Museum goers, Canal lovers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-August",
+          "description": "60s-70s"
+        },
+        {
+          "level": "Peak",
+          "date_range": "April-May",
+          "description": "Tulip season"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "September-October",
+          "description": ""
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": "40s-50s"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$6.5k-$7k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$6.5k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$5.5k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Norway",
+      "slug": "norway",
+      "night_min": 5,
+      "key_facts": "5 night min (9-12 for Fjords). Capital: Oslo. Well-preserved Viking ships, accessible Royal Palace and a long culinary tradition. Bergen: Snow-gilded mountains, steely gray fjords, a medieval fortress and modern-art museums, plus a busy fish market. Bergen is rainy all year. Alesund: Viking-inspired Art Nouveau architecture, fjord cruises, nesting seabirds, and fresh seafood. Norwegian Fjords: Epic mountains, dazzling glaciers and a coastline carved into thousands of fjords. Now selling Lofoten Islands. The most famous fjord is Geirangerfjord (only work with 2 hotels). If going to Fjords recommend not going to Oslo as it's out of the way. Also offer little fjord villages including Loen, and Tromso. Highlights: Seafood, Vikings, history. Not interested in nature: Oslo and Bergen are fine. Fjords book up at least 6 months in advance - recommend planning 6-9 months ahead. Best to book at least 1 year in advance for summer/smaller villages.",
+      "urgency": "Fjords book out at LEAST 6 months in advance (recommend booking 6-9 months in advance). Summer solstice is June 21 and can be busy as well as Christmas. Included in booking calendar trial.",
+      "solo_pricing": "$10k-$15k",
+      "pax_limit": null,
+      "accommodations": "Simple to Deluxe.",
+      "how_to_feature": "Commonly paired with Sweden and Denmark",
+      "pair_with": "Sweden, Denmark",
+      "general_notes_1": "Northern Lights are best between December-March. Southern Region is between May-August. Northern Region is best during the fall.",
+      "general_notes_2": "Private driver closer to $15k. Self-drive closer to $10k. Museums but they are far from the central city. Some pretty streets, great food scene.",
+      "client_types_good": "History lovers, Architecture enthusiasts, Museum goers, Nature and parks lovers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-Early September",
+          "description": "Fjords during this time"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May, Late September",
+          "description": ""
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": "Winter"
+        },
+        {
+          "level": "Shoulder-Low",
+          "date_range": "March-April, October-early November",
+          "description": "Activities are not ideal at this time"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Peak",
+          "price_per_week": "$9k-$15k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$8.5k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low",
+          "price_per_week": "$7k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Fjords",
+          "price_per_week": "$10k-$15k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Sweden",
+      "slug": "sweden",
+      "night_min": 5,
+      "key_facts": "Most people will just do Stockholm. Capital: Stockholm. Royal palaces, pickled herring, sunken warships and leafy parks. Stockholm is made up of 14 different islands. Includes great shopping, restaurants, grand buildings, and museums. Gothenburg: Coffee and cinnamon rolls, a welcoming atmosphere and an archipelago with more than 8,000 islands. Swedish Lapland: Northern lights, the midnight sun, Sami culture, exquisite local cuisine and winter sports, all in Europe's last wilderness. Malmo: Cute Swedish town with lots of history and buildings. Self and private drive available. Best to book at least 1 year in advance for summer/smaller villages in the fjords. Winter offers winter sports/holiday markets/northern lights.",
+      "urgency": "Summer solstice is June 21 and can be busy as well as Christmas. Included in booking calendar trial.",
+      "solo_pricing": null,
+      "pax_limit": null,
+      "accommodations": "Simple to Deluxe. Lapland: foresty area. Have the Tree Hotel, The Arctic Bath, The Ice Hotel, Camp Rapkin.",
+      "how_to_feature": "Copenhagen and Stockholm are commonly paired. Stand alone or pair with other Scandinavian/European cities.",
+      "pair_with": "Denmark, Norway",
+      "general_notes_1": "Northern Lights are best between December-March. Can only really visit the Lapland in Summer and Winter. During the winter the Lapland is dark all day.",
+      "general_notes_2": null,
+      "client_types_good": "History lovers, Architecture enthusiasts, Museum goers, Parks and nature lovers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-August",
+          "description": "60s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "May, September",
+          "description": "50s"
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": "30s-40s"
+        },
+        {
+          "level": "Shoulder-Low",
+          "date_range": "March-April, October-early November",
+          "description": "Activities are not ideal at this time"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$7k-$9k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Switzerland",
+      "slug": "switzerland",
+      "night_min": 5,
+      "key_facts": "Typical standalone trip is 9-10 days in country. One of the top three happiest countries in the world. Trips are all about meandering and taking in the scenery and culture at your own pace. Zurich: small city, cute old town, pretty lake views, walking tours, usually 1 or 2 nights, great restaurants with Michelin star options. Lucerne: 45 min from Zurich, cute old town, chocolate tastings, cruises on the lake, steepest cog train in the world, hiking, walking tours. Zermatt: one of Switzerland's oldest and best-known mountain resorts, Matterhorn, usually 2 nights, CARS NOT ALLOWED. Bernese Oberland/Grindelwald: great for getting outdoors and hiking, Jungfraujoch (highest peak in Europe), really fun for kids. St Moritz: posh little ski town, kind of like Vail Colorado. Geneva: not added too often, interesting for people who love watches. Montreux: French/Swiss, really cool architecture, wine tours, great culture, under 2 hours by train to Geneva airport. We don't offer self-drive. Switzerland has 4 panoramic trains: Glacier Express (St Moritz-Zermatt), Golden Pass (Montreux-Interlaken or Lucerne), Gotthard Express (Lucerne to Lugano), and Bernina Express (St Moritz to Lugano). Glacier Express is 8 hours, only worth it for excellence or first class tickets. Winter Travel: limited product. Can offer snowshoeing, tobogganing, tubing, cross country skiing. Now able to get Ski Passes and Ski Rentals (not guides) in select areas.",
+      "urgency": null,
+      "solo_pricing": "$5.5k-$6k",
+      "pax_limit": null,
+      "accommodations": "Mix between boutique and larger properties. They LOVE their spas. All very casual, don't have too many uber deluxe. Newer destination for Audley, so don't have too many off the beaten path/small town options. Audley value is definitely the assistance with logistics and train passes. No self-drive.",
+      "how_to_feature": "Standalone or pair with Italy",
+      "pair_with": "Italy",
+      "general_notes_1": "Swiss + Italy starting point $5.5k-$6k pp/pw. We don't offer self-drive. Grindelwald, Zermatt, and St Moritz basically don't allow cars, very pedestrian heavy. Trains and cable cars get them most locations.",
+      "general_notes_2": "Flights: don't have a ton of contracts, can sometimes get a deal. Most likely flying in and out of Zurich for the most direct options. Ski areas available: Adelboden-Lenk, Andermatt, Crans-Montana, Davos-Klosters, Engelberg-Titlis, Jungfrau Region, Saas-Fee, St. Moritz, Zermatt.",
+      "client_types_good": "Outdoorsy, Adventurous people, Off the beaten path, Families, Skiers (we do not organize skiing for them), Hikers (mainly self-guide, trails are very well marked)",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "May-August",
+          "description": "70s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April, September-October",
+          "description": "60s"
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": "Winter wonderland but gets busy around Christmas"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High",
+          "price_per_week": "$7k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Mid",
+          "price_per_week": "$6k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low",
+          "price_per_week": "$5.5k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Multi-Country Trips",
+      "slug": "multi-country-trips",
+      "night_min": null,
+      "key_facts": "Pass through must have: client's top country, client must understand they need to be flexible with budget, client must understand for best value we suggest 3 days in each location. Recommend 3 days min per location then a half to full day for transfers/travel. Product is more in depth and cultural, it requires time to be in each spot. 3 cities is the most successful way to do 3 countries, then the next easiest would be 3 countries that border one another. 3 countries that don't border each other become significantly harder and may cross department lines.",
+      "urgency": null,
+      "solo_pricing": null,
+      "pax_limit": null,
+      "accommodations": null,
+      "how_to_feature": "Common Europe combos: Italy/Switzerland, Italy/France, Italy/Greece, Greece/Turkey, France/Switzerland. London stopovers and Paris stopovers due to convenience of international airports.",
+      "pair_with": null,
+      "general_notes_1": "Starting prices per person per week: Italy/Switzerland $6,500, Italy/France $8,000, Italy/Greece $8,000, Greece/Turkey $8,500, France/Switzerland $7,500.",
+      "general_notes_2": "3-country combos: London/Paris/Rome $8,500-$10,000 pp/pw. Switzerland/Germany/Austria $7,500-$10,000 pp/pw. Price varies depending on whether they travel by car/train/plane. This is for main cities, not for secondary locations.",
+      "client_types_good": null,
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [],
+      "pricing_tiers": [
+        {
+          "tier_label": "Italy, Switzerland",
+          "price_per_week": "$6,500",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Italy, France",
+          "price_per_week": "$8,000",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Italy, Greece",
+          "price_per_week": "$8,000",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Greece, Turkey",
+          "price_per_week": "$8,500",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "France, Switzerland",
+          "price_per_week": "$7,500",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "London, Paris, Rome",
+          "price_per_week": "$8,500-$10,000",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Switzerland, Germany/Austria",
+          "price_per_week": "$7,500-$10,000",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Orient Express / Trains",
+      "slug": "orient-express-trains",
+      "night_min": null,
+      "key_facts": "At least six months in advance to book. 18 cars, 12 passengers per car, 3 dinner cars, 1 bar cart, 1 steward per car. 108 people total. All inclusive - 3 meals (drinks included besides high end wine and mixed drinks). ALC covered. Services: Transport from hotel to train station, porters take luggage, every car has a steward. Women have to wear dresses, men sport coats (can't be overdressed, could be underdressed). Routes: 24 hours Venice to Paris (1 night, stops twice to change engines), 5 days Paris to Istanbul (twice a year, stops in Bucharest and Budapest), French Alps winter ski trip. From Paris you can go to Florence, Rome, Venice, Istanbul, Prague, Vienna, Geneva. Other train journeys in ESE: Switzerland panoramic trains (none overnight), Denmark/Norway/Sweden trains, Maggiore Express in Italy.",
+      "urgency": "At least six months in advance to book",
+      "solo_pricing": null,
+      "pax_limit": null,
+      "accommodations": "Two Twins: $3.5k pp per night USD - couch to bunk beds, wash basin, morning breakfast in cabin, 8 people share a bathroom (cleaned constantly). Suites: $8.5k pp per night USD - 8 suites, double or twin beds, private marble en-suite bathroom and mosaic floor, complimentary amenities, kimono and slippers shipped to you. Grand Suite: $10k pp per night USD - 24 hour butler, free flowing champagne, private in cabin dining, spacious marble, plus lounging.",
+      "how_to_feature": "Pairs with European city destinations",
+      "pair_with": "Venice, Paris, Istanbul, Prague, Vienna, Geneva, Florence, Rome",
+      "general_notes_1": "Wealthy, luxury and relaxing, social setting.",
+      "general_notes_2": null,
+      "client_types_good": "Wealthy luxury travelers, Relaxation seekers, Social travelers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [],
+      "pricing_tiers": [
+        {
+          "tier_label": "Two Twins",
+          "price_per_week": null,
+          "price_per_day": "$3.5k pp per night"
+        },
+        {
+          "tier_label": "Suite",
+          "price_per_week": null,
+          "price_per_day": "$8.5k pp per night"
+        },
+        {
+          "tier_label": "Grand Suite",
+          "price_per_week": null,
+          "price_per_day": "$10k pp per night"
+        }
+      ],
+      "status": "active"
+    }
+  ]
+}

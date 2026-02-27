@@ -1,0 +1,702 @@
+{
+  "region": {
+    "name": "Africa",
+    "slug": "africa",
+    "description": "African destinations"
+  },
+  "destinations": [
+    {
+      "name": "Botswana",
+      "slug": "botswana",
+      "night_min": 5,
+      "key_facts": "Not necessarily an entry level safari like South Africa or Tanzania. The WOW factor of Africa - very remote so wildlife populations are dense, a vast array of landscapes compared to Eastern Africa (mostly savannah) and South Africa. Considered ultimate safari destination in southern Africa. Wet, dry hybrid safaris. Big 5 - lion, leopard, buffalo, elephants, rhino (basically only in Kalahari). Plus giraffes, zebras, and fantastic birdlife. No self-drive. We don't offer much product outside of safaris; we wouldn't be able to arrange a trip to Botswana without a safari. Have to be comfortable with traveling by light aircraft, luggage restrictions, etc. Makgadikgadi Pans - white salt flats, really diverse experience compared to the delta; ATVing on salt flats is a unique experience offered. Maun - a town in northern Botswana, local art/history/cultural exhibits (do nothing here except route clients through, aircrafts to the delta take off here). Lots to do - night game drives, mokoro (dugout canoe, very tranquil) bush walks, regular safari, boating safari. Linyanti Region - north of the delta, great predator sightings, bigger rivers for fishing and boating, on the border of Namibia. Okavango Delta - lush animal habitat, floods seasonally, great for hippos/elephants/crocs. Well known for its water adapted animals (swimming lions/elephants). Water activities in the delta are seasonal and camp specific. Central Kalahari - large grasslands in central Botswana, cultural experience opportunities with Kalahari sand bushman, great off season (their peak season) Jan-Mar. Chobe National Park - northern Botswana, infamous large herds of elephants and cape buffalos (cheaper destination than other locations). Can get in/out of Chobe by car, everywhere else requires light aircraft. Can be a day trip or 2-night add on from Victoria Falls or South Africa for more safari.",
+      "urgency": "Safari lodges book up/unique properties with limited number of rooms.",
+      "solo_pricing": "Increases about 15-20%",
+      "pax_limit": null,
+      "accommodations": "Mobile camping available - good budget option, typically small groups of no more than 7. Top end luxury - small all-inclusive lodges in private concessions that you fly between on light aircraft. Basically impossible to book independently due to contracting, so great 'Audley value'.",
+      "how_to_feature": "Stand alone or pair with beach (Mozambique/Mauritius) or Victoria Falls.",
+      "pair_with": "Mozambique, Mauritius, Victoria Falls",
+      "general_notes_1": "We get good flight rates.",
+      "general_notes_2": "Good safari year-round. Victoria Falls dries up in Oct/Nov.",
+      "client_types_good": "Wildlife, Safari, Outdoor activities",
+      "client_types_okay": "1st time safari (usually recommend South Africa or Tanzania)",
+      "client_types_bad": "Young children, Not particularly family friendly - long game drives often don't allow children under 6 on the safari and not tailored for kids",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "June-Oct",
+          "description": "Oct is hottest month"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "May/June & Nov",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "Dec-April",
+          "description": ""
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$8.5k",
+          "price_per_day": "$1.2k"
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$7k",
+          "price_per_day": "$1k"
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$5k-$6k",
+          "price_per_day": "$700-$800"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Kenya",
+      "slug": "kenya",
+      "night_min": 7,
+      "key_facts": "Big cats and safari, hot air balloons, great migration (July-Oct) in Masai Mara, (Dec-June) in Tanzania. Nairobi - Giraffe center, elephant orphanage, Masai Market, largest city in eastern Africa. Giraffe Manor books out months to years in advance ($2.5k pp per night starting). Masai Mara - touches Tanzania's Serengeti, great for great migration (July-Oct), VERY busy at this time. Has lots of value based camp options. Cultural opportunities with Masai tribe meetings. If client wants safari but doesn't want to move around they can just stay put in Masai Mara. Diani Beach - beautiful beach on the east coast of Kenya, white sand beach. Lake Nakuru: infamous pink flamingos. Client deciding between Kenya and Tanzania - Kenya is less ideal for driving, lots of flying due to 3 main iconic regions being on different sides of the country, makes it slightly less cost effective than Tanzania. Kenya has more private conservancies and excursions/flexible options (less properties, limit to number of cars so less crowded/more exclusive experience, can off-road and get closer to wildlife, fly camping and walking safaris). Tanzania has more national parks. Flights tend to be better value for clients to book direct international flights. Great migration is here June-Sept, rest of year is in Tanzania.",
+      "urgency": "Summer is VERY limited - needs to be okay with what's left or plan for 2026; no groups bigger than 4 for summer. Safari lodges book up/unique properties with limited number of rooms.",
+      "solo_pricing": "Lots of camps waive single supplement fees for non-peak season solo travelers. $10k-$11k.",
+      "pax_limit": "No limit but groups of 10+ are incredibly hard to organize in less than a year to year and a half due to lodge availability.",
+      "accommodations": "Range anywhere from basic to deluxe properties. We offer reserves, camps, and hotel resorts in the bush or on the beach. LOW SEASON doesn't really exist - 90% of accommodations close during April-May.",
+      "how_to_feature": "Can pair with Seychelles, Zanzibar, or Rwanda/Uganda.",
+      "pair_with": "Seychelles, Zanzibar, Rwanda, Uganda",
+      "general_notes_1": "Great migration is here June-Sept; rest of year is in Tanzania. Prices change based on national parks vs. private concessions.",
+      "general_notes_2": "Avoid Nov-Dec & Late March-Early May unless client is ok with rain and taller grasses. Can still see wildlife.",
+      "client_types_good": "Beach, Family, Honeymoons, Outdoor activities, Classic Safari, Wildlife, Solo travelers (best safari due to solo accommodations)",
+      "client_types_okay": "1st time safari (we usually recommend South Africa or Tanzania)",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "June-Oct (dry season), Dec-Jan (holidays)",
+          "description": "Dry season and holiday peak"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "Nov",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "April-May",
+          "description": "LOW SEASON doesn't really exist. 90% of accommodations close during April-May."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$10.5k",
+          "price_per_day": "$1.5k"
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$8.5k",
+          "price_per_day": "$1.2k"
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$8k",
+          "price_per_day": "$1.1k"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Mauritius",
+      "slug": "mauritius",
+      "night_min": 7,
+      "key_facts": "National parks, tropical French/Africa feel, mountains and forests, 'more African vibe than the Seychelles.' Beaches, snorkeling, wild dolphins, surfing, diving, big game fishing, catamarans. Water activities typically booked through hotel. Colonial history, food tours, museums/historical tours. Culture is very unique/known for hospitality. Usually private transfers. More adventurous in comparison to the Seychelles. Can spend 2 weeks here, there is a lot to do - not just a fly and flop. Flights route back through Joburg; however there are international flights out through Air France or Emirates. Try Mauritius if they are looking for an island with plenty to do. Good selection of restaurants/shops, has more history (colonial mansions/tours), rum tasting/sugar & tea industries. Client torn between Mauritius and the Seychelles? Try the Seychelles if they are looking for secluded beaches - very little development, small population, better suited for relaxation.",
+      "urgency": "Low",
+      "solo_pricing": "$1.5k for 2-4 night extension",
+      "pax_limit": null,
+      "accommodations": "Great selection of 3-5 star. Some adult only options. Range from boutique with 20-25 rooms to large resorts with 200+ rooms. Kid friendly properties. Villa style.",
+      "how_to_feature": "Can spend 2 weeks here, there is a lot to do - not just a fly and flop. More adventurous in comparison to the Seychelles.",
+      "pair_with": "Safari destinations (really cost effective beach add on for safari)",
+      "general_notes_1": "Great year-round besides Jan/Feb.",
+      "general_notes_2": "Really cost effective beach add on for safari.",
+      "client_types_good": "Families, Hikers, Photographers, Honeymooners, Adventure",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Dec (higher rates for holiday), May-Sept",
+          "description": "Higher rates for holidays"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "Mar/April & Oct/Nov",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "Jan/Feb",
+          "description": "Rainy/cyclones"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$5k",
+          "price_per_day": "$700"
+        },
+        {
+          "tier_label": "Mid",
+          "price_per_week": "$2.4k-$3k",
+          "price_per_day": "$400-$500"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Namibia",
+      "slug": "namibia",
+      "night_min": 6,
+      "key_facts": "Skeleton Coast: Where desert meets ocean, shipwrecks, fly safaris (very expensive). Clients can also drive Skeleton Coast if they don't want fly safaris. Etosha: National park and private game reserves. Private reserves are more guided, national park is a lot of self-drive. Open grasslands, phenomenal game viewing of elephants, cats, birds, watering holes (water hole centric for safaris). Desert adapted animals (only place you find this). Offer self-drive: best for adventurous/experienced travelers (60% gravel roads). Can offer small group tours with a guide - this can help bring down costs especially for solo. Flights usually better value for clients to book themselves. Typically recommend Lufthansa for only direct to Europe options, otherwise connect through Joburg. Dec holidays have peak season rates. Can still travel during rainy season. 10 nights recommended.",
+      "urgency": "",
+      "solo_pricing": "Self-drive: $8k, Guided: $10k, Flying: $13k",
+      "pax_limit": null,
+      "accommodations": "Mix of mid-range and high end. Not too much of a price jump between mid and high range. We do offer some seriously opulent options (if client has a high budget let them know we have some really unique properties).",
+      "how_to_feature": "Pairs well with Mozambique or Mauritius for beach. Is also easily paired with Victoria Falls, Cape Town, or Chobe National Park safari.",
+      "pair_with": "Mozambique, Mauritius, Victoria Falls, Cape Town, Chobe National Park",
+      "general_notes_1": "Can still travel during rainy season.",
+      "general_notes_2": "Dec holidays have peak season rates.",
+      "client_types_good": "Have been to Africa before, Independent, More about a well-rounded landscape and adventure experience",
+      "client_types_okay": "Children (okay but long car rides), Game viewing can be amazing but less consistent experience than other options, Have to be okay with being independent - not endless experiences offered - part of the experience is just taking in the landscape and not being on the go all the time",
+      "client_types_bad": "Clients whose main priority is safari",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "June-Oct",
+          "description": "70s-80s dry"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "May/Nov",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "Dec-April",
+          "description": "90s-100s and rainy"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Self-drive 5* (10 days)",
+          "price_per_week": "$9k-$14k",
+          "price_per_day": "$900-$1.4k"
+        },
+        {
+          "tier_label": "Guided (10 days)",
+          "price_per_week": "$12k-$13k",
+          "price_per_day": "$1.2k-$1.3k"
+        },
+        {
+          "tier_label": "Self-drive 3* (10 days)",
+          "price_per_week": "$6k-$8k",
+          "price_per_day": "$600-$800"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Madagascar",
+      "slug": "madagascar",
+      "night_min": 7,
+      "key_facts": "Known for fantastic wildlife - lemurs, birds, reptiles. NO SAFARI. Trekking/hiking. Beautiful beaches. Whales (June-Sept). Rainforest. Wouldn't be spending much time in the cities. Avenue of Baobabs. Jungle/national parks are in the south and beaches are in the north. Will typically spend 2-3 nights in each location. Dependent on client but try to stick with trips that focus on either North OR South; can do both if they have enough time (ideally more than 2 weeks). 3rd world country, poor/non-existent infrastructure outside of cities. 10 nights recommended. Qualifying questions: Where have you traveled before? (need to have been to a place with poor infrastructure). Are you physically active? (need to be somewhat active/physically fit, can get around if someone has slight mobility issues). Just want beach? (no). Just want safari? (no). Are you okay with 5-6 hour long drives? May is the best time to visit.",
+      "urgency": "",
+      "solo_pricing": "$7k-$12k",
+      "pax_limit": "Any number is ok",
+      "accommodations": "No 5-star accommodations. Low to medium accommodation is standard. Basic lodging and limited due to most of the time spent in national parks. Recommend booking trip 12 months out.",
+      "how_to_feature": "Standalone, one week in jungle/national parks, one week on beach.",
+      "pair_with": "",
+      "general_notes_1": "Can be done as an add on. No less than 5 days for $4000pp.",
+      "general_notes_2": "Low season: CYCLONES - do NOT send clients (Jan-March).",
+      "client_types_good": "Well-traveled, Flexible with schedule changes/cancellations, Solo travelers (must be experienced)",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "July-Oct",
+          "description": "May is best time"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "April-June & Nov-Dec",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "Jan-March",
+          "description": "CYCLONES - do NOT send clients"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$10k",
+          "price_per_day": "$1.5k"
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$700pp/day equivalent",
+          "price_per_day": "$700"
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$5k",
+          "price_per_day": "$700"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Malawi",
+      "slug": "malawi",
+      "night_min": 9,
+      "key_facts": "NOT EVEN ON U.S. WEBSITE, HARDLY EVER SELL. Beaches, birds, diving/snorkeling, tropical fish, tea plantations. Big lake - Lake Malawi - that has overwater bungalows. Huge lake, size of Ontario. Capital: Lilongwe. Offers beach, honeymoon, outdoor activities, safari, wildlife.",
+      "urgency": "",
+      "solo_pricing": "",
+      "pax_limit": null,
+      "accommodations": "",
+      "how_to_feature": "Usually paired with another country as we don't do safari there, more like a beach destination. Pairs well with Zambia and South Africa with proper expectation setting on overnights.",
+      "pair_with": "Zambia, South Africa",
+      "general_notes_1": "Can still travel during rainy season.",
+      "general_notes_2": "",
+      "client_types_good": "",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "May-Oct",
+          "description": "70s-80s dry"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "Nov-April",
+          "description": "80s-90s rainy"
+        },
+        {
+          "level": "low",
+          "date_range": "Dec-March",
+          "description": "Hot and rainy, some lodges close down"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$4k-$5k",
+          "price_per_day": "$450-$550"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "South Africa",
+      "slug": "south-africa",
+      "night_min": 5,
+      "key_facts": "Wildlife: Ideal destination for seeing the Big 5 on safari in Kruger area. Can add whale watching from Cape Town or the Garden Route from June to November. Safari in South Africa is more than just Kruger - if a client has already been there, we can discuss other safari regions such as KwaZulu Natal, the Eastern Cape, and Kalahari. Cape Town: Big vibrant city with a variety of touring ranging from active, to food, to culture to hiking. Highlights include Table Mountain, Lions Head hike, Cape Peninsula to see penguins, Eat Like A Local food tours. No shark cave diving. Winelands: Stellenbosch is the main destination. Can arrange private tours and tastings or the Wine Tram - a hop on hop off experience. We also work with a specialist wine guide who can take clients off the beaten path and every tour ends with a private braai (barbecue) out in the countryside. Johannesburg: Apartheid museum, Sterkfontein Caves, Soweto - typically only used as a stopover between flights, minimal touring. Kruger National Park & surrounding reserves: Big 5 safari. AGE RESTRICTION FOR SAFARI: 6+ years old on most safaris. Honeyguide Khoka Moya (budget friendly) does not have an age restriction. Beaches: only a few properties we work with offer the kind of tropical environment clients are probably picturing. If they are set on that they will need to fly to add on Mozambique (closest option) or one of the Indian Ocean islands (Seychelles or Mauritius). Can offer self-drive (Garden Route or Kruger area). No need for light aircraft to reach most lodges.",
+      "urgency": "",
+      "solo_pricing": "WITH SAFARI: $9k-$11k",
+      "pax_limit": null,
+      "accommodations": "Simple to opulent. Private game reserves. Guesthouses/lodges. Boutique hotels.",
+      "how_to_feature": "Standalone, many add Victoria Falls on the end (see Zambia for updates of Victoria Falls and best time to view), some combine with Okavango Delta (see Botswana).",
+      "pair_with": "Victoria Falls, Botswana (Okavango Delta), Mozambique",
+      "general_notes_1": "Different microclimates throughout the year - year around destination.",
+      "general_notes_2": "Vic Falls add-on: $8k+ for 10 days ($800 per day).",
+      "client_types_good": "1st time to Africa, Honeymooners, Wine lovers, Adventure, Wildlife, Families (lots of lodges have great kids programs 'little rangers' and many malaria free areas)",
+      "client_types_okay": "History buffs (not many historical ties but there are apartheid history sites)",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "Kruger: June-Sept (dry/warm), Cape Town: Nov-Mar (hot/beach weather)",
+          "description": "Different regions peak at different times"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "Kruger: Mar-May & Oct-Dec, Cape Town: April/May & Sept/Oct (sunny/dry/cooling off)",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "Kruger: Dec-Feb (passing showers), Cape Town: Jun/Jul/Aug (chance of rain/windy/cooler), Vic Falls will be hot and humid and still in low water season",
+          "description": ""
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5* (10-days)",
+          "price_per_week": "$10k-$13k",
+          "price_per_day": "$1k-$1.3k"
+        },
+        {
+          "tier_label": "With Safari Shoulder (10-days)",
+          "price_per_week": "$7k-$9k",
+          "price_per_day": "$700-$900"
+        },
+        {
+          "tier_label": "No Safari Low (10-days)",
+          "price_per_week": "$4k-$6k",
+          "price_per_day": "$400-$600"
+        },
+        {
+          "tier_label": "Vic Falls add-on (10-days)",
+          "price_per_week": "$8k+",
+          "price_per_day": "$800+"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Rwanda",
+      "slug": "rwanda",
+      "night_min": 5,
+      "key_facts": "Capital: Kigali. Volcanoes National Park: Mountains once formed by lava, now home to 300 mountain gorillas. Nyungwe Forest: rich center for biodiversity, chimpanzee tracking and tons of other monkeys. Stunning landscape. Offer limited property (very expensive 5-star all-inclusive, 5-6 hour drive from anything else). Chimps are better in Uganda if that's a priority for clients. Gorilla trekking: Cost $1.5k pp per hour, you need a permit to visit gorillas and these get sold out 3 months prior to travel date, min age 15 years old. All groups of 8, only private if you buy all 7 other passes. Rwanda is far more welcome for same-sex couples compared to Uganda. Uganda passed unfriendly legislation. Feels very polished compared to Uganda.",
+      "urgency": "Gorilla trekking sells out 3 months prior to travel date.",
+      "solo_pricing": "Gorilla Trek: $5k-$6k",
+      "pax_limit": null,
+      "accommodations": "Basic to opulent. Some of the most luxurious lodges in Africa. Feels very polished compared to Uganda.",
+      "how_to_feature": "Rarely standalone. Most people spend 1 week safari, 3-4 nights in Rwanda. 3-night Rwanda trips (1 night Kigali + 2 nights volcanoes) are common.",
+      "pair_with": "Kenya, Tanzania, Uganda",
+      "general_notes_1": "Gorillas are in a rainforest so best not to get hung up on seasonality.",
+      "general_notes_2": "Advocates for conservation (willing to spend money towards conservation).",
+      "client_types_good": "Wildlife, Trekking, Advocates for conservation",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "June-Sept",
+          "description": "Great for gorilla treks"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "Dec-Feb",
+          "description": "Best for gorilla treks"
+        },
+        {
+          "level": "low",
+          "date_range": "March-May",
+          "description": ""
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5*",
+          "price_per_week": "$21k",
+          "price_per_day": "$3k"
+        },
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$4.5k-$6.5k",
+          "price_per_day": "$650-$950"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Tanzania",
+      "slug": "tanzania",
+      "night_min": 5,
+      "key_facts": "Capital: Dodoma. Mount Kilimanjaro: 5-9 day hike, can do group or private trek. Group: $3.5k-$4.5k pp pw. Private: $4.5k-$5k pp pw. South is generally a 'cheaper' experience and less touristy, more unique experiences/off the beaten path (Ruaha & Nyerere Parks). North is more expensive and can be more crowded/Serengeti. Serengeti: vast plains, yellow grass, lions, infamous park. As you move further north towards Kenya, it becomes more hilly with mountains in the distance. Ruaha & Nyerere Parks: Great options in Southern Tanzania if client wants to avoid crowds. Serengeti and crater will always be crowded. Great Migration: occurs year round, however the trick is being in the right place at the right time. Peak: in Northern Serengeti to potentially see a Mara river crossing is mid-July to mid-Sept/early Oct. Can visit local Masai village or local markets, that's about the extent of non-safari experience. Zanzibar: white sands, turquoise waters, coral reefs, sailing. 8-10 nights recommended.",
+      "urgency": "Summer is VERY limited - needs to be okay with what's left or plan for 2026; no groups bigger than 4 for summer.",
+      "solo_pricing": "Just quote $6k-$10k but it may be higher due to not splitting costs ($850-$1.4k per day).",
+      "pax_limit": "No limit but groups of 10+ are incredibly hard to organize in less than a year to year and a half due to lodge availability.",
+      "accommodations": "Safari: mostly tented. Beaches: little cottages to 5-star hotels. Mobile camps: usually more rustic.",
+      "how_to_feature": "Standalone or pair with Zanzibar for beach.",
+      "pair_with": "Zanzibar",
+      "general_notes_1": "A lot of camps close during low season, thicker vegetation/animals harder to spot. Need to book 8-12 months in advance if working with a strict budget.",
+      "general_notes_2": "Low season great for those who just want wildlife and not obsessed with great migration.",
+      "client_types_good": "Wildlife, Adventure, Better value (less $ than Kenya for trips of 4+ people due to use of car transfer instead of flights)",
+      "client_types_okay": "Families (some camps have age limits 8 year olds+)",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "July-Oct (best for animal spotting), Dec-Jan (holidays)",
+          "description": "Dry season"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "June & Nov-March",
+          "description": "Warm/not as busy"
+        },
+        {
+          "level": "low",
+          "date_range": "March-May",
+          "description": "Heavy rain. LOW SEASON doesn't really exist. 90% of accommodations close during April-May."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5* High Season",
+          "price_per_week": "$20k",
+          "price_per_day": "$2.8k"
+        },
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$10k",
+          "price_per_day": "$1.4k"
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$8k",
+          "price_per_day": "$1.1k"
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$6k",
+          "price_per_day": "$850"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Zanzibar",
+      "slug": "zanzibar",
+      "night_min": 3,
+      "key_facts": "Capital: Stone Town. Spice Market, beaches (an island off the eastern coast of Africa). Great addition to Tanzania safari for a cultural aspect. Visit Stone Town, a cool night food market, Jozani forest to see monkeys, boat rides. It's an archipelago country, not just one island. There are a few small islands off the coast (Pemba and Mafia, and some even smaller private islands), offering really unique experiences/properties as each island usually only has two or three accommodations. Great to bring up for someone who wants off the beaten path as '99% of people go to Zanzibar.' Nov-Feb whale shark migration season great for divers. Great beach stop. Becoming very commercialized. Will send clients to Pemba.",
+      "urgency": "",
+      "solo_pricing": "",
+      "pax_limit": null,
+      "accommodations": "Many beach hotels to choose from. Boutique to resorts. Just Stone Town will be cheaper rather than beach.",
+      "how_to_feature": "Standalone or add-on beach destination for East Africa. 3-5 night add on.",
+      "pair_with": "Tanzania",
+      "general_notes_1": "",
+      "general_notes_2": "",
+      "client_types_good": "Honeymooners, Looking for beach time on end of safari",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "July-Sept",
+          "description": "70s-80s, best for wildlife"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "March (short rains 90s)",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "Apr-May",
+          "description": "Heavy rains, 80s-90s"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard (in addition to safari)",
+          "price_per_week": "$2.5k-$5.5k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Seychelles",
+      "slug": "seychelles",
+      "night_min": 5,
+      "key_facts": "116 islands (great option for standalone). Mix of adventure and leisure. Hiking, boating, history, fishing, tortoises everywhere. Surfing not too big. White sand beaches and turquoise waters. Lots of famous beaches. Capital: Victoria. Luxury hotels, marine wildlife, coastal scenery, diving. Mahe Islands: Largest islands, fly into here, white sandy beaches, creole restaurants, walking trails. Praslin: thick emerald vegetation, bright blue beaches, can take a 1 hour ferry from Mahe. La Digue: 30 min ferry from Praslin. UNESCO site with massive boulders and rock formations in the water, coral, recommend a day trip. Bird Island: (very basic) provides a very untouched feel, one hotel on the island and there are only 9 rooms. Denis Island: flat coral island with white sandy beaches, fishing, windsurfing, snorkeling, great value.",
+      "urgency": "",
+      "solo_pricing": "Usually 20% more.",
+      "pax_limit": null,
+      "accommodations": "Basic to opulent. Lots of villas and self-catering chalets but also high end resorts. Resort packages usually include breakfast and dinner. We do NOT offer over water bungalows in the same sense of the Maldives - not on stilts over water, they are hilltop/ocean front villas.",
+      "how_to_feature": "Standalone with island hopping or pair with Kenya/South Africa for safari.",
+      "pair_with": "Kenya, South Africa",
+      "general_notes_1": "Year round destination.",
+      "general_notes_2": "",
+      "client_types_good": "Honeymooners, Families",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "April-May & Sept-Oct",
+          "description": "Winds are lower"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "July-Aug",
+          "description": "Waters can be rough but still okay"
+        },
+        {
+          "level": "low",
+          "date_range": "Jan-March",
+          "description": "Rainy"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5*",
+          "price_per_week": "$6.5k+",
+          "price_per_day": "$900+"
+        },
+        {
+          "tier_label": "4*",
+          "price_per_week": "$5k",
+          "price_per_day": "$700"
+        },
+        {
+          "tier_label": "3*",
+          "price_per_week": "$3k",
+          "price_per_day": "$400"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Uganda",
+      "slug": "uganda",
+      "night_min": 5,
+      "key_facts": "Capital: Kampala. Better chimp viewing than Rwanda. Four different locations for chimps; Kibale has something like 1,000 chimps in the forest. Feels a little 'rougher around the edges' compared to Rwanda but in a good way - really authentic lodges. Standalone routing: can do overland driving with a guide through many different parks leading up to gorillas. Chimps, white water rafting, night safaris, village life, night game drives. Bwindi Forest: the edge of the Albertine Rift Valley - gorillas, chimps, red tailed monkeys. Gorilla trekking: Need a permit and need to be at least 15 years old. Permits $700 pp for 1 hour. $1500 for 4 hours pp. Great value if clients want two treks - can get two for $1.4k whereas Rwanda is one for $1.5k. Need to be comfortable with the fact that Uganda is a level 3 in terms of safety/security. Rwanda is better option for anxious travelers, otherwise looks okay. Yellow Fever vax required. Enough to do for 7-10 days.",
+      "urgency": "",
+      "solo_pricing": "$14k",
+      "pax_limit": null,
+      "accommodations": "Medium to deluxe options. Lodges, camps, guesthouses.",
+      "how_to_feature": "Standalone (enough to do for 7-10 days) or to pair with Zanzibar for beach or Kenya for safari (direct flight to the Mara, great pairing).",
+      "pair_with": "Zanzibar, Kenya",
+      "general_notes_1": "Depending on gorilla parks - offer very cheap and very expensive options.",
+      "general_notes_2": "Gorillas live in the rainforest, best not to get hung up on seasonality.",
+      "client_types_good": "Trekking, Wildlife, Families",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "July-Sept & Dec-Feb",
+          "description": "Best for trekking"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "Mar-June",
+          "description": "Warm/rain"
+        },
+        {
+          "level": "low",
+          "date_range": "Oct-Nov",
+          "description": "Heavy rain"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$5k-$8k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Zambia",
+      "slug": "zambia",
+      "night_min": 6,
+      "key_facts": "Capital: Lusaka. 'Home of the walking safari.' Really authentic safari experience. South Luangwa Park: ideal park, claim walking safaris were basically born here, great wildlife population density. Popular experience is walking from one lodge to the next. Lower Zambezi Park: most expensive park, all lodges are right on the Zambezi River, great boating, canoeing, fishing. Victoria Falls: iconic sight, have some great lodges on the Zambia side (can get really high end). Enough to do for a few nights there, good food scene. Parks are all unfenced and really open, density of animals is great. Big for birding. Can offer cultural experiences visiting local villages and schools - a lot of workers at the lodges are from the local communities. During peak falls March/April the falls are so strong you wouldn't get to really see them, you'll just get the mist from them. Activities like white water rafting, seeing Devils/Angels pools start up around July and happen until November. Livingstone: Lufupa River Cruise. Flights: tends to be better value for clients to book direct, don't have contracted rates. Usually fly from Joburg to Lusaka, or through Middle East to Lusaka. 3-night minimum if add-on.",
+      "urgency": "",
+      "solo_pricing": "Will book specific lodges that have better rates for solo travelers, so not a crazy increase. $10k-$18k.",
+      "pax_limit": "Any number is ok",
+      "accommodations": "Small camps with transfers by light aircraft. Some super luxury, some super basic tented. Wide variety. Some lodges have 'sleep outs' where you can sleep outside on a treehouse type elevated platform with bug netting - really cool experience.",
+      "how_to_feature": "Combines well with Mozambique or Malawi for beaches. Also South Africa and Botswana.",
+      "pair_with": "Mozambique, Malawi, South Africa, Botswana",
+      "general_notes_1": "Pricing is so high since things are so seasonal - basically have to make all their money in 6 months.",
+      "general_notes_2": "Victoria Falls: during peak falls March/April you can't really see them, just mist. Activities like white water rafting and Devils/Angels pools start around July through November.",
+      "client_types_good": "Families, Second time safari clients",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "June-Sept",
+          "description": ""
+        },
+        {
+          "level": "shoulder",
+          "date_range": "Oct (very hot) & Apr/May (when most camps open for the season, a bit of a green season)",
+          "description": ""
+        },
+        {
+          "level": "low",
+          "date_range": "Dec-Mar",
+          "description": "Basically can't travel at this time due to flooding in parks"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High Season",
+          "price_per_week": "$11k-$15k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Shoulder",
+          "price_per_week": "$9k-$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low Season",
+          "price_per_week": "$8k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Zimbabwe",
+      "slug": "zimbabwe",
+      "night_min": null,
+      "key_facts": "Capital: Harare. Safari, untouched wilderness, Eastern Highlands, off the beaten path. Victoria Falls: iconic sight. Hwange National Park: Big 5 safaris. There are private concessions within the national park, so it can be a more exclusive alternative to Chobe in Botswana. These are the two most accessible parks coming from Vic Falls. Lake Kariba can be hot - typically ranges high 80s to 100+.",
+      "urgency": "",
+      "solo_pricing": "",
+      "pax_limit": null,
+      "accommodations": "Excellent value for unbridled luxury. Hotels, lodges, and camps.",
+      "how_to_feature": "Stand alone or add Hwange to Victoria Falls.",
+      "pair_with": "Victoria Falls",
+      "general_notes_1": "",
+      "general_notes_2": "",
+      "client_types_good": "",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        {
+          "level": "peak",
+          "date_range": "July-Sept",
+          "description": "70s-80s"
+        },
+        {
+          "level": "shoulder",
+          "date_range": "May-June & Oct",
+          "description": "80s"
+        },
+        {
+          "level": "low",
+          "date_range": "April-May",
+          "description": "Short rains, 70s-80s, great for birds"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard (excluding Vic Falls)",
+          "price_per_week": "$7k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "With Vic Falls",
+          "price_per_week": "$8k-$9k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    }
+  ]
+}

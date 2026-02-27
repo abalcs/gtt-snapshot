@@ -1,0 +1,291 @@
+{
+  "region": {
+    "name": "Middle East",
+    "slug": "middle-east",
+    "description": "Middle Eastern destinations"
+  },
+  "destinations": [
+    {
+      "name": "Israel",
+      "slug": "israel",
+      "night_min": 6,
+      "key_facts": "AVOID RAMADAN (done off lunar calendar, generally spring but not always). How to feature: Stand alone or pair with Jordan or Egypt to make it cheaper (no direct flights from Israel to Egypt). Capital: Jerusalem. Jerusalem: Old city with key religious sites - Dome of the Rock, Western Wall, Church of the Holy Sepulcher, Mount of Olives. Bethlehem: Birthplace of Jesus. Tel Aviv: Historic Jaffa (old port) flea markets, cafes. Modern Tel Aviv, beaches, cafes, gay capital of Mediterranean. Negev Desert: Barren rocky desert (no dunes), great for 4x4 jeeps, star gazing, stunning hotel overlooking Makhtesh Ramon crater. Sea of Galilee: Home of Christian pilgrimage sites where Jesus was said to walk on water, fed 5000. Nazareth: Jesus' childhood home, today major city of Christian pilgrimage site. Jericho: Palestinian city in the West Bank - oldest civilization in the world. Golan Heights: We only offer day trips, can visit Tel Dan nature reserve.",
+      "urgency": "Stop sell. Ramadan is Feb 28th-March 30th CAN travel - Different cultural experience.",
+      "solo_pricing": "$21k BARE MIN",
+      "pax_limit": null,
+      "accommodations": "Simple to deluxe. Large chain hotels. Lovely boutique hotels.",
+      "how_to_feature": "Stand alone or pair with Jordan or Egypt to make it cheaper",
+      "pair_with": "Jordan, Egypt",
+      "general_notes_1": "Most expensive country in the Middle East. Be aware of religious holidays.",
+      "general_notes_2": null,
+      "client_types_good": "Religious pilgrims, History buffs, Cultural travelers",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "July-August",
+          "description": "80s-90s, not recommended"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-May, September-October",
+          "description": "70s-80s, we recommend"
+        },
+        {
+          "level": "Low",
+          "date_range": "November-March",
+          "description": "40s. AVOID winter holidays - super crowded."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High",
+          "price_per_week": "$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Mid",
+          "price_per_week": "$9k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low",
+          "price_per_week": "$8k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Jordan",
+      "slug": "jordan",
+      "night_min": 6,
+      "key_facts": "AVOID RAMADAN (done off lunar calendar, generally spring but not always). VERY walking heavy destination. No self-drive available. Capital: Amman (1-2 nights) - only international airport in Jordan. The citadel displays Dead Sea Scrolls. Launch point for Jerash (Roman Ruins) and castles. Crusader sites. Great for one or two nights (3hrs to Petra, 45 mins to Dead Sea, 3.5hrs to Wadi Rum). Cultural excursions: food tours, winery visits, cooking classes. Aqaba: Beach town, main attractions are diving/snorkeling (we can't organize). Hotels are fairly bare bones and resort-style, minimal excursions. 'Lay on beach' for five days location. The Dead Sea: novel to swim here, lowest point on earth below sea level. Petra: lots of history and amazing ruins. A modern wonder of the world, must be done as one full day (minimum two nights), site is 6 square miles. Wadi Rum: Thamudic inscriptions dating back 2 millennia, unusual geological formations. Dana Nature Reserve: Great hiking and cultural experiences.",
+      "urgency": "Ramadan is Feb 28th-March 30th CAN travel - Different cultural experience",
+      "solo_pricing": "$1k per day",
+      "pax_limit": null,
+      "accommodations": "Simple to Deluxe.",
+      "how_to_feature": "Stand alone or pair with Israel or Egypt",
+      "pair_with": "Israel, Egypt",
+      "general_notes_1": null,
+      "general_notes_2": null,
+      "client_types_good": "History/religion buffs, Family friendly",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "March-April, October-November",
+          "description": "70s and 80s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "September-November, February, May",
+          "description": "70s, recommended"
+        },
+        {
+          "level": "Low",
+          "date_range": "July-early September",
+          "description": "100+ but cheaper rates. Winter can get below freezing, sometimes snowing."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$3.5k-$5k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Morocco",
+      "slug": "morocco",
+      "night_min": 6,
+      "key_facts": "AVOID RAMADAN (done off lunar calendar, generally spring but not always). SUPER rich in excursions, recently updated/visited by product. Erg Chebbi: most popular sand dunes in the Sahara (6-8hr drive from Fes). Casablanca: Modern, stopover city, not very Audley. Main attraction is Hassan II Mosque. Steer away except for arrival/departure as international flights are best from CMN. Essaouira: Coastal hippie town known for music and art, tons of history, accessible Morocco due to small size. Chefchaouen: Northern city known as 'blue heaven'. Only incorporate if going north (3hr from Fez, 3hrs from Tangier, recommend one night). Marrakesh ($$$): known for traditional souqs (markets), spice and livestock trading, local nightlife. Fes ($$$): Famous for cuisine, feels very lost in time, lots of crafts/leather. Atlas Mountains: tons of hiking, 'day in the life of a Berber family' type excursions. Everything is spread out - 12 days recommended for a full tour (about the size of California).",
+      "urgency": "Ramadan is Feb 28th-March 30th CAN travel - Different cultural experience",
+      "solo_pricing": "$9k-$10k (for 2 weeks solo, could maybe get it down to $16-17k depending on hotels and time of year)",
+      "pax_limit": null,
+      "accommodations": "Resorts. Riads (traditional, smaller, more boutique-y, courtyard inn with rooms around the edge).",
+      "how_to_feature": "Stand alone or pair with Jerusalem or Egypt",
+      "pair_with": "Jerusalem, Egypt, Spain, Portugal",
+      "general_notes_1": "General rule of thumb: add $1-2k pp if they want to do Sahara. Months before and after Ramadan have limited availability and price point is around $6k-$7k pp pw.",
+      "general_notes_2": null,
+      "client_types_good": "Bucket listers, Foodies, Hikers, Couples, Interest in culture/crafts/architecture",
+      "client_types_okay": null,
+      "client_types_bad": "Difficult for people who have trouble walking and small children",
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "September-November",
+          "description": "60s-70s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "June-August",
+          "description": "80s-100"
+        },
+        {
+          "level": "Low",
+          "date_range": "December-March",
+          "description": "Holidays are an exception"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High",
+          "price_per_week": "$9k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Mid Range",
+          "price_per_week": "$7k-$8k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low",
+          "price_per_week": "$5.5k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Turkey",
+      "slug": "turkey",
+      "night_min": 5,
+      "key_facts": "Great for wine, middle point between Middle East and Europe, food, religious history, Ottoman empire. Capital: Ankara. Istanbul: tons of ancient and modern history, bazaars, mosques, palaces, street food markets, cafe culture. Straddles Asia and Europe, two sides to the city to explore. Cappadocia: famous rock formations, hot air balloons, cooking class, jeep safari, pottery, walking. Ephesus: one of the best preserved classical cities in the Mediterranean, pre-Biblical and Biblical significance, massive tourist site but a must-see for many. Bodrum: party and resort town with a cool historical side towards the bottom of the Turquoise Coast. Huge capacity for luxury. Jeff Bezos vacations here. Gallipoli: WW1 memorial.",
+      "urgency": null,
+      "solo_pricing": null,
+      "pax_limit": null,
+      "accommodations": "Ranges from simple and traditional to luxurious.",
+      "how_to_feature": "Stand alone or paired with other Middle East or Europe countries - Greece is an easy one",
+      "pair_with": "Greece, Israel, Egypt, Jordan",
+      "general_notes_1": null,
+      "general_notes_2": null,
+      "client_types_good": "History/religion buffs, Off the beaten path travelers, Honeymooners, Foodies/vegetarians",
+      "client_types_okay": null,
+      "client_types_bad": "People who have walking limitations",
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "June-August",
+          "description": "70s-90s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "May, September-October",
+          "description": "60s-80s"
+        },
+        {
+          "level": "Low",
+          "date_range": "November-April",
+          "description": "40s-60s. Ski areas are open but many tourist areas close."
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "5-Star",
+          "price_per_week": "$8k-$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": "$7k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Oman",
+      "slug": "oman",
+      "night_min": 6,
+      "key_facts": "Capital: Muscat - surrounded by mountains and desert, city feel. Culture and history, markets, architecture - mosques, forts, etc. 'Old Arabia' vibes. Daymaniyat: Small islands off coast of Muscat - day excursions for turtle hatching, snorkeling and diving, dolphins. Nizwa: ancient forts, cattle markets, village - day trip from Muscat. Wahiba Sands: Desert, camels, beautiful. Sur: turtle hatching. Salalah: Beautiful coastline city, camels. More relaxed than other Middle East countries. Most of the staff are working immigrants on visa (culture isn't as in your face vs Morocco). Cheapest way to do Oman: stay in Muscat as homebase and do day trips around. Self-drive is an option but rarely done. Week of Christmas/New Year's is a NO GO. Overview: city, ancient history, beach, turtle hatching, snorkeling, desert, camels. Oman sits at the point of the Arabian peninsula bordered by UAE, Saudi Arabia, and Yemen. Muscat is only about a 6 hour drive to Dubai and Abu Dhabi. Oman is in a generally safe part of the ME.",
+      "urgency": null,
+      "solo_pricing": null,
+      "pax_limit": null,
+      "accommodations": "Excellent 5 star hotels. Palace and boutique properties. Luxury camping with air conditioner in the Wahiba Sands.",
+      "how_to_feature": "Pair with Dubai and Abu Dhabi (UAE)",
+      "pair_with": "UAE (Dubai, Abu Dhabi)",
+      "general_notes_1": "Best time for turtle hatching is September (July/August too). Shoulder seasons are most ideal time to visit - year round destination.",
+      "general_notes_2": null,
+      "client_types_good": "Snorkelers, People wanting to go to Middle East with culture not being in your face, Great for children (accommodations have kids clubs and activities for kids)",
+      "client_types_okay": null,
+      "client_types_bad": null,
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "November-March",
+          "description": "70s-80s"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "April-June, September-October",
+          "description": "80s-90s"
+        },
+        {
+          "level": "Low",
+          "date_range": "July-August",
+          "description": "80s-100s"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "High",
+          "price_per_week": "$10k",
+          "price_per_day": null
+        },
+        {
+          "tier_label": "Low",
+          "price_per_week": "$6k",
+          "price_per_day": null
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "UAE",
+      "slug": "uae",
+      "night_min": null,
+      "key_facts": "Works well as both a stopover and standalone destination - plenty to do for a week without getting bored. Stopover: min 2 nights max 4 to SEA, India, Africa, ANZ and Middle East. Stand Alone: cover 4 of the 7 Emirates plus desert accommodation, easily enough for a 2 week trip. Pairs well with Oman (easiest pairing) but can pair with anywhere due to well-connected airlines. Dubai: best-known and most glitzy, loads to do but can feel a bit inauthentic. A little like Vegas. Properties in old town, Jumeirah Beach, The Palm. Abu Dhabi: capital of UAE, more cultural and laid back than Dubai. The Louvre here and other museums due to open like the Guggenheim. Really geared towards families and older couples. RAK: up near the Omani border at the Musandam Peninsula. Up and coming emirate. Beach bungalows, outdoor activities like hiking, ziplining. Fujairah: least known emirate we offer. Smaller, more authentic accommodation. Nice for a few nights for something different and relaxed. Desert properties scattered throughout. Popular excursions: Desert safari (4 different ones), Old Dubai with Tasty Breaks exploration, Abu Dhabi city tour, attraction tickets (Burj Khalifa, Museum of the Future, Louvre Abu Dhabi).",
+      "urgency": null,
+      "solo_pricing": "$2k (4 nights)",
+      "pax_limit": null,
+      "accommodations": "Hotels in UAE are excellent, often loads of facilities and very high quality. Many are on the beach or close by, and have multiple restaurants. There are few smaller properties in Fujairah but overall NOT good for clients who like small boutique properties.",
+      "how_to_feature": "Stopover or standalone. Pairs well with Oman, or anywhere due to well-connected airlines.",
+      "pair_with": "Oman, SEA, India, Africa, ANZ, Middle East destinations",
+      "general_notes_1": "Ramadan: compared to other countries in the region, UAE is very liberal and there are few closures during this period.",
+      "general_notes_2": "Christmas/NYE: last-minute bookings are possible due to sheer volume of accommodations in the city, but prices will skyrocket. Best to book at least 6-8 months in advance. Christmas/NYE is popular and expensive.",
+      "client_types_good": "Family friendly, Something for everyone, Good for families, Those who like high end chain hotels, Those who want to visit the ME but have never gone before, Good entry point into the region",
+      "client_types_okay": null,
+      "client_types_bad": "Not good for clients who like small boutique properties",
+      "seasonality": [
+        {
+          "level": "Peak",
+          "date_range": "November-April",
+          "description": "Not too hot"
+        },
+        {
+          "level": "Shoulder",
+          "date_range": "October",
+          "description": ""
+        },
+        {
+          "level": "Low",
+          "date_range": "May-September",
+          "description": "Very hot, especially July and August"
+        }
+      ],
+      "pricing_tiers": [
+        {
+          "tier_label": "Audley Standard",
+          "price_per_week": null,
+          "price_per_day": "$700-$1,000 pp per night"
+        }
+      ],
+      "status": "active"
+    }
+  ]
+}

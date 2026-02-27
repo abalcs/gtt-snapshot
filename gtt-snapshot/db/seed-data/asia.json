@@ -1,0 +1,616 @@
+{
+  "region": {
+    "name": "Asia",
+    "slug": "asia",
+    "description": "Asian destinations"
+  },
+  "destinations": [
+    {
+      "name": "Bhutan",
+      "slug": "bhutan",
+      "night_min": 6,
+      "key_facts": "How to feature: usually a standalone, could pair with Nepal or India. Have to fly into Bhutan via neighboring countries, usually bounce into Paro from either Delhi or Kathmandu. Country is very strict on how many people they allow in and imposes a daily tax of $100 clients must pay just to be allowed to stay in-country (govt-mandated, non-negotiable). All visitors are required through their visa to be with a driver and guide from dawn until dusk. Traveling to Bhutan with us is much more expensive than average since our prices are higher for nicer accommodations than the typical hostel stay. Tours are a lot less structured than other destinations, more flexible and self-dictated, lends to a very authentic, outdoorsy experience. Natural landscape is completely untouched, entirely undeveloped. No hunting, no fishing, land is pristine and well cared for. 70% of Bhutan is undeveloped, protected forest. Authentic and untouched social structure as a landlocked Himalayan kingdom with very limited exposure to outside world. Rustic lifestyle, lots of agriculture, heavy Buddhist/spiritual focus.",
+      "urgency": "Standard",
+      "solo_pricing": "$8k-$30k (depending on whether they want us to handle getting into/out of country via India/Nepal)",
+      "pax_limit": "No limit. Usually work with couples or families of 4.",
+      "accommodations": "Range from simple to opulent, spendy across the board. Even the most basic accoms are going to be at least $250/night, luxe accoms could be $2400+/night (Six Senses, Aman).",
+      "how_to_feature": "Usually a standalone, could pair with Nepal or India.",
+      "pair_with": "Nepal, India",
+      "general_notes_1": "Draws: Nature/scenery/hiking/wildlife, art/architecture (dzongs, monasteries), spirituality/religion/Buddhism, culture/history. Thimpu (capital): attractions include Buddha Dordenma statue (famous massive Buddha statue, you can take a hike from up to a dzong from here) and the Memorial Chorten (large monument). Paro: where Tiger's Nest is located, also has a nice little craft village in the center of town, great for souvenirs. Tiger's Nest: famous, breathtaking cliffside monastery, major attraction, you can hike up to it.",
+      "general_notes_2": "Phobjikha Valley/Gangtey: great region for hiking, and people go there to see black-necked cranes. Also offer one of the most visually impressive monasteries in the area. Punakha: very best dzong to visit located here, terraced rice field scenery in the valley, much warmer climate due to lower sea level. Bumthang: off the beaten path location, central/western part of country, rustic, even less commercially developed than other major locations. Dzongs: fortified palaces, traditional places of local government, now sites of cultural celebrations and holidays.",
+      "client_types_good": "Well-traveled, very active, cultural immersion seekers, intrepid/adventurous, usually wealthy, often older travelers",
+      "client_types_okay": "Families (kids can go but trips are super outdoorsy and mostly focused on culture, religion/spirituality, temples so may not be appealing/engaging), Accessibility (GHAs are super supportive, kind, helpful, very flexible and accommodating but there are a lot of limitations due to altitude and rugged terrain; most of the country is at very high altitude which can have an effect on people)",
+      "client_types_bad": "Folks with mobility issues could still go to Bhutan but if a person is wheelchair-bound that could present a real problem",
+      "seasonality": [
+        { "level": "peak", "date_range": "March-May & September-November", "description": "Best times to visit" },
+        { "level": "shoulder", "date_range": "December-February", "description": "Cold season" },
+        { "level": "low", "date_range": "June-August", "description": "Monsoons. We don't advise travel; way riskier weather-wise and not worth the investment." }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "5*", "price_per_week": "$12k-$20k", "price_per_day": null },
+        { "tier_label": "4*", "price_per_week": "$7k-$8k", "price_per_day": null },
+        { "tier_label": "3*", "price_per_week": "$6k-$7k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Cambodia",
+      "slug": "cambodia",
+      "night_min": 9,
+      "key_facts": "5-7 nights is fine if client is already over there (lots of people do 3-night Siem Reap add-ons to other destinations). Cruises offered. If not super into temples, Buddhist culture, or history, then recommend Cambodia as a 3-day add-on to another SE Asia country. We do Temple Safaris (camping), super expensive. Dress code: modest dress covering shoulders at temples, modest skirts right above knees at temples, shoes taken off required in certain places. Lots of walking involved and lots of activities before sunrise or in the evening to avoid crowds.",
+      "urgency": "Standard",
+      "solo_pricing": "$4.5k+ per week; Cruises Solo: $10k-$12k",
+      "pax_limit": "Not specified",
+      "accommodations": "3-5 star. Trendy luxury hotels to more classic luxury. Also have Aman. We do Temple Safaris (camping), super expensive.",
+      "how_to_feature": "Can be combined with Laos, Vietnam, or Thailand. If not super into temples, Buddhist culture, or history, recommend Cambodia as a 3-day add-on to another SE Asia country.",
+      "pair_with": "Laos, Vietnam, Thailand",
+      "general_notes_1": "Capital: Phnom Penh - can do a Mekong Cruise from here. Buddhist history, temples, Khmer Rouge history including Killing Fields and former prison, Raffles Hotel was filming location for The Killing Fields film. Temples: Angkor Wat, Ta Phrom, and the Bayon are the 'Big Three' but there are dozens. Kep: Cambodia's first seaside resort, old-time atmosphere, nearby island for good day trips, can do day trip to Kampot. Kampot: Pepper plantations and seafood, backwaters, kayaking.",
+      "general_notes_2": "Angkor Wat: Largest and most iconic of the Angkor temples. Siem Reap: gateway to Angkor Temples, restaurants and local markets, birdwatching, (for those more active: horse riding, biking, ATV bikes, ziplining), Tonle Sap Lake. Koh Kong: Natural landscapes - beaches and deserted islands. Don't really recommend Sihanoukville (gateway to get to the Koh Kong). For those looking for outstanding luxury and one of the best tented experiences in the region consider Shinta Mani Wild (starting at 1k pp/day) - zipline into the resort.",
+      "client_types_good": "History buffs, off the beaten path lovers, have been to SE Asia before, temple lovers, bucket listers",
+      "client_types_okay": "",
+      "client_types_bad": "High humid temps - if someone is sensitive to heat don't send here",
+      "seasonality": [
+        { "level": "peak", "date_range": "November-March", "description": "Best season to visit" },
+        { "level": "shoulder", "date_range": "April (very hot) - May & October", "description": "Hot transitional months" },
+        { "level": "low", "date_range": "June-September", "description": "Rainy season" }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "Audley Standard", "price_per_week": "$2.5k-$3k", "price_per_day": null },
+        { "tier_label": "Cruises", "price_per_week": "$4k+", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "China",
+      "slug": "china",
+      "night_min": 7,
+      "key_facts": "9 nights recommended. Needs 45 days lead time. We can NEVER book the first week of October which is Golden Week/People's Independence Day. Very comparable to India in terms of in-country experience. It is very difficult to do on your own due to language barriers - we do not offer self-drive. You will be with a guide the entire trip (besides when on planes traveling from city to city). Popular routing: Beijing, Xian, Shanghai. Very little English spoken (high-end hotels speak English but can be spotty around the rest of the country). Transportation: train travel/internal flight heavy. Visas can be expensive and more complicated compared to other Asia destinations.",
+      "urgency": "Standard. Stop Sell till August 15th (as of April 2025).",
+      "solo_pricing": "$1k/day (+/- $200 depending on level of luxury)",
+      "pax_limit": "N/A",
+      "accommodations": "Boutique properties in main cities. Business type hotels in other parts. 3-5 star range.",
+      "how_to_feature": "Standalone, can do stopovers with Hong Kong or Taiwan (only an add-on, not standalone). We can add on Taiwan if they would like (not selling on its own).",
+      "pair_with": "Hong Kong (stopover), Taiwan (add-on only)",
+      "general_notes_1": "Capital: Beijing (tends to be cooler in peak season) - cultural capital, temples, Great Wall of China, The Temple of Heaven, Forbidden City. Great Wall has many different sections with different levels of hiking difficulty, crowds, activities, restaurants/shops (some are more accessible and/or family friendly). Clients can stay along the Great Wall (about 4 accommodation options). Hong Kong: Financial and cultural hotspot, British influence (very different from China). Shanghai: very cosmopolitan, modern. Guilin: similar to Halong Bay in Vietnam, rice paddies in Longji, scenic/vistas.",
+      "general_notes_2": "Lijiang: historic areas, great tea. Xian: Terracotta warriors (thousands of life-sized statues buried with the first emperor), start of the Silk Road, lots of history, one of the oldest cities, first capital. Chengdu: to see giant pandas (panda research center). We now offer Yangtze Cruising. Tipping for guides is encouraged and not included in package. Very safe regarding physical safety, pickpocketing not allowed; but politically motivated government - recommend not sending electronic communication or speaking out against Chinese government. If you book with us and then apply for a visa and get denied you may not get Audley deposits back.",
+      "client_types_good": "Families, couples, cultural immersion, history buffs, food tours",
+      "client_types_okay": "",
+      "client_types_bad": "People with wheelchairs (old architecture is not great for this and many hotels do not have elevators)",
+      "seasonality": [
+        { "level": "peak", "date_range": "March - early June & September", "description": "80s-90s temperatures, best time to visit" },
+        { "level": "shoulder", "date_range": "September - November", "description": "Recommended by Audley" },
+        { "level": "low", "date_range": "December-February", "description": "Cold but no crowds" },
+        { "level": "low", "date_range": "July-August", "description": "100+ degrees, DO NOT recommend. Domestic peak season as well, extremely busy. NO TRAVEL first week of OCTOBER." }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "Audley Standard", "price_per_week": "$6k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "India",
+      "slug": "india",
+      "night_min": 7,
+      "key_facts": "Included in booking calendar trial. Please do not send anyone that far for anything less than 7 nights - not worth it for us/them. Pairs with: Standalone, Nepal, Bhutan, Sri Lanka/Maldives if they want beach. English is widely spoken (drivers may not speak it as much). It's difficult to do trips to visit family; our product doesn't really compare to what they would experience if staying with family or booking on their own. Private guides will be different in each city. Can use trains but we usually don't recommend as you get off and you are in a group tour, also expensive. It can/will be busier and more expensive than expected.",
+      "urgency": "Standard",
+      "solo_pricing": "$4.2k per week",
+      "pax_limit": "Less than 8 is ideal. Properties are quite small and it becomes difficult for groups larger than 8.",
+      "accommodations": "Homestays, palaces, guest houses, B&Bs, camps, boutique hotels to large international styles. We steer away from international style hotels because of the amount of unique historical places you can stay. Opulent hotels can be palaces. No 'Basic' hotels. Our accommodations in India are some of the highest rated of what we offer at Audley (you will be treated like royalty). Luxury trains (Maharaja Express or Deccan Odyssey) will be minimum 10k pp, likely a bit more.",
+      "how_to_feature": "Standalone, can pair with Nepal, Bhutan, Sri Lanka/Maldives for beach.",
+      "pair_with": "Nepal, Bhutan, Sri Lanka, Maldives",
+      "general_notes_1": "Northern India: history focused, forts, palaces, grand hotels, Haveli style properties, more hustle and bustle (All India CS sell Northern). Capital: Delhi - we offer really good food tours. Agra: Taj Mahal, Akbar's red fort. Golden Triangle: Delhi, Jaipur and Agra (not a lot of wildlife experiences, add on Ranthambhore). Rajasthan: very popular area, part of the golden triangle (typical routing). Uttarakhand: Foothills area of the Himalayas, Dalai Lama is there. Jaipur: 'pink city,' one point on the Golden Triangle. Central India: top wildlife encounters and jungle lodges. Ranthambhore National Park: great place for tigers, jeep safaris, a lot of cultural experiences but extremely busy. Consider Dudhwa NP as well which has elephants, tigers, and rhino.",
+      "general_notes_2": "Southern India: Greenery, less populated, tranquil backwaters, tea plantations, quite spread out (Only Niall and Anu sell South). We do offer Pelling which is located in the Sikkim region - great for viewing the Himalayas but there isn't much product training. Kerala: Alappuzha (houseboats) and Goa. Gujarat: great for art/craft/textile enthusiasts, stepwells, food, only place in India where you can see lions. North East: Plantation stays, river cruising, Kaziranga NP, multi-day village walks using homestays, Kolkata great for culture. DO NOT DO Kashmir (stopped selling due to safety reasons). We do now sell Ladakh. Can't do Khumbh Mela (too many people, safety concern).",
+      "client_types_good": "History, religion, and culture seekers, culturally immersive, well-traveled clients (typically older), adventurous couples and honeymooners, unique wildlife, food, very easy for vegetarians (India is almost 65% vegetarian)",
+      "client_types_okay": "Can be challenging for mobility issues (rough ground, pot holes - newer properties can provide accommodations for those with mobility issues), young kids",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "December-January", "description": "Cool and foggy" },
+        { "level": "peak", "date_range": "February-March", "description": "Warm days, cold nights" },
+        { "level": "shoulder", "date_range": "April", "description": "Hot and dry, better for wildlife" },
+        { "level": "shoulder", "date_range": "May", "description": "Humid and hot, better for wildlife" },
+        { "level": "shoulder", "date_range": "October-November", "description": "Warm days, cold nights" },
+        { "level": "low", "date_range": "June-August", "description": "Monsoon, flooding in streets. June is the latest we can plan for. July through end of September: no travel." }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "High Season", "price_per_week": "$5k-$7k", "price_per_day": null },
+        { "tier_label": "Audley Standard", "price_per_week": "$4k-$5k", "price_per_day": null },
+        { "tier_label": "Low Season", "price_per_week": "$2.6k", "price_per_day": "$500-$600" }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Indonesia",
+      "slug": "indonesia",
+      "night_min": 7,
+      "key_facts": "14-21 nights recommended. Indonesia is a system of over 15,000 islands so logistics are very tricky. Volcanoes on Java, Bali, and Lombok (can trek up halfway). Beaches: Best beach destination would be Bali (Seminyak, Sanur, Jimbaran) or Lombok. Bali: White sands and big surf, Hindu culture. Ubud: #1 destination - authentic insight into Balinese life. History: Many temples and ancient monuments. Muslim country: best not to broadcast LGBTQ+ relationships. Typically like to avoid solo pax unless they have flexible budget.",
+      "urgency": "Standard",
+      "solo_pricing": "Regular: $5k-$7k pw; Bali: $3.5k-$4k pw. If adding in Komodo dragons/orangutans: add $2k-$3k pp pw to above ranges (solo would be spendy, $10k+ pw easily).",
+      "pax_limit": "Not specified",
+      "accommodations": "Most luxurious accommodation in SEA. Five Aman Resorts, Nihi (#1 resort in the world), Bawah Reserve. Wide range from basic to opulent. We offer over-water bungalows. Sky is the limit for 5 star.",
+      "how_to_feature": "Standalone destination. Bali/Lombok only average is 9-12 nights. Capital: Jakarta (not to visit).",
+      "pair_with": "",
+      "general_notes_1": "Sumatra: National parks, orangutans, jungle. Bali: White sands and big surf, Hindu culture. Ubud: #1 destination, authentic insight into Balinese life. History: Many temples and ancient monuments. Wildlife experience (limestone cliffs and Komodo dragons). Trekking. Beaches vary, can be black sand. Great diving and snorkeling. Komodo dragons/orangutans permit fees vary, ask CS.",
+      "general_notes_2": "If we ever get requests for Raja Ampat then the cruises we offer are from 7 nights and start from $10-12k pp. Bali/Lombok only information: average is 9-12 nights. Capital: Jakarta (not to visit).",
+      "client_types_good": "Honeymooners, wildlife lovers, beach goers, families, active travelers",
+      "client_types_okay": "Can be a challenge for pax with mobility issues as much of the draw of Indonesia is the landscape. Can do drivers for sightseeing, or mostly beach time, but set expectations accordingly.",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "June-September", "description": "Dry season, best time to visit" },
+        { "level": "shoulder", "date_range": "April-May & October", "description": "Transitional months" },
+        { "level": "low", "date_range": "November-March", "description": "Rainy season" }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "Indonesia Standard", "price_per_week": "$3k-$5k", "price_per_day": null },
+        { "tier_label": "Bali & Lombok", "price_per_week": "$2.5k-$2.8k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Japan",
+      "slug": "japan",
+      "night_min": 7,
+      "key_facts": "10-15 nights recommended. 45-day turnaround time. First time trip: usual routing is 3-4 days Tokyo, 3-4 days Kyoto and then add on some other smaller cities or off the beaten path depending on their interests. Food: delicious food from sushi to steaks. Temples and shrines. Cruises offered (see subpage). A lot of independence is needed to travel in Japan, private transfers other than for airports are unusual, lots of self-guided train travel needed, and buses in more rural areas. Clients will be given instructions in their welcome pack on how to get to locations and meet the guides. Self-Drive mainly in Hokkaido (hiking and nature) and Kyushu for the national parks. Give clients a pocket Wi-Fi to help them get around.",
+      "urgency": "Cherry blossom season books out FAR in advance and is crazy busy - advise clients to book ASAP. STOP SELL MARCH AND APRIL.",
+      "solo_pricing": "Not explicitly listed; accommodation drives budget significantly.",
+      "pax_limit": "Not specified",
+      "accommodations": "Ranges basic to opulent, can stay in Ryokans, stay in a temple. Accommodation really drives the budget for Japan trips. 3 star: very small rooms, but clean and comfortable. 5 star pricing can be a huge jump from 4 star. Ryokan Accommodation: traditional Japanese accommodation and is a cultural experience - traditional dining is the norm with kaiseki cuisine.",
+      "how_to_feature": "Standalone destination. First time routing: Tokyo, Kyoto, and add-ons.",
+      "pair_with": "",
+      "general_notes_1": "Capital: Tokyo - spend at least 3-4 days. Scenery: Most of the country is rural, rugged and mountainous outside the cities. Hokkaido: Self-drive usually, driver and guide are expensive (have to pay for their accommodations, usually high-end clients). Can arrange ski but not ski instructors, we are not ski specialists. Nao Shima (Art Island): We work with several properties there, try for clients to stay at the Benessee House which hosts the huge contemporary art museum. Guests at the hotel get extra access to the museum.",
+      "general_notes_2": "Sumo wrestling: Tournament schedule across the country a few times a year. Can get tickets if they are in the city where there is one (tickets go on sale 1 month before tournaments, not 100% guaranteed). Or can do a sumo experience - see them doing training, is a pricey experience. Flights: we have contracts with Japan, Delta, American, Korean, and Singapore Airlines, however they are not always the best deals compared to what's available online. Silversea Cruise: 14 days total with 5 days at sea. Recommend adding 5-6 days on either end. 3-week trip rough pricing estimate $20,700 pp (4-star hotels).",
+      "client_types_good": "Families, cultural immersion seekers, cuisine lovers, hikers, young couples",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "Mid-March, April, May & October", "description": "Cherry blossoms in late March through mid-April. Book 12-28 months in advance for cherry blossom season. Avoid first week of May if possible because of Golden Week." },
+        { "level": "shoulder", "date_range": "September & mid-November", "description": "Beautiful foliage from mid-Nov to early Dec, good weather, smaller crowds. July/August: school vacation, hot and humid." },
+        { "level": "low", "date_range": "December - first week of March & June", "description": "New Years can get a little busy. Snowy. Feb: Plum blossoms, generally cheaper than cherry blossom season." },
+        { "level": "peak", "date_range": "August (Obon festival)", "description": "Extremely crowded, lots of domestic tourism." }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "5*", "price_per_week": "$10k+", "price_per_day": null },
+        { "tier_label": "4*", "price_per_week": "$9k-$10k", "price_per_day": null },
+        { "tier_label": "3*", "price_per_week": "$7k-$8k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Laos",
+      "slug": "laos",
+      "night_min": 6,
+      "key_facts": "Cruises offered. Capital: Vientiane, rarely visited unless requested or needed (1-2 nights maximum). Luang Prabang: UNESCO Heritage city in the North, #1 place to visit in Laos (3-4 days typically a standalone destination for anyone going to Laos for highlights). Elephant experiences. Laid-back country, can view via river cruise. Mountains: hill tribes. Possible to take a 2-day/1-night cruise into Thailand and vice versa (around $750 pp).",
+      "urgency": "Standard",
+      "solo_pricing": "$4k+ per week. Cruises Solo Traveler: $10-12k but can go higher depending on the cruise.",
+      "pax_limit": "Not specified",
+      "accommodations": "Boutique hotels, guest houses, 5-star boutiques. Cruises offered.",
+      "how_to_feature": "Combine with Cambodia or Vietnam.",
+      "pair_with": "Cambodia, Vietnam, Thailand (cruise connection)",
+      "general_notes_1": "Capital: Vientiane, rarely visited unless requested or needed (1-2 nights maximum). Luang Prabang: UNESCO Heritage city in the North, #1 place to visit in Laos (3-4 days typically). Elephant experiences. Laid-back country, can view via river cruise.",
+      "general_notes_2": "Mountains: hill tribes. Possible to take a 2-day/1-night cruise into Thailand and vice versa (around $750 pp).",
+      "client_types_good": "Very adventurous, off the beaten path, cultural immersion seekers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "November-March", "description": "Dry season, best time to visit" },
+        { "level": "shoulder", "date_range": "April-May", "description": "Hot and humid" },
+        { "level": "low", "date_range": "June-October", "description": "Rainy season" }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "Audley Standard", "price_per_week": "$3.5k", "price_per_day": null },
+        { "tier_label": "Cruises (average)", "price_per_week": "$4k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Malaysia",
+      "slug": "malaysia",
+      "night_min": 7,
+      "key_facts": "Mainland Malaysia = 'Peninsular Malaysia'. Malaysian Borneo = 'Eastern Malaysia'. Singapore is a good place to start a tour up Peninsular Malaysia as you can cross over the border (we drive them) to Malacca and then work your way up the country. Capital: Kuala Lumpur. Year-round destination (dry and warm). If adding a Singapore stopover, price goes up a bit. Places near the sea.",
+      "urgency": "Standard",
+      "solo_pricing": "Not specified",
+      "pax_limit": "Not specified",
+      "accommodations": "Range from simple to opulent. City hotels, boutique properties. Some spa facilities as well.",
+      "how_to_feature": "Standalone or combine with Borneo.",
+      "pair_with": "Malaysian Borneo, Singapore (stopover)",
+      "general_notes_1": "Beaches: white sand, private islands and long quiet stretches. Main beach island is Langkawi or private island resort called Pangkor Laut. Malacca: Historical city used as a port for hundreds of years, Portuguese, Dutch and British influence. Cameron Highlands: scenery, tour of tea plantation and hikes. Penang: Most visited place in Malaysia, UNESCO, famous for food, Georgetown (capital) on Penang, foodies will want to go here.",
+      "general_notes_2": "Ipoh: former colonial administrative center for tin mining, way to break the journey when overlanding to Penang as an alternative to the Cameron Highlands. Great 5-star hot springs resort located here. East Coast: primarily for remote beach, not a developed coast. Main hotel offered here for summer travelers is Tanjung Jara. Desaru Coast: beach location at the far south of the east coast accessible from Singapore within 1.5 hours from Malacca. Jungle scenery in Taman Negara National Park 2-3 day trek add-on suitable for all ages including families. Local cuisine: strong Indian, Chinese, Portuguese (Malacca), and Malay influences.",
+      "client_types_good": "Active travelers, history lovers, beach seekers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "Year-round destination (dry & warm)", "description": "October-March best on West Coast. April-September best on East Coast." },
+        { "level": "shoulder", "date_range": "", "description": "" },
+        { "level": "low", "date_range": "", "description": "" }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "Audley Standard", "price_per_week": "$2.5k-$3.5k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Malaysian Borneo",
+      "slug": "malaysian-borneo",
+      "night_min": 9,
+      "key_facts": "7 nights is fine if client is already over there. Can easily spend 10 days to 3 weeks in Malaysian Borneo alone. We offer both Malaysian Borneo and Indonesian Borneo, they just do not combine well on the same trip. Typically do Malaysian Borneo as a standalone destination or do Indonesian Borneo as part of a wider Indonesia touring itinerary as we only offer one location there (an orangutan experience). March-October is considered the best months to travel due to drier weather; however it is a year-round destination due to its tropical climate. Nov-Feb you are likely to experience more rain. Summer months are PEAK season and therefore the most expensive time to travel.",
+      "urgency": "Standard",
+      "solo_pricing": "$6k-$8.5k per week",
+      "pax_limit": "Not specified",
+      "accommodations": "3-5 star. Simple lodges in rainforest, simple beach chalets. Shangri-La Rasa Ria for 5 star. For beach stay: Gaya Island Resort or Bunga Raya for tropical island experience off the coast as alternative to larger 5-star Shangri-La (good for families). Borneo Rainforest Lodge (Danum Valley) is barefoot luxury, only accommodation in the area, most sought-after and often booked out over a year in advance. Mulu Marriott in remote Mulu National Park.",
+      "how_to_feature": "Standalone or combines with Kuala Lumpur or Singapore for stopovers.",
+      "pair_with": "Kuala Lumpur (stopover), Singapore (stopover)",
+      "general_notes_1": "Sarawak (Western): Orangutan rehab center and colonial city of Kuching, beach hotels. Slightly cheaper than Sabah. If just doing Sarawak could start at $2.5k pp/pw. Main reason it's cheaper is because it doesn't have wild elephants or orangutan (still have sanctuaries but not wild). Kuching is a fantastic base along the banks of the Sarawak River, a real melting pot of cultures with beautiful temples and mosques. Bako National Park: best place to spot proboscis monkeys in the wild. Mulu National Park: UNESCO World Heritage Site, largest cave passages in the world.",
+      "general_notes_2": "Sabah (Eastern): Does offer wild orangutans and elephants, tropical islands and guaranteed sea turtles and world-class diving. Offers Danum Valley - one of the more expensive places in Borneo (2-night stay adds on ~$1500 pp). More expensive than Sarawak, Sabah starts at around $4k pp/pw. Sepilok Orangutan Rehabilitation Center in Sandakan. Kinabatangan River: one of the best areas to spot wildlife. Sukau Rainforest Lodge featured in National Geographic. Mount Kinabalu: amazing climb experience, takes 2 days and 1 overnight, permit basis. Gaya Island: part of protected Tunku Abdul Rahman National Park with crystal clear water, diverse marine life and virgin rainforest.",
+      "client_types_good": "Wildlife lovers, off the beaten path seekers, divers and snorkelers, trekkers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "April-October", "description": "Warm and dry, summer months are peak season and most expensive" },
+        { "level": "shoulder", "date_range": "November & February-March", "description": "Rainy/tropical storms" },
+        { "level": "low", "date_range": "December-January", "description": "Avoid because of constant rainfall" }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "Sabah", "price_per_week": "$4k-$5k", "price_per_day": null },
+        { "tier_label": "Sarawak", "price_per_week": "$2k-$2.5k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Maldives",
+      "slug": "maldives",
+      "night_min": 5,
+      "key_facts": "7 nights suggested. Book at least 9 months in advance for best deals. We DO NOT book for TAs. As a standalone destination it is ONLY AVAILABLE TO QUALIFIED REPEATS. All other leads must pair Maldives with another destination. All-inclusive options. Fly and flop destination - nothing to do outside resort. Can switch sell to Indonesia (more to do: wildlife, trekking, cultural immersion). Capital: Male (we don't work in Male). Each island is a resort in itself. Super small islands (no opportunity for cultural immersion/trekking/waterfalls). Excellent diving, snorkeling, fishing, boat trips, kayaking, jet-skiing, parasailing, cooking classes, spa treatments.",
+      "urgency": "Book at least 9 months in advance for best deals. We DO NOT book for TAs.",
+      "solo_pricing": "Going to be charged for double occupancy; they don't make allowances if it's less than 2 pax. There are also no twin bed options since it's a major honeymoon destination.",
+      "pax_limit": "Not specified",
+      "accommodations": "Out of the 200 properties we only use 8, not much guiding, all activities through the hotels not us. Baros 3rd highest rated property in all of Audley - highly recommend. Over-water bungalows are more expensive but feature jaw-dropping beautiful views. Beach rooms are more private due to surrounding vegetation. Beachfront accommodations are better for folks less confident in swimming or with mobility issues. Basically only king rooms available - makes some friends trips tougher on budget.",
+      "how_to_feature": "Pair with Sri Lanka, Nepal, or India & Dubai. Standalone only for qualified repeats.",
+      "pair_with": "Sri Lanka, Nepal, India, Dubai",
+      "general_notes_1": "Pricing has EVERYTHING to do with the time of year, can vary a lot. Dec 20-Jan 10 is the most expensive due to holidays. Travelling during May or June is also significantly less expensive and less busy - full attention of the staff and service levels will be exceptionally high. If you ever have a client that you feel is non-Audley in terms of budget, point them towards the Manzil Downtown in Dubai or Velassaru/Dhigali Maldives.",
+      "general_notes_2": "August/September: risk for potential rainfall is relatively high for that time of year. June or early July can potentially work very well - humid and potential thundershowers (rainfall briefly during day then clear skies). Steer clear of recommending this time without setting expectations.",
+      "client_types_good": "Honeymooners",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "December-April", "description": "Dry season. Dec 20-Jan 10 is the most expensive due to holidays." },
+        { "level": "shoulder", "date_range": "May-September", "description": "August/September: risk for potential rainfall relatively high. June or early July can potentially work very well - humid with brief thundershowers." },
+        { "level": "low", "date_range": "October-November", "description": "Monsoon season" }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "5*", "price_per_week": "$14k+", "price_per_day": null },
+        { "tier_label": "High Season", "price_per_week": "$7k", "price_per_day": null },
+        { "tier_label": "Low Season", "price_per_week": "$3.5k-$4.5k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Nepal",
+      "slug": "nepal",
+      "night_min": 7,
+      "key_facts": "Amazing connecting destination to Bhutan, India and Tibet (flights to Bhutan pass Everest!). Capital: Kathmandu. Confluence of Hinduism and Buddhist cultures with amazing ancient architecture. Excellent trekking but we do not do Everest Base Camp hikes as these are 14 days total (per Niall: 'The flights keep crashing, so we don't want to fly anyone into Lukla.'). Alternative: Trekking in Annapurna - one of the world's most beautiful trekking routes, more culture and interesting properties.",
+      "urgency": "Standard",
+      "solo_pricing": "$8k~ per week",
+      "pax_limit": "Not specified",
+      "accommodations": "Basic mountain lodges to quality 4 and 5 star.",
+      "how_to_feature": "Pair with Bhutan, India, or Tibet. Usually combined with Bhutan.",
+      "pair_with": "Bhutan, India, Tibet",
+      "general_notes_1": "Capital: Kathmandu. Pokhara: Popular mountain town, origin point of many top treks and home to Nepal's best leisure hotels along Phewa Lake. Chitwan: National Park known for 1-horned rhinos (expensive by Nepal standards). Dhulikhel/Nagarkot: Scenic mountain towns 45min-1hr outside capital, great for short 1-2 night leisure stays before continuing journey. Scenic Everest flight available in Kathmandu.",
+      "general_notes_2": "Flight concerns: We can't operate any domestic flights within Nepal due to health and safety concerns. All civil aviation in Nepal has been put on the EU blacklist due to a very sad recent history of airline crashes. We could assist with drives but no flying allowed with Audley within Nepal. The best way in and out of Nepal is via flight into Kathmandu with a reputable internationally acclaimed airline such as Turkish Airlines, Qatar Airways, or Emirates. The concern surrounding Nepal aviation is limited to Nepali airlines, not Nepali airspace.",
+      "client_types_good": "Adventurous, wildlife lovers, cultural immersive, trekking, mountains",
+      "client_types_okay": "Limited mobility pax can still travel to Nepal, likely just enjoy Kathmandu Valley (Kathmandu, Bhaktapur, Nagarkot/Dhulikhel)",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "October-April", "description": "December-February are COLD" },
+        { "level": "low", "date_range": "June-September", "description": "Monsoons. DO NOT TRAVEL." }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "Peak", "price_per_week": "$4.5k", "price_per_day": null },
+        { "tier_label": "Low", "price_per_week": "$2.3k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Philippines",
+      "slug": "philippines",
+      "night_min": 9,
+      "key_facts": "Work in progress destination. December 4th - GTT should be able to sell. Over 7,000 islands offering diverse experiences: beaches, diving, cultural heritage, and adventure. Warm, welcoming people and English widely spoken. Ideal for families, couples, and repeat travelers looking for variety of experiences (snorkeling and diving, beaches, culture and scenery). Recommend minimum 3 locations for a well-rounded experience.",
+      "urgency": "Standard (new destination, WIP)",
+      "solo_pricing": "Not specified",
+      "pax_limit": "Not specified",
+      "accommodations": "Not fully specified. Wide range from boutique to luxury. Boutique luxury resorts on private islands in Palawan.",
+      "how_to_feature": "Standalone. Recommend minimum 3 locations for a well-rounded experience.",
+      "pair_with": "",
+      "general_notes_1": "Manila (Capital): Bustling metropolis with Spanish colonial heritage, vibrant food scene. Most clients will pass through here by default because of international flights - there is enough to do in the city for three nights but can also be a short stay as gateway to the islands. Banaue: UNESCO-listed Rice Terraces, cultural immersion, village visits for adventurous travelers. Palawan (El Nido): Limestone cliffs, lagoons, island-hopping, snorkeling. Accommodation is either on the mainland or boutique luxury resorts on private islands.",
+      "general_notes_2": "Bohol: Chocolate Hills (unique geological formation), tarsier sanctuaries, Panglao Island beaches. Boracay (needs expectation setting as can be a bit backpackery): Famous White Beach, wide range of accommodations from boutique to luxury, great for water sports. Siquijor: Much quieter beach destination, easily accessible from Bohol, known as the 'Mystic Island,' famous for relaxed atmosphere, witchcraft legends, and incredible waterfalls. Beach options: Palawan (remote, eco-luxury), Boracay (iconic, lively), Siargao (surfing hotspot), Bohol (family-friendly). Switch sell to Indonesia for similar feel.",
+      "client_types_good": "Adventurous, honeymooners, families, active travelers, divers, off the beaten path travelers, great for returners to SEA",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "November-May", "description": "Ideal for beach stays and best time to go" },
+        { "level": "shoulder", "date_range": "June-October", "description": "Be wary of shoulder and low seasons even though you can expect lush landscapes and fewer crowds. There is still a lot of rain and typhoons." },
+        { "level": "low", "date_range": "June-October (worst months)", "description": "Rain and typhoon risk" }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "High", "price_per_week": null, "price_per_day": null },
+        { "tier_label": "Mid", "price_per_week": null, "price_per_day": null },
+        { "tier_label": "Low", "price_per_week": null, "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Sri Lanka",
+      "slug": "sri-lanka",
+      "night_min": 7,
+      "key_facts": "14 nights recommended. Please do not send anyone that far for anything less than 7 nights - not worth it for us/them. English is widely spoken. Hidden gem destination: amazing beaches, great wildlife (highest density of leopards in the world, in summer the largest congregation of Asian elephants in the world). Great for seafood, very limited beef options. Great stepping stone into Indian subcontinent. Christmas trips book a year in advance.",
+      "urgency": "Christmas trips book a year in advance.",
+      "solo_pricing": "$4.5k per week",
+      "pax_limit": "N/A",
+      "accommodations": "Colonial/boutique. Unique and charismatic boutique options. Tea houses, all-inclusive and half-board options available. Beach villas, tented camps.",
+      "how_to_feature": "Pairs well with the Maldives (very similar to Thailand/SE Asia).",
+      "pair_with": "Maldives",
+      "general_notes_1": "Cultural Triangle: Three cities that provide many spiritual monuments, wildlife, historic cities, culture. National Parks: There are numerous national parks with animals such as elephants, leopards, and dramatic waterfalls. Good year-round destination.",
+      "general_notes_2": "Hidden gem destination: Amazing beaches. Great wildlife - highest density of leopards in the world, in the summer there is the largest congregation of Asian elephants in the world. Great for seafood, very limited beef options. Great stepping stone into Indian subcontinent.",
+      "client_types_good": "Wildlife lovers, off the beaten path, adventurous, families, hikers, honeymooners",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "December-April & July-September", "description": "Best times to visit. Good year-round destination." },
+        { "level": "shoulder", "date_range": "May/June", "description": "Transitional period" },
+        { "level": "low", "date_range": "October-November", "description": "Rainy season" }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "High Season", "price_per_week": "$6.5k", "price_per_day": null },
+        { "tier_label": "Shoulder", "price_per_week": "$4.5k", "price_per_day": null },
+        { "tier_label": "Low Season", "price_per_week": "$2.5k", "price_per_day": "$600-$650" }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Singapore",
+      "slug": "singapore",
+      "night_min": 1,
+      "key_facts": "Stopover only (1-3 nights). Offers modern futuristic city combined with cultural districts such as Little India and Chinatown and old British colonial architecture. Eastern & Oriental Express: Offers two routes depending on time of year - Wild Malaysia and Essence of Malaysia. They start and finish in Singapore and only go into Malaysia (not Thailand anymore post COVID). Really incredible experience/service - you feel transported back in time when there was real opulent train travel. No wifi, a pianist playing in the last car. Free code: 'tropical luxury'. Entry level starting price for train: $4,200 per person, about $2,000 pp pd.",
+      "urgency": "Standard",
+      "solo_pricing": "$6k pp pw",
+      "pax_limit": "Not specified",
+      "accommodations": "Good selection of 4-star and 5-star hotels. Raffles Hotel recommended for seamless service (Eastern & Oriental Express departs from there).",
+      "how_to_feature": "Can combine with all countries in SEA, especially if flying Singapore Airlines. Best paired with Thailand or Bali.",
+      "pair_with": "Thailand, Bali, all SEA countries",
+      "general_notes_1": "Two main Eastern & Oriental Express routes: 1) Singapore to Bangkok - 2 nights. 2) Bangkok to Singapore - 3 nights. They depart on specific dates so clients need some slight flexibility. Stay at the Raffles Hotel in Singapore for seamless service. All rooms have private bathroom, private butler, food and excursions included. Breakfast served in your cabin. Mobility issues can make train tough, sleeping on a train can be tiring on the body.",
+      "general_notes_2": "Excursions: arrange sightseeing tours and food experiences or clients remain at leisure as it's easy to explore independently. Modern futuristic city combined with cultural districts such as Little India and Chinatown and old British colonial architecture.",
+      "client_types_good": "",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "March-August", "description": "Dry season" },
+        { "level": "low", "date_range": "September-February", "description": "Wet season" }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "5*", "price_per_week": null, "price_per_day": "$1k" },
+        { "tier_label": "4*", "price_per_week": null, "price_per_day": "$700" },
+        { "tier_label": "3*", "price_per_week": null, "price_per_day": "$400" }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "South Korea",
+      "slug": "south-korea",
+      "night_min": 6,
+      "key_facts": "South Korea is a GREAT switch sell for Japan! Primarily for cherry blossom season once availability runs out for Japan. South Korea boasts beautiful cherry blossoms around the same time of year. Korea is modern, has a huge pop culture scene, overall cool vibe. Easy to get around, locals are more open to talk to tourists, to talk in English, and talk about their own history. South Korea has a 'big' food/drinking scene that revolves around dining with other people. Many people still wear masks, it is voluntary in most places.",
+      "urgency": "Standard",
+      "solo_pricing": "$8k-$9k per week. Price is heavily impacted by type of hotel and amount of guidance.",
+      "pax_limit": "Not specified",
+      "accommodations": "Wide range of 3-star to 5-star. Adjoined rooms are not common. Traditional hanoks in Andong.",
+      "how_to_feature": "Standalone destination. Great switch sell for Japan (especially for cherry blossom season).",
+      "pair_with": "",
+      "general_notes_1": "Capital: Seoul - Food (so many markets and small local restaurants), Shopping (amazing shopping for everything), Beauty (K-spas), Pop culture (K-pop music, K-dramas), History (Museums, Palaces, Bukchon Village). DMZ: This group tour does NOT go to the Joint Security Viewpoint (the spot where you can see N and S Korean soldiers facing each other). Andong: more rural, known for the Hahoe Folk Village - history, museums, spiritual sites, special performance using wooden masks, unique thatched roof houses, lots of gardens and green spaces. Best done as a day trip from Gyeongju.",
+      "general_notes_2": "Gyeongju: known as the museum without walls - museums, UNESCO heritage sites, observatory. Great street food options. Bomun Lake which is a big resort area with amusement parks. Busan: known for its beaches, local seafood, international film festival. Fish markets, American chains for picky eaters, Gamcheon cultural village, Haedong Temple on the coast, popular city to go out and drink. Several small islands off Busan including a cable car and ferry. Jeju: known for natural wonders - waterfalls, lava tubes, Mount Hallasan (highest point in the country). East is more adventurous, West is for less active travelers.",
+      "client_types_good": "Cultural immersion, foodies, history lovers, couples, solo travelers",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "March-May", "description": "Cherry blossoms" },
+        { "level": "peak", "date_range": "September-November", "description": "Foliage. Beginning of third fall is Korean Thanksgiving (September-October)." },
+        { "level": "shoulder", "date_range": "Summer months", "description": "Hot and humid" },
+        { "level": "low", "date_range": "Winter months", "description": "Cold" }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "No Jeju Island (family of 4)", "price_per_week": "$2k", "price_per_day": null },
+        { "tier_label": "No Jeju Island (2 pax)", "price_per_week": "$5k", "price_per_day": null },
+        { "tier_label": "With Jeju Island (2 pax)", "price_per_week": "$7k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "The Stans",
+      "slug": "the-stans",
+      "night_min": null,
+      "key_facts": "STOP SELL MAY 6-16TH AND SEP 15-17TH / Oct closed for Kirva. Great for history lovers, clients looking to fill in the blank edges of the map, people interested in the ancient Silk Road/Route trading routes. Summers are very hot, July/Aug it will be uncomfortable outdoors. March-May or Sep-early Nov ideal. Kyrgyzstan not possible in winter due to snow. They need to be adventurous - most hotels are 3-star level. They can choose to be in a historic area or a 5-star hotel that's about 15 mins from the city center. Although you can survive on veggies there are not many options for vegans and vegetarians, meat-heavy cuisine.",
+      "urgency": "STOP SELL MAY 6-16TH AND SEP 15-17TH / Oct closed for Kirva. STOP Sell Spring 2026 - Open for October 2026.",
+      "solo_pricing": "Not specified",
+      "pax_limit": "Not specified",
+      "accommodations": "Some high-end chains in major destinations. Primarily locally owned 3-star. Yurt camps in Kyrgyzstan. Most hotels unless a big 5-star do not have elevators.",
+      "how_to_feature": "Main destinations we sell are Uzbekistan and Kyrgyzstan. Some clients will fly into Almaty in Kazakhstan. Can speak to specialist about Turkmenistan but we are not promoting it.",
+      "pair_with": "",
+      "general_notes_1": "In Kyrgyzstan it is mostly yurt camps so glorified camping and it is a lot of time in cars and hiking. Eagle training is amazing to witness. In Uzbekistan we only work in Tashkent, Samarkand, Bukhara, and Khiva. Recommend either a carry-on sized suitcase or backpacking style. The trains are not handicap friendly and there are very few ramps. Pretty much to make sure clients are the right fit you have to try to turn them off it - if they are still like 'yes we are fine with all that' then they are perfect for the Stans.",
+      "general_notes_2": "From Adam (1/7/26): We have guides who can do some light hiking and day trips and some limited stuff but we don't have hiker-guides that do multi-day treks or treks from A to B. Light hiking only. Markets show dead animals, clients may be squeamish.",
+      "client_types_good": "Well-traveled, adventurous, history buffs",
+      "client_types_okay": "",
+      "client_types_bad": "Not ideally suited for young families and people with significant mobility restrictions",
+      "seasonality": [
+        { "level": "peak", "date_range": "Spring (late March/April-May) and October", "description": "Best weather for travel" },
+        { "level": "shoulder", "date_range": "Early summer and late autumn", "description": "Manageable but variable conditions" },
+        { "level": "low", "date_range": "Mid November - early March", "description": "Kyrgyzstan not accessible due to snow. Cold conditions." }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "Low", "price_per_week": null, "price_per_day": null },
+        { "tier_label": "Mid", "price_per_week": null, "price_per_day": null },
+        { "tier_label": "High", "price_per_week": null, "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Kyrgyzstan",
+      "slug": "kyrgyzstan",
+      "night_min": 5,
+      "key_facts": "Bishkek: Ala-Too Square, Soviet era architecture, Osh Bazaar, Ala Archa National Park (alpine hiking and scenic views), April Jazz Festival. Lake Song-Kul: Stay in traditional yurt camps, experience nomadic herder life in alpine meadows. Karakol and Surroundings: Jeti-Oguz and Juuku Gorge (red cliffs and glacial rivers), see one of the world's largest non-polar glaciers. Driver and guides with you all the time. Client is handheld 100% of the time. Food is picked out for clients.",
+      "urgency": "STOP Sell Spring 2026 - Open for October 2026.",
+      "solo_pricing": "Not specified (solo not possible in some cases)",
+      "pax_limit": "Not specified. Book ahead 1 year, client needs to be flexible.",
+      "accommodations": "Traditional yurts (simple glamping, basic but authentic, shared facilities and solar shower). Family-run guesthouses in Karakol and rural areas (cultural immersion and local hospitality). City hotels: Hyatt Regency Bishkek (first-class comforts), Green Yard Hotel (simple class comforts).",
+      "how_to_feature": "Part of the Stans offering. Can be combined with Uzbekistan.",
+      "pair_with": "Uzbekistan",
+      "general_notes_1": "Unique Experiences: Nomadic hospitality (meals cooked over open fires and stargazing in remote valleys), horseback riding with nomads, taking a Soviet-era helicopter over dramatic peaks, artisan felt making, embroidery and wood carving classes, relax in Altyn Arashan (a scenic valley with rustic hot springs), eagle training.",
+      "general_notes_2": "NOTE from CS: Summer is very hot, especially July/August. March-May or Sep-Nov best. Carry-on sized suitcase or backpacking style recommended. The trains are NOT handicap friendly and there are very few ramps. Most hotels unless a big 5-star do not have elevators.",
+      "client_types_good": "Adventure travelers and trekkers (hiking, horseback riding, glacier exploration), cultural explorers (nomadic traditions, local crafts, immersive rural travel), photographers and nature lovers (dramatic mountain scenery, alpine lakes, wildflower meadows - best visited in spring and early summer), Silk Road history buffs (ancient trade routes and caravanserais)",
+      "client_types_okay": "",
+      "client_types_bad": "Not handicap accessible, not suited for those requiring elevators or smooth terrain",
+      "seasonality": [
+        { "level": "peak", "date_range": "April-May & September-October", "description": "Temps range 23F to 90F depending on altitude. Best time to visit." },
+        { "level": "shoulder", "date_range": "Late autumn", "description": "Fewer crowds, weather can vary depending on locations and altitude" },
+        { "level": "low", "date_range": "November-March", "description": "Harsh winter conditions, limited accessibility due to snow. NOT POSSIBLE." }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "Standard", "price_per_week": null, "price_per_day": "$600-$1k" }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Uzbekistan",
+      "slug": "uzbekistan",
+      "night_min": 7,
+      "key_facts": "STOP Sell Spring 2026 - Open for October 2026. Samarkand: Registan Square, Bibi-Khanym Mosque, Gur-e-Amir Mausoleum, Ulugbek Observatory. Bukhara: Kalon Mosque and Minaret, city walking tour, Ark Fortress, local bazaars/markets, Silk and Spice Festival (peak season). Khiva: UNESCO World Heritage Site of Itchan Kala, Kalta-Minor Minaret, traditional carpet weavers, local bazaars and woodshops, historic madrassas. Tashkent: Soviet-era metro stations, museums, teahouses. Markets show dead animals, clients may be squeamish.",
+      "urgency": "STOP Sell Spring 2026 - Open for October 2026.",
+      "solo_pricing": "Not specified",
+      "pax_limit": "Not specified. Book ahead 1 year, client needs to be flexible.",
+      "accommodations": "Boutique guesthouses (family-run, often in historic caravanserais or madrasas). Converted heritage stays (Orient Star Hotel in Khiva, former Islamic school). Mid-range hotels (locally stayed, near key sights). First-class hotels (modern amenities in major cities). Often no elevators in hotels, especially older/local properties. NOT handicap accessible.",
+      "how_to_feature": "Part of the Stans offering. Can be combined with Kyrgyzstan.",
+      "pair_with": "Kyrgyzstan",
+      "general_notes_1": "Unique Experiences: Traditional Uzbek cuisine, rural excursion to towns like Urgut near the Tajik border, historical walking tours through Bukhara and Samarkand, Soviet-era metro and history in Tashkent, Islamic art and handicrafts.",
+      "general_notes_2": "NOTE from CS: Summer it's way too hot. March-May or Sep-Nov best. Carry-on sized suitcase or backpacking style recommended. The trains are NOT handicap friendly and there are very few ramps. Most hotels unless a big 5-star do not have elevators.",
+      "client_types_good": "Cultural enthusiasts (fascinated by Silk Road history, Islamic architecture, ancient civilizations, immersive local experiences), photographers and visual storytellers (vibrant tile work, desert landscapes, historic cityscapes, low season fewer crowds for atmospheric shots), arts and craft lovers (textiles, ceramics, woodwork, artisan workshops), food and culinary travelers (Central Asian cuisine, fresh markets, tea house culture), slow travelers and history buffs (off the beaten path without extreme physical demands, walking tours, guided storytelling)",
+      "client_types_okay": "",
+      "client_types_bad": "NOT handicap accessible",
+      "seasonality": [
+        { "level": "peak", "date_range": "April-May & September-early November", "description": "Warm, dry weather. Temps range 70F to 80F. Ideal for sightseeing and festivals." },
+        { "level": "shoulder", "date_range": "Late March & early November", "description": "Fewer crowds with mid temperatures. Nowruz Festival in March (Persian New Year)." },
+        { "level": "low", "date_range": "November-February", "description": "Cold but dry and bright. Quietest time to visit. Great for photography and solitude." }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "High", "price_per_week": null, "price_per_day": "$600-$1k" },
+        { "tier_label": "Mid", "price_per_week": null, "price_per_day": null },
+        { "tier_label": "Low", "price_per_week": null, "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Thailand",
+      "slug": "thailand",
+      "night_min": 9,
+      "key_facts": "So much to do in Thailand and a diverse range of activities/offerings for all types of travelers. Great family destination. Recommend a minimum of at least 3 locations to get the best experiences. Willing to entertain 7 nights for repeat clients. Capital: Bangkok - temples, street food, experiences to off-beat neighborhoods, very cosmopolitan, very friendly. Best food in all of SE Asia. Floating markets (1.5 hours outside city for more authentic market). Railway market (2 hours outside city).",
+      "urgency": "Christmas/NYE are CRAZY popular, prices inflate and availability goes FAST.",
+      "solo_pricing": "$4k+ per week",
+      "pax_limit": "Not specified",
+      "accommodations": "Boutique hotels, overnight trains, camps and lodges, spa and beach resorts.",
+      "how_to_feature": "Standalone destination. Pairs well with Cambodia and/or Singapore.",
+      "pair_with": "Cambodia, Singapore",
+      "general_notes_1": "Chiang Mai: Activity heart of Thailand. Something for everyone: national parks, ethical elephant experiences, temples, biking, kayaking, trekking, hill tribes, and culinary experiences. Doi Suthep, elephant experiences. More rural jungle-like, more unique experiences. Ethical elephant sanctuaries (walk with, learn, feed - under 4 years old not allowed). Markets, cooking experiences, hiking, trekking, hill tribes, national parks. Suggest at least 3 nights. Kanchanaburi: River Kwai float houses, WWII history, national park, waterfalls, and elephant experiences. 4-5 hour drive from Bangkok so min 2-3 nights.",
+      "general_notes_2": "Beach: Phuket (popular beach destination, great 3-5 star accommodation, some districts to avoid as over-developed, base to explore Phang Nga Bay/James Bond Island). Krabi (beach properties more isolated, eat in your hotel, views over limestone karsts, Rayavadee Resort accessible only by speedboat). Khao Lak (great for honeymooners, snorkelers/divers, no limestone karsts). Koh Samui (largest east coast beach destination, better for summer months, opposite seasonality to west coast). We like to end itineraries at the beach. Nov-March = southern west coast beaches. The Golden Triangle: historic triangle of opium production, 'Chiang Rai' is the gateway. Mid-range travelers stay in the city, 5-star plus clients head to Anantara Golden Triangle Elephant Camp or the opulent Four Seasons Tented Camp. Common pairings: Angkor Wat in Cambodia (recommend at least 3-4 nights in Cambodia alone). Singapore, Seoul, Hong Kong as a stopover + Thailand are common.",
+      "client_types_good": "Adventurous, honeymooners, families, active travelers, culture immersion seekers, cuisine lovers, off the beaten path travelers, great for first timers to SEA",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "November-March", "description": "Best season. Winter months: west coast is best for beach." },
+        { "level": "shoulder", "date_range": "April-May & September-October", "description": "September-October is peak rainy season, not advisable for travel." },
+        { "level": "low", "date_range": "July-August", "description": "Rainy/tropical season (think Florida in the summer, short sharp showers)." }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "High Season", "price_per_week": "$4.5k-$8k", "price_per_day": null },
+        { "tier_label": "Shoulder", "price_per_week": "$3.5k-$6k", "price_per_day": null },
+        { "tier_label": "Low Season", "price_per_week": "$3k-$6k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Vietnam",
+      "slug": "vietnam",
+      "night_min": 9,
+      "key_facts": "11-13 nights recommended. River and Halong Bay Cruises offered. Capital: Hanoi. Lots of art and handicrafts in Vietnam. Mekong River Cruise: 3-4 or 7 nights, with a night or two before in Saigon and a night or two after to view the ruins of Siem Reap (Cambodia). The 3-4 night itinerary ends in Phnom Penh. Do not recommend for pax with mobility issues as there are multiple decks with no elevators and the board/deboard has a very narrow gangway.",
+      "urgency": "Standard. TET (Lunar New Year): Many things are closed during Tet and there may be supplements charged.",
+      "solo_pricing": "$5k-$6k pw. Cruises Solo Traveler: $10-12k but can go higher depending on the cruise.",
+      "pax_limit": "Not specified",
+      "accommodations": "Wide range of hotels. City hotels tend to be less interesting but still boutique and luxury options throughout core. Eco lodges in the Tonkinese Alps. Beach accommodations. 3-5 star range.",
+      "how_to_feature": "Standalone destination. Can pair with Cambodia (Mekong cruise connection).",
+      "pair_with": "Cambodia",
+      "general_notes_1": "Halong Bay: cruise the traditional 'junk' (sailing boat), tai chi class, famous limestone karsts, arches, caves. Tonkinese Alps/Sapa: trekking, hill tribes, tiered rice paddies, Topas Eco Lodge (popular for great views) - can snow in Feb here. Hue: old imperial capital in central Vietnam, UNESCO. Hoi An: UNESCO Heritage former trading port, shophouses, markets, tailoring, cycling, eco experiences with local farmers and fishermen, beach. Saigon: Cu Chi tunnels, war museum, modern metropolis, Mekong Delta, street food. Can access Mekong Delta from Saigon, better to overnight.",
+      "general_notes_2": "Hanoi: old quarter, more French influence than Saigon, Buddhist temples/shrines, opera house, street food. War Interest: typically around the Saigon area (Cu Chi tunnels and other attractions around US involvement). For Vietnam War vets, we have a great team on the ground who can locate old places of interest. Caves: Central Vietnam has famous caves for adventurous travelers. Hang En clients can do an overnight trek but requires reasonable physical fitness. Closes in peak rainy season Oct/Nov. We can also offer beach destinations such as Quy Nhon, Nha Trang, Phu Quoc Island, Con Dao Island (Six Senses 5-star luxury).",
+      "client_types_good": "War vets, honeymooners, history/war interest, cultural immersion seekers, food lovers, families with older children (6/7+), adventure/active clients",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "July & August", "description": "Dry season: beaches and central Vietnam. North and South will see some tropical rain." },
+        { "level": "peak", "date_range": "November-March", "description": "Also peak season. March often being busiest. TET (Lunar New Year): many things are closed and there may be supplements charged." },
+        { "level": "shoulder", "date_range": "April-June & November", "description": "More of a tropical climate" },
+        { "level": "low", "date_range": "September", "description": "The only 'worst month to go' - tail end of wetter season of the North, and central Vietnam gets wet season. The plus is they can go during a quiet time." }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "5*", "price_per_week": "$5k", "price_per_day": null },
+        { "tier_label": "4*", "price_per_week": "$3k-$4k", "price_per_day": null },
+        { "tier_label": "3*", "price_per_week": "$2.5k-$3k", "price_per_day": null },
+        { "tier_label": "Cruises (average)", "price_per_week": "$4k", "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Myanmar",
+      "slug": "myanmar",
+      "night_min": null,
+      "key_facts": "CURRENTLY NOT SELLING DUE TO STATE ADVISORY. Capital: Naypyidaw. Bagan: air balloon, temples. Inle Lake: glimpse into an unusual slice of Burmese village life, fishing. Beaches: Myeik Archipelago, Ngapali beach.",
+      "urgency": "CURRENTLY NOT SELLING DUE TO STATE ADVISORY.",
+      "solo_pricing": "Not specified",
+      "pax_limit": "Not specified",
+      "accommodations": "Wide range",
+      "how_to_feature": "Not currently selling.",
+      "pair_with": "",
+      "general_notes_1": "Capital: Naypyidaw. Bagan: air balloon, temples. Inle Lake: glimpse into an unusual slice of Burmese village life, fishing. Beaches: Myeik Archipelago, Ngapali beach.",
+      "general_notes_2": "",
+      "client_types_good": "Have been to SE Asia before, off the beaten path seekers, cultural immersion",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "December-February", "description": "Best time" },
+        { "level": "shoulder", "date_range": "March/April & October/November", "description": "Transitional" },
+        { "level": "low", "date_range": "May-September", "description": "Monsoon" }
+      ],
+      "pricing_tiers": [
+        { "tier_label": "Low", "price_per_week": "$3k-$4k", "price_per_day": null },
+        { "tier_label": "Mid", "price_per_week": null, "price_per_day": null },
+        { "tier_label": "High", "price_per_week": null, "price_per_day": null }
+      ],
+      "status": "active"
+    },
+    {
+      "name": "Tibet",
+      "slug": "tibet",
+      "night_min": null,
+      "key_facts": "CURRENTLY NOT SELLING. Everest Base Camp: hiking, surprisingly undeveloped, launching point for climbers. Tons of temples and monasteries.",
+      "urgency": "CURRENTLY NOT SELLING.",
+      "solo_pricing": "Not specified",
+      "pax_limit": "Not specified",
+      "accommodations": "Not specified",
+      "how_to_feature": "Not currently selling.",
+      "pair_with": "",
+      "general_notes_1": "Everest Base Camp: hiking, surprisingly undeveloped, launching point for climbers. Tons of temples and monasteries.",
+      "general_notes_2": "",
+      "client_types_good": "Adventurous, well-traveled, interest in temples/Buddhist culture",
+      "client_types_okay": "",
+      "client_types_bad": "",
+      "seasonality": [
+        { "level": "peak", "date_range": "May-September", "description": "Dry and warm" },
+        { "level": "shoulder", "date_range": "April & October/November", "description": "Transitional" },
+        { "level": "low", "date_range": "December-February", "description": "Cold and snowy" }
+      ],
+      "pricing_tiers": [],
+      "status": "active"
+    }
+  ]
+}
