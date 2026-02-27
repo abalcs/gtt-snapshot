@@ -8,6 +8,7 @@ import type {
   DestinationDetail,
   SpecialSection,
   SearchResult,
+  AdminLogEntry,
 } from './types';
 
 const db = () => getDb();
@@ -221,6 +222,24 @@ export async function getStats(): Promise<{ totalDestinations: number; totalRegi
   };
 }
 
+// ── Admin Logging ────────────────────────────────────────
+
+async function logAdminAction(entry: Omit<AdminLogEntry, 'id'>) {
+  await db().collection('admin_logs').add(entry);
+}
+
+export async function getAdminLogs(limit = 50): Promise<AdminLogEntry[]> {
+  const snap = await db().collection('admin_logs')
+    .orderBy('timestamp', 'desc')
+    .limit(limit)
+    .get();
+
+  return snap.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as AdminLogEntry[];
+}
+
 // ── Admin CRUD ───────────────────────────────────────────
 
 export async function createDestination(data: Partial<Destination> & { region_id: string; name: string; slug: string }): Promise<string> {
@@ -263,6 +282,19 @@ export async function createDestination(data: Partial<Destination> & { region_id
   };
 
   await db().collection('destinations').doc(data.slug).set(destData);
+
+  await logAdminAction({
+    action: 'created',
+    target_name: data.name,
+    target_slug: data.slug,
+    updated_by: (data.updated_by as string) || 'Unknown',
+    changes: [
+      { field: 'region', to: regionData.name as string },
+      { field: 'status', to: (data.status as string) || 'active' },
+    ],
+    timestamp: now,
+  });
+
   return data.slug;
 }
 
@@ -270,25 +302,69 @@ export async function updateDestination(id: string, data: Partial<Destination>):
   const updateData: Record<string, unknown> = {};
   const fields = Object.entries(data).filter(([key]) => key !== 'id' && key !== 'created_at');
 
+  // Fetch existing doc for change tracking and token regeneration
+  const existing = await db().collection('destinations').doc(id).get();
+  const existingData = existing.data() || {};
+
   for (const [key, value] of fields) {
     updateData[key] = value ?? null;
   }
-  updateData.updated_at = new Date().toISOString();
+  const now = new Date().toISOString();
+  updateData.updated_at = now;
 
   // If searchable fields changed, regenerate tokens
   const searchableFields = ['name', 'key_facts', 'urgency', 'accommodations', 'client_types_good', 'client_types_okay', 'client_types_bad', 'general_notes_1', 'general_notes_2', 'pair_with', 'region_name'];
   if (fields.some(([key]) => searchableFields.includes(key))) {
-    // Get current doc to merge for token generation
-    const existing = await db().collection('destinations').doc(id).get();
-    const merged = { ...existing.data(), ...data };
+    const merged = { ...existingData, ...data };
     updateData.search_tokens = generateSearchTokens(merged as Partial<Destination>);
   }
 
   await db().collection('destinations').doc(id).update(updateData);
+
+  // Build change list for logging
+  const skipFields = ['updated_at', 'search_tokens', 'pricing_tiers'];
+  const changes: { field: string; from?: string; to?: string }[] = [];
+  for (const [key, value] of fields) {
+    if (skipFields.includes(key)) continue;
+    const oldVal = existingData[key];
+    const newVal = value ?? null;
+    const oldStr = oldVal != null ? String(oldVal) : '';
+    const newStr = newVal != null ? String(newVal) : '';
+    if (oldStr !== newStr) {
+      changes.push({
+        field: key,
+        from: oldStr.slice(0, 200) || undefined,
+        to: newStr.slice(0, 200) || undefined,
+      });
+    }
+  }
+
+  if (changes.length > 0) {
+    await logAdminAction({
+      action: 'updated',
+      target_name: (data.name as string) || existingData.name || id,
+      target_slug: id,
+      updated_by: (data.updated_by as string) || existingData.updated_by || 'Unknown',
+      changes,
+      timestamp: now,
+    });
+  }
 }
 
 export async function deleteDestination(id: string): Promise<void> {
+  const existing = await db().collection('destinations').doc(id).get();
+  const existingData = existing.data();
+
   await db().collection('destinations').doc(id).delete();
+
+  await logAdminAction({
+    action: 'deleted',
+    target_name: existingData?.name || id,
+    target_slug: id,
+    updated_by: existingData?.updated_by || 'Unknown',
+    changes: [],
+    timestamp: new Date().toISOString(),
+  });
 }
 
 export async function upsertPricingTiers(destinationId: string, tiers: { tier_label: string; price_per_week?: string | null; price_per_day?: string | null; notes?: string | null; sort_order?: number }[]): Promise<void> {

@@ -24,9 +24,14 @@ export default async function AdminPage() {
           <h1 className="text-2xl font-bold tracking-tight">Admin Dashboard</h1>
           <p className="text-muted-foreground">Manage destinations and content</p>
         </div>
-        <Link href="/admin/destinations/new">
-          <Button>Add Destination</Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link href="/admin/log">
+            <Button variant="outline">Activity Log</Button>
+          </Link>
+          <Link href="/admin/destinations/new">
+            <Button>Add Destination</Button>
+          </Link>
+        </div>
       </div>
 
       {/* Stats by region */}

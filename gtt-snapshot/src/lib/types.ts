@@ -77,3 +77,13 @@ export interface SeasonalityEntry {
   date_range: string;
   description: string;
 }
+
+export interface AdminLogEntry {
+  id: string;
+  action: 'created' | 'updated' | 'deleted';
+  target_name: string;
+  target_slug: string;
+  updated_by: string;
+  changes: { field: string; from?: string; to?: string }[];
+  timestamp: string;
+}
