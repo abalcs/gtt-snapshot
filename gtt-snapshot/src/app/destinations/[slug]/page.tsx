@@ -7,7 +7,7 @@ import { PricingTable } from "@/components/destinations/pricing-table";
 import { SeasonalityDisplay } from "@/components/destinations/seasonality-display";
 import { ClientTypes } from "@/components/destinations/client-types";
 import { getDestinationBySlug } from "@/lib/queries";
-import { getFlag } from "@/lib/country-flags";
+import { getFlagUrl } from "@/lib/country-flags";
 
 export const dynamic = 'force-dynamic';
 
@@ -39,9 +39,13 @@ export default async function DestinationDetailPage({
           <span>{destination.name}</span>
         </div>
         <div className="flex items-start justify-between gap-4">
-          <h1 className="text-3xl font-bold tracking-tight">
-            {getFlag(destination.name) && (
-              <span className="mr-2">{getFlag(destination.name)}</span>
+          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+            {getFlagUrl(destination.name) && (
+              <img
+                src={getFlagUrl(destination.name)}
+                alt=""
+                className="h-6 w-8 object-cover rounded-sm inline-block"
+              />
             )}
             {destination.name}
           </h1>

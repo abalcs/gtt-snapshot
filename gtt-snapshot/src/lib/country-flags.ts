@@ -1,127 +1,132 @@
-// Country/Destination to Flag Emoji mapping
-// For destinations that aren't countries (regions, multi-country, etc.), we use representative flags
+// Country/Destination to ISO 3166-1 alpha-2 code mapping
+// Uses flagcdn.com SVG flags for cross-platform rendering (Windows doesn't show emoji flags)
 
-export const countryFlags: Record<string, string> = {
+const countryCodes: Record<string, string> = {
   // Africa
-  "Botswana": "🇧🇼",
-  "Kenya": "🇰🇪",
-  "Mauritius": "🇲🇺",
-  "Namibia": "🇳🇦",
-  "Madagascar": "🇲🇬",
-  "Malawi": "🇲🇼",
-  "South Africa": "🇿🇦",
-  "Rwanda": "🇷🇼",
-  "Tanzania": "🇹🇿",
-  "Zanzibar": "🇹🇿", // Part of Tanzania
-  "Seychelles": "🇸🇨",
-  "Uganda": "🇺🇬",
-  "Zambia": "🇿🇲",
-  "Zimbabwe": "🇿🇼",
+  "Botswana": "bw",
+  "Kenya": "ke",
+  "Mauritius": "mu",
+  "Namibia": "na",
+  "Madagascar": "mg",
+  "Malawi": "mw",
+  "South Africa": "za",
+  "Rwanda": "rw",
+  "Tanzania": "tz",
+  "Zanzibar": "tz",
+  "Seychelles": "sc",
+  "Uganda": "ug",
+  "Zambia": "zm",
+  "Zimbabwe": "zw",
 
   // Asia
-  "Bhutan": "🇧🇹",
-  "Cambodia": "🇰🇭",
-  "China": "🇨🇳",
-  "India": "🇮🇳",
-  "Indonesia": "🇮🇩",
-  "Japan": "🇯🇵",
-  "Laos": "🇱🇦",
-  "Malaysia": "🇲🇾",
-  "Malaysian Borneo": "🇲🇾",
-  "Maldives": "🇲🇻",
-  "Nepal": "🇳🇵",
-  "Philippines": "🇵🇭",
-  "Sri Lanka": "🇱🇰",
-  "Singapore": "🇸🇬",
-  "South Korea": "🇰🇷",
-  "The Stans": "🇺🇿", // Using Uzbekistan as representative
-  "Kyrgyzstan": "🇰🇬",
-  "Uzbekistan": "🇺🇿",
-  "Thailand": "🇹🇭",
-  "Vietnam": "🇻🇳",
-  "Myanmar": "🇲🇲",
-  "Tibet": "🇨🇳", // Part of China
+  "Bhutan": "bt",
+  "Cambodia": "kh",
+  "China": "cn",
+  "India": "in",
+  "Indonesia": "id",
+  "Japan": "jp",
+  "Laos": "la",
+  "Malaysia": "my",
+  "Malaysian Borneo": "my",
+  "Maldives": "mv",
+  "Nepal": "np",
+  "Philippines": "ph",
+  "Sri Lanka": "lk",
+  "Singapore": "sg",
+  "South Korea": "kr",
+  "The Stans": "uz",
+  "Kyrgyzstan": "kg",
+  "Uzbekistan": "uz",
+  "Thailand": "th",
+  "Vietnam": "vn",
+  "Myanmar": "mm",
+  "Tibet": "cn",
 
-  // WEMEA (Western Europe, Middle East, Africa)
-  "Iceland": "🇮🇸",
-  "Ireland": "🇮🇪",
-  "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
-  "Portugal": "🇵🇹",
-  "Azores": "🇵🇹", // Part of Portugal
-  "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
-  "Spain": "🇪🇸",
-  "River Cruises": "🚢",
-  "Egypt": "🇪🇬",
+  // WEMEA
+  "Iceland": "is",
+  "Ireland": "ie",
+  "England": "gb-eng",
+  "Portugal": "pt",
+  "Azores": "pt",
+  "Scotland": "gb-sct",
+  "Spain": "es",
+  "Egypt": "eg",
 
-  // ESE (Europe and Southeast Europe)
-  "Austria": "🇦🇹",
-  "Belgium": "🇧🇪",
-  "Croatia": "🇭🇷",
-  "Czech Republic (Prague)": "🇨🇿",
-  "France": "🇫🇷",
-  "Denmark": "🇩🇰",
-  "Germany": "🇩🇪",
-  "Greece": "🇬🇷",
-  "Hungary (Budapest)": "🇭🇺",
-  "Italy": "🇮🇹",
-  "Sardinia": "🇮🇹", // Part of Italy
-  "Luxembourg": "🇱🇺",
-  "Netherlands": "🇳🇱",
-  "Norway": "🇳🇴",
-  "Sweden": "🇸🇪",
-  "Switzerland": "🇨🇭",
-  "Multi-Country Trips": "🌍",
-  "Orient Express / Trains": "🚂",
+  // ESE
+  "Austria": "at",
+  "Belgium": "be",
+  "Croatia": "hr",
+  "Czech Republic (Prague)": "cz",
+  "France": "fr",
+  "Denmark": "dk",
+  "Germany": "de",
+  "Greece": "gr",
+  "Hungary (Budapest)": "hu",
+  "Italy": "it",
+  "Sardinia": "it",
+  "Luxembourg": "lu",
+  "Netherlands": "nl",
+  "Norway": "no",
+  "Sweden": "se",
+  "Switzerland": "ch",
 
-  // CANAL (Central America, North America, Latin America)
-  "USA - Alaska": "🇺🇸",
-  "USA - California": "🇺🇸",
-  "USA - Hawaii": "🇺🇸",
-  "USA - New England": "🇺🇸",
-  "USA - National Parks": "🇺🇸",
-  "Antarctica": "🇦🇶",
-  "Arctic Svalbard": "🇳🇴", // Svalbard is part of Norway
-  "Argentina": "🇦🇷",
-  "Belize": "🇧🇿",
-  "Bolivia": "🇧🇴",
-  "Brazil": "🇧🇷",
-  "Canada (East)": "🇨🇦",
-  "Canada (West)": "🇨🇦",
-  "Colombia": "🇨🇴",
-  "Costa Rica": "🇨🇷",
-  "Ecuador": "🇪🇨",
-  "Chile": "🇨🇱",
-  "Galapagos": "🇪🇨", // Part of Ecuador
-  "Guatemala": "🇬🇹",
-  "Mexico": "🇲🇽",
-  "Peru": "🇵🇪",
-  "Panama": "🇵🇦",
-  "Uruguay": "🇺🇾",
-  "Honduras": "🇭🇳",
-  "Cuba": "🇨🇺",
-  "Paraguay": "🇵🇾",
+  // CANAL
+  "USA - Alaska": "us",
+  "USA - California": "us",
+  "USA - Hawaii": "us",
+  "USA - New England": "us",
+  "USA - National Parks": "us",
+  "Antarctica": "aq",
+  "Arctic Svalbard": "no",
+  "Argentina": "ar",
+  "Belize": "bz",
+  "Bolivia": "bo",
+  "Brazil": "br",
+  "Canada (East)": "ca",
+  "Canada (West)": "ca",
+  "Colombia": "co",
+  "Costa Rica": "cr",
+  "Ecuador": "ec",
+  "Chile": "cl",
+  "Galapagos": "ec",
+  "Guatemala": "gt",
+  "Mexico": "mx",
+  "Peru": "pe",
+  "Panama": "pa",
+  "Uruguay": "uy",
+  "Honduras": "hn",
+  "Cuba": "cu",
+  "Paraguay": "py",
 
   // ANZ + Pacific
-  "Australia": "🇦🇺",
-  "New Zealand": "🇳🇿",
-  "Cook Islands": "🇨🇰",
-  "Fiji": "🇫🇯",
-  "French Polynesia": "🇵🇫",
+  "Australia": "au",
+  "New Zealand": "nz",
+  "Cook Islands": "ck",
+  "Fiji": "fj",
+  "French Polynesia": "pf",
 
   // Middle East
-  "Israel": "🇮🇱",
-  "Jordan": "🇯🇴",
-  "Morocco": "🇲🇦",
-  "Turkey": "🇹🇷",
-  "Oman": "🇴🇲",
-  "UAE": "🇦🇪",
+  "Israel": "il",
+  "Jordan": "jo",
+  "Morocco": "ma",
+  "Turkey": "tr",
+  "Oman": "om",
+  "UAE": "ae",
 };
 
 /**
- * Get the flag emoji for a destination/country name
- * @param name - The destination or country name
- * @returns The flag emoji or an empty string if not found
+ * Get the flag image URL for a destination/country name.
+ * Returns a flagcdn.com SVG URL, or empty string if not mapped.
+ */
+export function getFlagUrl(name: string): string {
+  const code = countryCodes[name];
+  if (!code) return "";
+  return `https://flagcdn.com/${code}.svg`;
+}
+
+/**
+ * Get the ISO country code for a destination name.
  */
 export function getFlag(name: string): string {
-  return countryFlags[name] || "";
+  return countryCodes[name] || "";
 }
