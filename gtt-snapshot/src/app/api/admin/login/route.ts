@@ -1,17 +1,21 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'GlobalTravelFTW!';
 
 export async function POST(request: NextRequest) {
-  try {
-    const { password } = await request.json();
+  const { password } = await request.json();
 
-    if (password === ADMIN_PASSWORD) {
-      return Response.json({ success: true });
-    }
-
-    return Response.json({ error: 'Invalid password' }, { status: 401 });
-  } catch (err) {
-    return Response.json({ error: String(err) }, { status: 500 });
+  if (password === ADMIN_PASSWORD) {
+    const response = NextResponse.json({ success: true });
+    response.cookies.set('admin_auth', 'authenticated', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24, // 24 hours
+    });
+    return response;
   }
+
+  return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
 }

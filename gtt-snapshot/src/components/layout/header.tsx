@@ -88,7 +88,6 @@ export function Header() {
   };
 
   const handleLogout = async () => {
-    document.cookie = "admin_auth=; path=/; max-age=0";
     await fetch("/api/admin/logout", { method: "POST" });
     router.push("/");
     router.refresh();
