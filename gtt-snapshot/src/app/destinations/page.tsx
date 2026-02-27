@@ -1,4 +1,4 @@
-import { getAllDestinations, getAllRegions } from "@/lib/queries";
+import { getAllDestinations, getAllRegions, getAllTagDefinitions } from "@/lib/queries";
 import { DestinationCard } from "@/components/destinations/destination-card";
 import { DestinationFilters } from "@/components/destinations/destination-filters";
 import { TagFilterBar } from "@/components/destinations/tag-filter-bar";
@@ -19,9 +19,10 @@ async function DestinationsContent({
   searchParamsPromise: Promise<{ region?: string; tags?: string }>;
 }) {
   const { region, tags: tagsParam } = await searchParamsPromise;
-  const [allDestinations, regions] = await Promise.all([
+  const [allDestinations, regions, tagDefinitions] = await Promise.all([
     getAllDestinations(),
     getAllRegions(),
+    getAllTagDefinitions(),
   ]);
 
   const activeTags = tagsParam ? tagsParam.split(",").filter(Boolean) : [];
@@ -49,11 +50,11 @@ async function DestinationsContent({
 
       <DestinationFilters regions={regions} currentRegion={region} />
 
-      <TagFilterBar currentTags={activeTags} />
+      <TagFilterBar currentTags={activeTags} tagDefinitions={tagDefinitions} />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredDestinations.map((dest) => (
-          <DestinationCard key={dest.id} destination={dest} />
+          <DestinationCard key={dest.id} destination={dest} tagDefinitions={tagDefinitions} />
         ))}
       </div>
     </div>

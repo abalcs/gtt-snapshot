@@ -79,6 +79,12 @@ export interface SeasonalityEntry {
   description: string;
 }
 
+export interface TagDefinition {
+  slug: string;
+  label: string;
+  category: 'trip-style' | 'activities' | 'traveler-profile' | 'landscape';
+}
+
 export interface AdminLogEntry {
   id: string;
   action: 'created' | 'updated' | 'deleted';

@@ -1,10 +1,15 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { DestinationWithRegion } from "@/lib/types";
+import type { DestinationWithRegion, TagDefinition } from "@/lib/types";
 import { TagBadges } from "@/components/destinations/tag-badges";
 
-export function DestinationCard({ destination }: { destination: DestinationWithRegion }) {
+interface DestinationCardProps {
+  destination: DestinationWithRegion;
+  tagDefinitions?: TagDefinition[];
+}
+
+export function DestinationCard({ destination, tagDefinitions }: DestinationCardProps) {
   return (
     <Link href={`/destinations/${destination.slug}`}>
       <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
@@ -36,7 +41,7 @@ export function DestinationCard({ destination }: { destination: DestinationWithR
             )}
           </div>
           {destination.tags && destination.tags.length > 0 && (
-            <TagBadges tags={destination.tags} limit={3} />
+            <TagBadges tags={destination.tags} limit={3} tagDefinitions={tagDefinitions} />
           )}
           {destination.pair_with && (
             <p className="text-xs text-muted-foreground">

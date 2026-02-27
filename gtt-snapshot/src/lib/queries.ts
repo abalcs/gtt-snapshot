@@ -9,6 +9,7 @@ import type {
   SpecialSection,
   SearchResult,
   AdminLogEntry,
+  TagDefinition,
 } from './types';
 
 const db = () => getDb();
@@ -411,6 +412,52 @@ export async function getDestinationsByTags(tagSlugs: string[], regionSlug?: str
   });
 
   return results;
+}
+
+// ── Tag Definitions (CRUD) ───────────────────────────────
+
+export async function getAllTagDefinitions(): Promise<TagDefinition[]> {
+  const snap = await db().collection('tags').get();
+  const tags: TagDefinition[] = snap.docs.map(doc => {
+    const data = doc.data();
+    return { slug: doc.id, label: data.label, category: data.category };
+  });
+  tags.sort((a, b) => {
+    const catCmp = a.category.localeCompare(b.category);
+    if (catCmp !== 0) return catCmp;
+    return a.label.localeCompare(b.label);
+  });
+  return tags;
+}
+
+export async function createTagDefinition(tag: TagDefinition): Promise<void> {
+  await db().collection('tags').doc(tag.slug).set({
+    label: tag.label,
+    category: tag.category,
+  });
+}
+
+export async function updateTagDefinition(slug: string, data: { label?: string; category?: string }): Promise<void> {
+  await db().collection('tags').doc(slug).update(data);
+}
+
+export async function deleteTagDefinition(slug: string): Promise<void> {
+  // Remove the tag document
+  await db().collection('tags').doc(slug).delete();
+
+  // Remove this slug from all destinations' tags arrays
+  const snap = await db().collection('destinations')
+    .where('tags', 'array-contains', slug)
+    .get();
+
+  const batch = db().batch();
+  for (const doc of snap.docs) {
+    const currentTags: string[] = doc.data().tags ?? [];
+    batch.update(doc.ref, { tags: currentTags.filter(t => t !== slug) });
+  }
+  if (snap.docs.length > 0) {
+    await batch.commit();
+  }
 }
 
 // ── Sidebar Data ─────────────────────────────────────────

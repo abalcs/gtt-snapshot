@@ -1,10 +1,12 @@
+import type { TagDefinition } from './types';
+
+export type TagCategory = 'trip-style' | 'activities' | 'traveler-profile' | 'landscape';
+
 export interface Tag {
   slug: string;
   label: string;
   category: TagCategory;
 }
-
-export type TagCategory = 'trip-style' | 'activities' | 'traveler-profile' | 'landscape';
 
 export const TAG_CATEGORIES: { key: TagCategory; label: string; color: string }[] = [
   { key: 'trip-style', label: 'Trip Style', color: 'blue' },
@@ -13,6 +15,7 @@ export const TAG_CATEGORIES: { key: TagCategory; label: string; color: string }[
   { key: 'landscape', label: 'Landscape', color: 'amber' },
 ];
 
+/** Seed / fallback constant — used by seed script and as offline fallback */
 export const ALL_TAGS: Tag[] = [
   // Trip Style (9)
   { slug: 'beaches-and-coast', label: 'Beaches & Coast', category: 'trip-style' },
@@ -50,16 +53,18 @@ export const ALL_TAGS: Tag[] = [
   { slug: 'tropical-islands', label: 'Tropical Islands', category: 'landscape' },
 ];
 
-export function getTagBySlug(slug: string): Tag | undefined {
-  return ALL_TAGS.find(t => t.slug === slug);
+// ── Helpers that work with a passed-in array (or fallback to ALL_TAGS) ──
+
+export function getTagBySlug(slug: string, tags: TagDefinition[] = ALL_TAGS): Tag | undefined {
+  return tags.find(t => t.slug === slug) as Tag | undefined;
 }
 
-export function getTagsByCategory(category: TagCategory): Tag[] {
-  return ALL_TAGS.filter(t => t.category === category);
+export function getTagsByCategory(category: TagCategory, tags: TagDefinition[] = ALL_TAGS): Tag[] {
+  return tags.filter(t => t.category === category) as Tag[];
 }
 
-export function getTagLabel(slug: string): string {
-  return getTagBySlug(slug)?.label ?? slug;
+export function getTagLabel(slug: string, tags: TagDefinition[] = ALL_TAGS): string {
+  return getTagBySlug(slug, tags)?.label ?? slug;
 }
 
 export function getCategoryColor(category: TagCategory): string {

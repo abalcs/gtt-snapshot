@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ALL_TAGS, TAG_CATEGORIES, type TagCategory } from "@/lib/tags";
+import { TAG_CATEGORIES, type TagCategory } from "@/lib/tags";
 import { DestinationCard } from "@/components/destinations/destination-card";
-import type { DestinationWithRegion } from "@/lib/types";
+import type { DestinationWithRegion, TagDefinition } from "@/lib/types";
 
 const categoryActiveMap: Record<TagCategory, string> = {
   'trip-style': 'bg-blue-600 text-white border-blue-600',
@@ -20,10 +20,18 @@ const categoryInactiveMap: Record<TagCategory, string> = {
 };
 
 export function HelpMeChooseClient() {
+  const [tagDefinitions, setTagDefinitions] = useState<TagDefinition[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [results, setResults] = useState<DestinationWithRegion[]>([]);
   const [loading, setLoading] = useState(false);
   const [fetched, setFetched] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/tags")
+      .then(res => res.json())
+      .then(data => setTagDefinitions(data))
+      .catch(() => {});
+  }, []);
 
   const toggle = (slug: string) => {
     setSelected(prev =>
@@ -85,7 +93,7 @@ export function HelpMeChooseClient() {
         </div>
 
         {TAG_CATEGORIES.map(cat => {
-          const tags = ALL_TAGS.filter(t => t.category === cat.key);
+          const tags = tagDefinitions.filter(t => t.category === cat.key);
           return (
             <div key={cat.key}>
               <p className="text-sm font-medium text-muted-foreground mb-2">{cat.label}</p>
@@ -126,7 +134,7 @@ export function HelpMeChooseClient() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {results.map(dest => (
-                <DestinationCard key={dest.id} destination={dest} />
+                <DestinationCard key={dest.id} destination={dest} tagDefinitions={tagDefinitions} />
               ))}
             </div>
           </>

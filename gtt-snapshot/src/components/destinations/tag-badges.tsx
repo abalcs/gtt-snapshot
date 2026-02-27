@@ -1,4 +1,5 @@
-import { getTagBySlug, type TagCategory } from "@/lib/tags";
+import { type TagCategory } from "@/lib/tags";
+import type { TagDefinition } from "@/lib/types";
 
 const colorMap: Record<TagCategory, string> = {
   'trip-style': 'bg-blue-50 text-blue-700 border-blue-200',
@@ -10,9 +11,10 @@ const colorMap: Record<TagCategory, string> = {
 interface TagBadgesProps {
   tags: string[];
   limit?: number;
+  tagDefinitions?: TagDefinition[];
 }
 
-export function TagBadges({ tags, limit }: TagBadgesProps) {
+export function TagBadges({ tags, limit, tagDefinitions }: TagBadgesProps) {
   if (!tags || tags.length === 0) return null;
 
   const visible = limit ? tags.slice(0, limit) : tags;
@@ -21,14 +23,16 @@ export function TagBadges({ tags, limit }: TagBadgesProps) {
   return (
     <div className="flex flex-wrap gap-1">
       {visible.map(slug => {
-        const tag = getTagBySlug(slug);
-        if (!tag) return null;
+        const tag = tagDefinitions?.find(t => t.slug === slug);
+        const label = tag?.label ?? slug;
+        const category = tag?.category as TagCategory | undefined;
+        const colors = category ? colorMap[category] : 'bg-gray-50 text-gray-700 border-gray-200';
         return (
           <span
             key={slug}
-            className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium ${colorMap[tag.category]}`}
+            className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium ${colors}`}
           >
-            {tag.label}
+            {label}
           </span>
         );
       })}

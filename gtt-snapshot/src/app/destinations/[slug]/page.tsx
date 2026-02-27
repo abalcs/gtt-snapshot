@@ -7,7 +7,7 @@ import { PricingTable } from "@/components/destinations/pricing-table";
 import { SeasonalityDisplay } from "@/components/destinations/seasonality-display";
 import { ClientTypes } from "@/components/destinations/client-types";
 import { KeyFactsDisplay } from "@/components/destinations/key-facts-display";
-import { getDestinationBySlug } from "@/lib/queries";
+import { getDestinationBySlug, getAllTagDefinitions } from "@/lib/queries";
 import { getFlagUrl } from "@/lib/country-flags";
 import { TagBadges } from "@/components/destinations/tag-badges";
 
@@ -19,7 +19,10 @@ export default async function DestinationDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const destination = await getDestinationBySlug(slug);
+  const [destination, tagDefinitions] = await Promise.all([
+    getDestinationBySlug(slug),
+    getAllTagDefinitions(),
+  ]);
 
   if (!destination) notFound();
 
@@ -61,7 +64,7 @@ export default async function DestinationDetailPage({
           </div>
         </div>
         {destination.tags && destination.tags.length > 0 && (
-          <TagBadges tags={destination.tags} />
+          <TagBadges tags={destination.tags} tagDefinitions={tagDefinitions} />
         )}
         {(destination.date_updated || destination.updated_by) && (
           <p className="text-sm font-medium text-red-600">

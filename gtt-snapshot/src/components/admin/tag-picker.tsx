@@ -1,6 +1,8 @@
 "use client";
 
-import { ALL_TAGS, TAG_CATEGORIES, type TagCategory } from "@/lib/tags";
+import { useState, useEffect } from "react";
+import { TAG_CATEGORIES, type TagCategory } from "@/lib/tags";
+import type { TagDefinition } from "@/lib/types";
 
 const categoryColorMap: Record<TagCategory, string> = {
   'trip-style': 'bg-blue-100 text-blue-800 border-blue-300',
@@ -19,9 +21,20 @@ const categoryActiveMap: Record<TagCategory, string> = {
 interface TagPickerProps {
   selected: string[];
   onChange: (tags: string[]) => void;
+  tagDefinitions?: TagDefinition[];
 }
 
-export function TagPicker({ selected, onChange }: TagPickerProps) {
+export function TagPicker({ selected, onChange, tagDefinitions }: TagPickerProps) {
+  const [tags, setTags] = useState<TagDefinition[]>(tagDefinitions ?? []);
+
+  useEffect(() => {
+    if (tagDefinitions) return;
+    fetch("/api/tags")
+      .then(res => res.json())
+      .then(data => setTags(data))
+      .catch(() => {});
+  }, [tagDefinitions]);
+
   const toggle = (slug: string) => {
     if (selected.includes(slug)) {
       onChange(selected.filter(s => s !== slug));
@@ -33,8 +46,8 @@ export function TagPicker({ selected, onChange }: TagPickerProps) {
   return (
     <div className="space-y-4">
       {TAG_CATEGORIES.map(cat => {
-        const tags = ALL_TAGS.filter(t => t.category === cat.key);
-        const count = tags.filter(t => selected.includes(t.slug)).length;
+        const catTags = tags.filter(t => t.category === cat.key);
+        const count = catTags.filter(t => selected.includes(t.slug)).length;
         return (
           <div key={cat.key}>
             <div className="flex items-center gap-2 mb-2">
@@ -44,7 +57,7 @@ export function TagPicker({ selected, onChange }: TagPickerProps) {
               )}
             </div>
             <div className="flex flex-wrap gap-1.5">
-              {tags.map(tag => {
+              {catTags.map(tag => {
                 const isActive = selected.includes(tag.slug);
                 return (
                   <button

@@ -1,13 +1,15 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { ALL_TAGS, TAG_CATEGORIES } from "@/lib/tags";
+import { TAG_CATEGORIES, type TagCategory } from "@/lib/tags";
+import type { TagDefinition } from "@/lib/types";
 
 interface TagFilterBarProps {
   currentTags: string[];
+  tagDefinitions: TagDefinition[];
 }
 
-export function TagFilterBar({ currentTags }: TagFilterBarProps) {
+export function TagFilterBar({ currentTags, tagDefinitions }: TagFilterBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -48,7 +50,7 @@ export function TagFilterBar({ currentTags }: TagFilterBarProps) {
         )}
       </div>
       {TAG_CATEGORIES.map(cat => {
-        const tags = ALL_TAGS.filter(t => t.category === cat.key);
+        const tags = tagDefinitions.filter(t => t.category === cat.key);
         return (
           <div key={cat.key} className="flex flex-wrap gap-1.5">
             {tags.map(tag => {
