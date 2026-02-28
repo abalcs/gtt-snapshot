@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
 
   if (password === ADMIN_PASSWORD) {
     const response = NextResponse.json({ success: true });
-    response.cookies.set('admin_auth', 'authenticated', {
+    response.cookies.set('__session', 'authenticated', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
