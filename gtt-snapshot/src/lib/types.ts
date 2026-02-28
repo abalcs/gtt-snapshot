@@ -91,6 +91,6 @@ export interface AdminLogEntry {
   target_name: string;
   target_slug: string;
   updated_by: string;
-  changes: { field: string; from?: string; to?: string }[];
+  changes: { field: string; from?: string | null; to?: string | null }[];
   timestamp: string;
 }

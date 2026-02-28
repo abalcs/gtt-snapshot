@@ -163,14 +163,14 @@ export async function updateSpecialSection(slug: string, data: { title?: string;
 
   await db().collection('special_sections').doc(slug).update(updateData);
 
-  const changes: { field: string; from?: string; to?: string }[] = [];
+  const changes: { field: string; from?: string | null; to?: string | null }[] = [];
   for (const [key, value] of Object.entries(data)) {
     const oldVal = existingData[key];
     const newVal = value ?? null;
     const oldStr = oldVal != null ? String(oldVal) : '';
     const newStr = newVal != null ? String(newVal) : '';
     if (oldStr !== newStr) {
-      changes.push({ field: key, from: oldStr || undefined, to: newStr || undefined });
+      changes.push({ field: key, from: oldStr || null, to: newStr || null });
     }
   }
 
@@ -378,7 +378,7 @@ export async function updateDestination(id: string, data: Partial<Destination>):
 
   // Build change list for logging
   const skipFields = ['updated_at', 'search_tokens', 'pricing_tiers', 'tags'];
-  const changes: { field: string; from?: string; to?: string }[] = [];
+  const changes: { field: string; from?: string | null; to?: string | null }[] = [];
   for (const [key, value] of fields) {
     if (skipFields.includes(key)) continue;
     const oldVal = existingData[key];
@@ -388,8 +388,8 @@ export async function updateDestination(id: string, data: Partial<Destination>):
     if (oldStr !== newStr) {
       changes.push({
         field: key,
-        from: oldStr || undefined,
-        to: newStr || undefined,
+        from: oldStr || null,
+        to: newStr || null,
       });
     }
   }
