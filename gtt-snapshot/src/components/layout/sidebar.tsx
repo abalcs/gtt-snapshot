@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -17,18 +17,11 @@ interface SidebarData {
   specialSections: { title: string; slug: string }[];
 }
 
-export function Sidebar() {
+export function Sidebar({ initialData }: { initialData: SidebarData }) {
   const pathname = usePathname();
-  const [data, setData] = useState<SidebarData | null>(null);
+  const data = initialData;
   const [expandedContinents, setExpandedContinents] = useState<Set<string>>(new Set());
   const [collapsed, setCollapsed] = useState(false);
-
-  useEffect(() => {
-    fetch("/api/sidebar")
-      .then((res) => res.json())
-      .then(setData)
-      .catch(() => {});
-  }, []);
 
   const toggleContinent = (name: string) => {
     setExpandedContinents((prev) => {
@@ -117,7 +110,7 @@ export function Sidebar() {
               Continents
             </div>
 
-            {data?.continents.map((continent) => (
+            {data.continents.map((continent) => (
               <div key={continent.name}>
                 <button
                   onClick={() => toggleContinent(continent.name)}
@@ -140,30 +133,32 @@ export function Sidebar() {
                 </button>
                 <div
                   className={cn(
-                    "ml-3 border-l border-white/20 pl-2 space-y-0.5 overflow-hidden transition-all duration-200 ease-in-out",
+                    "grid transition-[grid-template-rows,opacity] duration-200 ease-in-out",
                     expandedContinents.has(continent.name)
-                      ? "max-h-[1000px] opacity-100"
-                      : "max-h-0 opacity-0"
+                      ? "grid-rows-[1fr] opacity-100"
+                      : "grid-rows-[0fr] opacity-0"
                   )}
                 >
-                  {continent.destinations.map((dest) => (
-                    <Link
-                      key={dest.slug}
-                      href={`/destinations/${dest.slug}`}
-                      className={cn(
-                        "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white transition-colors",
-                        pathname === `/destinations/${dest.slug}` &&
-                          "bg-white/20 font-medium text-white"
-                      )}
-                    >
-                      {dest.name}
-                    </Link>
-                  ))}
+                  <div className="overflow-hidden ml-3 border-l border-white/20 pl-2 space-y-0.5">
+                    {continent.destinations.map((dest) => (
+                      <Link
+                        key={dest.slug}
+                        href={`/destinations/${dest.slug}`}
+                        className={cn(
+                          "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white transition-colors",
+                          pathname === `/destinations/${dest.slug}` &&
+                            "bg-white/20 font-medium text-white"
+                        )}
+                      >
+                        {dest.name}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
 
-            {data?.specialSections && data.specialSections.length > 0 && (
+            {data.specialSections.length > 0 && (
               <>
                 <div className="pt-3 pb-1 px-3 text-xs font-semibold text-white/60 uppercase tracking-wider">
                   Special Sections
