@@ -10,6 +10,8 @@ import { KeyFactsDisplay } from "@/components/destinations/key-facts-display";
 import { getDestinationBySlug, getAllTagDefinitions } from "@/lib/queries";
 import { getFlagUrl } from "@/lib/country-flags";
 import { TagBadges } from "@/components/destinations/tag-badges";
+import DestinationMap from "@/components/destinations/destination-map";
+import { getCoordinates } from "@/lib/country-coordinates";
 
 export const dynamic = 'force-dynamic';
 
@@ -29,6 +31,8 @@ export default async function DestinationDetailPage({
   const pairWithItems = destination.pair_with
     ? destination.pair_with.split(/,|\//).map((s) => s.trim()).filter(Boolean)
     : [];
+
+  const coords = getCoordinates(slug);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 print:space-y-4">
@@ -73,6 +77,16 @@ export default async function DestinationDetailPage({
           </p>
         )}
       </div>
+
+      {/* Location Map */}
+      {coords && (
+        <DestinationMap
+          lat={coords.lat}
+          lng={coords.lng}
+          zoom={coords.zoom}
+          name={destination.name}
+        />
+      )}
 
       {/* Urgency Banner */}
       {destination.urgency && (
