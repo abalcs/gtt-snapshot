@@ -32,6 +32,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }: CompareClientProps) {
   const router = useRouter();
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>(initialSlugs);
+  const [pickerOpen, setPickerOpen] = useState(initialSlugs.length === 0);
   const [searchValue, setSearchValue] = useState("");
 
   const destMap = useMemo(() => {
@@ -99,71 +100,114 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }:
 
       {/* Destination Picker */}
       <Card>
-        <CardContent className="pt-4 pb-4 space-y-3">
-          {/* Selected chips */}
-          {selected.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {selected.map((dest) => (
-                <Badge
-                  key={dest.slug}
-                  variant="secondary"
-                  className="text-sm py-1.5 px-3 flex items-center gap-1.5 cursor-pointer hover:bg-muted"
-                  onClick={() => removeDestination(dest.slug)}
-                >
-                  {dest.name}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                </Badge>
-              ))}
-            </div>
-          )}
+        <button
+          onClick={() => setPickerOpen(!pickerOpen)}
+          className="flex w-full items-center justify-between px-6 pt-4 pb-3 text-left"
+        >
+          <div className="flex items-center gap-3 flex-wrap">
+            <span className="font-semibold text-sm">Select Destinations</span>
+            {selected.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {selected.map((dest) => (
+                  <Badge key={dest.slug} variant="secondary" className="text-xs">
+                    {dest.name}
+                  </Badge>
+                ))}
+              </div>
+            )}
+            {selected.length === 0 && (
+              <span className="text-sm text-muted-foreground">None selected</span>
+            )}
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={`text-muted-foreground shrink-0 transition-transform duration-200 ${pickerOpen ? "rotate-180" : ""}`}
+          >
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
 
-          {/* Search + scrollable list */}
-          {selectedSlugs.length < 3 && (
-            <div className="rounded-lg border">
-              <div className="flex items-center gap-2 px-3 py-2 border-b">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground shrink-0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                <input
-                  type="text"
-                  placeholder="Search or scroll to find a destination..."
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-                />
-                {searchValue && (
-                  <button
-                    onClick={() => setSearchValue("")}
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                  </button>
-                )}
-              </div>
-              <div className="max-h-64 overflow-y-auto">
-                {filteredList.length === 0 ? (
-                  <div className="px-3 py-6 text-center text-sm text-muted-foreground">
-                    No destinations found.
-                  </div>
-                ) : (
-                  filteredList.map((d) => (
-                    <button
-                      key={d.slug}
-                      onClick={() => addDestination(d.slug)}
-                      className="flex w-full items-center justify-between px-3 py-2 text-sm hover:bg-muted/50 transition-colors text-left"
+        <div
+          className={`grid transition-[grid-template-rows] duration-200 ease-in-out ${
+            pickerOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <CardContent className="pt-0 pb-4 space-y-3">
+              {/* Selected chips (removable) */}
+              {selected.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {selected.map((dest) => (
+                    <Badge
+                      key={dest.slug}
+                      variant="secondary"
+                      className="text-sm py-1.5 px-3 flex items-center gap-1.5 cursor-pointer hover:bg-muted"
+                      onClick={() => removeDestination(dest.slug)}
                     >
-                      <span>{d.name}</span>
-                      <span className="text-xs text-muted-foreground shrink-0 ml-2">
-                        {d.region_name}
-                      </span>
-                    </button>
-                  ))
-                )}
-              </div>
-              <div className="border-t px-3 py-1.5 text-xs text-muted-foreground">
-                {filteredList.length} destination{filteredList.length !== 1 ? "s" : ""} available
-              </div>
-            </div>
-          )}
-        </CardContent>
+                      {dest.name}
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </Badge>
+                  ))}
+                </div>
+              )}
+
+              {/* Search + scrollable list */}
+              {selectedSlugs.length < 3 && (
+                <div className="rounded-lg border">
+                  <div className="flex items-center gap-2 px-3 py-2 border-b">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground shrink-0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <input
+                      type="text"
+                      placeholder="Search or scroll to find a destination..."
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                    />
+                    {searchValue && (
+                      <button
+                        onClick={() => setSearchValue("")}
+                        className="text-muted-foreground hover:text-foreground"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                      </button>
+                    )}
+                  </div>
+                  <div className="max-h-64 overflow-y-auto">
+                    {filteredList.length === 0 ? (
+                      <div className="px-3 py-6 text-center text-sm text-muted-foreground">
+                        No destinations found.
+                      </div>
+                    ) : (
+                      filteredList.map((d) => (
+                        <button
+                          key={d.slug}
+                          onClick={() => addDestination(d.slug)}
+                          className="flex w-full items-center justify-between px-3 py-2 text-sm hover:bg-muted/50 transition-colors text-left"
+                        >
+                          <span>{d.name}</span>
+                          <span className="text-xs text-muted-foreground shrink-0 ml-2">
+                            {d.region_name}
+                          </span>
+                        </button>
+                      ))
+                    )}
+                  </div>
+                  <div className="border-t px-3 py-1.5 text-xs text-muted-foreground">
+                    {filteredList.length} destination{filteredList.length !== 1 ? "s" : ""} available
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </div>
+        </div>
       </Card>
 
       {/* Empty state */}
