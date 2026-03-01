@@ -28,8 +28,8 @@ export default function InteractiveMap({ lat, lng, zoom, name }: InteractiveMapP
       center={[lat, lng]}
       zoom={zoom}
       zoomSnap={0}
-      zoomDelta={0.5}
-      wheelPxPerZoomLevel={120}
+      zoomDelta={1}
+      wheelPxPerZoomLevel={60}
       style={{ height: "400px", width: "100%" }}
       scrollWheelZoom={true}
       className="rounded-md"
