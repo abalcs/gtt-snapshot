@@ -88,6 +88,21 @@ export default async function DestinationDetailPage({
         />
       )}
 
+      {/* Talking Points */}
+      {destination.talking_points && (
+        <Card className="border-[#3a5f54]/20 bg-[#3a5f54]/5">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-start gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#3a5f54] mt-0.5 shrink-0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <div>
+                <h3 className="font-semibold text-[#3a5f54] text-sm">Talking Points</h3>
+                <p className="text-sm text-[#3a5f54]/80 whitespace-pre-line">{destination.talking_points}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Urgency Banner */}
       {destination.urgency && (
         <Card className="border-amber-200 bg-amber-50">

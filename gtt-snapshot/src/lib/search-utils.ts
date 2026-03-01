@@ -16,6 +16,7 @@ export function generateSearchTokens(dest: Partial<Destination>): string[] {
     dest.general_notes_1,
     dest.general_notes_2,
     dest.pair_with,
+    dest.talking_points,
     dest.region_name,
   ];
 
@@ -48,6 +49,7 @@ export function generateSnippet(dest: Partial<Destination>, query: string): stri
     dest.general_notes_1,
     dest.general_notes_2,
     dest.pair_with,
+    dest.talking_points,
   ];
 
   const lowerQuery = query.toLowerCase();

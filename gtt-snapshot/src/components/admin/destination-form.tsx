@@ -86,6 +86,7 @@ export function DestinationForm({ destination, regions }: Props) {
     const parsed = splitIntoFacts(destination?.key_facts || "");
     return parsed.length > 0 ? parsed : [""];
   });
+  const [talkingPoints, setTalkingPoints] = useState(destination?.talking_points || "");
   const [urgency, setUrgency] = useState(destination?.urgency || "");
   const [soloPricing, setSoloPricing] = useState(destination?.solo_pricing || "");
   const [paxLimit, setPaxLimit] = useState(destination?.pax_limit || "");
@@ -200,6 +201,7 @@ export function DestinationForm({ destination, regions }: Props) {
       night_min: nightMin || null,
       key_facts: factsToString(keyFacts) || null,
       urgency: urgency || null,
+      talking_points: talkingPoints || null,
       solo_pricing: soloPricing || null,
       pax_limit: paxLimit || null,
       accommodations: accommodations || null,
@@ -353,6 +355,10 @@ export function DestinationForm({ destination, regions }: Props) {
           <div>
             <Label htmlFor="urgency">Urgency</Label>
             <Textarea id="urgency" value={urgency} onChange={(e) => setUrgency(e.target.value)} rows={3} />
+          </div>
+          <div>
+            <Label htmlFor="talkingPoints">Talking Points</Label>
+            <Textarea id="talkingPoints" value={talkingPoints} onChange={(e) => setTalkingPoints(e.target.value)} rows={3} placeholder="2-3 punchy selling points for client conversations" />
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">

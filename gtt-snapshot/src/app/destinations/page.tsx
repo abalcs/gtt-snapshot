@@ -1,7 +1,7 @@
 import { getAllDestinations, getAllRegions, getAllTagDefinitions } from "@/lib/queries";
-import { DestinationCard } from "@/components/destinations/destination-card";
 import { DestinationFilters } from "@/components/destinations/destination-filters";
 import { TagFilterBar } from "@/components/destinations/tag-filter-bar";
+import { DestinationGrid } from "@/components/destinations/destination-grid";
 
 export const dynamic = 'force-dynamic';
 
@@ -52,11 +52,7 @@ async function DestinationsContent({
 
       <TagFilterBar currentTags={activeTags} tagDefinitions={tagDefinitions} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredDestinations.map((dest) => (
-          <DestinationCard key={dest.id} destination={dest} tagDefinitions={tagDefinitions} />
-        ))}
-      </div>
+      <DestinationGrid destinations={filteredDestinations} tagDefinitions={tagDefinitions} />
     </div>
   );
 }

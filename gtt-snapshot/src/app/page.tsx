@@ -1,16 +1,18 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getAllRegions, getStats, getAllDestinations } from "@/lib/queries";
+import { getAllRegions, getStats, getAllDestinations, getAdminLogs } from "@/lib/queries";
+import { WhatsNewFeed } from "@/components/whats-new-feed";
 import { getContinentForDestination, getContinentOrder } from "@/lib/continents";
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
-  const [regions, stats, allDestinations] = await Promise.all([
+  const [regions, stats, allDestinations, recentLogs] = await Promise.all([
     getAllRegions(),
     getStats(),
     getAllDestinations(),
+    getAdminLogs(10),
   ]);
   const continentOrder = getContinentOrder();
 
@@ -81,6 +83,22 @@ export default async function HomePage() {
           </Link>
         </CardContent>
       </Card>
+
+      {/* What's New */}
+      {recentLogs.length > 0 && (
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold">What&apos;s New</h2>
+            <Link
+              href="/whats-new"
+              className="text-sm text-primary hover:underline"
+            >
+              View all updates
+            </Link>
+          </div>
+          <WhatsNewFeed logs={recentLogs} />
+        </div>
+      )}
 
       {/* Continent cards */}
       <div>

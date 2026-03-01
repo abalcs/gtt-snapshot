@@ -41,6 +41,7 @@ function docToDestination(id: string, data: FirebaseFirestore.DocumentData): Des
     pax_limit: data.pax_limit ?? null,
     accommodations: data.accommodations ?? null,
     how_to_feature: data.how_to_feature ?? null,
+    talking_points: data.talking_points ?? null,
     pair_with: data.pair_with ?? null,
     general_notes_1: data.general_notes_1 ?? null,
     general_notes_2: data.general_notes_2 ?? null,
@@ -312,6 +313,7 @@ export async function createDestination(data: Partial<Destination> & { region_id
     pax_limit: data.pax_limit ?? null,
     accommodations: data.accommodations ?? null,
     how_to_feature: data.how_to_feature ?? null,
+    talking_points: data.talking_points ?? null,
     pair_with: data.pair_with ?? null,
     general_notes_1: data.general_notes_1 ?? null,
     general_notes_2: data.general_notes_2 ?? null,
@@ -368,7 +370,7 @@ export async function updateDestination(id: string, data: Partial<Destination>):
   updateData.date_updated = readableDate;
 
   // If searchable fields changed, regenerate tokens
-  const searchableFields = ['name', 'key_facts', 'urgency', 'accommodations', 'client_types_good', 'client_types_okay', 'client_types_bad', 'general_notes_1', 'general_notes_2', 'pair_with', 'region_name'];
+  const searchableFields = ['name', 'key_facts', 'urgency', 'accommodations', 'client_types_good', 'client_types_okay', 'client_types_bad', 'general_notes_1', 'general_notes_2', 'pair_with', 'talking_points', 'region_name'];
   if (fields.some(([key]) => searchableFields.includes(key))) {
     const merged = { ...existingData, ...data };
     updateData.search_tokens = generateSearchTokens(merged as Partial<Destination>);
