@@ -3,7 +3,6 @@
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "cmdk";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Destination, TagDefinition, SeasonalityEntry } from "@/lib/types";
@@ -33,7 +32,6 @@ const statusLabels: Record<string, { label: string; color: string }> = {
 export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }: CompareClientProps) {
   const router = useRouter();
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>(initialSlugs);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
   const destMap = useMemo(() => {
@@ -63,7 +61,6 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }:
     const next = [...selectedSlugs, slug];
     setSelectedSlugs(next);
     updateUrl(next);
-    setSearchOpen(false);
     setSearchValue("");
   };
 
@@ -73,9 +70,23 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }:
     updateUrl(next);
   };
 
-  const availableDestinations = allDestinations.filter(
-    (d) => !selectedSlugs.includes(d.slug)
-  );
+  const availableDestinations = useMemo(() => {
+    const filtered = allDestinations.filter(
+      (d) => !selectedSlugs.includes(d.slug)
+    );
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+    return filtered;
+  }, [allDestinations, selectedSlugs]);
+
+  const filteredList = useMemo(() => {
+    if (!searchValue) return availableDestinations;
+    const q = searchValue.toLowerCase();
+    return availableDestinations.filter(
+      (d) =>
+        d.name.toLowerCase().includes(q) ||
+        d.region_name.toLowerCase().includes(q)
+    );
+  }, [availableDestinations, searchValue]);
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
@@ -87,67 +98,73 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }:
       </div>
 
       {/* Destination Picker */}
-      <div className="space-y-3">
-        <div className="flex flex-wrap gap-2">
-          {selected.map((dest) => (
-            <Badge
-              key={dest.slug}
-              variant="secondary"
-              className="text-sm py-1 px-3 flex items-center gap-1.5 cursor-pointer hover:bg-muted"
-              onClick={() => removeDestination(dest.slug)}
-            >
-              {dest.name}
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-            </Badge>
-          ))}
-        </div>
-        {selectedSlugs.length < 3 && (
-          <div className="relative">
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="inline-flex items-center gap-1.5 rounded-md border border-dashed border-muted-foreground/40 px-3 py-2 text-sm text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-              Add destination
-            </button>
-            {searchOpen && (
-              <div className="absolute top-full left-0 mt-1 z-50 w-80 rounded-lg border bg-white shadow-lg">
-                <Command shouldFilter={false}>
-                  <CommandInput
-                    placeholder="Search destinations..."
-                    value={searchValue}
-                    onValueChange={setSearchValue}
-                  />
-                  <CommandList>
-                    <CommandEmpty>No destinations found.</CommandEmpty>
-                    <CommandGroup>
-                      {availableDestinations
-                        .filter((d) =>
-                          d.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-                          d.region_name.toLowerCase().includes(searchValue.toLowerCase())
-                        )
-                        .slice(0, 10)
-                        .map((d) => (
-                          <CommandItem
-                            key={d.slug}
-                            value={d.slug}
-                            onSelect={() => addDestination(d.slug)}
-                            className="cursor-pointer"
-                          >
-                            <span>{d.name}</span>
-                            <span className="ml-auto text-xs text-muted-foreground">
-                              {d.region_name}
-                            </span>
-                          </CommandItem>
-                        ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
+      <Card>
+        <CardContent className="pt-4 pb-4 space-y-3">
+          {/* Selected chips */}
+          {selected.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {selected.map((dest) => (
+                <Badge
+                  key={dest.slug}
+                  variant="secondary"
+                  className="text-sm py-1.5 px-3 flex items-center gap-1.5 cursor-pointer hover:bg-muted"
+                  onClick={() => removeDestination(dest.slug)}
+                >
+                  {dest.name}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </Badge>
+              ))}
+            </div>
+          )}
+
+          {/* Search + scrollable list */}
+          {selectedSlugs.length < 3 && (
+            <div className="rounded-lg border">
+              <div className="flex items-center gap-2 px-3 py-2 border-b">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground shrink-0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input
+                  type="text"
+                  placeholder="Search or scroll to find a destination..."
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                />
+                {searchValue && (
+                  <button
+                    onClick={() => setSearchValue("")}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  </button>
+                )}
               </div>
-            )}
-          </div>
-        )}
-      </div>
+              <div className="max-h-64 overflow-y-auto">
+                {filteredList.length === 0 ? (
+                  <div className="px-3 py-6 text-center text-sm text-muted-foreground">
+                    No destinations found.
+                  </div>
+                ) : (
+                  filteredList.map((d) => (
+                    <button
+                      key={d.slug}
+                      onClick={() => addDestination(d.slug)}
+                      className="flex w-full items-center justify-between px-3 py-2 text-sm hover:bg-muted/50 transition-colors text-left"
+                    >
+                      <span>{d.name}</span>
+                      <span className="text-xs text-muted-foreground shrink-0 ml-2">
+                        {d.region_name}
+                      </span>
+                    </button>
+                  ))
+                )}
+              </div>
+              <div className="border-t px-3 py-1.5 text-xs text-muted-foreground">
+                {filteredList.length} destination{filteredList.length !== 1 ? "s" : ""} available
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Empty state */}
       {selected.length === 0 && (
