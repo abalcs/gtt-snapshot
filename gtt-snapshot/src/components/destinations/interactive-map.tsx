@@ -27,6 +27,9 @@ export default function InteractiveMap({ lat, lng, zoom, name }: InteractiveMapP
     <MapContainer
       center={[lat, lng]}
       zoom={zoom}
+      zoomSnap={0}
+      zoomDelta={0.5}
+      wheelPxPerZoomLevel={120}
       style={{ height: "400px", width: "100%" }}
       scrollWheelZoom={true}
       className="rounded-md"
