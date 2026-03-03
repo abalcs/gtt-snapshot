@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function LoginForm() {
   const router = useRouter();
@@ -109,6 +110,12 @@ export function LoginForm() {
               >
                 {loading ? "Signing in..." : "Sign in"}
               </button>
+
+              <div className="text-center">
+                <Link href="/recover" className="text-sm text-[#3a5f54] hover:underline">
+                  Forgot password?
+                </Link>
+              </div>
             </form>
           </div>
         </div>

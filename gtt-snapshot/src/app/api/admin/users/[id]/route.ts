@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { validateSession, updateUserStatus, getUserById } from '@/lib/user-queries';
+import { validateSession, updateUserStatus, getUserById, adminResetPassword } from '@/lib/user-queries';
 
 export async function PATCH(
   request: NextRequest,
@@ -17,11 +17,7 @@ export async function PATCH(
     }
 
     const { id } = await params;
-    const { status } = await request.json();
-
-    if (status !== 'active' && status !== 'deactivated') {
-      return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
-    }
+    const body = await request.json();
 
     const targetUser = await getUserById(id);
     if (!targetUser) {
@@ -30,6 +26,23 @@ export async function PATCH(
 
     if (targetUser.id === admin.id) {
       return NextResponse.json({ error: 'Cannot modify your own account' }, { status: 400 });
+    }
+
+    // Handle reset_password action
+    if (body.action === 'reset_password') {
+      const tempPassword = body.temp_password;
+      if (!tempPassword || tempPassword.length < 6) {
+        return NextResponse.json({ error: 'Temporary password must be at least 6 characters' }, { status: 400 });
+      }
+
+      await adminResetPassword(id, tempPassword);
+      return NextResponse.json({ success: true });
+    }
+
+    // Handle status update (existing behavior)
+    const { status } = body;
+    if (status !== 'active' && status !== 'deactivated') {
+      return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
     }
 
     await updateUserStatus(id, status);

@@ -26,6 +26,10 @@ export function UserManagement() {
   const [inviting, setInviting] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [resetUserId, setResetUserId] = useState<string | null>(null);
+  const [resetTempPassword, setResetTempPassword] = useState("");
+  const [resetting, setResetting] = useState(false);
+  const [resetMessage, setResetMessage] = useState("");
 
   const fetchUsers = async () => {
     try {
@@ -93,6 +97,38 @@ export function UserManagement() {
     }
   };
 
+  const handleResetPassword = async (userId: string) => {
+    if (!resetTempPassword || resetTempPassword.length < 6) {
+      setError("Temporary password must be at least 6 characters");
+      return;
+    }
+    setResetting(true);
+    setError("");
+    setResetMessage("");
+
+    try {
+      const res = await fetch(`/api/admin/users/${userId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: 'reset_password', temp_password: resetTempPassword }),
+      });
+
+      if (res.ok) {
+        setResetMessage(`Password reset for user. Share this temporary password: ${resetTempPassword}`);
+        setResetUserId(null);
+        setResetTempPassword("");
+        fetchUsers();
+      } else {
+        const data = await res.json();
+        setError(data.error || "Failed to reset password");
+      }
+    } catch {
+      setError("Something went wrong");
+    } finally {
+      setResetting(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Create user form */}
@@ -143,6 +179,12 @@ export function UserManagement() {
           </form>
           {message && <p className="mt-3 text-sm text-green-600">{message}</p>}
           {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+          {resetMessage && (
+            <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-md">
+              <p className="text-sm text-green-800">{resetMessage}</p>
+              <p className="text-xs text-green-600 mt-1">The user will be required to set a new password and will receive new recovery codes.</p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -187,13 +229,52 @@ export function UserManagement() {
                         </Badge>
                       </td>
                       <td className="py-2 px-3 text-right">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleToggleStatus(u.id, u.status)}
-                        >
-                          {u.status === 'active' ? 'Deactivate' : 'Reactivate'}
-                        </Button>
+                        <div className="flex items-center justify-end gap-2">
+                          {resetUserId === u.id ? (
+                            <div className="flex items-center gap-2">
+                              <Input
+                                type="text"
+                                value={resetTempPassword}
+                                onChange={(e) => setResetTempPassword(e.target.value)}
+                                placeholder="Temp password"
+                                className="w-32 h-8 text-xs"
+                                minLength={6}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => handleResetPassword(u.id)}
+                                disabled={resetting || resetTempPassword.length < 6}
+                              >
+                                {resetting ? "..." : "Reset"}
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => { setResetUserId(null); setResetTempPassword(""); }}
+                              >
+                                Cancel
+                              </Button>
+                            </div>
+                          ) : (
+                            <>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => { setResetUserId(u.id); setResetTempPassword(""); setResetMessage(""); }}
+                              >
+                                Reset Password
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleToggleStatus(u.id, u.status)}
+                              >
+                                {u.status === 'active' ? 'Deactivate' : 'Reactivate'}
+                              </Button>
+                            </>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}

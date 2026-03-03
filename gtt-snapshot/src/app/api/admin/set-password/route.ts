@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { validateSession, updateUserPassword } from '@/lib/user-queries';
+import { validateSession, updateUserPassword, generateRecoveryCodes, saveRecoveryCodes } from '@/lib/user-queries';
 
 const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
 
@@ -25,7 +25,10 @@ export async function POST(request: NextRequest) {
 
     await updateUserPassword(user.id, password);
 
-    return NextResponse.json({ success: true });
+    const { plaintext, hashed } = await generateRecoveryCodes();
+    await saveRecoveryCodes(user.id, hashed);
+
+    return NextResponse.json({ success: true, recovery_codes: plaintext });
   } catch {
     return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });
   }

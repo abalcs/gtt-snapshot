@@ -94,6 +94,7 @@ export interface User {
   role: 'admin' | 'advisor';
   status: 'active' | 'deactivated';
   must_change_password: boolean;
+  recovery_codes: string[];
   created_at: string;
   updated_at: string;
   invited_by: string | null;

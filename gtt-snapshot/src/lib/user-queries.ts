@@ -43,6 +43,7 @@ export async function createUser(
     role,
     status: 'active' as const,
     must_change_password: mustChangePassword,
+    recovery_codes: [] as string[],
     created_at: now,
     updated_at: now,
     invited_by: invitedBy ?? null,
@@ -121,6 +122,56 @@ export async function deleteAllUserSessions(userId: string): Promise<void> {
   await batch.commit();
 }
 
+// ── Recovery Codes ──────────────────────────────────────
+
+export async function generateRecoveryCodes(): Promise<{ plaintext: string[]; hashed: string[] }> {
+  const codes: string[] = [];
+  for (let i = 0; i < 6; i++) {
+    const bytes = crypto.randomBytes(4);
+    const hex = bytes.toString('hex').toUpperCase();
+    codes.push(`${hex.slice(0, 4)}-${hex.slice(4, 8)}`);
+  }
+  const hashed = await Promise.all(codes.map((c) => bcrypt.hash(c, 10)));
+  return { plaintext: codes, hashed };
+}
+
+export async function saveRecoveryCodes(userId: string, hashedCodes: string[]): Promise<void> {
+  await db().collection('users').doc(userId).update({
+    recovery_codes: hashedCodes,
+    updated_at: new Date().toISOString(),
+  });
+}
+
+export async function verifyAndConsumeRecoveryCode(userId: string, code: string): Promise<boolean> {
+  const user = await getUserById(userId);
+  if (!user || !user.recovery_codes.length) return false;
+
+  for (let i = 0; i < user.recovery_codes.length; i++) {
+    const match = await bcrypt.compare(code.toUpperCase().trim(), user.recovery_codes[i]);
+    if (match) {
+      const remaining = [...user.recovery_codes];
+      remaining.splice(i, 1);
+      await db().collection('users').doc(userId).update({
+        recovery_codes: remaining,
+        updated_at: new Date().toISOString(),
+      });
+      return true;
+    }
+  }
+  return false;
+}
+
+export async function adminResetPassword(userId: string, tempPassword: string): Promise<void> {
+  const passwordHash = await bcrypt.hash(tempPassword, 12);
+  await db().collection('users').doc(userId).update({
+    password_hash: passwordHash,
+    must_change_password: true,
+    recovery_codes: [],
+    updated_at: new Date().toISOString(),
+  });
+  await deleteAllUserSessions(userId);
+}
+
 // ── Helpers ─────────────────────────────────────────────
 
 function docToUser(id: string, data: FirebaseFirestore.DocumentData): User {
@@ -132,6 +183,7 @@ function docToUser(id: string, data: FirebaseFirestore.DocumentData): User {
     role: data.role ?? 'advisor',
     status: data.status ?? 'active',
     must_change_password: data.must_change_password ?? false,
+    recovery_codes: data.recovery_codes ?? [],
     created_at: data.created_at,
     updated_at: data.updated_at,
     invited_by: data.invited_by ?? null,
