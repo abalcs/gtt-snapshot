@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getSpecialSectionBySlug } from "@/lib/queries";
+import { requireAuth } from "@/lib/admin-auth";
 
 export const dynamic = 'force-dynamic';
 
@@ -9,6 +10,7 @@ export default async function SpecialSectionPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  await requireAuth();
   const { slug } = await params;
   const section = await getSpecialSectionBySlug(slug);
 

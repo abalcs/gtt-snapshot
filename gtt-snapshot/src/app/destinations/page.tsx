@@ -2,6 +2,7 @@ import { getAllDestinations, getAllRegions, getAllTagDefinitions } from "@/lib/q
 import { DestinationFilters } from "@/components/destinations/destination-filters";
 import { TagFilterBar } from "@/components/destinations/tag-filter-bar";
 import { DestinationGrid } from "@/components/destinations/destination-grid";
+import { requireAuth } from "@/lib/admin-auth";
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,7 @@ async function DestinationsContent({
 }: {
   searchParamsPromise: Promise<{ region?: string; tags?: string }>;
 }) {
+  await requireAuth();
   const { region, tags: tagsParam } = await searchParamsPromise;
   const [allDestinations, regions, tagDefinitions] = await Promise.all([
     getAllDestinations(),

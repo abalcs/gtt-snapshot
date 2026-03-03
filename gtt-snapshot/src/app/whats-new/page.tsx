@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { getAdminLogs } from "@/lib/queries";
 import { WhatsNewFeed } from "@/components/whats-new-feed";
+import { requireAuth } from "@/lib/admin-auth";
 
 export const dynamic = 'force-dynamic';
 
 export default async function WhatsNewPage() {
+  await requireAuth();
   const logs = await getAdminLogs(50);
 
   return (

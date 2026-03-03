@@ -7,6 +7,7 @@ import { PageTransition } from "@/components/layout/page-transition";
 import { AdminShell } from "@/components/layout/admin-shell";
 import { getSidebarData } from "@/lib/queries";
 import { getContinentForDestination, getContinentOrder } from "@/lib/continents";
+import { getCurrentUser } from "@/lib/admin-auth";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -71,6 +72,19 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getCurrentUser();
+
+  // Not authenticated or must change password — render bare layout for login/set-password pages
+  if (!user || user.must_change_password) {
+    return (
+      <html lang="en">
+        <body className={`${merriweather.variable} ${openSans.variable} antialiased`}>
+          {children}
+        </body>
+      </html>
+    );
+  }
+
   const sidebarData = await fetchSidebarData();
 
   return (
@@ -81,7 +95,7 @@ export default async function RootLayout({
         <div className="flex h-screen overflow-hidden">
           <Sidebar initialData={sidebarData} />
           <div className="flex flex-1 flex-col overflow-hidden">
-            <Header />
+            <Header user={{ name: user.name, role: user.role }} />
             <AdminShell>
               <PageTransition>
                 {children}

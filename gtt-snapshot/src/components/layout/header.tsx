@@ -18,7 +18,11 @@ interface SpecialSectionResult {
   slug: string;
 }
 
-export function Header() {
+interface HeaderProps {
+  user?: { name: string; role: string };
+}
+
+export function Header({ user }: HeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
@@ -89,8 +93,7 @@ export function Header() {
 
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
-    router.push("/");
-    router.refresh();
+    window.location.href = "/login";
   };
 
   useEffect(() => {
@@ -237,14 +240,12 @@ export function Header() {
       </div>
 
       <div className="ml-auto flex items-center gap-3">
-        {isAdmin ? (
-          <button
-            onClick={handleLogout}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-          >
-            Logout
-          </button>
-        ) : (
+        {user && (
+          <span className="text-sm text-muted-foreground">
+            {user.name}
+          </span>
+        )}
+        {user?.role === 'admin' && !isAdmin && (
           <Link
             href="/admin"
             className="inline-flex items-center gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground transition-colors"
@@ -253,6 +254,12 @@ export function Header() {
             Admin
           </Link>
         )}
+        <button
+          onClick={handleLogout}
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+        >
+          Logout
+        </button>
       </div>
     </header>
   );

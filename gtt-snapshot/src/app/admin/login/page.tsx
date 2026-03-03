@@ -1,7 +1,7 @@
-import { LoginForm } from "./login-form";
+import { redirect } from "next/navigation";
 
 export const dynamic = 'force-dynamic';
 
 export default function AdminLoginPage() {
-  return <LoginForm />;
+  redirect("/login");
 }

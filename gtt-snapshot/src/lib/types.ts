@@ -86,6 +86,19 @@ export interface TagDefinition {
   category: 'trip-style' | 'activities' | 'traveler-profile' | 'landscape';
 }
 
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  password_hash: string;
+  role: 'admin' | 'advisor';
+  status: 'active' | 'deactivated';
+  must_change_password: boolean;
+  created_at: string;
+  updated_at: string;
+  invited_by: string | null;
+}
+
 export interface AdminLogEntry {
   id: string;
   action: 'created' | 'updated' | 'deleted';

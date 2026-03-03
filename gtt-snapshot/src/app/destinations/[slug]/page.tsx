@@ -12,6 +12,7 @@ import { getFlagUrl } from "@/lib/country-flags";
 import { TagBadges } from "@/components/destinations/tag-badges";
 import DestinationMap from "@/components/destinations/destination-map";
 import { getCoordinates } from "@/lib/country-coordinates";
+import { requireAuth } from "@/lib/admin-auth";
 
 export const dynamic = 'force-dynamic';
 
@@ -20,6 +21,7 @@ export default async function DestinationDetailPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  await requireAuth();
   const { slug } = await params;
   const [destination, tagDefinitions] = await Promise.all([
     getDestinationBySlug(slug),

@@ -31,6 +31,9 @@ export default async function AdminPage() {
           <p className="text-muted-foreground">Manage destinations and content</p>
         </div>
         <div className="flex gap-2">
+          <Link href="/admin/users">
+            <Button variant="outline">Manage Users</Button>
+          </Link>
           <Link href="/admin/tags">
             <Button variant="outline">Manage Tags</Button>
           </Link>

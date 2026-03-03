@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getRegionBySlug, getDestinationsByRegion } from "@/lib/queries";
 import { DestinationCard } from "@/components/destinations/destination-card";
+import { requireAuth } from "@/lib/admin-auth";
 
 export const dynamic = 'force-dynamic';
 
@@ -10,6 +11,7 @@ export default async function RegionPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  await requireAuth();
   const { slug } = await params;
   const region = await getRegionBySlug(slug);
 

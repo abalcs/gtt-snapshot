@@ -4,10 +4,12 @@ import { Badge } from "@/components/ui/badge";
 import { getAllRegions, getStats, getAllDestinations, getAdminLogs } from "@/lib/queries";
 import { WhatsNewFeed } from "@/components/whats-new-feed";
 import { getContinentForDestination, getContinentOrder } from "@/lib/continents";
+import { requireAuth } from "@/lib/admin-auth";
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
+  await requireAuth();
   const [regions, stats, allDestinations, recentLogs] = await Promise.all([
     getAllRegions(),
     getStats(),
