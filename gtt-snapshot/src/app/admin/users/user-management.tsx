@@ -22,6 +22,7 @@ export function UserManagement() {
   const [loading, setLoading] = useState(true);
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteName, setInviteName] = useState("");
+  const [invitePassword, setInvitePassword] = useState("");
   const [inviting, setInviting] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -52,17 +53,18 @@ export function UserManagement() {
       const res = await fetch("/api/admin/invite", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: inviteEmail, name: inviteName }),
+        body: JSON.stringify({ email: inviteEmail, name: inviteName, password: invitePassword }),
       });
 
       const data = await res.json();
       if (res.ok) {
-        setMessage(`Invitation sent to ${inviteEmail}`);
+        setMessage(`User created: ${inviteName} (${inviteEmail}). They will be asked to set a new password on first login.`);
         setInviteEmail("");
         setInviteName("");
+        setInvitePassword("");
         fetchUsers();
       } else {
-        setError(data.error || "Failed to send invite");
+        setError(data.error || "Failed to create user");
       }
     } catch {
       setError("Something went wrong");
@@ -93,35 +95,51 @@ export function UserManagement() {
 
   return (
     <div className="space-y-6">
-      {/* Invite form */}
+      {/* Create user form */}
       <Card>
         <CardHeader>
-          <CardTitle>Invite New User</CardTitle>
+          <CardTitle>Add New User</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleInvite} className="flex gap-3 items-end">
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-              <Input
-                value={inviteName}
-                onChange={(e) => setInviteName(e.target.value)}
-                placeholder="First Last"
-                required
-              />
+          <form onSubmit={handleInvite} className="space-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <Input
+                  value={inviteName}
+                  onChange={(e) => setInviteName(e.target.value)}
+                  placeholder="First Last"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <Input
+                  type="email"
+                  value={inviteEmail}
+                  onChange={(e) => setInviteEmail(e.target.value)}
+                  placeholder="user@audleytravel.com"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Temporary Password</label>
+                <Input
+                  type="text"
+                  value={invitePassword}
+                  onChange={(e) => setInvitePassword(e.target.value)}
+                  placeholder="Initial password"
+                  required
+                  minLength={6}
+                />
+              </div>
             </div>
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <Input
-                type="email"
-                value={inviteEmail}
-                onChange={(e) => setInviteEmail(e.target.value)}
-                placeholder="user@audleytravel.com"
-                required
-              />
+            <div className="flex items-center gap-3">
+              <Button type="submit" disabled={inviting}>
+                {inviting ? "Creating..." : "Create User"}
+              </Button>
+              <p className="text-xs text-muted-foreground">User will be required to set a new password on first login.</p>
             </div>
-            <Button type="submit" disabled={inviting}>
-              {inviting ? "Sending..." : "Send Invite"}
-            </Button>
           </form>
           {message && <p className="mt-3 text-sm text-green-600">{message}</p>}
           {error && <p className="mt-3 text-sm text-red-600">{error}</p>}

@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateSession, getUserByEmail, createUser } from '@/lib/user-queries';
-import { sendInviteEmail } from '@/lib/email';
-
-const DEFAULT_PASSWORD = 'GTT2026LFG!';
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,9 +13,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 
-    const { email, name } = await request.json();
-    if (!email || !name) {
-      return NextResponse.json({ error: 'Email and name are required' }, { status: 400 });
+    const { email, name, password } = await request.json();
+    if (!email || !name || !password) {
+      return NextResponse.json({ error: 'Email, name, and password are required' }, { status: 400 });
+    }
+
+    if (password.length < 6) {
+      return NextResponse.json({ error: 'Password must be at least 6 characters' }, { status: 400 });
     }
 
     const existing = await getUserByEmail(email);
@@ -26,8 +27,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'A user with this email already exists' }, { status: 409 });
     }
 
-    await createUser(email, name, DEFAULT_PASSWORD, 'advisor', inviter.email, true);
-    await sendInviteEmail(email, inviter.name);
+    await createUser(email, name, password, 'advisor', inviter.email, true);
 
     return NextResponse.json({ success: true });
   } catch {

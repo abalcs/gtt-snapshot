@@ -4,9 +4,3 @@ runConfig:
   memoryMiB: 512
   minInstances: 0
   maxInstances: 2
-
-env:
-  - variable: RESEND_API_KEY
-    secret: RESEND_API_KEY
-  - variable: APP_URL
-    value: https://gtt-country-snapshot.web.app
