@@ -8,6 +8,7 @@ import { AdminShell } from "@/components/layout/admin-shell";
 import { getSidebarData } from "@/lib/queries";
 import { getContinentForDestination, getContinentOrder } from "@/lib/continents";
 import { getCurrentUser } from "@/lib/admin-auth";
+import { IdleTimeout } from "@/components/auth/idle-timeout";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -103,6 +104,7 @@ export default async function RootLayout({
             </AdminShell>
           </div>
         </div>
+        <IdleTimeout />
       </body>
     </html>
   );
