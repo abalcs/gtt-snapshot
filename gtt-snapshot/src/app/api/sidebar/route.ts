@@ -1,26 +1,18 @@
 import { NextResponse } from 'next/server';
 import { getSidebarData } from '@/lib/queries';
 import { getContinentForDestination, getContinentOrder } from '@/lib/continents';
+import { getCached, setCache } from '@/lib/data-cache';
 
-// In-memory cache for sidebar data (5 minutes)
-interface SidebarCache {
-  data: {
-    continents: { name: string; destinations: { name: string; slug: string; regionSlug: string; regionName: string }[] }[];
-    regions: unknown[];
-    specialSections: { title: string; slug: string }[];
-  };
-  expires: number;
+interface SidebarResponse {
+  continents: { name: string; destinations: { name: string; slug: string; regionSlug: string; regionName: string }[] }[];
+  regions: unknown[];
+  specialSections: { title: string; slug: string }[];
 }
-
-let sidebarCache: SidebarCache | null = null;
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
 export async function GET() {
   try {
-    // Return cached data if still valid
-    if (sidebarCache && Date.now() < sidebarCache.expires) {
-      return NextResponse.json(sidebarCache.data);
-    }
+    const cached = getCached<SidebarResponse>('sidebar:api');
+    if (cached) return NextResponse.json(cached);
 
     const data = await getSidebarData();
     const continentOrder = getContinentOrder();
@@ -58,25 +50,15 @@ export async function GET() {
         destinations: destinations.sort((a, b) => a.name.localeCompare(b.name)),
       }));
 
-    const responseData = {
+    const responseData: SidebarResponse = {
       continents,
       regions: data.regions,
       specialSections: data.specialSections,
     };
 
-    // Cache the computed data
-    sidebarCache = {
-      data: responseData,
-      expires: Date.now() + CACHE_TTL_MS,
-    };
-
+    setCache('sidebar:api', responseData);
     return NextResponse.json(responseData);
   } catch {
     return NextResponse.json({ continents: [], regions: [], specialSections: [] });
   }
-}
-
-// Allow cache invalidation from other parts of the app
-export function invalidateSidebarCache() {
-  sidebarCache = null;
 }

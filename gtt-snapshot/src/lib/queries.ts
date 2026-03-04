@@ -1,5 +1,6 @@
 import { getDb } from '../../db/database';
 import { generateSearchTokens, generateSnippet } from './search-utils';
+import { getCached, setCache, invalidateCache } from './data-cache';
 import type {
   Region,
   RegionWithCount,
@@ -75,6 +76,9 @@ function docToSpecialSection(id: string, data: FirebaseFirestore.DocumentData): 
 // ── Regions ──────────────────────────────────────────────
 
 export async function getAllRegions(): Promise<RegionWithCount[]> {
+  const cached = getCached<RegionWithCount[]>('regions:all');
+  if (cached) return cached;
+
   const [regionsSnap, destsSnap] = await Promise.all([
     db().collection('regions').orderBy('sort_order').get(),
     db().collection('destinations').where('status', '==', 'active').get(),
@@ -87,10 +91,12 @@ export async function getAllRegions(): Promise<RegionWithCount[]> {
     countMap.set(regionSlug, (countMap.get(regionSlug) ?? 0) + 1);
   }
 
-  return regionsSnap.docs.map(doc => {
+  const result = regionsSnap.docs.map(doc => {
     const region = docToRegion(doc.id, doc.data());
     return { ...region, destination_count: countMap.get(region.slug) ?? 0 };
   });
+
+  return setCache('regions:all', result);
 }
 
 export async function getRegionBySlug(slug: string): Promise<Region | undefined> {
@@ -102,6 +108,9 @@ export async function getRegionBySlug(slug: string): Promise<Region | undefined>
 // ── Destinations ─────────────────────────────────────────
 
 export async function getAllDestinations(): Promise<DestinationWithRegion[]> {
+  const cached = getCached<DestinationWithRegion[]>('destinations:all');
+  if (cached) return cached;
+
   const snap = await db().collection('destinations')
     .where('status', '==', 'active')
     .get();
@@ -113,7 +122,8 @@ export async function getAllDestinations(): Promise<DestinationWithRegion[]> {
     if (regionCmp !== 0) return regionCmp;
     return a.name.localeCompare(b.name);
   });
-  return destinations;
+
+  return setCache('destinations:all', destinations);
 }
 
 export async function getDestinationsByRegion(regionSlug: string): Promise<DestinationWithRegion[]> {
@@ -185,6 +195,8 @@ export async function updateSpecialSection(slug: string, data: { title?: string;
       timestamp: new Date().toISOString(),
     });
   }
+
+  invalidateCache();
 }
 
 export async function deleteSpecialSection(slug: string): Promise<void> {
@@ -201,6 +213,8 @@ export async function deleteSpecialSection(slug: string): Promise<void> {
     changes: [],
     timestamp: new Date().toISOString(),
   });
+
+  invalidateCache();
 }
 
 // ── Search ───────────────────────────────────────────────
@@ -258,6 +272,9 @@ export async function searchSpecialSections(query: string): Promise<SpecialSecti
 // ── Stats ────────────────────────────────────────────────
 
 export async function getStats(): Promise<{ totalDestinations: number; totalRegions: number; activeDestinations: number }> {
+  const cached = getCached<{ totalDestinations: number; totalRegions: number; activeDestinations: number }>('stats');
+  if (cached) return cached;
+
   const [destsSnap, regionsSnap] = await Promise.all([
     db().collection('destinations').get(),
     db().collection('regions').get(),
@@ -268,11 +285,13 @@ export async function getStats(): Promise<{ totalDestinations: number; totalRegi
     if (doc.data().status === 'active') active++;
   }
 
-  return {
+  const result = {
     totalDestinations: destsSnap.size,
     totalRegions: regionsSnap.size,
     activeDestinations: active,
   };
+
+  return setCache('stats', result);
 }
 
 // ── Admin Logging ────────────────────────────────────────
@@ -350,6 +369,7 @@ export async function createDestination(data: Partial<Destination> & { region_id
     timestamp: now,
   });
 
+  invalidateCache();
   return data.slug;
 }
 
@@ -406,6 +426,8 @@ export async function updateDestination(id: string, data: Partial<Destination>):
       timestamp: now,
     });
   }
+
+  invalidateCache();
 }
 
 export async function deleteDestination(id: string): Promise<void> {
@@ -422,6 +444,8 @@ export async function deleteDestination(id: string): Promise<void> {
     changes: [],
     timestamp: new Date().toISOString(),
   });
+
+  invalidateCache();
 }
 
 export async function upsertPricingTiers(destinationId: string, tiers: { tier_label: string; price_per_week?: string | null; price_per_day?: string | null; notes?: string | null; sort_order?: number }[]): Promise<void> {
@@ -469,6 +493,9 @@ export async function getDestinationsByTags(tagSlugs: string[], regionSlug?: str
 // ── Tag Definitions (CRUD) ───────────────────────────────
 
 export async function getAllTagDefinitions(): Promise<TagDefinition[]> {
+  const cached = getCached<TagDefinition[]>('tags:all');
+  if (cached) return cached;
+
   const snap = await db().collection('tags').get();
   const tags: TagDefinition[] = snap.docs.map(doc => {
     const data = doc.data();
@@ -479,7 +506,8 @@ export async function getAllTagDefinitions(): Promise<TagDefinition[]> {
     if (catCmp !== 0) return catCmp;
     return a.label.localeCompare(b.label);
   });
-  return tags;
+
+  return setCache('tags:all', tags);
 }
 
 export async function createTagDefinition(tag: TagDefinition): Promise<void> {
@@ -487,10 +515,12 @@ export async function createTagDefinition(tag: TagDefinition): Promise<void> {
     label: tag.label,
     category: tag.category,
   });
+  invalidateCache();
 }
 
 export async function updateTagDefinition(slug: string, data: { label?: string; category?: string }): Promise<void> {
   await db().collection('tags').doc(slug).update(data);
+  invalidateCache();
 }
 
 export async function deleteTagDefinition(slug: string): Promise<void> {
@@ -510,11 +540,16 @@ export async function deleteTagDefinition(slug: string): Promise<void> {
   if (snap.docs.length > 0) {
     await batch.commit();
   }
+  invalidateCache();
 }
 
 // ── Sidebar Data ─────────────────────────────────────────
 
 export async function getSidebarData(): Promise<{ regions: (Region & { destinations: { name: string; slug: string }[] })[]; specialSections: { title: string; slug: string }[] }> {
+  type SidebarResult = { regions: (Region & { destinations: { name: string; slug: string }[] })[]; specialSections: { title: string; slug: string }[] };
+  const cached = getCached<SidebarResult>('sidebar');
+  if (cached) return cached;
+
   const [regionsSnap, destsSnap, specialSnap] = await Promise.all([
     db().collection('regions').orderBy('sort_order').get(),
     db().collection('destinations').where('status', '==', 'active').get(),
@@ -545,5 +580,5 @@ export async function getSidebarData(): Promise<{ regions: (Region & { destinati
     .map(doc => ({ title: doc.data().title as string, slug: doc.data().slug as string }))
     .sort((a, b) => a.title.localeCompare(b.title));
 
-  return { regions: regionMap, specialSections };
+  return setCache<SidebarResult>('sidebar', { regions: regionMap, specialSections });
 }
