@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { validateSession, updateUserStatus, getUserById, adminResetPassword } from '@/lib/user-queries';
+import { validateSession, updateUserStatus, updateUserRole, getUserById, adminResetPassword } from '@/lib/user-queries';
 
 export async function PATCH(
   request: NextRequest,
@@ -36,6 +36,15 @@ export async function PATCH(
       }
 
       await adminResetPassword(id, tempPassword);
+      return NextResponse.json({ success: true });
+    }
+
+    // Handle role update
+    if (body.role) {
+      if (body.role !== 'admin' && body.role !== 'advisor') {
+        return NextResponse.json({ error: 'Invalid role' }, { status: 400 });
+      }
+      await updateUserRole(id, body.role);
       return NextResponse.json({ success: true });
     }
 

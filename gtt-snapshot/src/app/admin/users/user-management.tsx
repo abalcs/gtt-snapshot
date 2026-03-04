@@ -23,6 +23,7 @@ export function UserManagement() {
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteName, setInviteName] = useState("");
   const [invitePassword, setInvitePassword] = useState("");
+  const [inviteRole, setInviteRole] = useState<'advisor' | 'admin'>('advisor');
   const [inviting, setInviting] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -57,7 +58,7 @@ export function UserManagement() {
       const res = await fetch("/api/admin/invite", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: inviteEmail, name: inviteName, password: invitePassword }),
+        body: JSON.stringify({ email: inviteEmail, name: inviteName, password: invitePassword, role: inviteRole }),
       });
 
       const data = await res.json();
@@ -66,6 +67,7 @@ export function UserManagement() {
         setInviteEmail("");
         setInviteName("");
         setInvitePassword("");
+        setInviteRole("advisor");
         fetchUsers();
       } else {
         setError(data.error || "Failed to create user");
@@ -91,6 +93,26 @@ export function UserManagement() {
       } else {
         const data = await res.json();
         setError(data.error || "Failed to update user");
+      }
+    } catch {
+      setError("Something went wrong");
+    }
+  };
+
+  const handleToggleRole = async (userId: string, currentRole: string) => {
+    const newRole = currentRole === 'admin' ? 'advisor' : 'admin';
+    try {
+      const res = await fetch(`/api/admin/users/${userId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role: newRole }),
+      });
+
+      if (res.ok) {
+        fetchUsers();
+      } else {
+        const data = await res.json();
+        setError(data.error || "Failed to update role");
       }
     } catch {
       setError("Something went wrong");
@@ -138,7 +160,7 @@ export function UserManagement() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleInvite} className="space-y-3">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
                 <Input
@@ -168,6 +190,17 @@ export function UserManagement() {
                   required
                   minLength={6}
                 />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                <select
+                  value={inviteRole}
+                  onChange={(e) => setInviteRole(e.target.value as 'advisor' | 'admin')}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent h-9"
+                >
+                  <option value="advisor">Advisor</option>
+                  <option value="admin">Admin</option>
+                </select>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -258,6 +291,13 @@ export function UserManagement() {
                             </div>
                           ) : (
                             <>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleToggleRole(u.id, u.role)}
+                              >
+                                {u.role === 'admin' ? 'Make Advisor' : 'Make Admin'}
+                              </Button>
                               <Button
                                 variant="ghost"
                                 size="sm"

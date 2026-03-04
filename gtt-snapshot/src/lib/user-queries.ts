@@ -122,6 +122,13 @@ export async function deleteAllUserSessions(userId: string): Promise<void> {
   await batch.commit();
 }
 
+export async function updateUserRole(userId: string, role: 'admin' | 'advisor'): Promise<void> {
+  await db().collection('users').doc(userId).update({
+    role,
+    updated_at: new Date().toISOString(),
+  });
+}
+
 // ── Recovery Codes ──────────────────────────────────────
 
 export async function generateRecoveryCodes(): Promise<{ plaintext: string[]; hashed: string[] }> {
