@@ -13,6 +13,8 @@ import { TagBadges } from "@/components/destinations/tag-badges";
 import DestinationMap from "@/components/destinations/destination-map";
 import { getCoordinates } from "@/lib/country-coordinates";
 import { requireAuth } from "@/lib/admin-auth";
+import { getConsultantsForDestination } from "@/lib/booking-calendars";
+import { CountrySpecialists } from "@/components/destinations/country-specialists";
 
 export const dynamic = 'force-dynamic';
 
@@ -35,6 +37,7 @@ export default async function DestinationDetailPage({
     : [];
 
   const coords = getCoordinates(slug);
+  const specialists = getConsultantsForDestination(slug);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 print:space-y-4">
@@ -235,6 +238,17 @@ export default async function DestinationDetailPage({
             {destination.general_notes_2 && (
               <p className="text-sm whitespace-pre-line leading-relaxed">{destination.general_notes_2}</p>
             )}
+          </div>
+        </>
+      )}
+
+      {/* Country Specialists */}
+      {specialists.length > 0 && (
+        <>
+          <Separator />
+          <div>
+            <h2 className="text-lg font-semibold mb-3">Country Specialists</h2>
+            <CountrySpecialists consultants={specialists} />
           </div>
         </>
       )}
