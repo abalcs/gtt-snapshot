@@ -153,6 +153,7 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
       >
         <DialogContent
           className="sm:max-w-4xl h-[85vh] flex flex-col p-0"
+          showCloseButton={false}
           onPointerDownOutside={(e) => { e.preventDefault(); handleCloseAttempt(); }}
           onEscapeKeyDown={(e) => { e.preventDefault(); handleCloseAttempt(); }}
         >
@@ -182,8 +183,15 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
             </div>
           ) : (
             <>
-              <DialogHeader className="px-6 pt-6 pb-0">
+              <DialogHeader className="px-6 pt-6 pb-0 flex flex-row items-center justify-between">
                 <DialogTitle>Book a Call — {calendarModal?.name}</DialogTitle>
+                <button
+                  onClick={handleCloseAttempt}
+                  className="rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  <span className="sr-only">Close</span>
+                </button>
               </DialogHeader>
               <div className="flex-1 px-6 pb-6 min-h-0">
                 {calendarModal && (

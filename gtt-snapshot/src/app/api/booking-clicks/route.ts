@@ -38,6 +38,21 @@ export async function GET() {
   return NextResponse.json(counts);
 }
 
+export async function DELETE() {
+  if (!(await verifyAuth())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const snapshot = await getDb().collection(COLLECTION).get();
+  const batch = getDb().batch();
+  for (const doc of snapshot.docs) {
+    batch.delete(doc.ref);
+  }
+  await batch.commit();
+
+  return NextResponse.json({ ok: true, deleted: snapshot.size });
+}
+
 export async function POST(request: NextRequest) {
   if (!(await verifyAuth())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
