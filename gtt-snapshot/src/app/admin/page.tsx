@@ -37,6 +37,9 @@ export default async function AdminPage() {
           <Link href="/admin/tags">
             <Button variant="outline">Manage Tags</Button>
           </Link>
+          <Link href="/admin/consultants">
+            <Button variant="outline">Manage Consultants</Button>
+          </Link>
           <Link href="/admin/log">
             <Button variant="outline">Activity Log</Button>
           </Link>

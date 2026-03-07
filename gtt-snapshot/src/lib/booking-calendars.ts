@@ -1,3 +1,6 @@
+import { getDb } from "@/../db/database";
+import { getCached, setCache } from "./data-cache";
+
 export interface Consultant {
   name: string;
   title: string;
@@ -7,7 +10,82 @@ export interface Consultant {
   countriesDisplay: string;
 }
 
-const consultants: Consultant[] = [
+export interface ConsultantDoc extends Consultant {
+  id: string;
+  status: "active" | "inactive";
+  created_at: string;
+  updated_at: string;
+}
+
+const COLLECTION = "consultants";
+
+function slugify(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+async function getActiveConsultants(): Promise<ConsultantDoc[]> {
+  const cached = getCached<ConsultantDoc[]>("consultants:active");
+  if (cached) return cached;
+
+  const snap = await getDb()
+    .collection(COLLECTION)
+    .where("status", "==", "active")
+    .get();
+
+  const docs = snap.docs.map((d) => ({
+    id: d.id,
+    ...d.data(),
+  })) as ConsultantDoc[];
+
+  return setCache("consultants:active", docs);
+}
+
+export async function getAllConsultantsAdmin(): Promise<ConsultantDoc[]> {
+  const cached = getCached<ConsultantDoc[]>("consultants:all");
+  if (cached) return cached;
+
+  const snap = await getDb().collection(COLLECTION).get();
+  const docs = snap.docs.map((d) => ({
+    id: d.id,
+    ...d.data(),
+  })) as ConsultantDoc[];
+
+  return setCache("consultants:all", docs);
+}
+
+const REGION_ORDER = [
+  "Greece",
+  "Italy",
+  "Scandinavia",
+  "Croatia",
+  "LATAM",
+  "Canada",
+  "USA",
+  "Asia",
+  "Middle East",
+  "Africa",
+];
+
+export async function getConsultantsByRegion(): Promise<{ region: string; consultants: Consultant[] }[]> {
+  const consultants = await getActiveConsultants();
+  return REGION_ORDER.map((region) => ({
+    region,
+    consultants: consultants.filter((c) => c.displayRegions.includes(region)),
+  }));
+}
+
+export async function getConsultantsForDestination(slug: string): Promise<Consultant[]> {
+  const consultants = await getActiveConsultants();
+  return consultants.filter(
+    (c) => c.destinations.includes(slug) && c.calendarUrl !== null
+  );
+}
+
+export { slugify, REGION_ORDER };
+
+// ── Seed Data ───────────────────────────────────────────
+
+export const SEED_CONSULTANTS: Consultant[] = [
   // === GREECE / ITALY / EUROPE ===
   {
     name: "Laura Plansky",
@@ -620,29 +698,3 @@ const consultants: Consultant[] = [
     countriesDisplay: "South Africa",
   },
 ];
-
-const REGION_ORDER = [
-  "Greece",
-  "Italy",
-  "Scandinavia",
-  "Croatia",
-  "LATAM",
-  "Canada",
-  "USA",
-  "Asia",
-  "Middle East",
-  "Africa",
-];
-
-export function getConsultantsByRegion(): { region: string; consultants: Consultant[] }[] {
-  return REGION_ORDER.map((region) => ({
-    region,
-    consultants: consultants.filter((c) => c.displayRegions.includes(region)),
-  }));
-}
-
-export function getConsultantsForDestination(slug: string): Consultant[] {
-  return consultants.filter(
-    (c) => c.destinations.includes(slug) && c.calendarUrl !== null
-  );
-}

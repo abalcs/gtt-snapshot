@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default async function BookingCalendarsPage() {
   await requireAuth();
-  const regions = getConsultantsByRegion();
+  const regions = await getConsultantsByRegion();
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">

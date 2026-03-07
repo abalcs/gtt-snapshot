@@ -25,9 +25,10 @@ export default async function DestinationDetailPage({
 }) {
   await requireAuth();
   const { slug } = await params;
-  const [destination, tagDefinitions] = await Promise.all([
+  const [destination, tagDefinitions, specialists] = await Promise.all([
     getDestinationBySlug(slug),
     getAllTagDefinitions(),
+    getConsultantsForDestination(slug),
   ]);
 
   if (!destination) notFound();
@@ -37,7 +38,6 @@ export default async function DestinationDetailPage({
     : [];
 
   const coords = getCoordinates(slug);
-  const specialists = getConsultantsForDestination(slug);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 print:space-y-4">
