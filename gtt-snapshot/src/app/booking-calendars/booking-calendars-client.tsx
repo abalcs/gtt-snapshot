@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -24,6 +24,7 @@ interface RegionGroup {
 export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) {
   const [expandedRegions, setExpandedRegions] = useState<Set<string>>(new Set());
   const [calendarModal, setCalendarModal] = useState<{ url: string; name: string } | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [clickCounts, setClickCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
@@ -33,21 +34,35 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
       .catch(() => {});
   }, []);
 
-  const handleBookClick = useCallback((consultant: Consultant) => {
-    setCalendarModal({ url: consultant.calendarUrl!, name: consultant.name });
-    fetch("/api/booking-clicks", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ consultantName: consultant.name }),
-    })
-      .then(() => {
-        setClickCounts((prev) => {
-          const key = consultantKey(consultant.name);
-          return { ...prev, [key]: (prev[key] ?? 0) + 1 };
-        });
-      })
-      .catch(() => {});
-  }, []);
+  const handleCloseAttempt = () => {
+    setShowConfirm(true);
+  };
+
+  const handleConfirmYes = () => {
+    if (calendarModal) {
+      const name = calendarModal.name;
+      fetch("/api/booking-clicks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ consultantName: name }),
+      }).catch(() => {});
+      setClickCounts((prev) => {
+        const key = consultantKey(name);
+        return { ...prev, [key]: (prev[key] ?? 0) + 1 };
+      });
+    }
+    setShowConfirm(false);
+    setCalendarModal(null);
+  };
+
+  const handleConfirmNo = () => {
+    setShowConfirm(false);
+    setCalendarModal(null);
+  };
+
+  const handleBack = () => {
+    setShowConfirm(false);
+  };
 
   const toggleRegion = (region: string) => {
     setExpandedRegions((prev) => {
@@ -112,7 +127,7 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
                             </div>
                             {consultant.calendarUrl ? (
                               <button
-                                onClick={() => handleBookClick(consultant)}
+                                onClick={() => setCalendarModal({ url: consultant.calendarUrl!, name: consultant.name })}
                                 className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
                               >
                                 Book a Call
@@ -132,20 +147,55 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
         ))}
       </div>
 
-      <Dialog open={!!calendarModal} onOpenChange={(open) => !open && setCalendarModal(null)}>
-        <DialogContent className="sm:max-w-4xl h-[85vh] flex flex-col p-0">
-          <DialogHeader className="px-6 pt-6 pb-0">
-            <DialogTitle>Book a Call — {calendarModal?.name}</DialogTitle>
-          </DialogHeader>
-          <div className="flex-1 px-6 pb-6 min-h-0">
-            {calendarModal && (
-              <iframe
-                src={calendarModal.url}
-                className="w-full h-full rounded-md border"
-                title={`Booking calendar for ${calendarModal.name}`}
-              />
-            )}
-          </div>
+      <Dialog
+        open={!!calendarModal}
+        onOpenChange={(open) => { if (!open) handleCloseAttempt(); }}
+      >
+        <DialogContent
+          className="sm:max-w-4xl h-[85vh] flex flex-col p-0"
+          onPointerDownOutside={(e) => { e.preventDefault(); handleCloseAttempt(); }}
+          onEscapeKeyDown={(e) => { e.preventDefault(); handleCloseAttempt(); }}
+        >
+          {showConfirm ? (
+            <div className="flex flex-col items-center justify-center h-full gap-6 p-6">
+              <p className="text-lg font-semibold text-center">Did you book a call with {calendarModal?.name}?</p>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleConfirmYes}
+                  className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={handleConfirmNo}
+                  className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium hover:bg-accent transition-colors"
+                >
+                  No
+                </button>
+                <button
+                  onClick={handleBack}
+                  className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium text-muted-foreground hover:bg-accent transition-colors"
+                >
+                  Go Back
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <DialogHeader className="px-6 pt-6 pb-0">
+                <DialogTitle>Book a Call — {calendarModal?.name}</DialogTitle>
+              </DialogHeader>
+              <div className="flex-1 px-6 pb-6 min-h-0">
+                {calendarModal && (
+                  <iframe
+                    src={calendarModal.url}
+                    className="w-full h-full rounded-md border"
+                    title={`Booking calendar for ${calendarModal.name}`}
+                  />
+                )}
+              </div>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </>
