@@ -126,12 +126,24 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
                               <p className="text-sm text-muted-foreground mt-1">{consultant.countriesDisplay}</p>
                             </div>
                             {consultant.calendarUrl ? (
-                              <button
-                                onClick={() => setCalendarModal({ url: consultant.calendarUrl!, name: consultant.name })}
-                                className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
-                              >
-                                Book a Call
-                              </button>
+                              consultant.calendarUrl.includes("/bookwithme/") ? (
+                                <a
+                                  href={consultant.calendarUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors gap-1.5"
+                                >
+                                  Book a Call
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                </a>
+                              ) : (
+                                <button
+                                  onClick={() => setCalendarModal({ url: consultant.calendarUrl!, name: consultant.name })}
+                                  className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
+                                >
+                                  Book a Call
+                                </button>
+                              )
                             ) : (
                               <Badge variant="secondary" className="w-fit">No Calendar</Badge>
                             )}
