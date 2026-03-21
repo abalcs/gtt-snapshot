@@ -91,6 +91,7 @@ export function DestinationForm({ destination, regions }: Props) {
   const [soloPricing, setSoloPricing] = useState(destination?.solo_pricing || "");
   const [paxLimit, setPaxLimit] = useState(destination?.pax_limit || "");
   const [accommodations, setAccommodations] = useState(destination?.accommodations || "");
+  const [accommodationUrl, setAccommodationUrl] = useState(destination?.accommodation_url || "");
   const [howToFeature, setHowToFeature] = useState(destination?.how_to_feature || "");
   const [pairWith, setPairWith] = useState(destination?.pair_with || "");
   const [generalNotes1, setGeneralNotes1] = useState(destination?.general_notes_1 || "");
@@ -205,6 +206,7 @@ export function DestinationForm({ destination, regions }: Props) {
       solo_pricing: soloPricing || null,
       pax_limit: paxLimit || null,
       accommodations: accommodations || null,
+      accommodation_url: accommodationUrl || null,
       how_to_feature: howToFeature || null,
       pair_with: pairWith || null,
       general_notes_1: generalNotes1 || null,
@@ -420,6 +422,10 @@ export function DestinationForm({ destination, regions }: Props) {
           <div>
             <Label htmlFor="accommodations">Accommodations</Label>
             <Textarea id="accommodations" value={accommodations} onChange={(e) => setAccommodations(e.target.value)} rows={3} />
+          </div>
+          <div>
+            <Label htmlFor="accommodationUrl">Accommodation URL Override</Label>
+            <Input id="accommodationUrl" value={accommodationUrl} onChange={(e) => setAccommodationUrl(e.target.value)} placeholder={`Leave blank to use default (audleytravel.com/us/${slug}/accommodation)`} />
           </div>
           <div>
             <Label htmlFor="howToFeature">How to Feature</Label>
