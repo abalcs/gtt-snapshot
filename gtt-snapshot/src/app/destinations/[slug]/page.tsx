@@ -221,7 +221,11 @@ export default async function DestinationDetailPage({
           <Separator />
           <div>
             <h2 className="text-lg font-semibold mb-3">Accommodations</h2>
-            <p className="text-sm whitespace-pre-line leading-relaxed">{destination.accommodations}</p>
+            <ul className="list-disc list-inside space-y-1 text-sm leading-relaxed">
+              {destination.accommodations.split("\n").filter((l: string) => l.trim()).map((line: string, i: number) => (
+                <li key={i}>{line.trim()}</li>
+              ))}
+            </ul>
           </div>
         </>
       )}
