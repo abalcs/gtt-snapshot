@@ -8,6 +8,7 @@ export interface Consultant {
   destinations: string[];
   displayRegions: string[];
   countriesDisplay: string;
+  disabledDestinations?: string[];
 }
 
 export interface ConsultantDoc extends Consultant {
@@ -66,18 +67,58 @@ const REGION_ORDER = [
   "Africa",
 ];
 
+async function getRegionDestinationSlugs(): Promise<Map<string, string[]>> {
+  const cached = getCached<Map<string, string[]>>("region-destination-slugs");
+  if (cached) return cached;
+
+  const snap = await getDb()
+    .collection("destinations")
+    .where("status", "==", "active")
+    .get();
+
+  const map = new Map<string, string[]>();
+  for (const doc of snap.docs) {
+    const region = doc.data().region_name as string | undefined;
+    if (!region) continue;
+    const existing = map.get(region) || [];
+    existing.push(doc.id);
+    map.set(region, existing);
+  }
+
+  return setCache("region-destination-slugs", map);
+}
+
 export async function getConsultantsByRegion(): Promise<{ region: string; consultants: Consultant[] }[]> {
-  const consultants = await getActiveConsultants();
-  return REGION_ORDER.map((region) => ({
-    region,
-    consultants: consultants.filter((c) => c.displayRegions.includes(region)),
-  }));
+  const [consultants, regionSlugs] = await Promise.all([
+    getActiveConsultants(),
+    getRegionDestinationSlugs(),
+  ]);
+
+  return REGION_ORDER.map((region) => {
+    const slugsForRegion = regionSlugs.get(region) || [];
+    return {
+      region,
+      consultants: consultants.filter((c) => {
+        if (!c.displayRegions.includes(region)) return false;
+        const disabled = c.disabledDestinations || [];
+        if (disabled.length === 0) return true;
+        // Show consultant in this region only if they have at least one enabled destination in it
+        const enabledInRegion = slugsForRegion.some(
+          (slug) => c.destinations.includes(slug) && !disabled.includes(slug)
+        );
+        return enabledInRegion;
+      }),
+    };
+  });
 }
 
 export async function getConsultantsForDestination(slug: string): Promise<Consultant[]> {
   const consultants = await getActiveConsultants();
   return consultants.filter(
-    (c) => c.destinations.includes(slug) && c.calendarUrl !== null
+    (c) =>
+      c.destinations.includes(slug) &&
+      c.calendarUrl !== null &&
+      !(c.disabledDestinations || []).includes(slug)
   );
 }
 

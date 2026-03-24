@@ -30,6 +30,7 @@ interface ConsultantDoc {
   destinations: string[];
   displayRegions: string[];
   countriesDisplay: string;
+  disabledDestinations: string[];
   status: "active" | "inactive";
   created_at: string;
   updated_at: string;
@@ -42,6 +43,7 @@ interface FormData {
   destinations: string;
   displayRegions: string;
   countriesDisplay: string;
+  disabledDestinations: string[];
 }
 
 const emptyForm: FormData = {
@@ -51,6 +53,7 @@ const emptyForm: FormData = {
   destinations: "",
   displayRegions: "",
   countriesDisplay: "",
+  disabledDestinations: [],
 };
 
 export function ConsultantManagement() {
@@ -115,6 +118,7 @@ export function ConsultantManagement() {
       destinations: c.destinations.join(", "),
       displayRegions: c.displayRegions.join(", "),
       countriesDisplay: c.countriesDisplay,
+      disabledDestinations: c.disabledDestinations || [],
     });
     setError("");
     setDialogOpen(true);
@@ -129,13 +133,18 @@ export function ConsultantManagement() {
     setSaving(true);
     setError("");
 
+    const destinationSlugs = form.destinations.split(",").map((s) => s.trim()).filter(Boolean);
+    // Remove disabled entries for destinations no longer in the list
+    const cleanedDisabled = form.disabledDestinations.filter((d) => destinationSlugs.includes(d));
+
     const payload = {
       name: form.name.trim(),
       title: form.title.trim(),
       calendarUrl: form.calendarUrl.trim() || null,
-      destinations: form.destinations.split(",").map((s) => s.trim()).filter(Boolean),
+      destinations: destinationSlugs,
       displayRegions: form.displayRegions.split(",").map((s) => s.trim()).filter(Boolean),
       countriesDisplay: form.countriesDisplay.trim(),
+      disabledDestinations: cleanedDisabled,
     };
 
     try {
@@ -388,6 +397,40 @@ export function ConsultantManagement() {
                 onChange={(e) => setForm({ ...form, destinations: e.target.value })}
                 placeholder="e.g. greece, italy, france"
               />
+              {(() => {
+                const slugs = form.destinations.split(",").map((s) => s.trim()).filter(Boolean);
+                if (slugs.length === 0) return null;
+                return (
+                  <div className="space-y-1.5">
+                    <Label className="text-xs text-muted-foreground">Destination Toggles (uncheck to temporarily hide)</Label>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1">
+                      {slugs.map((slug) => {
+                        const isDisabled = form.disabledDestinations.includes(slug);
+                        return (
+                          <label key={slug} className="flex items-center gap-1.5 text-sm cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={!isDisabled}
+                              onChange={() => {
+                                setForm((prev) => ({
+                                  ...prev,
+                                  disabledDestinations: isDisabled
+                                    ? prev.disabledDestinations.filter((d) => d !== slug)
+                                    : [...prev.disabledDestinations, slug],
+                                }));
+                              }}
+                              className="rounded"
+                            />
+                            <span className={isDisabled ? "line-through text-muted-foreground" : ""}>
+                              {slug}
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
 
             <div className="space-y-2">
