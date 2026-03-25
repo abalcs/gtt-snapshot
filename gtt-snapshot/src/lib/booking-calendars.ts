@@ -67,8 +67,10 @@ const REGION_ORDER = [
   "Africa",
 ];
 
-async function getRegionDestinationSlugs(): Promise<Map<string, string[]>> {
-  const cached = getCached<Map<string, string[]>>("region-destination-slugs");
+// Build a map from destination slug → set of REGION_ORDER names it belongs to.
+// Uses the destinations collection's region_name, matched case-insensitively to REGION_ORDER.
+async function getDestSlugToRegions(): Promise<Map<string, string[]>> {
+  const cached = getCached<Map<string, string[]>>("dest-slug-to-regions");
   if (cached) return cached;
 
   const snap = await getDb()
@@ -76,40 +78,53 @@ async function getRegionDestinationSlugs(): Promise<Map<string, string[]>> {
     .where("status", "==", "active")
     .get();
 
-  const map = new Map<string, string[]>();
-  for (const doc of snap.docs) {
-    const region = doc.data().region_name as string | undefined;
-    if (!region) continue;
-    const existing = map.get(region) || [];
-    existing.push(doc.id);
-    map.set(region, existing);
+  // Build a case-insensitive lookup from Firestore region_name → REGION_ORDER name
+  const regionLookup = new Map<string, string>();
+  for (const r of REGION_ORDER) {
+    regionLookup.set(r.toLowerCase(), r);
   }
 
-  return setCache("region-destination-slugs", map);
+  const map = new Map<string, string[]>();
+  for (const doc of snap.docs) {
+    const regionName = doc.data().region_name as string | undefined;
+    if (!regionName) continue;
+    const matched = regionLookup.get(regionName.toLowerCase());
+    if (!matched) continue;
+    const existing = map.get(doc.id) || [];
+    existing.push(matched);
+    map.set(doc.id, existing);
+  }
+
+  return setCache("dest-slug-to-regions", map);
 }
 
 export async function getConsultantsByRegion(): Promise<{ region: string; consultants: Consultant[] }[]> {
-  const [consultants, regionSlugs] = await Promise.all([
+  const [consultants, destToRegions] = await Promise.all([
     getActiveConsultants(),
-    getRegionDestinationSlugs(),
+    getDestSlugToRegions(),
   ]);
 
-  return REGION_ORDER.map((region) => {
-    const slugsForRegion = regionSlugs.get(region) || [];
-    return {
-      region,
-      consultants: consultants.filter((c) => {
-        if (!c.displayRegions.includes(region)) return false;
-        const disabled = c.disabledDestinations || [];
-        if (disabled.length === 0) return true;
-        // Show consultant in this region only if they have at least one enabled destination in it
-        const enabledInRegion = slugsForRegion.some(
-          (slug) => c.destinations.includes(slug) && !disabled.includes(slug)
-        );
-        return enabledInRegion;
-      }),
-    };
-  });
+  return REGION_ORDER.map((region) => ({
+    region,
+    consultants: consultants.filter((c) => {
+      if (!c.displayRegions.includes(region)) return false;
+      const disabled = c.disabledDestinations || [];
+      if (disabled.length === 0) return true;
+      // Check if consultant has at least one enabled destination that belongs to this region
+      const hasEnabledInRegion = c.destinations.some(
+        (slug) =>
+          !disabled.includes(slug) &&
+          (destToRegions.get(slug) || []).includes(region)
+      );
+      // If we found no mapping data for any of this consultant's destinations in this region,
+      // fall back to showing them (don't hide due to missing mapping)
+      const hasAnyMappedInRegion = c.destinations.some(
+        (slug) => (destToRegions.get(slug) || []).includes(region)
+      );
+      if (!hasAnyMappedInRegion) return true;
+      return hasEnabledInRegion;
+    }),
+  }));
 }
 
 export async function getConsultantsForDestination(slug: string): Promise<Consultant[]> {
