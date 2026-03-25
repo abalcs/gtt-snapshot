@@ -67,32 +67,44 @@ const REGION_ORDER = [
   "Africa",
 ];
 
-// Build a map from destination slug → set of REGION_ORDER names it belongs to.
-// Uses the destinations collection's region_name, matched case-insensitively to REGION_ORDER.
+// Map destination slug → REGION_ORDER names it belongs to.
+// Layer 1: direct name match (slug "italy" → region "Italy").
+// Layer 2: Firestore destinations collection for non-obvious mappings
+//          (e.g. "sardinia" → Italy, "sweden" → Scandinavia).
 async function getDestSlugToRegions(): Promise<Map<string, string[]>> {
   const cached = getCached<Map<string, string[]>>("dest-slug-to-regions");
   if (cached) return cached;
 
-  const snap = await getDb()
-    .collection("destinations")
-    .where("status", "==", "active")
-    .get();
+  const map = new Map<string, string[]>();
 
-  // Build a case-insensitive lookup from Firestore region_name → REGION_ORDER name
-  const regionLookup = new Map<string, string>();
+  // Layer 1: direct slug→region matching (covers italy→Italy, greece→Greece, croatia→Croatia)
+  const regionByLower = new Map<string, string>();
   for (const r of REGION_ORDER) {
-    regionLookup.set(r.toLowerCase(), r);
+    regionByLower.set(r.toLowerCase(), r);
+    map.set(r.toLowerCase(), [r]);
   }
 
-  const map = new Map<string, string[]>();
-  for (const doc of snap.docs) {
-    const regionName = doc.data().region_name as string | undefined;
-    if (!regionName) continue;
-    const matched = regionLookup.get(regionName.toLowerCase());
-    if (!matched) continue;
-    const existing = map.get(doc.id) || [];
-    existing.push(matched);
-    map.set(doc.id, existing);
+  // Layer 2: enrich with Firestore data for slugs that don't directly match a region name
+  // (e.g. "sardinia" has region_name matching "Italy", "sweden" matching "Scandinavia")
+  try {
+    const snap = await getDb()
+      .collection("destinations")
+      .where("status", "==", "active")
+      .get();
+
+    for (const doc of snap.docs) {
+      const regionName = doc.data().region_name as string | undefined;
+      if (!regionName) continue;
+      const matched = regionByLower.get(regionName.toLowerCase());
+      if (!matched) continue;
+      const existing = map.get(doc.id) || [];
+      if (!existing.includes(matched)) {
+        existing.push(matched);
+        map.set(doc.id, existing);
+      }
+    }
+  } catch {
+    // Firestore query failed — direct matching still covers the common cases
   }
 
   return setCache("dest-slug-to-regions", map);
@@ -116,8 +128,8 @@ export async function getConsultantsByRegion(): Promise<{ region: string; consul
           !disabled.includes(slug) &&
           (destToRegions.get(slug) || []).includes(region)
       );
-      // If we found no mapping data for any of this consultant's destinations in this region,
-      // fall back to showing them (don't hide due to missing mapping)
+      // If none of this consultant's destinations map to this region at all,
+      // fall back to showing them (don't hide due to incomplete mapping)
       const hasAnyMappedInRegion = c.destinations.some(
         (slug) => (destToRegions.get(slug) || []).includes(region)
       );
