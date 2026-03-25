@@ -25,6 +25,7 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
   const [expandedRegions, setExpandedRegions] = useState<Set<string>>(new Set());
   const [calendarModal, setCalendarModal] = useState<{ url: string; name: string } | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [externalConfirm, setExternalConfirm] = useState<{ name: string } | null>(null);
   const [clickCounts, setClickCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
@@ -62,6 +63,31 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
 
   const handleBack = () => {
     setShowConfirm(false);
+  };
+
+  const handleExternalBookClick = (url: string, name: string) => {
+    window.open(url, "_blank");
+    setExternalConfirm({ name });
+  };
+
+  const handleExternalYes = () => {
+    if (externalConfirm) {
+      const name = externalConfirm.name;
+      fetch("/api/booking-clicks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ consultantName: name }),
+      }).catch(() => {});
+      setClickCounts((prev) => {
+        const key = consultantKey(name);
+        return { ...prev, [key]: (prev[key] ?? 0) + 1 };
+      });
+    }
+    setExternalConfirm(null);
+  };
+
+  const handleExternalNo = () => {
+    setExternalConfirm(null);
   };
 
   const toggleRegion = (region: string) => {
@@ -127,15 +153,13 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
                             </div>
                             {consultant.calendarUrl ? (
                               consultant.calendarUrl.includes("/bookwithme/") ? (
-                                <a
-                                  href={consultant.calendarUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
+                                <button
+                                  onClick={() => handleExternalBookClick(consultant.calendarUrl!, consultant.name)}
                                   className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors gap-1.5"
                                 >
                                   Book a Call
                                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                                </a>
+                                </button>
                               ) : (
                                 <button
                                   onClick={() => setCalendarModal({ url: consultant.calendarUrl!, name: consultant.name })}
@@ -216,6 +240,28 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
               </div>
             </>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!externalConfirm} onOpenChange={(open) => { if (!open) setExternalConfirm(null); }}>
+        <DialogContent className="sm:max-w-md">
+          <div className="flex flex-col items-center gap-6 py-4">
+            <p className="text-lg font-semibold text-center">Did you book a call with {externalConfirm?.name}?</p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleExternalYes}
+                className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
+              >
+                Yes
+              </button>
+              <button
+                onClick={handleExternalNo}
+                className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium hover:bg-accent transition-colors"
+              >
+                No
+              </button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </>
