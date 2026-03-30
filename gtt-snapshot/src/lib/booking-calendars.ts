@@ -1,5 +1,6 @@
 import { getDb } from "@/../db/database";
 import { getCached, setCache } from "./data-cache";
+import { getContinentForDestination, getContinentOrder } from "./continents";
 
 export interface Consultant {
   name: string;
@@ -54,38 +55,15 @@ export async function getAllConsultantsAdmin(): Promise<ConsultantDoc[]> {
   return setCache("consultants:all", docs);
 }
 
-const REGION_ORDER = [
-  "Greece",
-  "Italy",
-  "Scandinavia",
-  "Croatia",
-  "LATAM",
-  "Canada",
-  "USA",
-  "Asia",
-  "Middle East",
-  "Africa",
-];
-
-// Map destination slug → REGION_ORDER names it belongs to.
-// Layer 1: direct name match (slug "italy" → region "Italy").
-// Layer 2: Firestore destinations collection for non-obvious mappings
-//          (e.g. "sardinia" → Italy, "sweden" → Scandinavia).
-async function getDestSlugToRegions(): Promise<Map<string, string[]>> {
-  const cached = getCached<Map<string, string[]>>("dest-slug-to-regions");
+// Build a map of destination slug → continent name using the shared continents
+// definitions. Firestore destinations provide the region_slug needed for
+// non-override lookups; override entries in continents.ts work without Firestore.
+async function getDestSlugToContinents(): Promise<Map<string, string>> {
+  const cached = getCached<Map<string, string>>("dest-slug-to-continents");
   if (cached) return cached;
 
-  const map = new Map<string, string[]>();
+  const map = new Map<string, string>();
 
-  // Layer 1: direct slug→region matching (covers italy→Italy, greece→Greece, croatia→Croatia)
-  const regionByLower = new Map<string, string>();
-  for (const r of REGION_ORDER) {
-    regionByLower.set(r.toLowerCase(), r);
-    map.set(r.toLowerCase(), [r]);
-  }
-
-  // Layer 2: enrich with Firestore data for slugs that don't directly match a region name
-  // (e.g. "sardinia" has region_name matching "Italy", "sweden" matching "Scandinavia")
   try {
     const snap = await getDb()
       .collection("destinations")
@@ -93,50 +71,41 @@ async function getDestSlugToRegions(): Promise<Map<string, string[]>> {
       .get();
 
     for (const doc of snap.docs) {
-      const regionName = doc.data().region_name as string | undefined;
-      if (!regionName) continue;
-      const matched = regionByLower.get(regionName.toLowerCase());
-      if (!matched) continue;
-      const existing = map.get(doc.id) || [];
-      if (!existing.includes(matched)) {
-        existing.push(matched);
-        map.set(doc.id, existing);
-      }
+      const regionSlug = (doc.data().region_slug as string) ?? "";
+      map.set(doc.id, getContinentForDestination(doc.id, regionSlug));
     }
   } catch {
-    // Firestore query failed — direct matching still covers the common cases
+    // Firestore unavailable — override-based fallback used below
   }
 
-  return setCache("dest-slug-to-regions", map);
+  return setCache("dest-slug-to-continents", map);
+}
+
+function continentForSlug(slug: string, destMap: Map<string, string>): string {
+  return destMap.get(slug) ?? getContinentForDestination(slug, "");
 }
 
 export async function getConsultantsByRegion(): Promise<{ region: string; consultants: Consultant[] }[]> {
-  const [consultants, destToRegions] = await Promise.all([
+  const [consultants, destMap] = await Promise.all([
     getActiveConsultants(),
-    getDestSlugToRegions(),
+    getDestSlugToContinents(),
   ]);
 
-  return REGION_ORDER.map((region) => ({
-    region,
-    consultants: consultants.filter((c) => {
-      if (!c.displayRegions.includes(region)) return false;
-      const disabled = c.disabledDestinations || [];
-      if (disabled.length === 0) return true;
-      // Check if consultant has at least one enabled destination that belongs to this region
-      const hasEnabledInRegion = c.destinations.some(
-        (slug) =>
-          !disabled.includes(slug) &&
-          (destToRegions.get(slug) || []).includes(region)
-      );
-      // If none of this consultant's destinations map to this region at all,
-      // fall back to showing them (don't hide due to incomplete mapping)
-      const hasAnyMappedInRegion = c.destinations.some(
-        (slug) => (destToRegions.get(slug) || []).includes(region)
-      );
-      if (!hasAnyMappedInRegion) return true;
-      return hasEnabledInRegion;
-    }),
-  }));
+  return getContinentOrder()
+    .map((continent) => ({
+      region: continent,
+      consultants: consultants.filter((c) => {
+        const disabled = c.disabledDestinations || [];
+        // Consultant appears under this continent if they have at least one
+        // enabled destination that maps to it.
+        return c.destinations.some(
+          (slug) =>
+            !disabled.includes(slug) &&
+            continentForSlug(slug, destMap) === continent
+        );
+      }),
+    }))
+    .filter(({ consultants }) => consultants.length > 0);
 }
 
 export async function getConsultantsForDestination(slug: string): Promise<Consultant[]> {
@@ -149,7 +118,7 @@ export async function getConsultantsForDestination(slug: string): Promise<Consul
   );
 }
 
-export { slugify, REGION_ORDER };
+export { slugify };
 
 // ── Seed Data ───────────────────────────────────────────
 
