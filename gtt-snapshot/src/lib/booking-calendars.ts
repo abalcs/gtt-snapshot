@@ -55,14 +55,16 @@ export async function getAllConsultantsAdmin(): Promise<ConsultantDoc[]> {
   return setCache("consultants:all", docs);
 }
 
-// Build a map of destination slug → continent name using the shared continents
-// definitions. Firestore destinations provide the region_slug needed for
-// non-override lookups; override entries in continents.ts work without Firestore.
-async function getDestSlugToContinents(): Promise<Map<string, string>> {
-  const cached = getCached<Map<string, string>>("dest-slug-to-continents");
+// Build maps of destination slug → continent name and slug → display name using
+// the shared continents definitions. Firestore destinations provide the
+// region_slug and name needed for lookups; override entries in continents.ts
+// work without Firestore.
+async function getDestSlugMaps(): Promise<{ continentMap: Map<string, string>; nameMap: Map<string, string> }> {
+  const cached = getCached<{ continentMap: Map<string, string>; nameMap: Map<string, string> }>("dest-slug-maps");
   if (cached) return cached;
 
-  const map = new Map<string, string>();
+  const continentMap = new Map<string, string>();
+  const nameMap = new Map<string, string>();
 
   try {
     const snap = await getDb()
@@ -71,40 +73,71 @@ async function getDestSlugToContinents(): Promise<Map<string, string>> {
       .get();
 
     for (const doc of snap.docs) {
-      const regionSlug = (doc.data().region_slug as string) ?? "";
-      map.set(doc.id, getContinentForDestination(doc.id, regionSlug));
+      const data = doc.data();
+      const regionSlug = (data.region_slug as string) ?? "";
+      continentMap.set(doc.id, getContinentForDestination(doc.id, regionSlug));
+      if (data.name) {
+        nameMap.set(doc.id, data.name as string);
+      }
     }
   } catch {
     // Firestore unavailable — override-based fallback used below
   }
 
-  return setCache("dest-slug-to-continents", map);
+  return setCache("dest-slug-maps", { continentMap, nameMap });
 }
 
 function continentForSlug(slug: string, destMap: Map<string, string>): string {
   return destMap.get(slug) ?? getContinentForDestination(slug, "");
 }
 
-export async function getConsultantsByRegion(): Promise<{ region: string; consultants: Consultant[] }[]> {
-  const [consultants, destMap] = await Promise.all([
+// Fallback: turn a slug like "costa-rica" into "Costa Rica"
+function slugToDisplayName(slug: string): string {
+  return slug
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
+export interface DestinationOption {
+  slug: string;
+  name: string;
+}
+
+export async function getConsultantsByRegion(): Promise<{ region: string; consultants: Consultant[]; destinationOptions: DestinationOption[] }[]> {
+  const [consultants, { continentMap, nameMap }] = await Promise.all([
     getActiveConsultants(),
-    getDestSlugToContinents(),
+    getDestSlugMaps(),
   ]);
 
   return getContinentOrder()
-    .map((continent) => ({
-      region: continent,
-      consultants: consultants.filter((c) => {
+    .map((continent) => {
+      const filtered = consultants.filter((c) => {
         const disabled = c.disabledDestinations || [];
-        // Consultant appears under this continent if they have at least one
-        // enabled destination that maps to it.
         return c.destinations.some(
           (slug) =>
             !disabled.includes(slug) &&
-            continentForSlug(slug, destMap) === continent
+            continentForSlug(slug, continentMap) === continent
         );
-      }),
-    }))
+      });
+
+      // Collect unique enabled destination slugs for this continent
+      const destSlugs = new Set<string>();
+      for (const c of filtered) {
+        const disabled = c.disabledDestinations || [];
+        for (const slug of c.destinations) {
+          if (!disabled.includes(slug) && continentForSlug(slug, continentMap) === continent) {
+            destSlugs.add(slug);
+          }
+        }
+      }
+
+      const destinationOptions = Array.from(destSlugs)
+        .map((slug) => ({ slug, name: nameMap.get(slug) ?? slugToDisplayName(slug) }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+      return { region: continent, consultants: filtered, destinationOptions };
+    })
     .filter(({ consultants }) => consultants.length > 0);
 }
 

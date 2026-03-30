@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import type { Consultant } from "@/lib/booking-calendars";
+import type { Consultant, DestinationOption } from "@/lib/booking-calendars";
 
 function consultantKey(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -19,6 +19,7 @@ function consultantKey(name: string): string {
 interface RegionGroup {
   region: string;
   consultants: Consultant[];
+  destinationOptions: DestinationOption[];
 }
 
 export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) {
@@ -27,6 +28,7 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
   const [showConfirm, setShowConfirm] = useState(false);
   const [externalConfirm, setExternalConfirm] = useState<{ name: string } | null>(null);
   const [clickCounts, setClickCounts] = useState<Record<string, number>>({});
+  const [destFilters, setDestFilters] = useState<Record<string, Set<string>>>({});
 
   useEffect(() => {
     fetch("/api/booking-clicks")
@@ -99,10 +101,36 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
     });
   };
 
+  const toggleDestFilter = (region: string, slug: string) => {
+    setDestFilters((prev) => {
+      const current = new Set(prev[region] ?? []);
+      if (current.has(slug)) current.delete(slug);
+      else current.add(slug);
+      return { ...prev, [region]: current };
+    });
+  };
+
+  const clearDestFilter = (region: string) => {
+    setDestFilters((prev) => {
+      const next = { ...prev };
+      delete next[region];
+      return next;
+    });
+  };
+
   return (
     <>
       <div className="space-y-4">
-        {regions.map(({ region, consultants }) => (
+        {regions.map(({ region, consultants, destinationOptions }) => {
+          const activeFilters = destFilters[region];
+          const hasFilter = activeFilters && activeFilters.size > 0;
+          const visibleConsultants = hasFilter
+            ? consultants.filter((c) =>
+                c.destinations.some((slug) => activeFilters.has(slug))
+              )
+            : consultants;
+
+          return (
           <section key={region} className="border rounded-lg overflow-hidden">
             <button
               onClick={() => toggleRegion(region)}
@@ -110,7 +138,11 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
             >
               <h2 className="text-lg font-semibold">{region}</h2>
               <span className="flex items-center gap-2 text-muted-foreground text-sm">
-                <span>{consultants.length} specialists</span>
+                <span>
+                  {hasFilter
+                    ? `${visibleConsultants.length} of ${consultants.length} specialists`
+                    : `${consultants.length} specialists`}
+                </span>
                 <span
                   className={cn(
                     "transition-transform duration-200 inline-block text-base",
@@ -130,8 +162,37 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
               )}
             >
               <div className="overflow-hidden">
+                {destinationOptions.length > 1 && (
+                  <div className="flex flex-wrap items-center gap-2 px-4 pt-4">
+                    {destinationOptions.map((opt) => {
+                      const isActive = activeFilters?.has(opt.slug);
+                      return (
+                        <button
+                          key={opt.slug}
+                          onClick={() => toggleDestFilter(region, opt.slug)}
+                          className={cn(
+                            "rounded-full px-3 py-1 text-xs font-medium border transition-colors",
+                            isActive
+                              ? "bg-[#3a5f54] text-white border-[#3a5f54]"
+                              : "bg-background text-foreground border-border hover:bg-muted"
+                          )}
+                        >
+                          {opt.name}
+                        </button>
+                      );
+                    })}
+                    {hasFilter && (
+                      <button
+                        onClick={() => clearDestFilter(region)}
+                        className="text-xs text-muted-foreground hover:text-foreground underline ml-1"
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                  {consultants.map((consultant) => {
+                  {visibleConsultants.map((consultant) => {
                     const count = clickCounts[consultantKey(consultant.name)] ?? 0;
                     return (
                       <Card key={`${consultant.name}-${region}`}>
@@ -180,7 +241,8 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
               </div>
             </div>
           </section>
-        ))}
+          );
+        })}
       </div>
 
       <Dialog
