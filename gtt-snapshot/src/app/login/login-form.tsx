@@ -4,12 +4,25 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+const BACKGROUND_VIDEOS = [
+  "https://assets.mixkit.co/videos/5363/5363-720.mp4",   // Coastal with motorboats and pier
+  "https://assets.mixkit.co/videos/2178/2178-720.mp4",   // White sand paradise beach
+  "https://assets.mixkit.co/videos/4999/4999-720.mp4",   // Sunset on a bay from above
+  "https://assets.mixkit.co/videos/5008/5008-720.mp4",   // Turquoise blue water bay
+  "https://assets.mixkit.co/videos/41537/41537-720.mp4", // Curvy road on a tree-covered hill
+  "https://assets.mixkit.co/videos/49334/49334-720.mp4", // Drone flight above a jungle river
+  "https://assets.mixkit.co/videos/2875/2875-720.mp4",   // Wooden pier on a paradise beach
+];
+
 export function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [videoUrl] = useState(() =>
+    BACKGROUND_VIDEOS[Math.floor(Math.random() * BACKGROUND_VIDEOS.length)]
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,20 +56,37 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#3a5f54] via-[#2a4a40] to-[#1e3830] relative">
-      <div className="absolute inset-0 bg-dots opacity-[0.06]" />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Layer 1: Sage gradient fallback (visible while video loads) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#3a5f54] via-[#2a4a40] to-[#1e3830]" />
 
-      <div className="relative w-full max-w-sm mx-4">
-        {/* Branding */}
-        <div className="text-center mb-8">
-          <h1 className="text-white text-2xl font-serif font-bold tracking-tight">
-            GTT Country Snapshot
-          </h1>
-          <p className="text-white/50 text-sm mt-1">Audley Travel</p>
-        </div>
+      {/* Layer 2: Slow-motion video background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src={videoUrl} type="video/mp4" />
+      </video>
 
-        {/* Login card */}
-        <div className="bg-white rounded-xl shadow-2xl border border-white/20 overflow-hidden">
+      {/* Layer 3: Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-black/40" />
+
+      {/* Layer 4: Login content */}
+      <div className="relative z-10 flex items-center justify-center min-h-screen">
+        <div className="w-full max-w-sm mx-4">
+          {/* Branding */}
+          <div className="text-center mb-8">
+            <h1 className="text-white text-2xl font-serif font-bold tracking-tight">
+              GTT Country Snapshot
+            </h1>
+            <p className="text-white/50 text-sm mt-1">Audley Travel</p>
+          </div>
+
+          {/* Login card */}
+          <div className="backdrop-blur-md bg-white/95 rounded-xl shadow-2xl border border-white/20 overflow-hidden">
           <div className="h-1 bg-gradient-to-r from-[#3a5f54] via-[#6b9a88] to-[#3a5f54]" />
           <div className="p-8">
             <div className="text-center mb-6">
@@ -126,6 +156,7 @@ export function LoginForm() {
                 </Link>
               </div>
             </form>
+          </div>
           </div>
         </div>
       </div>
