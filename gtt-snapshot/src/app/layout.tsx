@@ -93,7 +93,7 @@ export default async function RootLayout({
       <body
         className={`${merriweather.variable} ${openSans.variable} antialiased`}
       >
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex h-screen overflow-hidden bg-noise">
           <Sidebar initialData={sidebarData} />
           <div className="flex flex-1 flex-col overflow-hidden">
             <Header user={{ name: user.name, role: user.role }} />

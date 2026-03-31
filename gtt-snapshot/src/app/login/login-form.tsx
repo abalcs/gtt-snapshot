@@ -43,19 +43,22 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Header bar */}
-      <div className="bg-[#3a5f54] px-6 py-4">
-        <h1 className="text-white text-xl font-serif font-bold tracking-tight">
-          GTT Country Snapshot
-        </h1>
-        <p className="text-white/70 text-sm">Audley Travel</p>
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#3a5f54] via-[#2a4a40] to-[#1e3830] relative">
+      <div className="absolute inset-0 bg-dots opacity-[0.06]" />
 
-      {/* Login card */}
-      <div className="flex-1 flex items-center justify-center px-4">
-        <div className="w-full max-w-sm">
-          <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-8">
+      <div className="relative w-full max-w-sm mx-4">
+        {/* Branding */}
+        <div className="text-center mb-8">
+          <h1 className="text-white text-2xl font-serif font-bold tracking-tight">
+            GTT Country Snapshot
+          </h1>
+          <p className="text-white/50 text-sm mt-1">Audley Travel</p>
+        </div>
+
+        {/* Login card */}
+        <div className="bg-white rounded-xl shadow-2xl border border-white/20 overflow-hidden">
+          <div className="h-1 bg-gradient-to-r from-[#3a5f54] via-[#6b9a88] to-[#3a5f54]" />
+          <div className="p-8">
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#3a5f54]/10 mb-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3a5f54" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -80,7 +83,7 @@ export function LoginForm() {
                   placeholder="you@audleytravel.com"
                   autoFocus
                   required
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54] focus:border-transparent"
+                  className="w-full rounded-lg border border-gray-300 bg-gray-50/50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54]/40 focus:border-[#3a5f54] transition-colors"
                 />
               </div>
 
@@ -95,7 +98,7 @@ export function LoginForm() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   required
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54] focus:border-transparent"
+                  className="w-full rounded-lg border border-gray-300 bg-gray-50/50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54]/40 focus:border-[#3a5f54] transition-colors"
                 />
               </div>
 
@@ -106,8 +109,14 @@ export function LoginForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-md bg-[#3a5f54] text-white px-4 py-2 text-sm font-medium hover:bg-[#2a4a40] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-lg bg-gradient-to-b from-[#3a5f54] to-[#2a4a40] text-white px-4 py-2.5 text-sm font-medium hover:from-[#2a4a40] hover:to-[#1e3830] transition-all shadow-[var(--shadow-md)] active:translate-y-px disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
+                {loading && (
+                  <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                )}
                 {loading ? "Signing in..." : "Sign in"}
               </button>
 

@@ -14,7 +14,7 @@ interface DestinationCardProps {
 
 export function DestinationCard({ destination, tagDefinitions, compareMode, isSelected, onToggleCompare }: DestinationCardProps) {
   const cardContent = (
-    <Card className={`h-full hover:shadow-md transition-shadow cursor-pointer ${compareMode && isSelected ? "ring-2 ring-[#3a5f54]" : ""}`}>
+    <Card className={`h-full border-l-4 ${destination.status === "stop_sell" ? "border-l-red-500" : "border-l-[#3a5f54]"} hover:shadow-[var(--shadow-lg)] hover:-translate-y-1 transition-all duration-200 cursor-pointer ${compareMode && isSelected ? "ring-2 ring-[#3a5f54] shadow-[0_0_0_4px_rgba(58,95,84,0.08)]" : ""}`}>
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">

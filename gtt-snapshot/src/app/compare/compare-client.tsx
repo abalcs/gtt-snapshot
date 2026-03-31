@@ -229,7 +229,7 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }:
           {/* Desktop: table layout */}
           <table className="w-full border-collapse hidden md:table">
             <thead>
-              <tr>
+              <tr className="bg-gradient-to-r from-[#f0f5f2] to-[#e8f0ec]">
                 <th className="text-left p-3 border-b font-medium text-sm text-muted-foreground w-40">Field</th>
                 {selected.map((d) => (
                   <th key={d.slug} className="text-left p-3 border-b">

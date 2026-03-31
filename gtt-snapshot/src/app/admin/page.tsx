@@ -25,27 +25,30 @@ export default async function AdminPage() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-amber-600 via-amber-500 to-amber-400 px-8 py-6 shadow-[var(--shadow-md)]">
+        <div className="absolute inset-0 bg-dots opacity-[0.06]" />
+        <div className="relative flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Manage destinations and content</p>
+          <h1 className="text-2xl font-bold tracking-tight text-white">Admin Dashboard</h1>
+          <p className="text-amber-100">Manage destinations and content</p>
         </div>
         <div className="flex gap-2">
           <Link href="/admin/users">
-            <Button variant="outline">Manage Users</Button>
+            <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Manage Users</Button>
           </Link>
           <Link href="/admin/tags">
-            <Button variant="outline">Manage Tags</Button>
+            <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Manage Tags</Button>
           </Link>
           <Link href="/admin/consultants">
-            <Button variant="outline">Manage Consultants</Button>
+            <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Manage Consultants</Button>
           </Link>
           <Link href="/admin/log">
-            <Button variant="outline">Activity Log</Button>
+            <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Activity Log</Button>
           </Link>
           <Link href="/admin/destinations/new">
-            <Button>Add Destination</Button>
+            <Button className="bg-white text-amber-700 hover:bg-white/90 shadow-sm">Add Destination</Button>
           </Link>
+        </div>
         </div>
       </div>
 

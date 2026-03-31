@@ -51,7 +51,11 @@
 :root {
   --radius: 0.625rem;
   /* Audley Travel brand palette – sage green */
-  --background: #ffffff;
+  --background: #f8faf9;
+  /* Layered shadow system with sage-tinted shadows */
+  --shadow-sm: 0 1px 2px rgba(58,95,84,0.06), 0 1px 3px rgba(58,95,84,0.04);
+  --shadow-md: 0 2px 4px rgba(58,95,84,0.06), 0 4px 8px rgba(58,95,84,0.04), 0 1px 2px rgba(58,95,84,0.03);
+  --shadow-lg: 0 4px 6px rgba(58,95,84,0.06), 0 10px 20px rgba(58,95,84,0.05), 0 2px 4px rgba(58,95,84,0.03);
   --foreground: #333333;
   --card: #ffffff;
   --card-foreground: #333333;
@@ -127,5 +131,28 @@
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-merriweather), Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+  h1 {
+    text-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  ::selection {
+    background: rgba(58,95,84,0.15);
+  }
+}
+
+@layer utilities {
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+  .bg-dots {
+    background-image: radial-gradient(circle, rgba(58,95,84,0.08) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .gradient-separator {
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    height: 1px;
   }
 }

@@ -104,9 +104,9 @@ export function HelpMeChooseClient() {
                     <button
                       key={tag.slug}
                       onClick={() => toggle(tag.slug)}
-                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-colors cursor-pointer ${
+                      className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer hover:scale-[1.03] ${
                         isActive
-                          ? categoryActiveMap[cat.key]
+                          ? `${categoryActiveMap[cat.key]} shadow-sm`
                           : categoryInactiveMap[cat.key]
                       }`}
                     >
@@ -128,10 +128,15 @@ export function HelpMeChooseClient() {
 
         {!loading && fetched && results.length > 0 && (
           <>
-            <p className="text-sm text-muted-foreground mb-4">
-              <span className="font-semibold text-foreground">{results.length}</span> destination{results.length !== 1 ? "s" : ""} match{results.length === 1 ? "es" : ""} all{" "}
-              <span className="font-semibold text-foreground">{selected.length}</span> selected tag{selected.length !== 1 ? "s" : ""}
-            </p>
+            <div className="flex items-center gap-2 mb-4">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#3a5f54] to-[#6b9a88] px-3 py-1 text-xs font-semibold text-white">
+                {results.length} destination{results.length !== 1 ? "s" : ""}
+              </span>
+              <span className="text-sm text-muted-foreground">
+                match{results.length === 1 ? "es" : ""} all{" "}
+                <span className="font-semibold text-foreground">{selected.length}</span> selected tag{selected.length !== 1 ? "s" : ""}
+              </span>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {results.map(dest => (
                 <DestinationCard key={dest.id} destination={dest} tagDefinitions={tagDefinitions} />

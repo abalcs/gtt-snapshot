@@ -11,6 +11,12 @@ const actionColors: Record<string, string> = {
   deleted: "bg-red-100 text-red-800 border-red-200",
 };
 
+const dotColors: Record<string, string> = {
+  created: "bg-green-500",
+  updated: "bg-blue-500",
+  deleted: "bg-red-500",
+};
+
 const actionLabels: Record<string, string> = {
   created: "Created",
   updated: "Updated",
@@ -56,13 +62,18 @@ export function WhatsNewFeed({ logs }: { logs: AdminLogEntry[] }) {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="relative space-y-2 pl-6">
+      {/* Vertical timeline line */}
+      <div className="absolute left-[7px] top-3 bottom-3 w-px bg-gradient-to-b from-border via-border to-transparent" />
+
       {logs.map((log) => {
         const isExpanded = expandedId === log.id;
         const summary = summarizeChanges(log.changes);
 
         return (
-          <div key={log.id} className="border rounded-lg overflow-hidden">
+          <div key={log.id} className="relative border rounded-lg overflow-hidden">
+            {/* Timeline dot */}
+            <div className={`absolute -left-6 top-4 h-3 w-3 rounded-full border-2 border-white ${dotColors[log.action] || "bg-gray-400"} shadow-sm`} />
             <button
               onClick={() => setExpandedId(isExpanded ? null : log.id)}
               className="w-full text-left px-4 py-3 hover:bg-muted/50 transition-colors"

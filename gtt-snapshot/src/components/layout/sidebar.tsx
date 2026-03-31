@@ -35,7 +35,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
   return (
     <div
       className={cn(
-        "hidden md:flex flex-col border-r border-[#2a4a40] bg-[#3a5f54] text-white transition-all duration-300 ease-in-out",
+        "hidden md:flex flex-col border-r border-[#2a4a40] bg-gradient-to-b from-[#3a5f54] to-[#2a4a40] text-white transition-all duration-300 ease-in-out",
         collapsed ? "w-12" : "w-64"
       )}
     >
@@ -81,8 +81,8 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
             <Link
               href="/"
               className={cn(
-                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-colors",
-                pathname === "/" && "bg-white/20 text-white"
+                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                pathname === "/" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
               )}
             >
               Home
@@ -90,8 +90,8 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
             <Link
               href="/destinations"
               className={cn(
-                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-colors",
-                pathname === "/destinations" && "bg-white/20 text-white"
+                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                pathname === "/destinations" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
               )}
             >
               All Destinations
@@ -99,8 +99,8 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
             <Link
               href="/help-me-choose"
               className={cn(
-                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-colors",
-                pathname === "/help-me-choose" && "bg-white/20 text-white"
+                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                pathname === "/help-me-choose" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
               )}
             >
               Help Me Choose
@@ -108,8 +108,8 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
             <Link
               href="/compare"
               className={cn(
-                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-colors",
-                pathname === "/compare" && "bg-white/20 text-white"
+                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                pathname === "/compare" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
               )}
             >
               Compare
@@ -117,15 +117,16 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
             <Link
               href="/booking-calendars"
               className={cn(
-                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white transition-colors",
-                pathname === "/booking-calendars" && "bg-white/20 text-white"
+                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                pathname === "/booking-calendars" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
               )}
             >
               Booking Calendars
             </Link>
 
-            <div className="pt-3 pb-1 px-3 text-xs font-semibold text-white/60 uppercase tracking-wider">
-              Continents
+            <div className="pt-3 pb-1 px-3">
+              <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">Continents</span>
+              <div className="mt-1.5 h-px bg-gradient-to-r from-white/20 via-white/10 to-transparent" />
             </div>
 
             {data.continents.map((continent) => (
@@ -133,7 +134,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
                 <button
                   onClick={() => toggleContinent(continent.name)}
                   className={cn(
-                    "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 transition-colors",
+                    "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:translate-x-0.5 transition-all duration-150",
                   )}
                 >
                   <span className="flex-1 text-left">{continent.name}</span>
@@ -163,9 +164,9 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
                         key={dest.slug}
                         href={`/destinations/${dest.slug}`}
                         className={cn(
-                          "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white transition-colors",
+                          "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
                           pathname === `/destinations/${dest.slug}` &&
-                            "bg-white/20 font-medium text-white"
+                            "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
                         )}
                       >
                         {dest.name}
@@ -178,17 +179,18 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
 
             {data.specialSections.length > 0 && (
               <>
-                <div className="pt-3 pb-1 px-3 text-xs font-semibold text-white/60 uppercase tracking-wider">
-                  Special Sections
+                <div className="pt-3 pb-1 px-3">
+                  <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">Special Sections</span>
+                  <div className="mt-1.5 h-px bg-gradient-to-r from-white/20 via-white/10 to-transparent" />
                 </div>
                 {data.specialSections.map((section) => (
                   <Link
                     key={section.slug}
                     href={`/special/${section.slug}`}
                     className={cn(
-                      "block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/15 hover:text-white transition-colors",
+                      "block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
                       pathname === `/special/${section.slug}` &&
-                        "bg-white/20 font-medium text-white"
+                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
                     )}
                   >
                     {section.title}

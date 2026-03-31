@@ -126,8 +126,8 @@ export function Header({ user }: HeaderProps) {
   return (
     <header className={`flex items-center gap-4 border-b px-6 py-3 transition-colors ${
       isAdmin
-        ? "bg-[#fdf6e9] border-[#d4b896]"
-        : "bg-white border-[#b2cab8]"
+        ? "bg-[#fdf6e9] border-[#d4b896] shadow-[0_1px_3px_rgba(180,150,100,0.06)]"
+        : "bg-white border-[#b2cab8] shadow-[0_1px_3px_rgba(58,95,84,0.06)]"
     }`}>
       {isAdmin && (
         <div className="flex items-center gap-1.5 mr-2">
@@ -136,7 +136,7 @@ export function Header({ user }: HeaderProps) {
         </div>
       )}
       <div className="relative flex-1 max-w-xl">
-        <div className="relative">
+        <div className="relative group">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -147,7 +147,7 @@ export function Header({ user }: HeaderProps) {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground"
           >
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.3-4.3" />
@@ -155,21 +155,24 @@ export function Header({ user }: HeaderProps) {
           <Input
             ref={inputRef}
             type="search"
-            placeholder="Search destinations... (⌘K)"
+            placeholder="Search destinations..."
             value={query}
             onChange={(e) => handleChange(e.target.value)}
             onKeyDown={handleKeyDown}
             onFocus={() => {
               if (results.length > 0 || specialResults.length > 0) setIsOpen(true);
             }}
-            className="pl-9 pr-4"
+            className="pl-10 pr-16 rounded-full bg-[#f1f6f3] border-transparent focus-within:bg-white focus-within:border-border transition-colors"
           />
+          <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-0.5 rounded-md border bg-muted/80 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+            <span className="text-xs">⌘</span>K
+          </kbd>
         </div>
 
         {isOpen && (results.length > 0 || specialResults.length > 0) && (
           <div
             ref={dropdownRef}
-            className="absolute top-full left-0 right-0 z-50 mt-1 rounded-md border bg-popover shadow-lg max-h-80 overflow-y-auto"
+            className="absolute top-full left-0 right-0 z-50 mt-1 rounded-lg border bg-white/95 backdrop-blur-sm shadow-[var(--shadow-lg)] max-h-80 overflow-y-auto"
           >
             {results.length > 0 && (
               <div className="p-1">
@@ -241,9 +244,14 @@ export function Header({ user }: HeaderProps) {
 
       <div className="ml-auto flex items-center gap-3">
         {user && (
-          <span className="text-sm text-muted-foreground">
-            {user.name}
-          </span>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center h-7 w-7 rounded-full bg-[#3a5f54] text-white text-xs font-semibold">
+              {user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
+            </div>
+            <span className="text-sm text-muted-foreground">
+              {user.name}
+            </span>
+          </div>
         )}
         {user?.role === 'admin' && !isAdmin && (
           <Link

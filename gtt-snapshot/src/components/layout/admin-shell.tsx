@@ -8,7 +8,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   return (
     <main className={`flex-1 overflow-y-auto p-6 transition-colors ${
-      isAdmin ? "bg-[#fffcf5]" : ""
+      isAdmin ? "bg-gradient-to-br from-[#fffcf5] via-[#fdf6e9] to-[#faf0db] bg-dots" : ""
     }`}>
       {children}
     </main>

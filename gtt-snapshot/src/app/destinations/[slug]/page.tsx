@@ -41,46 +41,51 @@ export default async function DestinationDetailPage({
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 print:space-y-4">
-      {/* Header */}
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Link href="/" className="hover:underline">Home</Link>
-          <span>/</span>
-          <Link href={`/regions/${destination.region_slug}`} className="hover:underline">
-            {destination.region_name}
-          </Link>
-          <span>/</span>
-          <span>{destination.name}</span>
-        </div>
-        <div className="flex items-start justify-between gap-4">
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            {getFlagUrl(destination.name) && (
-              <img
-                src={getFlagUrl(destination.name)}
-                alt=""
-                className="h-6 w-8 object-cover rounded-sm inline-block"
-              />
-            )}
-            {destination.name}
-          </h1>
-          <div className="flex items-center gap-2">
-            <Badge variant="secondary">{destination.region_name}</Badge>
-            {destination.status !== "active" && (
-              <Badge variant="destructive">
-                {destination.status === "stop_sell" ? "Stop Sell" : "Not Selling"}
-              </Badge>
-            )}
+      {/* Hero Header */}
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-[#3a5f54] via-[#2a4a40] to-[#1e3830] px-8 py-6">
+        <div className="absolute inset-0 bg-dots opacity-[0.06]" />
+        <div className="relative">
+          <div className="flex items-center gap-2 text-sm text-white/60 mb-3">
+            <Link href="/" className="hover:text-white/90 transition-colors">Home</Link>
+            <span>/</span>
+            <Link href={`/regions/${destination.region_slug}`} className="hover:text-white/90 transition-colors">
+              {destination.region_name}
+            </Link>
+            <span>/</span>
+            <span className="text-white/80">{destination.name}</span>
           </div>
+          <div className="flex items-start justify-between gap-4">
+            <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-2">
+              {getFlagUrl(destination.name) && (
+                <img
+                  src={getFlagUrl(destination.name)}
+                  alt=""
+                  className="h-6 w-8 object-cover rounded-sm inline-block"
+                />
+              )}
+              {destination.name}
+            </h1>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="bg-white/20 text-white border-white/20">{destination.region_name}</Badge>
+              {destination.status !== "active" && (
+                <Badge variant="destructive">
+                  {destination.status === "stop_sell" ? "Stop Sell" : "Not Selling"}
+                </Badge>
+              )}
+            </div>
+          </div>
+          {destination.tags && destination.tags.length > 0 && (
+            <div className="mt-3">
+              <TagBadges tags={destination.tags} tagDefinitions={tagDefinitions} />
+            </div>
+          )}
+          {(destination.date_updated || destination.updated_by) && (
+            <p className="text-sm font-medium text-amber-300 mt-2">
+              Last updated{destination.date_updated ? ` on ${destination.date_updated}` : ""}
+              {destination.updated_by ? ` by ${destination.updated_by}` : ""}
+            </p>
+          )}
         </div>
-        {destination.tags && destination.tags.length > 0 && (
-          <TagBadges tags={destination.tags} tagDefinitions={tagDefinitions} />
-        )}
-        {(destination.date_updated || destination.updated_by) && (
-          <p className="text-sm font-medium text-red-600">
-            Last updated{destination.date_updated ? ` on ${destination.date_updated}` : ""}
-            {destination.updated_by ? ` by ${destination.updated_by}` : ""}
-          </p>
-        )}
       </div>
 
       {/* Location Map */}
@@ -95,13 +100,13 @@ export default async function DestinationDetailPage({
 
       {/* Talking Points */}
       {destination.talking_points && (
-        <Card className="border-[#3a5f54]/20 bg-[#3a5f54]/5">
+        <Card className="border-l-4 border-l-[#3a5f54] bg-white">
           <CardContent className="pt-4 pb-4">
             <div className="flex items-start gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#3a5f54] mt-0.5 shrink-0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               <div>
                 <h3 className="font-semibold text-[#3a5f54] text-sm">Talking Points</h3>
-                <p className="text-sm text-[#3a5f54]/80 whitespace-pre-line">{destination.talking_points}</p>
+                <p className="text-sm text-foreground/80 whitespace-pre-line">{destination.talking_points}</p>
               </div>
             </div>
           </CardContent>
@@ -110,7 +115,7 @@ export default async function DestinationDetailPage({
 
       {/* Urgency Banner */}
       {destination.urgency && (
-        <Card className="border-amber-200 bg-amber-50">
+        <Card className="border-l-4 border-l-amber-500 bg-white">
           <CardContent className="pt-4 pb-4">
             <div className="flex items-start gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600 mt-0.5 shrink-0"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
