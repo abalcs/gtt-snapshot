@@ -376,7 +376,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
   {
     name: "Eileen Dinn",
     title: "Senior",
-    calendarUrl: "https://outlook.office.com/bookwithme/user/f943ace9449343ec8dacfb1242914e8d@audleytravel.com?anonymous&ismsaljsauthenabled",
+    calendarUrl: "https://outlook.office365.com/book/EileenDinn@audleytravel.com/?ismsaljsauthenabled=true",
     destinations: ["costa-rica", "ecuador", "guatemala"],
     displayRegions: ["LATAM"],
     countriesDisplay: "Costa Rica, Ecuador, Guatemala",
@@ -384,7 +384,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
   {
     name: "Spencer Kulis",
     title: "CS",
-    calendarUrl: "https://outlook.office.com/bookwithme/user/76577d01b3334f50b4e734fb72876360@audleytravel.com?anonymous&ismsaljsauthenabled=true",
+    calendarUrl: "https://outlook.office365.com/book/SpencerKulis@audleytravel.com/?ismsaljsauthenabled=true",
     destinations: ["costa-rica", "ecuador"],
     displayRegions: ["LATAM"],
     countriesDisplay: "Costa Rica, Ecuador",
@@ -400,7 +400,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
   {
     name: "Robyn Lipkowitz",
     title: "CS",
-    calendarUrl: "https://outlook.office.com/bookwithme/user/101170a4320345baaaae45a90026947e@audleytravel.com?anonymous&ismsaljsauthenabled=true",
+    calendarUrl: "https://outlook.office365.com/book/RobynLipkowitz@audleytravel.com/?ismsaljsauthenabled=true",
     destinations: ["costa-rica", "ecuador", "peru"],
     displayRegions: ["LATAM"],
     countriesDisplay: "Costa Rica, Ecuador, Peru",
@@ -468,7 +468,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
   {
     name: "Mikaela Wall",
     title: "",
-    calendarUrl: "https://outlook.office.com/bookwithme/user/fc9779a278924a83ba4f36aee7193e71@audleytravel.com?anonymous&ismsaljsauthenabled=true",
+    calendarUrl: "https://outlook.office365.com/book/MikaelaWall@audleytravel.com/?ismsaljsauthenabled=true",
     destinations: ["usa-hawaii", "usa-california"],
     displayRegions: ["USA"],
     countriesDisplay: "Hawaii, California",
@@ -518,7 +518,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
   {
     name: "Anupama",
     title: "Senior",
-    calendarUrl: "https://outlook.office.com/bookwithme/user/ea83c073fdca414080df6cce448a58d6@audleytravel.com?anonymous&ep=signature",
+    calendarUrl: "https://outlook.office365.com/book/Anupama@audleytravel.com/?ismsaljsauthenabled=true",
     destinations: ["india", "sri-lanka", "nepal"],
     displayRegions: ["Asia"],
     countriesDisplay: "India, Sri Lanka, Nepal",
@@ -550,7 +550,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
   {
     name: "Zac Pardee",
     title: "Elite",
-    calendarUrl: "https://outlook.office.com/bookwithme/user/3ff0d520e89c4f2ca665890944a788ad@audleytravel.com?anonymous&ep=pcard",
+    calendarUrl: "https://outlook.office365.com/book/ZacPardee@audleytravel.com/?ismsaljsauthenabled=true",
     destinations: ["india", "nepal", "uae"],
     displayRegions: ["Asia", "Middle East"],
     countriesDisplay: "India, Nepal, Dubai",
@@ -598,7 +598,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
   {
     name: "Kristina Staples",
     title: "CS",
-    calendarUrl: "https://outlook.office.com/bookwithme/user/23c55f66bd6d4c5b94555f2e445a725f@audleytravel.com?anonymous&ismsaljsauthenabled",
+    calendarUrl: "https://outlook.office365.com/book/KristinaStaples@audleytravel.com/?ismsaljsauthenabled=true",
     destinations: ["china"],
     displayRegions: ["Asia"],
     countriesDisplay: "China",
@@ -648,7 +648,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
   {
     name: "Michaella ONeill",
     title: "CS",
-    calendarUrl: "https://outlook.office.com/bookwithme/user/af12b817e6f2406dba4b6936df3e0a25@audleytravel.com?anonymous&ep=pcard",
+    calendarUrl: "https://outlook.office365.com/book/MichaellaONeill@audleytravel.com/?ismsaljsauthenabled=true",
     destinations: ["egypt"],
     displayRegions: ["Middle East"],
     countriesDisplay: "Egypt",
@@ -704,7 +704,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
   {
     name: "Emily Holman",
     title: "Onboard",
-    calendarUrl: "https://outlook.office.com/bookwithme/user/0b74eb0bb0b442c4afd3c6e0c97708b7@audleytravel.com?anonymous&ismsaljsauthenabled",
+    calendarUrl: "https://outlook.office365.com/book/EmilyHolman@audleytravel.com/?ismsaljsauthenabled=true",
     destinations: ["uae", "oman", "south-africa", "zambia"],
     displayRegions: ["Middle East", "Africa"],
     countriesDisplay: "Dubai, Oman, South Africa, Zambia",
@@ -738,7 +738,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
   {
     name: "Ned Morgan",
     title: "Onboard",
-    calendarUrl: "https://outlook.office.com/bookwithme/user/e2e9d6a1416b4b1a9470186e692c5e19@audleytravel.com?anonymous&ismsaljsauthenabled",
+    calendarUrl: "https://outlook.office365.com/book/NedMorgan@audleytravel.com/?ismsaljsauthenabled=true",
     destinations: ["kenya", "tanzania"],
     displayRegions: ["Africa"],
     countriesDisplay: "Kenya, Tanzania",
@@ -746,7 +746,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
   {
     name: "Thora Taylor",
     title: "Senior",
-    calendarUrl: "https://outlook.office.com/bookwithme/user/fb5c5a03f0dd4bd4be4ea238a76744cd@audleytravel.com?anonymous&ismsaljsauthenabled=true",
+    calendarUrl: "https://outlook.office365.com/book/ThoraTaylor@audleytravel.com/?ismsaljsauthenabled=true",
     destinations: ["kenya", "tanzania", "south-africa", "zimbabwe"],
     displayRegions: ["Africa"],
     countriesDisplay: "Kenya, Tanzania, South Africa, Zimbabwe",
