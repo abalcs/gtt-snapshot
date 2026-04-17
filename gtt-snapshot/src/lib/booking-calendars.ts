@@ -26,6 +26,19 @@ function slugify(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
+// Build a name→email lookup from seed data so Firestore docs (which lack
+// the email field) can be enriched server-side before reaching the client.
+let _emailMap: Map<string, string> | null = null;
+function getEmailMap(): Map<string, string> {
+  if (!_emailMap) {
+    _emailMap = new Map();
+    for (const c of SEED_CONSULTANTS) {
+      if (c.email) _emailMap.set(c.name, c.email);
+    }
+  }
+  return _emailMap;
+}
+
 async function getActiveConsultants(): Promise<ConsultantDoc[]> {
   const cached = getCached<ConsultantDoc[]>("consultants:active");
   if (cached) return cached;
@@ -35,10 +48,15 @@ async function getActiveConsultants(): Promise<ConsultantDoc[]> {
     .where("status", "==", "active")
     .get();
 
-  const docs = snap.docs.map((d) => ({
-    id: d.id,
-    ...d.data(),
-  })) as ConsultantDoc[];
+  const emailMap = getEmailMap();
+  const docs = snap.docs.map((d) => {
+    const data = d.data();
+    return {
+      id: d.id,
+      ...data,
+      email: (data.email as string | undefined) ?? emailMap.get(data.name as string),
+    };
+  }) as ConsultantDoc[];
 
   return setCache("consultants:active", docs);
 }
