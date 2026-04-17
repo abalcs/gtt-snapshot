@@ -68,7 +68,7 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
   };
 
   const handleExternalBookClick = (url: string, name: string) => {
-    window.open(url, "_blank");
+    window.open(url, "_blank", "noopener,noreferrer");
     setExternalConfirm({ name });
   };
 

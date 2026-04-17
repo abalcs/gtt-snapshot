@@ -58,7 +58,7 @@ export function CountrySpecialists({ consultants }: { consultants: Consultant[] 
   };
 
   const handleExternalBookClick = (url: string, name: string) => {
-    window.open(url, "_blank");
+    window.open(url, "_blank", "noopener,noreferrer");
     setExternalConfirm({ name });
   };
 
