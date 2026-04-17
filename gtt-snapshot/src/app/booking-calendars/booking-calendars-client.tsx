@@ -26,8 +26,7 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
   const [expandedRegions, setExpandedRegions] = useState<Set<string>>(new Set());
   const [calendarModal, setCalendarModal] = useState<{ url: string; name: string } | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [externalConfirm, setExternalConfirm] = useState<{ name: string; email?: string } | null>(null);
-  const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [externalConfirm, setExternalConfirm] = useState<{ name: string } | null>(null);
   const [clickCounts, setClickCounts] = useState<Record<string, number>>({});
   const [destFilters, setDestFilters] = useState<Record<string, Set<string>>>({});
 
@@ -68,19 +67,9 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
     setShowConfirm(false);
   };
 
-  const copyToClipboard = (text: string, field: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopiedField(field);
-      setTimeout(() => setCopiedField(null), 2000);
-    }).catch(() => {});
-  };
-
-  const handleExternalBookClick = (url: string, name: string, email?: string) => {
-    window.open(url, "_blank");
-    setExternalConfirm({ name, email });
-    if (email) {
-      navigator.clipboard.writeText(email).catch(() => {});
-    }
+  const handleExternalBookClick = (url: string, name: string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+    setExternalConfirm({ name });
   };
 
   const handleExternalYes = () => {
@@ -231,7 +220,7 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
                             {consultant.calendarUrl ? (
                               consultant.calendarUrl.includes("/bookwithme/") ? (
                                 <button
-                                  onClick={() => handleExternalBookClick(consultant.calendarUrl!, consultant.name, consultant.email)}
+                                  onClick={() => handleExternalBookClick(consultant.calendarUrl!, consultant.name)}
                                   className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#3a5f54] to-[#2a4a40] px-4 py-2 text-sm font-medium text-white hover:from-[#2a4a40] hover:to-[#1e3830] transition-all shadow-[var(--shadow-sm)] active:translate-y-px gap-1.5"
                                 >
                                   Book a Call
@@ -323,75 +312,23 @@ export function BookingCalendarsClient({ regions }: { regions: RegionGroup[] }) 
 
       <Dialog open={!!externalConfirm} onOpenChange={(open) => { if (!open) setExternalConfirm(null); }}>
         <DialogContent className="sm:max-w-md">
-          {externalConfirm?.email ? (
-            <>
-              <DialogHeader>
-                <DialogTitle>Book a Call — {externalConfirm.name}</DialogTitle>
-              </DialogHeader>
-              <p className="text-sm text-muted-foreground">Enter these details in the booking form:</p>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between rounded-md border px-3 py-2">
-                  <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground">Name</p>
-                    <p className="text-sm font-medium truncate">{externalConfirm.name}</p>
-                  </div>
-                  <button
-                    onClick={() => copyToClipboard(externalConfirm.name, "name")}
-                    className="shrink-0 ml-2 rounded-md border px-2.5 py-1 text-xs font-medium hover:bg-accent transition-colors"
-                  >
-                    {copiedField === "name" ? "Copied" : "Copy"}
-                  </button>
-                </div>
-                <div className="flex items-center justify-between rounded-md border px-3 py-2">
-                  <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground">Email (auto-copied)</p>
-                    <p className="text-sm font-medium truncate">{externalConfirm.email}</p>
-                  </div>
-                  <button
-                    onClick={() => copyToClipboard(externalConfirm.email!, "email")}
-                    className="shrink-0 ml-2 rounded-md border px-2.5 py-1 text-xs font-medium hover:bg-accent transition-colors"
-                  >
-                    {copiedField === "email" ? "Copied" : "Copy"}
-                  </button>
-                </div>
-              </div>
-              <div className="border-t pt-4 mt-2">
-                <p className="text-sm font-medium text-center mb-3">Did you book a call?</p>
-                <div className="flex gap-3 justify-center">
-                  <button
-                    onClick={handleExternalYes}
-                    className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
-                  >
-                    Yes
-                  </button>
-                  <button
-                    onClick={handleExternalNo}
-                    className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium hover:bg-accent transition-colors"
-                  >
-                    No
-                  </button>
-                </div>
-              </div>
-            </>
-          ) : (
-            <div className="flex flex-col items-center gap-6 py-4">
-              <p className="text-lg font-semibold text-center">Did you book a call with {externalConfirm?.name}?</p>
-              <div className="flex gap-3">
-                <button
-                  onClick={handleExternalYes}
-                  className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
-                >
-                  Yes
-                </button>
-                <button
-                  onClick={handleExternalNo}
-                  className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium hover:bg-accent transition-colors"
-                >
-                  No
-                </button>
-              </div>
+          <div className="flex flex-col items-center gap-6 py-4">
+            <p className="text-lg font-semibold text-center">Did you book a call with {externalConfirm?.name}?</p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleExternalYes}
+                className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
+              >
+                Yes
+              </button>
+              <button
+                onClick={handleExternalNo}
+                className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium hover:bg-accent transition-colors"
+              >
+                No
+              </button>
             </div>
-          )}
+          </div>
         </DialogContent>
       </Dialog>
     </>
