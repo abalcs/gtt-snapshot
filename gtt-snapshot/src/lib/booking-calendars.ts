@@ -10,6 +10,7 @@ export interface Consultant {
   displayRegions: string[];
   countriesDisplay: string;
   disabledDestinations?: string[];
+  email?: string;
 }
 
 export interface ConsultantDoc extends Consultant {
@@ -380,6 +381,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["costa-rica", "ecuador", "guatemala"],
     displayRegions: ["LATAM"],
     countriesDisplay: "Costa Rica, Ecuador, Guatemala",
+    email: "eileen.dinn@audleytravel.com",
   },
   {
     name: "Spencer Kulis",
@@ -388,6 +390,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["costa-rica", "ecuador"],
     displayRegions: ["LATAM"],
     countriesDisplay: "Costa Rica, Ecuador",
+    email: "spencer.kulis@audleytravel.com",
   },
   {
     name: "Meghan Bergstrom",
@@ -404,6 +407,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["costa-rica", "ecuador", "peru"],
     displayRegions: ["LATAM"],
     countriesDisplay: "Costa Rica, Ecuador, Peru",
+    email: "robyn.lipkowitz@audleytravel.com",
   },
   {
     name: "Tyler Nilsson-Goodwin",
@@ -472,6 +476,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["usa-hawaii", "usa-california"],
     displayRegions: ["USA"],
     countriesDisplay: "Hawaii, California",
+    email: "mikaela.wall@audleytravel.com",
   },
   {
     name: "David LaPointe",
@@ -522,6 +527,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["india", "sri-lanka", "nepal"],
     displayRegions: ["Asia"],
     countriesDisplay: "India, Sri Lanka, Nepal",
+    email: "anupama@audleytravel.com",
   },
   {
     name: "Jason",
@@ -554,6 +560,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["india", "nepal", "uae"],
     displayRegions: ["Asia", "Middle East"],
     countriesDisplay: "India, Nepal, Dubai",
+    email: "zac.pardee@audleytravel.com",
   },
   {
     name: "Joy Rhinehart",
@@ -602,6 +609,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["china"],
     displayRegions: ["Asia"],
     countriesDisplay: "China",
+    email: "kristina.staples@audleytravel.com",
   },
   {
     name: "Mackenzie McNeill",
@@ -652,6 +660,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["egypt"],
     displayRegions: ["Middle East"],
     countriesDisplay: "Egypt",
+    email: "michaella.oneill@audleytravel.com",
   },
   {
     name: "Liz Vedrani",
@@ -708,6 +717,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["uae", "oman", "south-africa", "zambia"],
     displayRegions: ["Middle East", "Africa"],
     countriesDisplay: "Dubai, Oman, South Africa, Zambia",
+    email: "emily.holman@audleytravel.com",
   },
 
   // === AFRICA ===
@@ -742,6 +752,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["kenya", "tanzania"],
     displayRegions: ["Africa"],
     countriesDisplay: "Kenya, Tanzania",
+    email: "ned.morgan@audleytravel.com",
   },
   {
     name: "Thora Taylor",
@@ -750,6 +761,7 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["kenya", "tanzania", "south-africa", "zimbabwe"],
     displayRegions: ["Africa"],
     countriesDisplay: "Kenya, Tanzania, South Africa, Zimbabwe",
+    email: "thora.taylor@audleytravel.com",
   },
   {
     name: "Jeremy Hyman",
