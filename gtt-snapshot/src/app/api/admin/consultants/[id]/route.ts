@@ -23,7 +23,7 @@ export async function PUT(
 
     const { id } = await params;
     const body = await request.json();
-    const { name, title, calendarUrl, destinations, displayRegions, countriesDisplay, disabledDestinations } = body;
+    const { name, title, calendarUrl, destinations, displayRegions, countriesDisplay, disabledDestinations, taAssignments } = body;
 
     const docRef = getDb().collection(COLLECTION).doc(id);
     const doc = await docRef.get();
@@ -41,6 +41,7 @@ export async function PUT(
     if (displayRegions !== undefined) updates.displayRegions = displayRegions;
     if (countriesDisplay !== undefined) updates.countriesDisplay = countriesDisplay;
     if (disabledDestinations !== undefined) updates.disabledDestinations = disabledDestinations;
+    if (taAssignments !== undefined) updates.taAssignments = taAssignments;
 
     const newId = name ? slugify(name) : id;
 

@@ -2,6 +2,11 @@ import { getDb } from "@/../db/database";
 import { getCached, setCache } from "./data-cache";
 import { getContinentForDestination, getContinentOrder } from "./continents";
 
+export interface TaAssignment {
+  country: string;
+  rank: number;
+}
+
 export interface Consultant {
   name: string;
   title: string;
@@ -10,6 +15,7 @@ export interface Consultant {
   displayRegions: string[];
   countriesDisplay: string;
   disabledDestinations?: string[];
+  taAssignments?: TaAssignment[];
 }
 
 export interface ConsultantDoc extends Consultant {
@@ -153,24 +159,42 @@ export async function getConsultantsForDestination(slug: string): Promise<Consul
 
 export { slugify };
 
-/** Build a lookup of canonical lowercase name → TA country rankings */
-export function getTaRanksByConsultant(): Record<string, { country: string; rank: number }[]> {
-  const result: Record<string, { country: string; rank: number }[]> = {};
+/** Derive TA assignments from static COUNTRY_AGENT_ASSIGNMENTS for a given name */
+export function getStaticTaAssignments(name: string): TaAssignment[] {
+  const result: TaAssignment[] = [];
+  const canonical = name.toLowerCase();
   for (const { country, agents } of COUNTRY_AGENT_ASSIGNMENTS) {
     const seen = new Set<string>();
     agents.forEach((csName, idx) => {
-      const canonical = (TRAVEL_AGENT_NAME_ALIASES[csName] ?? csName).toLowerCase();
-      if (seen.has(canonical)) return; // skip duplicates (e.g. Spain)
-      seen.add(canonical);
-      (result[canonical] ??= []).push({ country, rank: idx + 1 });
+      const resolved = (TRAVEL_AGENT_NAME_ALIASES[csName] ?? csName).toLowerCase();
+      if (seen.has(resolved)) return;
+      seen.add(resolved);
+      if (resolved === canonical) {
+        result.push({ country, rank: idx + 1 });
+      }
     });
+  }
+  return result;
+}
+
+/** Build a lookup of canonical lowercase name → TA country rankings (Firestore-first, static fallback) */
+export async function getTaRanksByConsultant(): Promise<Record<string, TaAssignment[]>> {
+  const consultants = await getActiveConsultants();
+  const result: Record<string, TaAssignment[]> = {};
+  for (const c of consultants) {
+    const assignments = c.taAssignments && c.taAssignments.length > 0
+      ? c.taAssignments
+      : getStaticTaAssignments(c.name);
+    if (assignments.length > 0) {
+      result[c.name.toLowerCase()] = assignments;
+    }
   }
   return result;
 }
 
 // ── Travel Agent Country Assignments ─────────────────────
 
-/** Maps CS-table names to canonical Firestore/seed names */
+/** Maps TA-table names to canonical Firestore/seed names */
 export const TRAVEL_AGENT_NAME_ALIASES: Record<string, string> = {
   "Tam Frederick": "Tamatha Frederick",
   "Carly Rusticca": "Carly Ristuccia",
@@ -178,6 +202,7 @@ export const TRAVEL_AGENT_NAME_ALIASES: Record<string, string> = {
   "Jason Toms": "Jason",
   "Kat DiPlacido": "Katarina DiPlacido",
   "Tyler NilssonGoodwin": "Tyler Nilsson-Goodwin",
+  "Sebastion Pieri": "Sebastian Pieri",
 };
 
 /** Countries with agents listed in CS1→CS6 priority order */
@@ -207,8 +232,8 @@ export const COUNTRY_AGENT_ASSIGNMENTS: { country: string; agents: string[] }[] 
 ];
 
 export interface CountryAgentEntry {
-  csLabel: string; // "CS1", "CS2", etc.
-  name: string; // original CS-table name
+  taLabel: string; // "TA1", "TA2", etc.
+  name: string; // display name
   consultant: Consultant | null; // matched Firestore record, or null
 }
 
@@ -220,33 +245,41 @@ export interface CountryAgentGroup {
 export async function getCountryAgentGroups(): Promise<CountryAgentGroup[]> {
   const consultants = await getActiveConsultants();
 
-  // Build case-insensitive name → consultant lookup
-  const nameMap = new Map<string, ConsultantDoc>();
+  // Build country groups from Firestore taAssignments (with static fallback)
+  const countryMap = new Map<string, CountryAgentEntry[]>();
+
   for (const c of consultants) {
-    nameMap.set(c.name.toLowerCase(), c);
+    const assignments = c.taAssignments && c.taAssignments.length > 0
+      ? c.taAssignments
+      : getStaticTaAssignments(c.name);
+
+    for (const { country, rank } of assignments) {
+      if (!countryMap.has(country)) countryMap.set(country, []);
+      countryMap.get(country)!.push({
+        taLabel: `TA${rank}`,
+        name: c.name,
+        consultant: {
+          name: c.name,
+          title: c.title,
+          calendarUrl: c.calendarUrl,
+          destinations: c.destinations,
+          displayRegions: c.displayRegions,
+          countriesDisplay: c.countriesDisplay,
+        },
+      });
+    }
   }
 
-  return COUNTRY_AGENT_ASSIGNMENTS.map(({ country, agents }) => ({
-    country,
-    agents: agents.map((csName, idx) => {
-      const canonicalName = TRAVEL_AGENT_NAME_ALIASES[csName] ?? csName;
-      const consultant = nameMap.get(canonicalName.toLowerCase()) ?? null;
-      return {
-        csLabel: `CS${idx + 1}`,
-        name: csName,
-        consultant: consultant
-          ? {
-              name: consultant.name,
-              title: consultant.title,
-              calendarUrl: consultant.calendarUrl,
-              destinations: consultant.destinations,
-              displayRegions: consultant.displayRegions,
-              countriesDisplay: consultant.countriesDisplay,
-            }
-          : null,
-      };
-    }),
-  }));
+  return Array.from(countryMap.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([country, agents]) => ({
+      country,
+      agents: agents.sort((a, b) => {
+        const rankA = parseInt(a.taLabel.slice(2));
+        const rankB = parseInt(b.taLabel.slice(2));
+        return rankA - rankB;
+      }),
+    }));
 }
 
 // ── Seed Data ───────────────────────────────────────────
@@ -862,5 +895,167 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["south-africa"],
     displayRegions: ["Africa"],
     countriesDisplay: "South Africa",
+  },
+
+  // === TA-ASSIGNED AGENTS (no booking calendars) ===
+  {
+    name: "Chris Flad",
+    title: "",
+    calendarUrl: null,
+    destinations: ["japan"],
+    displayRegions: ["Asia"],
+    countriesDisplay: "Japan",
+  },
+  {
+    name: "Amy Rowland",
+    title: "",
+    calendarUrl: null,
+    destinations: ["japan"],
+    displayRegions: ["Asia"],
+    countriesDisplay: "Japan",
+  },
+  {
+    name: "Kai Gundersen",
+    title: "",
+    calendarUrl: null,
+    destinations: ["japan"],
+    displayRegions: ["Asia"],
+    countriesDisplay: "Japan",
+  },
+  {
+    name: "Gudrun",
+    title: "",
+    calendarUrl: null,
+    destinations: ["italy", "switzerland"],
+    displayRegions: ["Italy"],
+    countriesDisplay: "Italy, Switzerland",
+  },
+  {
+    name: "Anthony Vaglica",
+    title: "",
+    calendarUrl: null,
+    destinations: ["australia", "new-zealand", "french-polynesia"],
+    displayRegions: ["Australia & NZ"],
+    countriesDisplay: "Australia, New Zealand, French Polynesia",
+  },
+  {
+    name: "Jack Tydeman",
+    title: "",
+    calendarUrl: null,
+    destinations: ["thailand", "indonesia"],
+    displayRegions: ["Asia"],
+    countriesDisplay: "Thailand, Indonesia",
+  },
+  {
+    name: "Matt McLean",
+    title: "",
+    calendarUrl: null,
+    destinations: ["thailand", "indonesia"],
+    displayRegions: ["Asia"],
+    countriesDisplay: "Thailand, Indonesia",
+  },
+  {
+    name: "Zachary Vogel",
+    title: "",
+    calendarUrl: null,
+    destinations: ["thailand", "indonesia"],
+    displayRegions: ["Asia"],
+    countriesDisplay: "Thailand, Indonesia",
+  },
+  {
+    name: "Julia Matton",
+    title: "",
+    calendarUrl: null,
+    destinations: ["thailand"],
+    displayRegions: ["Asia"],
+    countriesDisplay: "Thailand",
+  },
+  {
+    name: "Sebastian Pieri",
+    title: "",
+    calendarUrl: null,
+    destinations: ["switzerland", "france"],
+    displayRegions: ["Europe"],
+    countriesDisplay: "Switzerland, France",
+  },
+  {
+    name: "Brianna Zirolli",
+    title: "",
+    calendarUrl: null,
+    destinations: ["switzerland"],
+    displayRegions: ["Europe"],
+    countriesDisplay: "Switzerland",
+  },
+  {
+    name: "Lily Cohen",
+    title: "",
+    calendarUrl: null,
+    destinations: ["ireland", "scotland", "england"],
+    displayRegions: ["UK & Ireland"],
+    countriesDisplay: "Ireland, Scotland, England",
+  },
+  {
+    name: "Heather Rufo",
+    title: "",
+    calendarUrl: null,
+    destinations: ["ireland", "scotland", "england"],
+    displayRegions: ["UK & Ireland"],
+    countriesDisplay: "Ireland, Scotland, England",
+  },
+  {
+    name: "Mareesa Ahmad",
+    title: "",
+    calendarUrl: null,
+    destinations: ["ireland", "iceland", "scotland", "england"],
+    displayRegions: ["UK & Ireland", "Scandinavia"],
+    countriesDisplay: "Ireland, Iceland, Scotland, England",
+  },
+  {
+    name: "Erika Jolie",
+    title: "",
+    calendarUrl: null,
+    destinations: ["portugal", "spain"],
+    displayRegions: ["Europe"],
+    countriesDisplay: "Portugal, Spain",
+  },
+  {
+    name: "Riley Casadei",
+    title: "",
+    calendarUrl: null,
+    destinations: ["portugal", "spain"],
+    displayRegions: ["Europe"],
+    countriesDisplay: "Portugal, Spain",
+  },
+  {
+    name: "Kelsey White",
+    title: "",
+    calendarUrl: null,
+    destinations: ["iceland"],
+    displayRegions: ["Scandinavia"],
+    countriesDisplay: "Iceland",
+  },
+  {
+    name: "Caroline Fahey",
+    title: "",
+    calendarUrl: null,
+    destinations: ["france"],
+    displayRegions: ["Europe"],
+    countriesDisplay: "France",
+  },
+  {
+    name: "Kelly Edwards",
+    title: "",
+    calendarUrl: null,
+    destinations: ["france"],
+    displayRegions: ["Europe"],
+    countriesDisplay: "France",
+  },
+  {
+    name: "Nataly Solis-Alva",
+    title: "",
+    calendarUrl: null,
+    destinations: ["peru", "ecuador"],
+    displayRegions: ["LATAM"],
+    countriesDisplay: "Peru, Ecuador",
   },
 ];

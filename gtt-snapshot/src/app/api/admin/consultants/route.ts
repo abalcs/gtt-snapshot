@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { validateSession } from "@/lib/user-queries";
 import { getDb } from "@/../db/database";
-import { slugify } from "@/lib/booking-calendars";
+import { slugify, getStaticTaAssignments } from "@/lib/booking-calendars";
 import { invalidateCache } from "@/lib/data-cache";
 
 const COLLECTION = "consultants";
@@ -19,7 +19,14 @@ export async function GET(request: NextRequest) {
     }
 
     const snap = await getDb().collection(COLLECTION).get();
-    const consultants = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    const consultants = snap.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        ...data,
+        taAssignments: data.taAssignments ?? getStaticTaAssignments(data.name as string),
+      };
+    });
 
     return NextResponse.json({ consultants });
   } catch {
@@ -40,7 +47,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, title, calendarUrl, destinations, displayRegions, countriesDisplay, disabledDestinations } = body;
+    const { name, title, calendarUrl, destinations, displayRegions, countriesDisplay, disabledDestinations, taAssignments } = body;
 
     if (!name) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 });
@@ -64,6 +71,7 @@ export async function POST(request: NextRequest) {
       displayRegions: displayRegions || [],
       countriesDisplay: countriesDisplay || "",
       disabledDestinations: disabledDestinations || [],
+      taAssignments: taAssignments || [],
       status: "active",
       created_at: now,
       updated_at: now,

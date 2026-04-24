@@ -132,14 +132,14 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
                       : 0;
 
                     return (
-                      <Card key={`${country}-${agent.csLabel}-${idx}`}>
+                      <Card key={`${country}-${agent.taLabel}-${idx}`}>
                         <CardContent className="pt-4 pb-4">
                           <div className="flex flex-col gap-2">
                             <div>
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                   <div className="flex items-center justify-center h-8 w-8 rounded-full bg-[#3a5f54]/10 text-[#3a5f54] text-xs font-semibold shrink-0">
-                                    {(agent.consultant?.name ?? agent.name)
+                                    {(agent.name)
                                       .split(" ")
                                       .map((n) => n[0])
                                       .join("")
@@ -147,14 +147,14 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
                                       .toUpperCase()}
                                   </div>
                                   <p className="font-medium">
-                                    {agent.consultant?.name ?? agent.name}
+                                    {agent.name}
                                   </p>
                                 </div>
                                 <Badge
                                   variant="outline"
                                   className="text-xs shrink-0 font-semibold"
                                 >
-                                  {agent.csLabel}
+                                  {agent.taLabel}
                                 </Badge>
                               </div>
                               {agent.consultant?.title && (

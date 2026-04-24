@@ -22,6 +22,11 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 
+interface TaAssignment {
+  country: string;
+  rank: number;
+}
+
 interface ConsultantDoc {
   id: string;
   name: string;
@@ -31,6 +36,7 @@ interface ConsultantDoc {
   displayRegions: string[];
   countriesDisplay: string;
   disabledDestinations: string[];
+  taAssignments: TaAssignment[];
   status: "active" | "inactive";
   created_at: string;
   updated_at: string;
@@ -44,6 +50,7 @@ interface FormData {
   displayRegions: string;
   countriesDisplay: string;
   disabledDestinations: string[];
+  taAssignments: TaAssignment[];
 }
 
 const emptyForm: FormData = {
@@ -54,6 +61,7 @@ const emptyForm: FormData = {
   displayRegions: "",
   countriesDisplay: "",
   disabledDestinations: [],
+  taAssignments: [],
 };
 
 export function ConsultantManagement() {
@@ -119,6 +127,7 @@ export function ConsultantManagement() {
       displayRegions: c.displayRegions.join(", "),
       countriesDisplay: c.countriesDisplay,
       disabledDestinations: c.disabledDestinations || [],
+      taAssignments: c.taAssignments || [],
     });
     setError("");
     setDialogOpen(true);
@@ -145,6 +154,7 @@ export function ConsultantManagement() {
       displayRegions: form.displayRegions.split(",").map((s) => s.trim()).filter(Boolean),
       countriesDisplay: form.countriesDisplay.trim(),
       disabledDestinations: cleanedDisabled,
+      taAssignments: form.taAssignments,
     };
 
     try {
@@ -211,7 +221,8 @@ export function ConsultantManagement() {
       c.name.toLowerCase().includes(q) ||
       c.title.toLowerCase().includes(q) ||
       c.countriesDisplay.toLowerCase().includes(q) ||
-      c.displayRegions.some((r) => r.toLowerCase().includes(q))
+      c.displayRegions.some((r) => r.toLowerCase().includes(q)) ||
+      (c.taAssignments || []).some((ta) => ta.country.toLowerCase().includes(q))
     );
   });
 
@@ -262,6 +273,7 @@ export function ConsultantManagement() {
               <TableHead>Name</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Regions</TableHead>
+              <TableHead>TA</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-center">30d Bookings</TableHead>
               <TableHead className="text-right">Actions</TableHead>
@@ -270,7 +282,7 @@ export function ConsultantManagement() {
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
+                <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
                   {search ? "No consultants match your search" : "No consultants yet"}
                 </TableCell>
               </TableRow>
@@ -287,6 +299,22 @@ export function ConsultantManagement() {
                         </Badge>
                       ))}
                     </div>
+                  </TableCell>
+                  <TableCell>
+                    {c.taAssignments && c.taAssignments.length > 0 ? (
+                      <div className="flex flex-wrap gap-1">
+                        {c.taAssignments.map((ta) => (
+                          <span
+                            key={ta.country}
+                            className="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10"
+                          >
+                            TA{ta.rank} {ta.country}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <span className="text-muted-foreground text-xs">&mdash;</span>
+                    )}
                   </TableCell>
                   <TableCell>
                     <Badge variant={c.status === "active" ? "default" : "destructive"}>
@@ -451,6 +479,69 @@ export function ConsultantManagement() {
                 onChange={(e) => setForm({ ...form, countriesDisplay: e.target.value })}
                 placeholder="e.g. Greece, Italy, France"
               />
+            </div>
+
+            {/* TA Assignments */}
+            <div className="space-y-2">
+              <Label>TA Assignments</Label>
+              {form.taAssignments.length > 0 && (
+                <div className="space-y-1.5">
+                  {form.taAssignments.map((ta, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <Input
+                        value={ta.country}
+                        onChange={(e) => {
+                          const updated = [...form.taAssignments];
+                          updated[idx] = { ...updated[idx], country: e.target.value };
+                          setForm({ ...form, taAssignments: updated });
+                        }}
+                        placeholder="Country"
+                        className="flex-1 h-8 text-sm"
+                      />
+                      <select
+                        value={ta.rank}
+                        onChange={(e) => {
+                          const updated = [...form.taAssignments];
+                          updated[idx] = { ...updated[idx], rank: parseInt(e.target.value) };
+                          setForm({ ...form, taAssignments: updated });
+                        }}
+                        className="h-8 rounded-md border border-input bg-background px-2 text-sm"
+                      >
+                        {[1, 2, 3, 4, 5, 6].map((r) => (
+                          <option key={r} value={r}>TA{r}</option>
+                        ))}
+                      </select>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0 text-destructive hover:text-destructive shrink-0"
+                        onClick={() => {
+                          setForm({
+                            ...form,
+                            taAssignments: form.taAssignments.filter((_, i) => i !== idx),
+                          });
+                        }}
+                      >
+                        &times;
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setForm({
+                    ...form,
+                    taAssignments: [...form.taAssignments, { country: "", rank: 1 }],
+                  });
+                }}
+              >
+                + Add TA Assignment
+              </Button>
             </div>
           </div>
 

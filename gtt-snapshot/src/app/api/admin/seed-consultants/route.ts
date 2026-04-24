@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { validateSession } from "@/lib/user-queries";
 import { getDb } from "@/../db/database";
-import { SEED_CONSULTANTS, slugify } from "@/lib/booking-calendars";
+import { SEED_CONSULTANTS, slugify, getStaticTaAssignments } from "@/lib/booking-calendars";
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
         destinations: c.destinations,
         displayRegions: c.displayRegions,
         countriesDisplay: c.countriesDisplay,
+        taAssignments: getStaticTaAssignments(c.name),
         status: "active",
         created_at: now,
         updated_at: now,
