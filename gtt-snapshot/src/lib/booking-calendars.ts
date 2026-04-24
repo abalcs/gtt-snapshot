@@ -245,15 +245,60 @@ export interface CountryAgentGroup {
 export async function getCountryAgentGroups(): Promise<CountryAgentGroup[]> {
   const consultants = await getActiveConsultants();
 
-  // Build country groups from Firestore taAssignments (with static fallback)
+  // Build case-insensitive name → consultant lookup
+  const nameMap = new Map<string, ConsultantDoc>();
+  for (const c of consultants) {
+    nameMap.set(c.name.toLowerCase(), c);
+  }
+
+  // Track consultants with Firestore-managed taAssignments (admin edits)
+  const firestoreManaged = new Set<string>();
+  for (const c of consultants) {
+    if (c.taAssignments && c.taAssignments.length > 0) {
+      firestoreManaged.add(c.name.toLowerCase());
+    }
+  }
+
+  // 1. Build base from static COUNTRY_AGENT_ASSIGNMENTS
   const countryMap = new Map<string, CountryAgentEntry[]>();
 
-  for (const c of consultants) {
-    const assignments = c.taAssignments && c.taAssignments.length > 0
-      ? c.taAssignments
-      : getStaticTaAssignments(c.name);
+  for (const { country, agents } of COUNTRY_AGENT_ASSIGNMENTS) {
+    const seen = new Set<string>();
+    const entries: CountryAgentEntry[] = [];
 
-    for (const { country, rank } of assignments) {
+    agents.forEach((csName, idx) => {
+      const canonicalName = TRAVEL_AGENT_NAME_ALIASES[csName] ?? csName;
+      const key = canonicalName.toLowerCase();
+      if (seen.has(key)) return; // skip duplicates (e.g. Spain)
+      seen.add(key);
+
+      // Skip agents that have Firestore taAssignments — they'll be added in step 2
+      if (firestoreManaged.has(key)) return;
+
+      const consultant = nameMap.get(key) ?? null;
+      entries.push({
+        taLabel: `TA${idx + 1}`,
+        name: consultant?.name ?? canonicalName,
+        consultant: consultant
+          ? {
+              name: consultant.name,
+              title: consultant.title,
+              calendarUrl: consultant.calendarUrl,
+              destinations: consultant.destinations,
+              displayRegions: consultant.displayRegions,
+              countriesDisplay: consultant.countriesDisplay,
+            }
+          : null,
+      });
+    });
+
+    countryMap.set(country, entries);
+  }
+
+  // 2. Overlay Firestore taAssignments (admin-managed overrides)
+  for (const c of consultants) {
+    if (!c.taAssignments || c.taAssignments.length === 0) continue;
+    for (const { country, rank } of c.taAssignments) {
       if (!countryMap.has(country)) countryMap.set(country, []);
       countryMap.get(country)!.push({
         taLabel: `TA${rank}`,
@@ -270,6 +315,7 @@ export async function getCountryAgentGroups(): Promise<CountryAgentGroup[]> {
     }
   }
 
+  // 3. Sort by country, then by rank within each country
   return Array.from(countryMap.entries())
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([country, agents]) => ({
@@ -279,7 +325,8 @@ export async function getCountryAgentGroups(): Promise<CountryAgentGroup[]> {
         const rankB = parseInt(b.taLabel.slice(2));
         return rankA - rankB;
       }),
-    }));
+    }))
+    .filter(({ agents }) => agents.length > 0);
 }
 
 // ── Seed Data ───────────────────────────────────────────
