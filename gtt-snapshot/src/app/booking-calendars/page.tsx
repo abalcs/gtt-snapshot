@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { requireAuth } from "@/lib/admin-auth";
-import { getConsultantsByRegion } from "@/lib/booking-calendars";
+import { getConsultantsByRegion, getTaRanksByConsultant } from "@/lib/booking-calendars";
 import { BookingCalendarsClient } from "./booking-calendars-client";
 
 export const dynamic = "force-dynamic";
@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic";
 export default async function BookingCalendarsPage() {
   await requireAuth();
   const regions = await getConsultantsByRegion();
+  const taRanks = getTaRanksByConsultant();
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
@@ -20,7 +21,7 @@ export default async function BookingCalendarsPage() {
         <h1 className="text-3xl font-bold tracking-tight">Booking Calendars</h1>
       </div>
 
-      <BookingCalendarsClient regions={regions} />
+      <BookingCalendarsClient regions={regions} taRanks={taRanks} />
     </div>
   );
 }

@@ -22,6 +22,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
   const data = initialData;
   const [expandedContinents, setExpandedContinents] = useState<Set<string>>(new Set());
   const [collapsed, setCollapsed] = useState(false);
+  const [bookingExpanded, setBookingExpanded] = useState(pathname.startsWith("/booking-calendars"));
 
   const toggleContinent = (name: string) => {
     setExpandedContinents((prev) => {
@@ -114,15 +115,56 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
             >
               Compare
             </Link>
-            <Link
-              href="/booking-calendars"
-              className={cn(
-                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                pathname === "/booking-calendars" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
-              )}
-            >
-              Booking Calendars
-            </Link>
+            <div>
+              <button
+                onClick={() => setBookingExpanded((prev) => !prev)}
+                className={cn(
+                  "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:translate-x-0.5 transition-all duration-150",
+                  pathname.startsWith("/booking-calendars") && "bg-white/20 text-white"
+                )}
+              >
+                <span className="flex-1 text-left">Booking Calendars</span>
+                <span
+                  className={cn(
+                    "transition-transform duration-200 inline-block text-white/50",
+                    bookingExpanded && "rotate-90"
+                  )}
+                >
+                  ›
+                </span>
+              </button>
+              <div
+                className={cn(
+                  "grid transition-[grid-template-rows,opacity] duration-200 ease-in-out",
+                  bookingExpanded
+                    ? "grid-rows-[1fr] opacity-100"
+                    : "grid-rows-[0fr] opacity-0"
+                )}
+              >
+                <div className="overflow-hidden ml-3 border-l border-white/20 pl-2 space-y-0.5">
+                  <Link
+                    href="/booking-calendars"
+                    className={cn(
+                      "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                      pathname === "/booking-calendars" &&
+                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
+                    )}
+                  >
+                    Regions
+                  </Link>
+                  <Link
+                    href="/booking-calendars/travel-agents"
+                    className={cn(
+                      "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                      pathname === "/booking-calendars/travel-agents" &&
+                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
+                    )}
+                  >
+                    Travel Agents
+                  </Link>
+                </div>
+              </div>
+            </div>
 
             <div className="pt-3 pb-1 px-3">
               <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">Continents</span>

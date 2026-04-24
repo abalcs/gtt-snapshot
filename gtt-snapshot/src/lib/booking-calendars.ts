@@ -25,7 +25,7 @@ function slugify(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
-async function getActiveConsultants(): Promise<ConsultantDoc[]> {
+export async function getActiveConsultants(): Promise<ConsultantDoc[]> {
   const cached = getCached<ConsultantDoc[]>("consultants:active");
   if (cached) return cached;
 
@@ -152,6 +152,102 @@ export async function getConsultantsForDestination(slug: string): Promise<Consul
 }
 
 export { slugify };
+
+/** Build a lookup of canonical lowercase name → TA country rankings */
+export function getTaRanksByConsultant(): Record<string, { country: string; rank: number }[]> {
+  const result: Record<string, { country: string; rank: number }[]> = {};
+  for (const { country, agents } of COUNTRY_AGENT_ASSIGNMENTS) {
+    const seen = new Set<string>();
+    agents.forEach((csName, idx) => {
+      const canonical = (TRAVEL_AGENT_NAME_ALIASES[csName] ?? csName).toLowerCase();
+      if (seen.has(canonical)) return; // skip duplicates (e.g. Spain)
+      seen.add(canonical);
+      (result[canonical] ??= []).push({ country, rank: idx + 1 });
+    });
+  }
+  return result;
+}
+
+// ── Travel Agent Country Assignments ─────────────────────
+
+/** Maps CS-table names to canonical Firestore/seed names */
+export const TRAVEL_AGENT_NAME_ALIASES: Record<string, string> = {
+  "Tam Frederick": "Tamatha Frederick",
+  "Carly Rusticca": "Carly Ristuccia",
+  "Jess Taylor": "Jessica Taylor",
+  "Jason Toms": "Jason",
+  "Kat DiPlacido": "Katarina DiPlacido",
+  "Tyler NilssonGoodwin": "Tyler Nilsson-Goodwin",
+};
+
+/** Countries with agents listed in CS1→CS6 priority order */
+export const COUNTRY_AGENT_ASSIGNMENTS: { country: string; agents: string[] }[] = [
+  { country: "Japan", agents: ["Joy Rhinehart", "Tam Frederick", "Chris Flad", "Amy Rowland", "Kai Gundersen"] },
+  { country: "Italy", agents: ["Amanda Brown", "Gudrun", "Leah Saulnier", "Sarah Quigley", "Carly Rusticca"] },
+  { country: "Australia & NZ", agents: ["Connor Chess", "Anthony Vaglica", "Julia Criscuolo", "Devin O'Doherty"] },
+  { country: "Thailand", agents: ["Jack Tydeman", "Matt McLean", "Zachary Vogel", "Julia Matton"] },
+  { country: "Switzerland", agents: ["Sebastion Pieri", "Gudrun", "Brianna Zirolli"] },
+  { country: "French Poly", agents: ["Connor Chess", "Anthony Vaglica", "Jess Taylor"] },
+  { country: "Ireland", agents: ["Lily Cohen", "Heather Rufo", "Mareesa Ahmad"] },
+  { country: "Portugal", agents: ["Corinne Landry", "Erika Jolie", "Riley Casadei"] },
+  { country: "Iceland", agents: ["Mareesa Ahmad", "Kelsey White"] },
+  { country: "France", agents: ["Caroline Fahey", "Kelly Edwards", "Sebastian Pieri"] },
+  { country: "Egypt", agents: ["Kristen Ziino", "Lucy Celon", "Adam Shahin"] },
+  { country: "South Africa", agents: ["Thora Taylor", "Laura Coughlin", "David Katwiwa"] },
+  { country: "Scotland", agents: ["Lily Cohen", "Heather Rufo", "Mareesa Ahmad"] },
+  { country: "Greece", agents: ["Laura Plansky", "Jeff Procopio", "Tess Creatura"] },
+  { country: "Morocco", agents: ["Kristen Ziino", "Lucy Celon", "Adam Shahin"] },
+  { country: "England", agents: ["Lily Cohen", "Heather Rufo", "Mareesa Ahmad"] },
+  { country: "Tanzania", agents: ["Thora Taylor", "Laura Coughlin", "David Katwiwa"] },
+  { country: "India", agents: ["Jason Toms", "Kat DiPlacido"] },
+  { country: "Spain", agents: ["Corinne Landry", "Erika Jolie", "Riley Casadei", "Erika Jolie", "Riley Casadei"] },
+  { country: "Indonesia", agents: ["Jack Tydeman", "Matt McLean", "Zachary Vogel"] },
+  { country: "Peru/Ecuador", agents: ["Tyler NilssonGoodwin", "Jasmine Scott", "Nataly Solis-Alva", "Spencer Kulis"] },
+  { country: "Costa Rica", agents: ["Jasmine Scott", "Spencer Kulis", "Eileen Dinn"] },
+];
+
+export interface CountryAgentEntry {
+  csLabel: string; // "CS1", "CS2", etc.
+  name: string; // original CS-table name
+  consultant: Consultant | null; // matched Firestore record, or null
+}
+
+export interface CountryAgentGroup {
+  country: string;
+  agents: CountryAgentEntry[];
+}
+
+export async function getCountryAgentGroups(): Promise<CountryAgentGroup[]> {
+  const consultants = await getActiveConsultants();
+
+  // Build case-insensitive name → consultant lookup
+  const nameMap = new Map<string, ConsultantDoc>();
+  for (const c of consultants) {
+    nameMap.set(c.name.toLowerCase(), c);
+  }
+
+  return COUNTRY_AGENT_ASSIGNMENTS.map(({ country, agents }) => ({
+    country,
+    agents: agents.map((csName, idx) => {
+      const canonicalName = TRAVEL_AGENT_NAME_ALIASES[csName] ?? csName;
+      const consultant = nameMap.get(canonicalName.toLowerCase()) ?? null;
+      return {
+        csLabel: `CS${idx + 1}`,
+        name: csName,
+        consultant: consultant
+          ? {
+              name: consultant.name,
+              title: consultant.title,
+              calendarUrl: consultant.calendarUrl,
+              destinations: consultant.destinations,
+              displayRegions: consultant.displayRegions,
+              countriesDisplay: consultant.countriesDisplay,
+            }
+          : null,
+      };
+    }),
+  }));
+}
 
 // ── Seed Data ───────────────────────────────────────────
 
