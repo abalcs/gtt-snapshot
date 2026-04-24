@@ -132,10 +132,10 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
                       : 0;
 
                     return (
-                      <Card key={`${country}-${agent.taLabel}-${idx}`}>
-                        <CardContent className="pt-4 pb-4">
-                          <div className="flex flex-col gap-2">
-                            <div>
+                      <Card key={`${country}-${agent.taLabel}-${idx}`} className="flex">
+                        <CardContent className="pt-4 pb-4 flex-1 flex flex-col">
+                          <div className="flex flex-col gap-2 flex-1">
+                            <div className="flex-1">
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                   <div className="flex items-center justify-center h-8 w-8 rounded-full bg-[#3a5f54]/10 text-[#3a5f54] text-xs font-semibold shrink-0">
