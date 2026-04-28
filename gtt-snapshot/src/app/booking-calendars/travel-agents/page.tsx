@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { requireAuth } from "@/lib/admin-auth";
 import { getCountryAgentGroups } from "@/lib/booking-calendars";
+import { invalidateCache } from "@/lib/data-cache";
 import { TravelAgentsClient } from "./travel-agents-client";
 
 export const dynamic = "force-dynamic";
 
 export default async function TravelAgentsPage() {
   await requireAuth();
+  invalidateCache("consultants");
   const countryGroups = await getCountryAgentGroups();
 
   return (

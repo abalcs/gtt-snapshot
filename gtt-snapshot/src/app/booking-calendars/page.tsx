@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { requireAuth } from "@/lib/admin-auth";
 import { getConsultantsByRegion, getTaRanksByConsultant } from "@/lib/booking-calendars";
+import { invalidateCache } from "@/lib/data-cache";
 import { BookingCalendarsClient } from "./booking-calendars-client";
 
 export const dynamic = "force-dynamic";
 
 export default async function BookingCalendarsPage() {
   await requireAuth();
+  invalidateCache("consultants");
   const regions = await getConsultantsByRegion();
   const taRanks = await getTaRanksByConsultant();
 
