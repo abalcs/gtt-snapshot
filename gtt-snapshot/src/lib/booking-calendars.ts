@@ -199,7 +199,7 @@ export const TRAVEL_AGENT_NAME_ALIASES: Record<string, string> = {
   "Tam Frederick": "Tamatha Frederick",
   "Carly Rusticca": "Carly Ristuccia",
   "Jess Taylor": "Jessica Taylor",
-  "Jason Toms": "Jason",
+  "Gudrun": "Gudrun Updegraff",
   "Kat DiPlacido": "Katarina DiPlacido",
   "Tyler NilssonGoodwin": "Tyler Nilsson-Goodwin",
   "Sebastion Pieri": "Sebastian Pieri",
@@ -700,14 +700,6 @@ export const SEED_CONSULTANTS: Consultant[] = [
     countriesDisplay: "India, Sri Lanka, Nepal",
   },
   {
-    name: "Jason",
-    title: "Turbo",
-    calendarUrl: null,
-    destinations: ["india", "sri-lanka", "egypt"],
-    displayRegions: ["Asia"],
-    countriesDisplay: "India, Sri Lanka, Egypt",
-  },
-  {
     name: "Katarina DiPlacido",
     title: "CS",
     calendarUrl: "https://outlook.office365.com/owa/calendar/KatarinaDiPlacido@audleytravel.com/bookings/",
@@ -968,14 +960,6 @@ export const SEED_CONSULTANTS: Consultant[] = [
     destinations: ["japan"],
     displayRegions: ["Asia"],
     countriesDisplay: "Japan",
-  },
-  {
-    name: "Gudrun",
-    title: "",
-    calendarUrl: null,
-    destinations: ["italy", "switzerland"],
-    displayRegions: ["Italy"],
-    countriesDisplay: "Italy, Switzerland",
   },
   {
     name: "Anthony Vaglica",
