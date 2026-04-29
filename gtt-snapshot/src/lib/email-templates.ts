@@ -1,3 +1,6 @@
+import { getDb } from "@/../db/database";
+import { getCached, setCache } from "./data-cache";
+
 export interface EmailTemplate {
   type: "Standard" | "Very Soon Departure" | "Long-Range Planning";
   subject?: string;
@@ -8,6 +11,42 @@ export interface DestinationTemplates {
   destination: string;
   author: string;
   templates: EmailTemplate[];
+}
+
+export interface DestinationTemplatesDoc extends DestinationTemplates {
+  id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+const COLLECTION = "email-templates";
+
+export function slugifyDestination(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+export async function getEmailTemplatesFromDb(): Promise<DestinationTemplates[]> {
+  const cached = getCached<DestinationTemplates[]>("email-templates:all");
+  if (cached) return cached;
+
+  const snap = await getDb().collection(COLLECTION).get();
+
+  if (snap.empty) {
+    return setCache("email-templates:all", EMAIL_TEMPLATES);
+  }
+
+  const docs = snap.docs.map((d) => {
+    const data = d.data();
+    return {
+      destination: data.destination as string,
+      author: data.author as string,
+      templates: (data.templates as EmailTemplate[]) || [],
+    };
+  });
+
+  docs.sort((a, b) => a.destination.localeCompare(b.destination));
+
+  return setCache("email-templates:all", docs);
 }
 
 export const EMAIL_TEMPLATES: DestinationTemplates[] = [

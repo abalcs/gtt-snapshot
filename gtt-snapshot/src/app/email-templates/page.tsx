@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { requireAuth } from "@/lib/admin-auth";
-import { EMAIL_TEMPLATES } from "@/lib/email-templates";
+import { getEmailTemplatesFromDb } from "@/lib/email-templates";
+import { invalidateCache } from "@/lib/data-cache";
 import { EmailTemplatesClient } from "./email-templates-client";
 
 export const dynamic = "force-dynamic";
 
 export default async function EmailTemplatesPage() {
   await requireAuth();
+  invalidateCache("email-templates");
+  const destinations = await getEmailTemplatesFromDb();
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -22,7 +25,7 @@ export default async function EmailTemplatesPage() {
         </p>
       </div>
 
-      <EmailTemplatesClient destinations={EMAIL_TEMPLATES} />
+      <EmailTemplatesClient destinations={destinations} />
     </div>
   );
 }
