@@ -264,8 +264,12 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }:
                     {d.pricing_tiers.map((t, i) => (
                       <div key={i} className="text-xs">
                         <span className="font-medium">{t.tier_label}:</span>{" "}
-                        {t.price_per_week && <span>{t.price_per_week}/wk</span>}
-                        {t.price_per_day && <span> {t.price_per_day}/day</span>}
+                        {t.price_per_week ? <span>{t.price_per_week}/wk</span> : <span className="text-muted-foreground">{"\u2014"}</span>}
+                      </div>
+                    ))}
+                    {(d.pricing_footnotes ?? []).map((fn, i) => (
+                      <div key={`fn-${i}`} className="text-xs text-muted-foreground">
+                        <span className="font-medium">{fn.label}:</span> from {fn.price}
                       </div>
                     ))}
                   </div>
@@ -337,8 +341,12 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }:
                           {d.pricing_tiers.map((t, i) => (
                             <div key={i} className="text-xs">
                               <span className="font-medium">{t.tier_label}:</span>{" "}
-                              {t.price_per_week && <span>{t.price_per_week}/wk</span>}
-                              {t.price_per_day && <span> {t.price_per_day}/day</span>}
+                              {t.price_per_week ? <span>{t.price_per_week}/wk</span> : <span className="text-muted-foreground">{"\u2014"}</span>}
+                            </div>
+                          ))}
+                          {(d.pricing_footnotes ?? []).map((fn, i) => (
+                            <div key={`fn-${i}`} className="text-xs text-muted-foreground">
+                              <span className="font-medium">{fn.label}:</span> from {fn.price}
                             </div>
                           ))}
                         </div>

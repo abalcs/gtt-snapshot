@@ -38,6 +38,7 @@ export interface Destination {
   updated_at: string;
   search_tokens: string[];
   pricing_tiers: PricingTier[];
+  pricing_footnotes: PricingFootnote[];
   tags: string[];
 }
 
@@ -46,9 +47,13 @@ export interface DestinationWithRegion extends Destination {}
 export interface PricingTier {
   tier_label: string;
   price_per_week: string | null;
-  price_per_day: string | null;
   notes: string | null;
   sort_order: number;
+}
+
+export interface PricingFootnote {
+  label: string;
+  price: string;
 }
 
 export interface SpecialSection {

@@ -191,7 +191,7 @@ export default async function DestinationDetailPage({
           <Separator />
           <div>
             <h2 className="text-lg font-semibold mb-3">Pricing</h2>
-            <PricingTable tiers={destination.pricing_tiers} />
+            <PricingTable tiers={destination.pricing_tiers} footnotes={destination.pricing_footnotes} />
           </div>
         </>
       )}

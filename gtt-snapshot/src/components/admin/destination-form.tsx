@@ -41,12 +41,18 @@ function factsToString(facts: string[]): string {
     .join(" ");
 }
 
-interface PricingTierForm {
-  tier_label: string;
-  price_per_week: string;
-  price_per_day: string;
-  notes: string;
-  sort_order: number;
+interface SeasonPricing {
+  peak: string;
+  peakNotes: string;
+  shoulder: string;
+  shoulderNotes: string;
+  low: string;
+  lowNotes: string;
+}
+
+interface FootnoteForm {
+  label: string;
+  price: string;
 }
 
 interface SeasonalityForm {
@@ -113,38 +119,44 @@ export function DestinationForm({ destination, regions }: Props) {
   })();
   const [seasonality, setSeasonality] = useState<SeasonalityForm[]>(existingSeasonality);
 
-  // Pricing tiers
-  const existingTiers: PricingTierForm[] = destination?.pricing_tiers?.length
-    ? destination.pricing_tiers.map((t) => ({
-        tier_label: t.tier_label,
-        price_per_week: t.price_per_week || "",
-        price_per_day: t.price_per_day || "",
-        notes: t.notes || "",
-        sort_order: t.sort_order,
-      }))
-    : [{ tier_label: "", price_per_week: "", price_per_day: "", notes: "", sort_order: 0 }];
-  const [pricingTiers, setPricingTiers] = useState<PricingTierForm[]>(existingTiers);
+  // Seasonal pricing
+  const existingSeasonPricing: SeasonPricing = (() => {
+    const tiers = destination?.pricing_tiers ?? [];
+    const find = (label: string) => tiers.find((t) => t.tier_label === label);
+    return {
+      peak: find("Peak")?.price_per_week || "",
+      peakNotes: find("Peak")?.notes || "",
+      shoulder: find("Shoulder")?.price_per_week || "",
+      shoulderNotes: find("Shoulder")?.notes || "",
+      low: find("Low")?.price_per_week || "",
+      lowNotes: find("Low")?.notes || "",
+    };
+  })();
+  const [seasonPricing, setSeasonPricing] = useState<SeasonPricing>(existingSeasonPricing);
+
+  // Pricing footnotes
+  const existingFootnotes: FootnoteForm[] = destination?.pricing_footnotes?.length
+    ? destination.pricing_footnotes.map((f) => ({ label: f.label, price: f.price }))
+    : [];
+  const [pricingFootnotes, setPricingFootnotes] = useState<FootnoteForm[]>(existingFootnotes);
 
   const handleNameChange = (val: string) => {
     setName(val);
     if (!isEdit) setSlug(slugify(val));
   };
 
-  const addPricingTier = () => {
-    setPricingTiers([
-      ...pricingTiers,
-      { tier_label: "", price_per_week: "", price_per_day: "", notes: "", sort_order: pricingTiers.length },
-    ]);
+  const addFootnote = () => {
+    setPricingFootnotes([...pricingFootnotes, { label: "", price: "" }]);
   };
 
-  const removePricingTier = (index: number) => {
-    setPricingTiers(pricingTiers.filter((_, i) => i !== index));
+  const removeFootnote = (index: number) => {
+    setPricingFootnotes(pricingFootnotes.filter((_, i) => i !== index));
   };
 
-  const updatePricingTier = (index: number, field: keyof PricingTierForm, value: string) => {
-    const updated = [...pricingTiers];
+  const updateFootnote = (index: number, field: keyof FootnoteForm, value: string) => {
+    const updated = [...pricingFootnotes];
     updated[index] = { ...updated[index], [field]: value };
-    setPricingTiers(updated);
+    setPricingFootnotes(updated);
   };
 
   const addSeasonality = () => {
@@ -217,9 +229,12 @@ export function DestinationForm({ destination, regions }: Props) {
       seasonality: JSON.stringify(seasonality.filter((s) => s.level || s.date_range)),
       updated_by: updatedBy || null,
       tags,
-      pricing_tiers: pricingTiers
-        .filter((t) => t.tier_label)
-        .map((t, i) => ({ ...t, sort_order: i })),
+      pricing_tiers: [
+        { tier_label: "Peak", price_per_week: seasonPricing.peak || null, notes: seasonPricing.peakNotes || null, sort_order: 0 },
+        { tier_label: "Shoulder", price_per_week: seasonPricing.shoulder || null, notes: seasonPricing.shoulderNotes || null, sort_order: 1 },
+        { tier_label: "Low", price_per_week: seasonPricing.low || null, notes: seasonPricing.lowNotes || null, sort_order: 2 },
+      ],
+      pricing_footnotes: pricingFootnotes.filter((f) => f.label && f.price),
     };
 
     try {
@@ -477,53 +492,76 @@ export function DestinationForm({ destination, regions }: Props) {
         </CardContent>
       </Card>
 
-      {/* Pricing Tiers */}
+      {/* Seasonal Pricing */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Pricing — Per Week (pp)</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {(["peak", "shoulder", "low"] as const).map((season) => {
+            const label = season.charAt(0).toUpperCase() + season.slice(1);
+            const priceKey = season as keyof SeasonPricing;
+            const notesKey = `${season}Notes` as keyof SeasonPricing;
+            return (
+              <div key={season} className="grid grid-cols-[120px_1fr_1fr] gap-2 items-end">
+                <div>
+                  <Label className="text-xs font-semibold">{label}</Label>
+                </div>
+                <div>
+                  <Label className="text-xs">Price</Label>
+                  <Input
+                    value={seasonPricing[priceKey]}
+                    onChange={(e) => setSeasonPricing({ ...seasonPricing, [priceKey]: e.target.value })}
+                    placeholder="e.g. $7k-$10k"
+                  />
+                </div>
+                <div>
+                  <Label className="text-xs">Notes</Label>
+                  <Input
+                    value={seasonPricing[notesKey]}
+                    onChange={(e) => setSeasonPricing({ ...seasonPricing, [notesKey]: e.target.value })}
+                    placeholder="Optional notes"
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </CardContent>
+      </Card>
+
+      {/* Pricing Footnotes */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Pricing Tiers</CardTitle>
-          <Button type="button" variant="outline" size="sm" onClick={addPricingTier}>
-            Add Tier
+          <CardTitle>Pricing Footnotes</CardTitle>
+          <Button type="button" variant="outline" size="sm" onClick={addFootnote}>
+            Add Footnote
           </Button>
         </CardHeader>
         <CardContent className="space-y-3">
-          {pricingTiers.map((tier, i) => (
-            <div key={i} className="grid grid-cols-[1fr_1fr_1fr_1fr_auto] gap-2 items-end">
+          <p className="text-xs text-muted-foreground">Solo pricing, opulent options, or other supplementary pricing info.</p>
+          {pricingFootnotes.map((fn, i) => (
+            <div key={i} className="grid grid-cols-[1fr_1fr_auto] gap-2 items-end">
               <div>
                 <Label className="text-xs">Label</Label>
                 <Input
-                  value={tier.tier_label}
-                  onChange={(e) => updatePricingTier(i, "tier_label", e.target.value)}
-                  placeholder="e.g., High Season 5*"
+                  value={fn.label}
+                  onChange={(e) => updateFootnote(i, "label", e.target.value)}
+                  placeholder="e.g. Solo, Opulent"
                 />
               </div>
               <div>
-                <Label className="text-xs">Per Week</Label>
+                <Label className="text-xs">Price</Label>
                 <Input
-                  value={tier.price_per_week}
-                  onChange={(e) => updatePricingTier(i, "price_per_week", e.target.value)}
-                  placeholder="$7k-$10k"
-                />
-              </div>
-              <div>
-                <Label className="text-xs">Per Day</Label>
-                <Input
-                  value={tier.price_per_day}
-                  onChange={(e) => updatePricingTier(i, "price_per_day", e.target.value)}
-                  placeholder="$800"
-                />
-              </div>
-              <div>
-                <Label className="text-xs">Notes</Label>
-                <Input
-                  value={tier.notes}
-                  onChange={(e) => updatePricingTier(i, "notes", e.target.value)}
+                  value={fn.price}
+                  onChange={(e) => updateFootnote(i, "price", e.target.value)}
+                  placeholder="e.g. $8k-$12k"
                 />
               </div>
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
-                onClick={() => removePricingTier(i)}
+                onClick={() => removeFootnote(i)}
                 className="text-red-500 hover:text-red-700"
               >
                 X

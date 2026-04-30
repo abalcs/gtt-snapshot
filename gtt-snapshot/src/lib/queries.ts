@@ -60,6 +60,7 @@ function docToDestination(id: string, data: FirebaseFirestore.DocumentData): Des
     updated_at: data.updated_at ?? '',
     search_tokens: data.search_tokens ?? [],
     pricing_tiers: data.pricing_tiers ?? [],
+    pricing_footnotes: data.pricing_footnotes ?? [],
     tags: data.tags ?? [],
   };
 }
@@ -363,6 +364,7 @@ export async function createDestination(data: Partial<Destination> & { region_id
     created_at: now,
     updated_at: now,
     pricing_tiers: data.pricing_tiers ?? [],
+    pricing_footnotes: data.pricing_footnotes ?? [],
     tags: data.tags ?? [],
     search_tokens: generateSearchTokens({
       ...data,
@@ -463,18 +465,25 @@ export async function deleteDestination(id: string): Promise<void> {
   invalidateCache();
 }
 
-export async function upsertPricingTiers(destinationId: string, tiers: { tier_label: string; price_per_week?: string | null; price_per_day?: string | null; notes?: string | null; sort_order?: number }[]): Promise<void> {
+export async function upsertPricingTiers(
+  destinationId: string,
+  tiers: { tier_label: string; price_per_week?: string | null; notes?: string | null; sort_order?: number }[],
+  footnotes?: { label: string; price: string }[],
+): Promise<void> {
   const formattedTiers = tiers.map((t, i) => ({
     tier_label: t.tier_label,
     price_per_week: t.price_per_week ?? null,
-    price_per_day: t.price_per_day ?? null,
     notes: t.notes ?? null,
     sort_order: t.sort_order ?? i,
   }));
-  await db().collection('destinations').doc(destinationId).update({
+  const update: Record<string, unknown> = {
     pricing_tiers: formattedTiers,
     updated_at: new Date().toISOString(),
-  });
+  };
+  if (footnotes !== undefined) {
+    update.pricing_footnotes = footnotes;
+  }
+  await db().collection('destinations').doc(destinationId).update(update);
 }
 
 // ── Tag-based Filtering ─────────────────────────────────

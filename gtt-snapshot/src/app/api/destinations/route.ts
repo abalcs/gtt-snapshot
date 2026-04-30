@@ -14,12 +14,12 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { pricing_tiers, ...destData } = body;
+    const { pricing_tiers, pricing_footnotes, ...destData } = body;
 
     const id = await createDestination(destData);
 
     if (pricing_tiers && Array.isArray(pricing_tiers)) {
-      await upsertPricingTiers(id, pricing_tiers);
+      await upsertPricingTiers(id, pricing_tiers, pricing_footnotes);
     }
 
     return NextResponse.json({ id }, { status: 201 });
