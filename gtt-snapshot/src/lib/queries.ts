@@ -242,6 +242,17 @@ export async function searchDestinations(query: string, limit = 20): Promise<Sea
     if (!allMatch) continue;
 
     const dest = docToDestination(doc.id, data);
+    const nameLower = dest.name.toLowerCase();
+    const nameWords = nameLower.split(/[\s/()-]+/).filter(Boolean);
+
+    // Rank: 0 = name starts with query, 1 = name word starts with query, 2 = content-only match
+    let rank = 2;
+    if (nameLower.startsWith(sanitized)) {
+      rank = 0;
+    } else if (nameWords.some(w => queryWords.every(qw => w.startsWith(qw)))) {
+      rank = 1;
+    }
+
     results.push({
       id: doc.id,
       name: dest.name,
@@ -249,12 +260,14 @@ export async function searchDestinations(query: string, limit = 20): Promise<Sea
       region_name: dest.region_name,
       region_slug: dest.region_slug,
       snippet: generateSnippet(dest, query),
-      rank: 0,
+      rank,
     });
-    if (results.length >= limit) break;
   }
 
-  return results;
+  // Sort by rank (name matches first), then alphabetically
+  results.sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name));
+
+  return results.slice(0, limit);
 }
 
 export async function searchSpecialSections(query: string): Promise<SpecialSection[]> {
