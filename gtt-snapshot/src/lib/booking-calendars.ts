@@ -275,20 +275,20 @@ export async function getCountryAgentGroups(): Promise<CountryAgentGroup[]> {
       // Skip agents that have Firestore taAssignments — they'll be added in step 2
       if (firestoreManaged.has(key)) return;
 
-      const consultant = nameMap.get(key) ?? null;
+      const consultant = nameMap.get(key);
+      if (!consultant) return; // skip deactivated / unknown consultants
+
       entries.push({
         taLabel: `TA${idx + 1}`,
-        name: consultant?.name ?? canonicalName,
-        consultant: consultant
-          ? {
-              name: consultant.name,
-              title: consultant.title,
-              calendarUrl: consultant.calendarUrl,
-              destinations: consultant.destinations,
-              displayRegions: consultant.displayRegions,
-              countriesDisplay: consultant.countriesDisplay,
-            }
-          : null,
+        name: consultant.name,
+        consultant: {
+          name: consultant.name,
+          title: consultant.title,
+          calendarUrl: consultant.calendarUrl,
+          destinations: consultant.destinations,
+          displayRegions: consultant.displayRegions,
+          countriesDisplay: consultant.countriesDisplay,
+        },
       });
     });
 
