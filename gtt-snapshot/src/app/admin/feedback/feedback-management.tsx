@@ -1,12 +1,8 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -21,14 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  MessageSquare,
-  Mail,
-  Trash2,
-  ChevronDown,
-  ChevronUp,
-  Plus,
-} from "lucide-react";
+import { Trash2, ChevronDown, ChevronUp } from "lucide-react";
 
 interface FeedbackItem {
   id: string;
@@ -41,14 +30,6 @@ interface FeedbackItem {
   admin_notes: string | null;
   created_at: string;
   updated_at: string;
-}
-
-interface Recipient {
-  id: string;
-  email: string;
-  name: string;
-  added_by: string;
-  created_at: string;
 }
 
 const categoryLabels: Record<string, string> = {
@@ -71,7 +52,6 @@ const statusColors: Record<string, string> = {
 
 export function FeedbackManagement() {
   const [feedback, setFeedback] = useState<FeedbackItem[]>([]);
-  const [recipients, setRecipients] = useState<Recipient[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState("all");
@@ -82,12 +62,6 @@ export function FeedbackManagement() {
   const [notesTarget, setNotesTarget] = useState<FeedbackItem | null>(null);
   const [notesText, setNotesText] = useState("");
   const [savingNotes, setSavingNotes] = useState(false);
-
-  // Recipient form
-  const [newRecipientName, setNewRecipientName] = useState("");
-  const [newRecipientEmail, setNewRecipientEmail] = useState("");
-  const [addingRecipient, setAddingRecipient] = useState(false);
-  const [recipientError, setRecipientError] = useState("");
 
   const fetchFeedback = useCallback(async () => {
     try {
@@ -101,22 +75,9 @@ export function FeedbackManagement() {
     }
   }, []);
 
-  const fetchRecipients = useCallback(async () => {
-    try {
-      const res = await fetch("/api/admin/feedback-recipients");
-      if (res.ok) {
-        const data = await res.json();
-        setRecipients(data.recipients);
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
-
   useEffect(() => {
     fetchFeedback();
-    fetchRecipients();
-  }, [fetchFeedback, fetchRecipients]);
+  }, [fetchFeedback]);
 
   const updateStatus = async (id: string, status: string) => {
     const res = await fetch(`/api/admin/feedback/${id}`, {
@@ -157,44 +118,6 @@ export function FeedbackManagement() {
     }
   };
 
-  const addRecipient = async () => {
-    if (!newRecipientName.trim() || !newRecipientEmail.trim()) {
-      setRecipientError("Name and email are required");
-      return;
-    }
-    setAddingRecipient(true);
-    setRecipientError("");
-
-    try {
-      const res = await fetch("/api/admin/feedback-recipients", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: newRecipientName.trim(),
-          email: newRecipientEmail.trim(),
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setRecipientError(data.error || "Failed to add recipient");
-        return;
-      }
-      setNewRecipientName("");
-      setNewRecipientEmail("");
-      fetchRecipients();
-    } finally {
-      setAddingRecipient(false);
-    }
-  };
-
-  const removeRecipient = async (id: string) => {
-    if (!confirm("Remove this recipient?")) return;
-    const res = await fetch(`/api/admin/feedback-recipients/${id}`, {
-      method: "DELETE",
-    });
-    if (res.ok) fetchRecipients();
-  };
-
   const filtered = feedback.filter((item) => {
     if (statusFilter !== "all" && item.status !== statusFilter) return false;
     if (categoryFilter !== "all" && item.category !== categoryFilter)
@@ -215,268 +138,179 @@ export function FeedbackManagement() {
       <div>
         <h1 className="text-2xl font-bold">Feedback</h1>
         <p className="text-muted-foreground">
-          Manage user feedback and email recipients
+          {feedback.length} submission{feedback.length !== 1 ? "s" : ""}
         </p>
       </div>
 
-      <Tabs defaultValue="feedback">
-        <TabsList>
-          <TabsTrigger value="feedback" className="gap-1.5">
-            <MessageSquare className="h-4 w-4" />
-            Submissions ({feedback.length})
-          </TabsTrigger>
-          <TabsTrigger value="recipients" className="gap-1.5">
-            <Mail className="h-4 w-4" />
-            Email Recipients ({recipients.length})
-          </TabsTrigger>
-        </TabsList>
+      <div className="flex gap-3">
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger className="w-[140px]">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="new">New</SelectItem>
+            <SelectItem value="reviewed">Reviewed</SelectItem>
+            <SelectItem value="archived">Archived</SelectItem>
+          </SelectContent>
+        </Select>
 
-        {/* Feedback Submissions Tab */}
-        <TabsContent value="feedback" className="space-y-4">
-          <div className="flex gap-3">
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="new">New</SelectItem>
-                <SelectItem value="reviewed">Reviewed</SelectItem>
-                <SelectItem value="archived">Archived</SelectItem>
-              </SelectContent>
-            </Select>
+        <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+          <SelectTrigger className="w-[170px]">
+            <SelectValue placeholder="Category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Categories</SelectItem>
+            <SelectItem value="edit-suggestion">Edit Suggestion</SelectItem>
+            <SelectItem value="feature-request">Feature Request</SelectItem>
+            <SelectItem value="general">General</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-[170px]">
-                <SelectValue placeholder="Category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                <SelectItem value="edit-suggestion">Edit Suggestion</SelectItem>
-                <SelectItem value="feature-request">Feature Request</SelectItem>
-                <SelectItem value="general">General</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {filtered.length === 0 ? (
-            <p className="text-muted-foreground py-8 text-center">
-              No feedback found
-            </p>
-          ) : (
-            <div className="space-y-3">
-              {filtered.map((item) => {
-                const isExpanded = expandedId === item.id;
-                return (
-                  <div
-                    key={item.id}
-                    className="border rounded-lg overflow-hidden"
+      {filtered.length === 0 ? (
+        <p className="text-muted-foreground py-8 text-center">
+          No feedback found
+        </p>
+      ) : (
+        <div className="space-y-3">
+          {filtered.map((item) => {
+            const isExpanded = expandedId === item.id;
+            return (
+              <div
+                key={item.id}
+                className="border rounded-lg overflow-hidden"
+              >
+                <button
+                  onClick={() =>
+                    setExpandedId(isExpanded ? null : item.id)
+                  }
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-muted/50 transition-colors"
+                >
+                  <span
+                    className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                      categoryColors[item.category] || ""
+                    }`}
                   >
-                    <button
-                      onClick={() =>
-                        setExpandedId(isExpanded ? null : item.id)
-                      }
-                      className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-muted/50 transition-colors"
-                    >
-                      <span
-                        className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                          categoryColors[item.category] || ""
-                        }`}
-                      >
-                        {categoryLabels[item.category] || item.category}
-                      </span>
-                      <span
-                        className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                          statusColors[item.status] || ""
-                        }`}
-                      >
-                        {item.status}
-                      </span>
-                      <span className="text-sm font-medium truncate flex-1">
-                        {item.message.length > 80
-                          ? item.message.slice(0, 80) + "..."
-                          : item.message}
-                      </span>
-                      <span className="text-xs text-muted-foreground whitespace-nowrap">
-                        {item.user_name}
-                      </span>
-                      <span className="text-xs text-muted-foreground whitespace-nowrap">
-                        {new Date(item.created_at).toLocaleDateString()}
-                      </span>
-                      {isExpanded ? (
-                        <ChevronUp className="h-4 w-4 text-muted-foreground shrink-0" />
-                      ) : (
-                        <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
-                      )}
-                    </button>
+                    {categoryLabels[item.category] || item.category}
+                  </span>
+                  <span
+                    className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                      statusColors[item.status] || ""
+                    }`}
+                  >
+                    {item.status}
+                  </span>
+                  <span className="text-sm font-medium truncate flex-1">
+                    {item.message.length > 80
+                      ? item.message.slice(0, 80) + "..."
+                      : item.message}
+                  </span>
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    {item.user_name}
+                  </span>
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    {new Date(item.created_at).toLocaleDateString()}
+                  </span>
+                  {isExpanded ? (
+                    <ChevronUp className="h-4 w-4 text-muted-foreground shrink-0" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
+                  )}
+                </button>
 
-                    {isExpanded && (
-                      <div className="px-4 pb-4 border-t bg-muted/30 space-y-3">
-                        <div className="grid grid-cols-2 gap-4 pt-3">
-                          <div>
-                            <p className="text-xs text-muted-foreground">
-                              From
-                            </p>
-                            <p className="text-sm">
-                              {item.user_name} ({item.user_email})
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-muted-foreground">
-                              Page
-                            </p>
-                            <p className="text-sm truncate">
-                              {item.page_url || "—"}
-                            </p>
-                          </div>
-                        </div>
+                {isExpanded && (
+                  <div className="px-4 pb-4 border-t bg-muted/30 space-y-3">
+                    <div className="grid grid-cols-2 gap-4 pt-3">
+                      <div>
+                        <p className="text-xs text-muted-foreground">
+                          From
+                        </p>
+                        <p className="text-sm">
+                          {item.user_name} ({item.user_email})
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground">
+                          Page
+                        </p>
+                        <p className="text-sm truncate">
+                          {item.page_url || "\u2014"}
+                        </p>
+                      </div>
+                    </div>
 
-                        <div>
-                          <p className="text-xs text-muted-foreground mb-1">
-                            Message
-                          </p>
-                          <p className="text-sm whitespace-pre-wrap bg-white rounded p-3 border">
-                            {item.message}
-                          </p>
-                        </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">
+                        Message
+                      </p>
+                      <p className="text-sm whitespace-pre-wrap bg-white rounded p-3 border">
+                        {item.message}
+                      </p>
+                    </div>
 
-                        {item.admin_notes && (
-                          <div>
-                            <p className="text-xs text-muted-foreground mb-1">
-                              Admin Notes
-                            </p>
-                            <p className="text-sm whitespace-pre-wrap bg-amber-50 rounded p-3 border border-amber-200">
-                              {item.admin_notes}
-                            </p>
-                          </div>
-                        )}
-
-                        <div className="flex gap-2 pt-1">
-                          {item.status === "new" && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => updateStatus(item.id, "reviewed")}
-                            >
-                              Mark Reviewed
-                            </Button>
-                          )}
-                          {item.status !== "archived" && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => updateStatus(item.id, "archived")}
-                            >
-                              Archive
-                            </Button>
-                          )}
-                          {item.status === "archived" && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => updateStatus(item.id, "new")}
-                            >
-                              Reopen
-                            </Button>
-                          )}
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => openNotes(item)}
-                          >
-                            {item.admin_notes ? "Edit Notes" : "Add Notes"}
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="text-destructive hover:text-destructive"
-                            onClick={() => deleteFeedback(item.id)}
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </Button>
-                        </div>
+                    {item.admin_notes && (
+                      <div>
+                        <p className="text-xs text-muted-foreground mb-1">
+                          Admin Notes
+                        </p>
+                        <p className="text-sm whitespace-pre-wrap bg-amber-50 rounded p-3 border border-amber-200">
+                          {item.admin_notes}
+                        </p>
                       </div>
                     )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </TabsContent>
 
-        {/* Email Recipients Tab */}
-        <TabsContent value="recipients" className="space-y-4">
-          <div className="border rounded-lg p-4 space-y-3">
-            <h3 className="text-sm font-medium">Add Recipient</h3>
-            {recipientError && (
-              <p className="text-sm text-destructive">{recipientError}</p>
-            )}
-            <div className="flex gap-3">
-              <div className="flex-1">
-                <Label htmlFor="recipient-name" className="sr-only">
-                  Name
-                </Label>
-                <Input
-                  id="recipient-name"
-                  placeholder="Name"
-                  value={newRecipientName}
-                  onChange={(e) => setNewRecipientName(e.target.value)}
-                />
-              </div>
-              <div className="flex-1">
-                <Label htmlFor="recipient-email" className="sr-only">
-                  Email
-                </Label>
-                <Input
-                  id="recipient-email"
-                  placeholder="Email"
-                  type="email"
-                  value={newRecipientEmail}
-                  onChange={(e) => setNewRecipientEmail(e.target.value)}
-                />
-              </div>
-              <Button onClick={addRecipient} disabled={addingRecipient}>
-                <Plus className="h-4 w-4 mr-1" />
-                {addingRecipient ? "Adding..." : "Add"}
-              </Button>
-            </div>
-          </div>
-
-          {recipients.length === 0 ? (
-            <p className="text-muted-foreground py-8 text-center">
-              No recipients configured. Feedback will still be saved but no
-              email notifications will be sent.
-            </p>
-          ) : (
-            <div className="border rounded-lg divide-y">
-              {recipients.map((r) => (
-                <div
-                  key={r.id}
-                  className="flex items-center justify-between px-4 py-3"
-                >
-                  <div>
-                    <p className="text-sm font-medium">{r.name}</p>
-                    <p className="text-xs text-muted-foreground">{r.email}</p>
+                    <div className="flex gap-2 pt-1">
+                      {item.status === "new" && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => updateStatus(item.id, "reviewed")}
+                        >
+                          Mark Reviewed
+                        </Button>
+                      )}
+                      {item.status !== "archived" && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => updateStatus(item.id, "archived")}
+                        >
+                          Archive
+                        </Button>
+                      )}
+                      {item.status === "archived" && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => updateStatus(item.id, "new")}
+                        >
+                          Reopen
+                        </Button>
+                      )}
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => openNotes(item)}
+                      >
+                        {item.admin_notes ? "Edit Notes" : "Add Notes"}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-destructive hover:text-destructive"
+                        onClick={() => deleteFeedback(item.id)}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs text-muted-foreground">
-                      Added by {r.added_by}
-                    </span>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="text-destructive hover:text-destructive"
-                      onClick={() => removeRecipient(r.id)}
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </TabsContent>
-      </Tabs>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Admin Notes Dialog */}
       <Dialog open={notesDialogOpen} onOpenChange={setNotesDialogOpen}>

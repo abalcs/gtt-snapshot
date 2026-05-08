@@ -4,16 +4,19 @@ import { Button } from "@/components/ui/button";
 import { getAllDestinations, getAllRegions, getAllSpecialSections } from "@/lib/queries";
 import { AdminList } from "@/components/admin/admin-list";
 import { requireAdmin } from "@/lib/admin-auth";
+import { getDb } from "@/../db/database";
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPage() {
   await requireAdmin();
-  const [destinations, regions, specialSections] = await Promise.all([
+  const [destinations, regions, specialSections, feedbackSnap] = await Promise.all([
     getAllDestinations(),
     getAllRegions(),
     getAllSpecialSections(),
+    getDb().collection("feedback").where("status", "==", "new").get(),
   ]);
+  const newFeedbackCount = feedbackSnap.size;
 
   // Sort destinations alphabetically by name
   const sorted = [...destinations].sort((a, b) => a.name.localeCompare(b.name));
@@ -45,8 +48,13 @@ export default async function AdminPage() {
           <Link href="/admin/email-templates">
             <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Email Templates</Button>
           </Link>
-          <Link href="/admin/feedback">
+          <Link href="/admin/feedback" className="relative">
             <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Feedback</Button>
+            {newFeedbackCount > 0 && (
+              <span className="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-bold text-white">
+                {newFeedbackCount}
+              </span>
+            )}
           </Link>
           <Link href="/admin/log">
             <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Activity Log</Button>

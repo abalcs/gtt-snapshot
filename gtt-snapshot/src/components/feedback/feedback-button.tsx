@@ -62,15 +62,10 @@ export function FeedbackButton({ user }: FeedbackButtonProps) {
         }),
       });
 
-      const data = await res.json();
       if (!res.ok) {
+        const data = await res.json();
         setError(data.error || "Failed to submit feedback");
         return;
-      }
-
-      // Temporary: show email debug info
-      if (data.emailStatus && data.emailStatus !== "sent_to_1" && data.emailStatus !== "skipped") {
-        console.log("Feedback email status:", data.emailStatus);
       }
 
       setSubmitted(true);
