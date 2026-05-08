@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Trash2, ChevronDown, ChevronUp } from "lucide-react";
+import Link from "next/link";
 
 interface FeedbackItem {
   id: string;
@@ -135,11 +136,16 @@ export function FeedbackManagement() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Feedback</h1>
-        <p className="text-muted-foreground">
-          {feedback.length} submission{feedback.length !== 1 ? "s" : ""}
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">Feedback</h1>
+          <p className="text-muted-foreground">
+            {feedback.length} submission{feedback.length !== 1 ? "s" : ""}
+          </p>
+        </div>
+        <Link href="/admin">
+          <Button variant="outline">Back to Admin</Button>
+        </Link>
       </div>
 
       <div className="flex gap-3">
