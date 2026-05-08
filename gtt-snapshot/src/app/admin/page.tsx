@@ -45,6 +45,9 @@ export default async function AdminPage() {
           <Link href="/admin/email-templates">
             <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Email Templates</Button>
           </Link>
+          <Link href="/admin/feedback">
+            <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Feedback</Button>
+          </Link>
           <Link href="/admin/log">
             <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Activity Log</Button>
           </Link>
