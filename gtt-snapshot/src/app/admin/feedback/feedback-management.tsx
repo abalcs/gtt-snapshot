@@ -78,6 +78,18 @@ export function FeedbackManagement() {
 
   useEffect(() => {
     fetchFeedback();
+
+    // Re-fetch when feedback is submitted from the floating button
+    const onSubmit = () => fetchFeedback();
+    window.addEventListener("feedback-submitted", onSubmit);
+
+    // Poll every 30s for submissions from other users
+    const interval = setInterval(fetchFeedback, 30000);
+
+    return () => {
+      window.removeEventListener("feedback-submitted", onSubmit);
+      clearInterval(interval);
+    };
   }, [fetchFeedback]);
 
   const updateStatus = async (id: string, status: string) => {

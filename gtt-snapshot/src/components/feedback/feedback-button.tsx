@@ -69,6 +69,7 @@ export function FeedbackButton({ user }: FeedbackButtonProps) {
       }
 
       setSubmitted(true);
+      window.dispatchEvent(new CustomEvent("feedback-submitted"));
       setTimeout(() => setOpen(false), 2000);
     } catch {
       setError("Failed to submit feedback");
