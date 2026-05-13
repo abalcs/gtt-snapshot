@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { DestinationDetail, RegionWithCount } from "@/lib/types";
 import { TagPicker } from "@/components/admin/tag-picker";
+import { SEASONS } from "@/lib/tags";
 
 // Common abbreviations that shouldn't trigger sentence splits
 const ABBREVIATIONS = /(?:U\.S|Dr|Mr|Mrs|Jr|Sr|St|vs|etc|approx|govt|dept|avg|min|max|hrs?|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\./gi;
@@ -107,6 +108,7 @@ export function DestinationForm({ destination, regions }: Props) {
   const [clientBad, setClientBad] = useState(destination?.client_types_bad || "");
   const [updatedBy, setUpdatedBy] = useState(destination?.updated_by || "");
   const [tags, setTags] = useState<string[]>(destination?.tags || []);
+  const [bestSeasons, setBestSeasons] = useState<string[]>(destination?.best_seasons || []);
 
   // Seasonality
   const existingSeasonality: SeasonalityForm[] = (() => {
@@ -229,6 +231,7 @@ export function DestinationForm({ destination, regions }: Props) {
       seasonality: JSON.stringify(seasonality.filter((s) => s.level || s.date_range)),
       updated_by: updatedBy || null,
       tags,
+      best_seasons: bestSeasons,
       pricing_tiers: [
         { tier_label: "Peak", price_per_week: seasonPricing.peak || null, notes: seasonPricing.peakNotes || null, sort_order: 0 },
         { tier_label: "Shoulder", price_per_week: seasonPricing.shoulder || null, notes: seasonPricing.shoulderNotes || null, sort_order: 1 },
@@ -489,6 +492,49 @@ export function DestinationForm({ destination, regions }: Props) {
         </CardHeader>
         <CardContent>
           <TagPicker selected={tags} onChange={setTags} />
+        </CardContent>
+      </Card>
+
+      {/* Best Time to Travel */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Best Time to Travel</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-xs text-muted-foreground">
+            Select seasons when this destination is at its best. &quot;Winter&quot; = Dec-Mar, &quot;Spring&quot; = Apr-Jun, &quot;Summer&quot; = Jul-Sep, &quot;Fall&quot; = Oct-Nov.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {SEASONS.map((season) => {
+              const isActive = bestSeasons.includes(season.slug);
+              const colorMap: Record<string, { active: string; inactive: string }> = {
+                sky:     { active: 'bg-sky-600 text-white border-sky-600',       inactive: 'bg-sky-50 text-sky-700 border-sky-200 hover:bg-sky-100' },
+                emerald: { active: 'bg-emerald-600 text-white border-emerald-600', inactive: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100' },
+                orange:  { active: 'bg-orange-600 text-white border-orange-600',   inactive: 'bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100' },
+                rose:    { active: 'bg-rose-600 text-white border-rose-600',       inactive: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100' },
+              };
+              const colors = colorMap[season.color] ?? { active: 'bg-gray-600 text-white', inactive: 'bg-gray-100 text-gray-700' };
+              return (
+                <button
+                  key={season.slug}
+                  type="button"
+                  onClick={() => {
+                    setBestSeasons(prev =>
+                      prev.includes(season.slug)
+                        ? prev.filter(s => s !== season.slug)
+                        : [...prev, season.slug]
+                    );
+                  }}
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors cursor-pointer ${
+                    isActive ? colors.active : colors.inactive
+                  }`}
+                >
+                  {season.label}
+                  <span className={`text-xs ${isActive ? 'opacity-80' : 'opacity-60'}`}>{season.subtitle}</span>
+                </button>
+              );
+            })}
+          </div>
         </CardContent>
       </Card>
 

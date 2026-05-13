@@ -62,6 +62,7 @@ function docToDestination(id: string, data: FirebaseFirestore.DocumentData): Des
     pricing_tiers: data.pricing_tiers ?? [],
     pricing_footnotes: data.pricing_footnotes ?? [],
     tags: data.tags ?? [],
+    best_seasons: data.best_seasons ?? [],
   };
 }
 
@@ -366,6 +367,7 @@ export async function createDestination(data: Partial<Destination> & { region_id
     pricing_tiers: data.pricing_tiers ?? [],
     pricing_footnotes: data.pricing_footnotes ?? [],
     tags: data.tags ?? [],
+    best_seasons: data.best_seasons ?? [],
     search_tokens: generateSearchTokens({
       ...data,
       region_name: regionData.name as string,
@@ -488,8 +490,8 @@ export async function upsertPricingTiers(
 
 // ── Tag-based Filtering ─────────────────────────────────
 
-export async function getDestinationsByTags(tagSlugs: string[], regionSlug?: string): Promise<DestinationWithRegion[]> {
-  if (tagSlugs.length === 0) return [];
+export async function getDestinationsByTags(tagSlugs: string[], seasonSlugs?: string[], regionSlug?: string): Promise<DestinationWithRegion[]> {
+  if (tagSlugs.length === 0 && (!seasonSlugs || seasonSlugs.length === 0)) return [];
 
   const snap = await db().collection('destinations')
     .where('status', '==', 'active')
@@ -499,9 +501,21 @@ export async function getDestinationsByTags(tagSlugs: string[], regionSlug?: str
   for (const doc of snap.docs) {
     const data = doc.data();
     if (regionSlug && data.region_slug !== regionSlug) continue;
-    const destTags: string[] = data.tags ?? [];
-    const allMatch = tagSlugs.every(slug => destTags.includes(slug));
-    if (!allMatch) continue;
+
+    // Tags filter: AND logic (must match ALL selected tags)
+    if (tagSlugs.length > 0) {
+      const destTags: string[] = data.tags ?? [];
+      const allMatch = tagSlugs.every(slug => destTags.includes(slug));
+      if (!allMatch) continue;
+    }
+
+    // Seasons filter: OR logic (must match ANY selected season)
+    if (seasonSlugs && seasonSlugs.length > 0) {
+      const destSeasons: string[] = data.best_seasons ?? [];
+      const anyMatch = seasonSlugs.some(s => destSeasons.includes(s));
+      if (!anyMatch) continue;
+    }
+
     results.push(docToDestination(doc.id, data));
   }
 

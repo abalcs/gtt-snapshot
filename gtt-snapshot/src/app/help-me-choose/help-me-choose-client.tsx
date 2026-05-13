@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { TAG_CATEGORIES, type TagCategory } from "@/lib/tags";
+import { TAG_CATEGORIES, SEASONS, type TagCategory } from "@/lib/tags";
 import { DestinationCard } from "@/components/destinations/destination-card";
 import type { DestinationWithRegion, TagDefinition } from "@/lib/types";
 
@@ -19,9 +19,24 @@ const categoryInactiveMap: Record<TagCategory, string> = {
   'landscape': 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
 };
 
+const seasonActiveMap: Record<string, string> = {
+  sky: 'bg-sky-600 text-white border-sky-600 shadow-sm',
+  emerald: 'bg-emerald-600 text-white border-emerald-600 shadow-sm',
+  orange: 'bg-orange-600 text-white border-orange-600 shadow-sm',
+  rose: 'bg-rose-600 text-white border-rose-600 shadow-sm',
+};
+
+const seasonInactiveMap: Record<string, string> = {
+  sky: 'bg-sky-50 text-sky-700 border-sky-200 hover:bg-sky-100',
+  emerald: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
+  orange: 'bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100',
+  rose: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100',
+};
+
 export function HelpMeChooseClient() {
   const [tagDefinitions, setTagDefinitions] = useState<TagDefinition[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
+  const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
   const [results, setResults] = useState<DestinationWithRegion[]>([]);
   const [loading, setLoading] = useState(false);
   const [fetched, setFetched] = useState(false);
@@ -39,21 +54,31 @@ export function HelpMeChooseClient() {
     );
   };
 
+  const toggleSeason = (slug: string) => {
+    setSelectedSeasons(prev =>
+      prev.includes(slug) ? prev.filter(s => s !== slug) : [...prev, slug]
+    );
+  };
+
   const clearAll = () => {
     setSelected([]);
+    setSelectedSeasons([]);
     setResults([]);
     setFetched(false);
   };
 
-  const fetchResults = useCallback(async (tags: string[]) => {
-    if (tags.length === 0) {
+  const fetchResults = useCallback(async (tags: string[], seasons: string[]) => {
+    if (tags.length === 0 && seasons.length === 0) {
       setResults([]);
       setFetched(false);
       return;
     }
     setLoading(true);
     try {
-      const res = await fetch(`/api/destinations/by-tags?tags=${tags.join(",")}`);
+      const params = new URLSearchParams();
+      if (tags.length > 0) params.set('tags', tags.join(','));
+      if (seasons.length > 0) params.set('seasons', seasons.join(','));
+      const res = await fetch(`/api/destinations/by-tags?${params.toString()}`);
       const data = await res.json();
       setResults(data.destinations ?? []);
       setFetched(true);
@@ -65,31 +90,57 @@ export function HelpMeChooseClient() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => fetchResults(selected), 300);
+    const timer = setTimeout(() => fetchResults(selected, selectedSeasons), 300);
     return () => clearTimeout(timer);
-  }, [selected, fetchResults]);
+  }, [selected, selectedSeasons, fetchResults]);
+
+  const totalSelections = selected.length + selectedSeasons.length;
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Help Me Choose</h1>
         <p className="text-muted-foreground mt-1">
-          Select tags that match your client&apos;s interests. Results narrow as you add more tags.
+          Select seasons and tags that match your client&apos;s interests. Results narrow as you add more filters.
         </p>
       </div>
 
-      {/* Tag Picker */}
+      {/* Season + Tag Picker */}
       <div className="bg-white border rounded-lg p-6 space-y-5">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">What are they looking for?</h2>
-          {selected.length > 0 && (
+          {totalSelections > 0 && (
             <button
               onClick={clearAll}
               className="text-sm text-muted-foreground hover:text-foreground underline"
             >
-              Clear all ({selected.length})
+              Clear all ({totalSelections})
             </button>
           )}
+        </div>
+
+        {/* Season Picker */}
+        <div>
+          <p className="text-sm font-medium text-muted-foreground mb-2">When are they traveling?</p>
+          <div className="flex flex-wrap gap-2">
+            {SEASONS.map(season => {
+              const isActive = selectedSeasons.includes(season.slug);
+              return (
+                <button
+                  key={season.slug}
+                  onClick={() => toggleSeason(season.slug)}
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer hover:scale-[1.03] ${
+                    isActive
+                      ? seasonActiveMap[season.color]
+                      : seasonInactiveMap[season.color]
+                  }`}
+                >
+                  {season.label}
+                  <span className={`text-xs ${isActive ? 'opacity-80' : 'opacity-60'}`}>{season.subtitle}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {TAG_CATEGORIES.map(cat => {
@@ -133,8 +184,7 @@ export function HelpMeChooseClient() {
                 {results.length} destination{results.length !== 1 ? "s" : ""}
               </span>
               <span className="text-sm text-muted-foreground">
-                match{results.length === 1 ? "es" : ""} all{" "}
-                <span className="font-semibold text-foreground">{selected.length}</span> selected tag{selected.length !== 1 ? "s" : ""}
+                match{results.length === 1 ? "es" : ""} all selected filters
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -145,16 +195,16 @@ export function HelpMeChooseClient() {
           </>
         )}
 
-        {!loading && fetched && results.length === 0 && selected.length > 0 && (
+        {!loading && fetched && results.length === 0 && totalSelections > 0 && (
           <div className="text-center py-12 bg-gray-50 rounded-lg border">
-            <p className="text-muted-foreground">No destinations match all selected tags.</p>
-            <p className="text-sm text-muted-foreground mt-1">Try removing some tags to broaden the search.</p>
+            <p className="text-muted-foreground">No destinations match all selected filters.</p>
+            <p className="text-sm text-muted-foreground mt-1">Try removing some filters to broaden the search.</p>
           </div>
         )}
 
-        {!loading && !fetched && selected.length === 0 && (
+        {!loading && !fetched && totalSelections === 0 && (
           <div className="text-center py-12 bg-gray-50 rounded-lg border">
-            <p className="text-muted-foreground">Select one or more tags above to find matching destinations.</p>
+            <p className="text-muted-foreground">Select seasons or tags above to find matching destinations.</p>
           </div>
         )}
       </div>

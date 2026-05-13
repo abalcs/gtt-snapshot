@@ -40,6 +40,7 @@ export interface Destination {
   pricing_tiers: PricingTier[];
   pricing_footnotes: PricingFootnote[];
   tags: string[];
+  best_seasons: string[];
 }
 
 export interface DestinationWithRegion extends Destination {}

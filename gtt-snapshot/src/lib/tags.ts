@@ -53,6 +53,24 @@ export const ALL_TAGS: Tag[] = [
   { slug: 'tropical-islands', label: 'Tropical Islands', category: 'landscape' },
 ];
 
+// ── Seasons ──────────────────────────────────────────────
+
+export type SeasonSlug = 'winter' | 'spring' | 'summer' | 'fall';
+
+export interface Season {
+  slug: SeasonSlug;
+  label: string;
+  subtitle: string;
+  color: string;
+}
+
+export const SEASONS: Season[] = [
+  { slug: 'winter', label: 'Winter', subtitle: 'Dec - Mar', color: 'sky' },
+  { slug: 'spring', label: 'Spring', subtitle: 'Apr - Jun', color: 'emerald' },
+  { slug: 'summer', label: 'Summer', subtitle: 'Jul - Sep', color: 'orange' },
+  { slug: 'fall',   label: 'Fall',   subtitle: 'Oct - Nov', color: 'rose' },
+];
+
 // ── Helpers that work with a passed-in array (or fallback to ALL_TAGS) ──
 
 export function getTagBySlug(slug: string, tags: TagDefinition[] = ALL_TAGS): Tag | undefined {
