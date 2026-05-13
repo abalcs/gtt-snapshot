@@ -56,7 +56,7 @@ export function HelpMeChooseClient() {
 
   const toggleSeason = (slug: string) => {
     setSelectedSeasons(prev =>
-      prev.includes(slug) ? prev.filter(s => s !== slug) : [...prev, slug]
+      prev.includes(slug) ? [] : [slug]
     );
   };
 

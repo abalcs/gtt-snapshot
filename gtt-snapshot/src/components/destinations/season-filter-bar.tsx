@@ -20,40 +20,17 @@ export function SeasonFilterBar({ currentSeasons }: SeasonFilterBarProps) {
 
   const toggleSeason = (slug: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    const current = params.get("seasons")?.split(",").filter(Boolean) ?? [];
-    let next: string[];
-    if (current.includes(slug)) {
-      next = current.filter(s => s !== slug);
-    } else {
-      next = [...current, slug];
-    }
-    if (next.length > 0) {
-      params.set("seasons", next.join(","));
-    } else {
+    if (currentSeasons.includes(slug)) {
       params.delete("seasons");
+    } else {
+      params.set("seasons", slug);
     }
-    router.push(`/destinations?${params.toString()}`);
-  };
-
-  const clearSeasons = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("seasons");
     router.push(`/destinations?${params.toString()}`);
   };
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm font-medium text-muted-foreground">Best time to travel</h3>
-        {currentSeasons.length > 0 && (
-          <button
-            onClick={clearSeasons}
-            className="text-xs text-muted-foreground hover:text-foreground underline"
-          >
-            Clear seasons ({currentSeasons.length})
-          </button>
-        )}
-      </div>
+      <h3 className="text-sm font-medium text-muted-foreground">Best time to travel</h3>
       <div className="flex flex-wrap gap-1.5">
         {SEASONS.map(season => {
           const isActive = currentSeasons.includes(season.slug);
