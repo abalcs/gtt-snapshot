@@ -157,6 +157,13 @@ export async function getConsultantsForDestination(slug: string): Promise<Consul
   );
 }
 
+export async function getConsultantsByTitle(title: string): Promise<Consultant[]> {
+  const consultants = await getActiveConsultants();
+  return consultants.filter(
+    (c) => c.title.toLowerCase() === title.toLowerCase()
+  );
+}
+
 export { slugify };
 
 /** Derive TA assignments from static COUNTRY_AGENT_ASSIGNMENTS for a given name */

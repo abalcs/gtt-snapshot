@@ -162,6 +162,16 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
                   >
                     Travel Agents
                   </Link>
+                  <Link
+                    href="/booking-calendars/tam"
+                    className={cn(
+                      "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                      pathname === "/booking-calendars/tam" &&
+                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
+                    )}
+                  >
+                    TAM
+                  </Link>
                 </div>
               </div>
             </div>
