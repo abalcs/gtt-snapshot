@@ -76,6 +76,52 @@ function slugify(text: string): string {
     .trim();
 }
 
+function ScoreRow({
+  label,
+  hint,
+  value,
+  onChange,
+}: {
+  label: string;
+  hint: string;
+  value: number | null;
+  onChange: (v: number | null) => void;
+}) {
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+      <div className="sm:w-48 shrink-0">
+        <span className="text-sm font-medium">{label}</span>
+        <p className="text-xs text-muted-foreground">{hint}</p>
+      </div>
+      <div className="flex items-center gap-1.5">
+        {[1, 2, 3, 4, 5].map((n) => (
+          <button
+            key={n}
+            type="button"
+            onClick={() => onChange(value === n ? null : n)}
+            className={`h-8 w-8 rounded-md text-sm font-medium transition-colors ${
+              value === n
+                ? "bg-[#3a5f54] text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            }`}
+          >
+            {n}
+          </button>
+        ))}
+        {value !== null && (
+          <button
+            type="button"
+            onClick={() => onChange(null)}
+            className="text-xs text-muted-foreground hover:text-foreground ml-1"
+          >
+            clear
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function DestinationForm({ destination, regions }: Props) {
   const router = useRouter();
   const isEdit = !!destination;
@@ -109,6 +155,11 @@ export function DestinationForm({ destination, regions }: Props) {
   const [updatedBy, setUpdatedBy] = useState(destination?.updated_by || "");
   const [tags, setTags] = useState<string[]>(destination?.tags || []);
   const [bestSeasons, setBestSeasons] = useState<string[]>(destination?.best_seasons || []);
+  const [terrainDifficulty, setTerrainDifficulty] = useState<number | null>(destination?.terrain_difficulty ?? null);
+  const [wheelchairFriendliness, setWheelchairFriendliness] = useState<number | null>(destination?.wheelchair_friendliness ?? null);
+  const [walkingRequired, setWalkingRequired] = useState<number | null>(destination?.walking_required ?? null);
+  const [altitudeConcern, setAltitudeConcern] = useState<number | null>(destination?.altitude_concern ?? null);
+  const [mobilityNotes, setMobilityNotes] = useState(destination?.mobility_notes || "");
 
   // Seasonality
   const existingSeasonality: SeasonalityForm[] = (() => {
@@ -232,6 +283,11 @@ export function DestinationForm({ destination, regions }: Props) {
       updated_by: updatedBy || null,
       tags,
       best_seasons: bestSeasons,
+      terrain_difficulty: terrainDifficulty,
+      wheelchair_friendliness: wheelchairFriendliness,
+      walking_required: walkingRequired,
+      altitude_concern: altitudeConcern,
+      mobility_notes: mobilityNotes || null,
       pricing_tiers: [
         { tier_label: "Peak", price_per_week: seasonPricing.peak || null, notes: seasonPricing.peakNotes || null, sort_order: 0 },
         { tier_label: "Shoulder", price_per_week: seasonPricing.shoulder || null, notes: seasonPricing.shoulderNotes || null, sort_order: 1 },
@@ -481,6 +537,52 @@ export function DestinationForm({ destination, regions }: Props) {
           <div>
             <Label htmlFor="clientBad" className="text-red-700">Bad For</Label>
             <Textarea id="clientBad" value={clientBad} onChange={(e) => setClientBad(e.target.value)} rows={3} placeholder="Comma-separated list" />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Mobility & Accessibility */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Mobility & Accessibility</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-xs text-muted-foreground">
+            Rate each category 1-5 to help agents quickly assess accessibility. Leave blank if unknown.
+          </p>
+          <ScoreRow
+            label="Terrain Difficulty"
+            hint="1 = Flat/easy, 5 = Very rugged"
+            value={terrainDifficulty}
+            onChange={setTerrainDifficulty}
+          />
+          <ScoreRow
+            label="Wheelchair Friendliness"
+            hint="1 = Not accessible, 5 = Fully accessible"
+            value={wheelchairFriendliness}
+            onChange={setWheelchairFriendliness}
+          />
+          <ScoreRow
+            label="Walking Required"
+            hint="1 = Minimal, 5 = Extensive daily walking"
+            value={walkingRequired}
+            onChange={setWalkingRequired}
+          />
+          <ScoreRow
+            label="Altitude Concern"
+            hint="1 = Sea level, 5 = Extreme altitude risk"
+            value={altitudeConcern}
+            onChange={setAltitudeConcern}
+          />
+          <div>
+            <Label htmlFor="mobilityNotes">Mobility Notes</Label>
+            <Textarea
+              id="mobilityNotes"
+              value={mobilityNotes}
+              onChange={(e) => setMobilityNotes(e.target.value)}
+              rows={3}
+              placeholder="Cobblestone streets, temple stairs, safari vehicles require climbing..."
+            />
           </div>
         </CardContent>
       </Card>

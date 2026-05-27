@@ -63,6 +63,11 @@ function docToDestination(id: string, data: FirebaseFirestore.DocumentData): Des
     pricing_footnotes: data.pricing_footnotes ?? [],
     tags: data.tags ?? [],
     best_seasons: data.best_seasons ?? [],
+    terrain_difficulty: data.terrain_difficulty ?? null,
+    wheelchair_friendliness: data.wheelchair_friendliness ?? null,
+    walking_required: data.walking_required ?? null,
+    altitude_concern: data.altitude_concern ?? null,
+    mobility_notes: data.mobility_notes ?? null,
   };
 }
 
@@ -368,6 +373,11 @@ export async function createDestination(data: Partial<Destination> & { region_id
     pricing_footnotes: data.pricing_footnotes ?? [],
     tags: data.tags ?? [],
     best_seasons: data.best_seasons ?? [],
+    terrain_difficulty: data.terrain_difficulty ?? null,
+    wheelchair_friendliness: data.wheelchair_friendliness ?? null,
+    walking_required: data.walking_required ?? null,
+    altitude_concern: data.altitude_concern ?? null,
+    mobility_notes: data.mobility_notes ?? null,
     search_tokens: generateSearchTokens({
       ...data,
       region_name: regionData.name as string,
@@ -409,7 +419,7 @@ export async function updateDestination(id: string, data: Partial<Destination>):
   updateData.date_updated = readableDate;
 
   // If searchable fields changed, regenerate tokens
-  const searchableFields = ['name', 'key_facts', 'urgency', 'accommodations', 'client_types_good', 'client_types_okay', 'client_types_bad', 'general_notes_1', 'general_notes_2', 'pair_with', 'talking_points', 'region_name'];
+  const searchableFields = ['name', 'key_facts', 'urgency', 'accommodations', 'client_types_good', 'client_types_okay', 'client_types_bad', 'general_notes_1', 'general_notes_2', 'pair_with', 'talking_points', 'region_name', 'mobility_notes'];
   if (fields.some(([key]) => searchableFields.includes(key))) {
     const merged = { ...existingData, ...data };
     updateData.search_tokens = generateSearchTokens(merged as Partial<Destination>);

@@ -41,6 +41,11 @@ export interface Destination {
   pricing_footnotes: PricingFootnote[];
   tags: string[];
   best_seasons: string[];
+  terrain_difficulty: number | null;
+  wheelchair_friendliness: number | null;
+  walking_required: number | null;
+  altitude_concern: number | null;
+  mobility_notes: string | null;
 }
 
 export interface DestinationWithRegion extends Destination {}

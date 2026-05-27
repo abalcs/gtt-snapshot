@@ -16,6 +16,7 @@ import { requireAuth } from "@/lib/admin-auth";
 import { getConsultantsForDestination } from "@/lib/booking-calendars";
 import { invalidateCache } from "@/lib/data-cache";
 import { CountrySpecialists } from "@/components/destinations/country-specialists";
+import { MobilityAccessibility } from "@/components/destinations/mobility-accessibility";
 
 export const dynamic = 'force-dynamic';
 
@@ -217,6 +218,23 @@ export default async function DestinationDetailPage({
               good={destination.client_types_good}
               okay={destination.client_types_okay}
               bad={destination.client_types_bad}
+            />
+          </div>
+        </>
+      )}
+
+      {/* Mobility & Accessibility */}
+      {(destination.terrain_difficulty !== null || destination.wheelchair_friendliness !== null || destination.walking_required !== null || destination.altitude_concern !== null || destination.mobility_notes) && (
+        <>
+          <Separator />
+          <div>
+            <h2 className="text-lg font-semibold mb-3">Mobility & Accessibility</h2>
+            <MobilityAccessibility
+              terrainDifficulty={destination.terrain_difficulty}
+              wheelchairFriendliness={destination.wheelchair_friendliness}
+              walkingRequired={destination.walking_required}
+              altitudeConcern={destination.altitude_concern}
+              mobilityNotes={destination.mobility_notes}
             />
           </div>
         </>

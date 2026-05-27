@@ -296,6 +296,20 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }:
               <CompareRow label="Bad For" values={selected.map((d) =>
                 d.client_types_bad || <Dash />
               )} />
+              <CompareRow label="Mobility" values={selected.map((d) => {
+                const scores: string[] = [];
+                if (d.terrain_difficulty != null) scores.push(`Terrain: ${d.terrain_difficulty}/5`);
+                if (d.wheelchair_friendliness != null) scores.push(`Wheelchair: ${d.wheelchair_friendliness}/5`);
+                if (d.walking_required != null) scores.push(`Walking: ${d.walking_required}/5`);
+                if (d.altitude_concern != null) scores.push(`Altitude: ${d.altitude_concern}/5`);
+                return scores.length > 0 ? (
+                  <div className="space-y-0.5">
+                    {scores.map((s, i) => (
+                      <div key={i} className="text-xs">{s}</div>
+                    ))}
+                  </div>
+                ) : <Dash />;
+              })} />
               <CompareRow label="Tags" values={selected.map((d) =>
                 d.tags && d.tags.length > 0 ? (
                   <div className="flex flex-wrap gap-1">
@@ -366,6 +380,16 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }:
                     {d.client_types_good && <MobileField label="Good For" value={d.client_types_good} />}
                     {d.client_types_okay && <MobileField label="Okay For" value={d.client_types_okay} />}
                     {d.client_types_bad && <MobileField label="Bad For" value={d.client_types_bad} />}
+                    {(d.terrain_difficulty != null || d.wheelchair_friendliness != null || d.walking_required != null || d.altitude_concern != null) && (
+                      <MobileField label="Mobility" value={
+                        <div className="space-y-0.5">
+                          {d.terrain_difficulty != null && <div className="text-xs">Terrain: {d.terrain_difficulty}/5</div>}
+                          {d.wheelchair_friendliness != null && <div className="text-xs">Wheelchair: {d.wheelchair_friendliness}/5</div>}
+                          {d.walking_required != null && <div className="text-xs">Walking: {d.walking_required}/5</div>}
+                          {d.altitude_concern != null && <div className="text-xs">Altitude: {d.altitude_concern}/5</div>}
+                        </div>
+                      } />
+                    )}
                     {d.tags && d.tags.length > 0 && (
                       <MobileField label="Tags" value={
                         <div className="flex flex-wrap gap-1">
