@@ -76,7 +76,7 @@ export default async function HomePage() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b9a88" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
               </div>
               <div>
-                <div className="text-3xl font-bold">{continents.length}</div>
+                <div className="text-3xl font-bold">{regions.length}</div>
                 <p className="text-sm text-muted-foreground">Continents</p>
               </div>
             </div>
@@ -90,7 +90,7 @@ export default async function HomePage() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9abcad" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/></svg>
               </div>
               <div>
-                <div className="text-3xl font-bold">{regions.length}</div>
+                <div className="text-3xl font-bold">{continents.length}</div>
                 <p className="text-sm text-muted-foreground">Regions</p>
               </div>
             </div>

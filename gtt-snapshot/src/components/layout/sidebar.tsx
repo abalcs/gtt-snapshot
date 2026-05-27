@@ -186,7 +186,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
             </Link>
 
             <div className="pt-3 pb-1 px-3">
-              <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">Continents</span>
+              <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">Regions</span>
               <div className="mt-1.5 h-px bg-gradient-to-r from-white/20 via-white/10 to-transparent" />
             </div>
 
