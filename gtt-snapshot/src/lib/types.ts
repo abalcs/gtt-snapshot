@@ -41,6 +41,7 @@ export interface Destination {
   pricing_footnotes: PricingFootnote[];
   tags: string[];
   best_seasons: string[];
+  budget_tiers: string[];
   terrain_difficulty: number | null;
   wheelchair_friendliness: number | null;
   walking_required: number | null;

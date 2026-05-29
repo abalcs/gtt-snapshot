@@ -63,6 +63,7 @@ function docToDestination(id: string, data: FirebaseFirestore.DocumentData): Des
     pricing_footnotes: data.pricing_footnotes ?? [],
     tags: data.tags ?? [],
     best_seasons: data.best_seasons ?? [],
+    budget_tiers: data.budget_tiers ?? [],
     terrain_difficulty: data.terrain_difficulty ?? null,
     wheelchair_friendliness: data.wheelchair_friendliness ?? null,
     walking_required: data.walking_required ?? null,
@@ -373,6 +374,7 @@ export async function createDestination(data: Partial<Destination> & { region_id
     pricing_footnotes: data.pricing_footnotes ?? [],
     tags: data.tags ?? [],
     best_seasons: data.best_seasons ?? [],
+    budget_tiers: data.budget_tiers ?? [],
     terrain_difficulty: data.terrain_difficulty ?? null,
     wheelchair_friendliness: data.wheelchair_friendliness ?? null,
     walking_required: data.walking_required ?? null,
@@ -500,8 +502,8 @@ export async function upsertPricingTiers(
 
 // ── Tag-based Filtering ─────────────────────────────────
 
-export async function getDestinationsByTags(tagSlugs: string[], seasonSlugs?: string[], regionSlug?: string): Promise<DestinationWithRegion[]> {
-  if (tagSlugs.length === 0 && (!seasonSlugs || seasonSlugs.length === 0)) return [];
+export async function getDestinationsByTags(tagSlugs: string[], seasonSlugs?: string[], regionSlug?: string, budgetSlugs?: string[]): Promise<DestinationWithRegion[]> {
+  if (tagSlugs.length === 0 && (!seasonSlugs || seasonSlugs.length === 0) && (!budgetSlugs || budgetSlugs.length === 0)) return [];
 
   const snap = await db().collection('destinations')
     .where('status', '==', 'active')
@@ -523,6 +525,13 @@ export async function getDestinationsByTags(tagSlugs: string[], seasonSlugs?: st
     if (seasonSlugs && seasonSlugs.length > 0) {
       const destSeasons: string[] = data.best_seasons ?? [];
       const anyMatch = seasonSlugs.some(s => destSeasons.includes(s));
+      if (!anyMatch) continue;
+    }
+
+    // Budget filter: OR logic (must match ANY selected budget tier)
+    if (budgetSlugs && budgetSlugs.length > 0) {
+      const destBudget: string[] = data.budget_tiers ?? [];
+      const anyMatch = budgetSlugs.some(b => destBudget.includes(b));
       if (!anyMatch) continue;
     }
 

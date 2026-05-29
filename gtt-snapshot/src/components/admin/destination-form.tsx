@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { DestinationDetail, RegionWithCount } from "@/lib/types";
 import { TagPicker } from "@/components/admin/tag-picker";
-import { SEASONS } from "@/lib/tags";
+import { SEASONS, BUDGET_TIERS } from "@/lib/tags";
 
 // Common abbreviations that shouldn't trigger sentence splits
 const ABBREVIATIONS = /(?:U\.S|Dr|Mr|Mrs|Jr|Sr|St|vs|etc|approx|govt|dept|avg|min|max|hrs?|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\./gi;
@@ -155,6 +155,7 @@ export function DestinationForm({ destination, regions }: Props) {
   const [updatedBy, setUpdatedBy] = useState(destination?.updated_by || "");
   const [tags, setTags] = useState<string[]>(destination?.tags || []);
   const [bestSeasons, setBestSeasons] = useState<string[]>(destination?.best_seasons || []);
+  const [budgetTiers, setBudgetTiers] = useState<string[]>(destination?.budget_tiers || []);
   const [terrainDifficulty, setTerrainDifficulty] = useState<number | null>(destination?.terrain_difficulty ?? null);
   const [wheelchairFriendliness, setWheelchairFriendliness] = useState<number | null>(destination?.wheelchair_friendliness ?? null);
   const [walkingRequired, setWalkingRequired] = useState<number | null>(destination?.walking_required ?? null);
@@ -283,6 +284,7 @@ export function DestinationForm({ destination, regions }: Props) {
       updated_by: updatedBy || null,
       tags,
       best_seasons: bestSeasons,
+      budget_tiers: budgetTiers,
       terrain_difficulty: terrainDifficulty,
       wheelchair_friendliness: wheelchairFriendliness,
       walking_required: walkingRequired,
@@ -594,6 +596,45 @@ export function DestinationForm({ destination, regions }: Props) {
         </CardHeader>
         <CardContent>
           <TagPicker selected={tags} onChange={setTags} />
+        </CardContent>
+      </Card>
+
+      {/* Budget Tiers */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Budget Tier</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-xs text-muted-foreground">
+            Select the budget tier(s) this destination falls into. Some destinations may span multiple tiers.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {BUDGET_TIERS.map((tier) => {
+              const isActive = budgetTiers.includes(tier.slug);
+              return (
+                <button
+                  key={tier.slug}
+                  type="button"
+                  onClick={() => {
+                    setBudgetTiers(prev =>
+                      prev.includes(tier.slug)
+                        ? prev.filter(s => s !== tier.slug)
+                        : [...prev, tier.slug]
+                    );
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors cursor-pointer"
+                  style={
+                    isActive
+                      ? { backgroundColor: tier.color, color: 'white', borderColor: tier.color }
+                      : { backgroundColor: `${tier.color}10`, color: tier.color, borderColor: `${tier.color}40` }
+                  }
+                >
+                  {tier.label}
+                  <span className={`text-xs ${isActive ? 'opacity-80' : 'opacity-60'}`}>{tier.description}</span>
+                </button>
+              );
+            })}
+          </div>
         </CardContent>
       </Card>
 

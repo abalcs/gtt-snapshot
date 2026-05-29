@@ -71,6 +71,21 @@ export const SEASONS: Season[] = [
   { slug: 'fall',   label: 'Fall',   subtitle: 'Oct - Nov', color: 'rose' },
 ];
 
+// ── Budget Tiers ─────────────────────────────────────────
+
+export interface BudgetTier {
+  slug: string;
+  label: string;
+  description: string;
+  color: string;
+}
+
+export const BUDGET_TIERS: BudgetTier[] = [
+  { slug: 'best-value', label: 'Best Value', description: 'Under $5k/week', color: '#10b981' },
+  { slug: 'mid-range', label: 'Mid-Range', description: '$5k–$8k/week', color: '#3b82f6' },
+  { slug: 'premium', label: 'Premium', description: '$8k+/week', color: '#8b5cf6' },
+];
+
 // ── Helpers that work with a passed-in array (or fallback to ALL_TAGS) ──
 
 export function getTagBySlug(slug: string, tags: TagDefinition[] = ALL_TAGS): Tag | undefined {

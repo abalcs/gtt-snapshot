@@ -2,6 +2,7 @@ import { getAllDestinations, getAllRegions, getAllTagDefinitions } from "@/lib/q
 import { DestinationFilters } from "@/components/destinations/destination-filters";
 import { TagFilterBar } from "@/components/destinations/tag-filter-bar";
 import { SeasonFilterBar } from "@/components/destinations/season-filter-bar";
+import { BudgetFilterBar } from "@/components/destinations/budget-filter-bar";
 import { DestinationGrid } from "@/components/destinations/destination-grid";
 import { requireAuth } from "@/lib/admin-auth";
 
@@ -10,7 +11,7 @@ export const dynamic = 'force-dynamic';
 export default function DestinationsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ region?: string; tags?: string; seasons?: string }>;
+  searchParams: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string }>;
 }) {
   return <DestinationsContent searchParamsPromise={searchParams} />;
 }
@@ -18,10 +19,10 @@ export default function DestinationsPage({
 async function DestinationsContent({
   searchParamsPromise,
 }: {
-  searchParamsPromise: Promise<{ region?: string; tags?: string; seasons?: string }>;
+  searchParamsPromise: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string }>;
 }) {
   await requireAuth();
-  const { region, tags: tagsParam, seasons: seasonsParam } = await searchParamsPromise;
+  const { region, tags: tagsParam, seasons: seasonsParam, budget: budgetParam } = await searchParamsPromise;
   const [allDestinations, regions, tagDefinitions] = await Promise.all([
     getAllDestinations(),
     getAllRegions(),
@@ -30,6 +31,7 @@ async function DestinationsContent({
 
   const activeTags = tagsParam ? tagsParam.split(",").filter(Boolean) : [];
   const activeSeasons = seasonsParam ? seasonsParam.split(",").filter(Boolean) : [];
+  const activeBudget = budgetParam ? budgetParam.split(",").filter(Boolean) : [];
 
   let filteredDestinations = region
     ? allDestinations.filter((d) => d.region_slug === region)
@@ -47,6 +49,12 @@ async function DestinationsContent({
     );
   }
 
+  if (activeBudget.length > 0) {
+    filteredDestinations = filteredDestinations.filter((d) =>
+      activeBudget.some((b) => d.budget_tiers?.includes(b))
+    );
+  }
+
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div>
@@ -56,12 +64,15 @@ async function DestinationsContent({
           {region ? ` in selected region` : ""}
           {activeTags.length > 0 ? ` matching ${activeTags.length} tag${activeTags.length !== 1 ? "s" : ""}` : ""}
           {activeSeasons.length > 0 ? ` in ${activeSeasons.length} season${activeSeasons.length !== 1 ? "s" : ""}` : ""}
+          {activeBudget.length > 0 ? ` in ${activeBudget.length} budget tier${activeBudget.length !== 1 ? "s" : ""}` : ""}
         </p>
       </div>
 
       <DestinationFilters regions={regions} currentRegion={region} />
 
       <SeasonFilterBar currentSeasons={activeSeasons} />
+
+      <BudgetFilterBar currentBudget={activeBudget} />
 
       <TagFilterBar currentTags={activeTags} tagDefinitions={tagDefinitions} />
 

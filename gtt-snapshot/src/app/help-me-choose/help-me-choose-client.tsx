@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { TAG_CATEGORIES, SEASONS, type TagCategory } from "@/lib/tags";
+import { TAG_CATEGORIES, SEASONS, BUDGET_TIERS, type TagCategory } from "@/lib/tags";
 import { DestinationCard } from "@/components/destinations/destination-card";
 import type { DestinationWithRegion, TagDefinition } from "@/lib/types";
 
@@ -37,6 +37,7 @@ export function HelpMeChooseClient() {
   const [tagDefinitions, setTagDefinitions] = useState<TagDefinition[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
+  const [selectedBudget, setSelectedBudget] = useState<string[]>([]);
   const [results, setResults] = useState<DestinationWithRegion[]>([]);
   const [loading, setLoading] = useState(false);
   const [fetched, setFetched] = useState(false);
@@ -60,15 +61,22 @@ export function HelpMeChooseClient() {
     );
   };
 
+  const toggleBudget = (slug: string) => {
+    setSelectedBudget(prev =>
+      prev.includes(slug) ? prev.filter(b => b !== slug) : [...prev, slug]
+    );
+  };
+
   const clearAll = () => {
     setSelected([]);
     setSelectedSeasons([]);
+    setSelectedBudget([]);
     setResults([]);
     setFetched(false);
   };
 
-  const fetchResults = useCallback(async (tags: string[], seasons: string[]) => {
-    if (tags.length === 0 && seasons.length === 0) {
+  const fetchResults = useCallback(async (tags: string[], seasons: string[], budget: string[]) => {
+    if (tags.length === 0 && seasons.length === 0 && budget.length === 0) {
       setResults([]);
       setFetched(false);
       return;
@@ -78,6 +86,7 @@ export function HelpMeChooseClient() {
       const params = new URLSearchParams();
       if (tags.length > 0) params.set('tags', tags.join(','));
       if (seasons.length > 0) params.set('seasons', seasons.join(','));
+      if (budget.length > 0) params.set('budget', budget.join(','));
       const res = await fetch(`/api/destinations/by-tags?${params.toString()}`);
       const data = await res.json();
       setResults(data.destinations ?? []);
@@ -90,11 +99,11 @@ export function HelpMeChooseClient() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => fetchResults(selected, selectedSeasons), 300);
+    const timer = setTimeout(() => fetchResults(selected, selectedSeasons, selectedBudget), 300);
     return () => clearTimeout(timer);
-  }, [selected, selectedSeasons, fetchResults]);
+  }, [selected, selectedSeasons, selectedBudget, fetchResults]);
 
-  const totalSelections = selected.length + selectedSeasons.length;
+  const totalSelections = selected.length + selectedSeasons.length + selectedBudget.length;
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
@@ -137,6 +146,31 @@ export function HelpMeChooseClient() {
                 >
                   {season.label}
                   <span className={`text-xs ${isActive ? 'opacity-80' : 'opacity-60'}`}>{season.subtitle}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Budget Tier Picker */}
+        <div>
+          <p className="text-sm font-medium text-muted-foreground mb-2">What&apos;s their budget?</p>
+          <div className="flex flex-wrap gap-2">
+            {BUDGET_TIERS.map(tier => {
+              const isActive = selectedBudget.includes(tier.slug);
+              return (
+                <button
+                  key={tier.slug}
+                  onClick={() => toggleBudget(tier.slug)}
+                  className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer hover:scale-[1.03]"
+                  style={
+                    isActive
+                      ? { backgroundColor: tier.color, color: 'white', borderColor: tier.color, boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }
+                      : { backgroundColor: `${tier.color}10`, color: tier.color, borderColor: `${tier.color}40` }
+                  }
+                >
+                  {tier.label}
+                  <span className={`text-xs ${isActive ? 'opacity-80' : 'opacity-60'}`}>{tier.description}</span>
                 </button>
               );
             })}
