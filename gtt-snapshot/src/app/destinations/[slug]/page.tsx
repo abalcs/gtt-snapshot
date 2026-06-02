@@ -21,6 +21,16 @@ import { MobilityAccessibility } from "@/components/destinations/mobility-access
 
 export const dynamic = 'force-dynamic';
 
+function formatInline(text: string): string {
+  return text
+    .replace(
+      /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[#3a5f54] font-medium underline decoration-[#3a5f54]/30 underline-offset-2 hover:decoration-[#3a5f54] transition-colors">$1</a>'
+    )
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+}
+
 export default async function DestinationDetailPage({
   params,
 }: {
@@ -110,7 +120,7 @@ export default async function DestinationDetailPage({
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#3a5f54] mt-0.5 shrink-0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               <div>
                 <h3 className="font-semibold text-[#3a5f54] text-sm">Talking Points</h3>
-                <p className="text-sm text-foreground/80 whitespace-pre-line">{destination.talking_points}</p>
+                <p className="text-sm text-foreground/80 whitespace-pre-line" dangerouslySetInnerHTML={{ __html: formatInline(destination.talking_points) }} />
               </div>
             </div>
           </CardContent>
@@ -125,7 +135,7 @@ export default async function DestinationDetailPage({
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600 mt-0.5 shrink-0"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
               <div>
                 <h3 className="font-semibold text-amber-800 text-sm">Urgency</h3>
-                <p className="text-sm text-amber-700 whitespace-pre-line">{destination.urgency}</p>
+                <p className="text-sm text-amber-700 whitespace-pre-line" dangerouslySetInnerHTML={{ __html: formatInline(destination.urgency) }} />
               </div>
             </div>
           </CardContent>
@@ -140,7 +150,7 @@ export default async function DestinationDetailPage({
               <CardTitle className="text-sm font-medium text-muted-foreground">Night Minimum</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm whitespace-pre-line">{destination.night_min}</p>
+              <p className="text-sm whitespace-pre-line" dangerouslySetInnerHTML={{ __html: formatInline(destination.night_min) }} />
             </CardContent>
           </Card>
         )}
@@ -150,7 +160,7 @@ export default async function DestinationDetailPage({
               <CardTitle className="text-sm font-medium text-muted-foreground">Solo Pricing</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm">{destination.solo_pricing}</p>
+              <p className="text-sm" dangerouslySetInnerHTML={{ __html: formatInline(destination.solo_pricing) }} />
             </CardContent>
           </Card>
         )}
@@ -160,7 +170,7 @@ export default async function DestinationDetailPage({
               <CardTitle className="text-sm font-medium text-muted-foreground">Pax Limit</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm">{destination.pax_limit}</p>
+              <p className="text-sm" dangerouslySetInnerHTML={{ __html: formatInline(destination.pax_limit) }} />
             </CardContent>
           </Card>
         )}
@@ -170,7 +180,7 @@ export default async function DestinationDetailPage({
               <CardTitle className="text-sm font-medium text-muted-foreground">How to Feature</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm">{destination.how_to_feature}</p>
+              <p className="text-sm" dangerouslySetInnerHTML={{ __html: formatInline(destination.how_to_feature) }} />
             </CardContent>
           </Card>
         )}
@@ -249,7 +259,7 @@ export default async function DestinationDetailPage({
             <h2 className="text-lg font-semibold mb-3">Accommodations</h2>
             <ul className="list-disc list-inside space-y-1 text-sm leading-relaxed">
               {destination.accommodations.split("\n").filter((l: string) => l.trim()).map((line: string, i: number) => (
-                <li key={i}>{line.trim()}</li>
+                <li key={i} dangerouslySetInnerHTML={{ __html: formatInline(line.trim()) }} />
               ))}
             </ul>
             <a
@@ -272,10 +282,10 @@ export default async function DestinationDetailPage({
           <div className="space-y-4">
             <h2 className="text-lg font-semibold">General Notes</h2>
             {destination.general_notes_1 && (
-              <p className="text-sm whitespace-pre-line leading-relaxed">{destination.general_notes_1}</p>
+              <p className="text-sm whitespace-pre-line leading-relaxed" dangerouslySetInnerHTML={{ __html: formatInline(destination.general_notes_1) }} />
             )}
             {destination.general_notes_2 && (
-              <p className="text-sm whitespace-pre-line leading-relaxed">{destination.general_notes_2}</p>
+              <p className="text-sm whitespace-pre-line leading-relaxed" dangerouslySetInnerHTML={{ __html: formatInline(destination.general_notes_2) }} />
             )}
           </div>
         </>
