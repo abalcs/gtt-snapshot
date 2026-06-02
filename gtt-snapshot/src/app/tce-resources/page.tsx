@@ -20,7 +20,7 @@ export default async function TceResourcesPage() {
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold tracking-tight">TCE Resources</h1>
         <p className="text-muted-foreground">
-          Travel Consultant Excellence training materials — search or browse by category.
+          Search or browse TCE training materials by category.
         </p>
       </div>
 
