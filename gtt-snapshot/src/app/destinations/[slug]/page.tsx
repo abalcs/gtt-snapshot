@@ -17,7 +17,7 @@ import { getConsultantsForDestination } from "@/lib/booking-calendars";
 import { invalidateCache } from "@/lib/data-cache";
 import { CountrySpecialists } from "@/components/destinations/country-specialists";
 import { MobilityAccessibility } from "@/components/destinations/mobility-accessibility";
-import { RichText } from "@/components/ui/rich-text";
+
 
 export const dynamic = 'force-dynamic';
 
@@ -110,7 +110,7 @@ export default async function DestinationDetailPage({
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#3a5f54] mt-0.5 shrink-0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               <div>
                 <h3 className="font-semibold text-[#3a5f54] text-sm">Talking Points</h3>
-                <p className="text-sm text-foreground/80 whitespace-pre-line"><RichText text={destination.talking_points} /></p>
+                <p className="text-sm text-foreground/80 whitespace-pre-line">{destination.talking_points}</p>
               </div>
             </div>
           </CardContent>
@@ -125,7 +125,7 @@ export default async function DestinationDetailPage({
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600 mt-0.5 shrink-0"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
               <div>
                 <h3 className="font-semibold text-amber-800 text-sm">Urgency</h3>
-                <p className="text-sm text-amber-700 whitespace-pre-line"><RichText text={destination.urgency} /></p>
+                <p className="text-sm text-amber-700 whitespace-pre-line">{destination.urgency}</p>
               </div>
             </div>
           </CardContent>
@@ -140,7 +140,7 @@ export default async function DestinationDetailPage({
               <CardTitle className="text-sm font-medium text-muted-foreground">Night Minimum</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm whitespace-pre-line"><RichText text={destination.night_min} /></p>
+              <p className="text-sm whitespace-pre-line">{destination.night_min}</p>
             </CardContent>
           </Card>
         )}
@@ -150,7 +150,7 @@ export default async function DestinationDetailPage({
               <CardTitle className="text-sm font-medium text-muted-foreground">Solo Pricing</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm"><RichText text={destination.solo_pricing} /></p>
+              <p className="text-sm">{destination.solo_pricing}</p>
             </CardContent>
           </Card>
         )}
@@ -160,7 +160,7 @@ export default async function DestinationDetailPage({
               <CardTitle className="text-sm font-medium text-muted-foreground">Pax Limit</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm"><RichText text={destination.pax_limit} /></p>
+              <p className="text-sm">{destination.pax_limit}</p>
             </CardContent>
           </Card>
         )}
@@ -170,7 +170,7 @@ export default async function DestinationDetailPage({
               <CardTitle className="text-sm font-medium text-muted-foreground">How to Feature</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm"><RichText text={destination.how_to_feature} /></p>
+              <p className="text-sm">{destination.how_to_feature}</p>
             </CardContent>
           </Card>
         )}
@@ -249,7 +249,7 @@ export default async function DestinationDetailPage({
             <h2 className="text-lg font-semibold mb-3">Accommodations</h2>
             <ul className="list-disc list-inside space-y-1 text-sm leading-relaxed">
               {destination.accommodations.split("\n").filter((l: string) => l.trim()).map((line: string, i: number) => (
-                <li key={i}><RichText text={line.trim()} /></li>
+                <li key={i}>{line.trim()}</li>
               ))}
             </ul>
             <a
@@ -272,10 +272,10 @@ export default async function DestinationDetailPage({
           <div className="space-y-4">
             <h2 className="text-lg font-semibold">General Notes</h2>
             {destination.general_notes_1 && (
-              <p className="text-sm whitespace-pre-line leading-relaxed"><RichText text={destination.general_notes_1} /></p>
+              <p className="text-sm whitespace-pre-line leading-relaxed">{destination.general_notes_1}</p>
             )}
             {destination.general_notes_2 && (
-              <p className="text-sm whitespace-pre-line leading-relaxed"><RichText text={destination.general_notes_2} /></p>
+              <p className="text-sm whitespace-pre-line leading-relaxed">{destination.general_notes_2}</p>
             )}
           </div>
         </>
