@@ -110,11 +110,29 @@ export interface DestinationOption {
   name: string;
 }
 
+/** Get destination slugs whose booking calendars are disabled at the destination level */
+export async function getDisabledBookingDestinations(): Promise<string[]> {
+  const cached = getCached<string[]>("booking:disabled-destinations");
+  if (cached) return cached;
+
+  try {
+    const doc = await getDb().collection("settings").doc("booking-calendars").get();
+    const data = doc.data();
+    const list = (data?.disabledDestinations as string[]) ?? [];
+    return setCache("booking:disabled-destinations", list);
+  } catch {
+    return setCache("booking:disabled-destinations", []);
+  }
+}
+
 export async function getConsultantsByRegion(): Promise<{ region: string; consultants: Consultant[]; destinationOptions: DestinationOption[] }[]> {
-  const [consultants, { continentMap, nameMap }] = await Promise.all([
+  const [consultants, { continentMap, nameMap }, globalDisabled] = await Promise.all([
     getActiveConsultants(),
     getDestSlugMaps(),
+    getDisabledBookingDestinations(),
   ]);
+
+  const globalDisabledSet = new Set(globalDisabled);
 
   return getContinentOrder()
     .map((continent) => {
@@ -123,6 +141,7 @@ export async function getConsultantsByRegion(): Promise<{ region: string; consul
         return c.destinations.some(
           (slug) =>
             !disabled.includes(slug) &&
+            !globalDisabledSet.has(slug) &&
             continentForSlug(slug, continentMap) === continent
         );
       });
@@ -132,7 +151,7 @@ export async function getConsultantsByRegion(): Promise<{ region: string; consul
       for (const c of filtered) {
         const disabled = c.disabledDestinations || [];
         for (const slug of c.destinations) {
-          if (!disabled.includes(slug) && continentForSlug(slug, continentMap) === continent) {
+          if (!disabled.includes(slug) && !globalDisabledSet.has(slug) && continentForSlug(slug, continentMap) === continent) {
             destSlugs.add(slug);
           }
         }

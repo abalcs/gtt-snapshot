@@ -24,13 +24,17 @@ interface RegionGroup {
 
 interface TaRankEntry { country: string; rank: number }
 
-export function BookingCalendarsClient({ regions, taRanks }: { regions: RegionGroup[]; taRanks: Record<string, TaRankEntry[]> }) {
+export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disabledDestinations = [] }: { regions: RegionGroup[]; taRanks: Record<string, TaRankEntry[]>; isAdmin?: boolean; disabledDestinations?: string[] }) {
   const [expandedRegions, setExpandedRegions] = useState<Set<string>>(new Set());
   const [calendarModal, setCalendarModal] = useState<{ url: string; name: string } | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [externalConfirm, setExternalConfirm] = useState<{ name: string } | null>(null);
   const [clickCounts, setClickCounts] = useState<Record<string, number>>({});
   const [destFilters, setDestFilters] = useState<Record<string, Set<string>>>({});
+  const [disabledDests, setDisabledDests] = useState<string[]>(disabledDestinations);
+  const [showDisabledPanel, setShowDisabledPanel] = useState(false);
+  const [disableInput, setDisableInput] = useState("");
+  const [toggling, setToggling] = useState(false);
 
   useEffect(() => {
     fetch("/api/booking-clicks")
@@ -120,8 +124,82 @@ export function BookingCalendarsClient({ regions, taRanks }: { regions: RegionGr
     });
   };
 
+  const handleToggleDestination = async (slug: string, action: "disable" | "enable") => {
+    setToggling(true);
+    try {
+      const res = await fetch("/api/admin/booking-settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug, action }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setDisabledDests(data.disabledDestinations);
+        if (action === "disable") setDisableInput("");
+        // Reload to reflect changes in region data
+        window.location.reload();
+      }
+    } catch { /* ignore */ }
+    setToggling(false);
+  };
+
   return (
     <>
+      {isAdmin && (
+        <div className="mb-2">
+          <button
+            onClick={() => setShowDisabledPanel(!showDisabledPanel)}
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            {showDisabledPanel ? "Hide" : "Manage"} Disabled Destinations
+            {disabledDests.length > 0 && (
+              <Badge variant="destructive" className="text-xs">{disabledDests.length} disabled</Badge>
+            )}
+          </button>
+          {showDisabledPanel && (
+            <div className="mt-3 border rounded-lg p-4 bg-amber-50/50 space-y-3">
+              <p className="text-sm text-muted-foreground">
+                Disabled destinations are hidden from regional booking calendars but remain visible in Travel Agents view.
+              </p>
+              {disabledDests.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {disabledDests.map((slug) => (
+                    <span key={slug} className="inline-flex items-center gap-1 rounded-full bg-red-100 text-red-800 px-3 py-1 text-sm font-medium">
+                      {slug}
+                      <button
+                        onClick={() => handleToggleDestination(slug, "enable")}
+                        disabled={toggling}
+                        className="ml-1 hover:text-red-600 disabled:opacity-50"
+                        title="Re-enable"
+                      >
+                        x
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Destination slug (e.g. italy)"
+                  value={disableInput}
+                  onChange={(e) => setDisableInput(e.target.value)}
+                  className="flex-1 px-3 py-1.5 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54]/30"
+                />
+                <button
+                  onClick={() => disableInput.trim() && handleToggleDestination(disableInput.trim().toLowerCase(), "disable")}
+                  disabled={toggling || !disableInput.trim()}
+                  className="px-4 py-1.5 rounded-md bg-red-600 text-white text-sm font-medium hover:bg-red-700 disabled:opacity-50 transition-colors"
+                >
+                  Disable
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="space-y-4">
         {regions.map(({ region, consultants, destinationOptions }) => {
           const activeFilters = destFilters[region];
