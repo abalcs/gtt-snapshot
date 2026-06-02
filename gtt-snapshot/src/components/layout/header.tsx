@@ -18,6 +18,12 @@ interface SpecialSectionResult {
   slug: string;
 }
 
+interface TceArticleResult {
+  title: string;
+  slug: string;
+  category: string;
+}
+
 interface HeaderProps {
   user?: { name: string; role: string };
 }
@@ -30,6 +36,7 @@ export function Header({ user }: HeaderProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResultItem[]>([]);
   const [specialResults, setSpecialResults] = useState<SpecialSectionResult[]>([]);
+  const [tceResults, setTceResults] = useState<TceArticleResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -40,6 +47,7 @@ export function Header({ user }: HeaderProps) {
     if (q.trim().length < 2) {
       setResults([]);
       setSpecialResults([]);
+      setTceResults([]);
       setIsOpen(false);
       return;
     }
@@ -48,11 +56,13 @@ export function Header({ user }: HeaderProps) {
       const data = await res.json();
       setResults(data.destinations || []);
       setSpecialResults(data.specialSections || []);
+      setTceResults(data.tceArticles || []);
       setIsOpen(true);
       setSelectedIndex(-1);
     } catch {
       setResults([]);
       setSpecialResults([]);
+      setTceResults([]);
     }
   }, []);
 
@@ -62,7 +72,7 @@ export function Header({ user }: HeaderProps) {
     debounceRef.current = setTimeout(() => doSearch(value), 300);
   };
 
-  const totalResults = results.length + specialResults.length;
+  const totalResults = results.length + specialResults.length + tceResults.length;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowDown") {
@@ -77,9 +87,14 @@ export function Header({ user }: HeaderProps) {
         router.push(`/destinations/${results[selectedIndex].slug}`);
         setIsOpen(false);
         setQuery("");
-      } else if (selectedIndex >= results.length && selectedIndex < totalResults) {
+      } else if (selectedIndex >= results.length && selectedIndex < results.length + specialResults.length) {
         const idx = selectedIndex - results.length;
         router.push(`/special/${specialResults[idx].slug}`);
+        setIsOpen(false);
+        setQuery("");
+      } else if (selectedIndex >= results.length + specialResults.length && selectedIndex < totalResults) {
+        const idx = selectedIndex - results.length - specialResults.length;
+        router.push(`/tce-resources#${tceResults[idx].slug}`);
         setIsOpen(false);
         setQuery("");
       } else if (query.trim()) {
@@ -160,7 +175,7 @@ export function Header({ user }: HeaderProps) {
             onChange={(e) => handleChange(e.target.value)}
             onKeyDown={handleKeyDown}
             onFocus={() => {
-              if (results.length > 0 || specialResults.length > 0) setIsOpen(true);
+              if (results.length > 0 || specialResults.length > 0 || tceResults.length > 0) setIsOpen(true);
             }}
             className="pl-10 pr-16 rounded-full bg-[#f1f6f3] border-transparent focus-within:bg-white focus-within:border-border transition-colors"
           />
@@ -169,7 +184,7 @@ export function Header({ user }: HeaderProps) {
           </kbd>
         </div>
 
-        {isOpen && (results.length > 0 || specialResults.length > 0) && (
+        {isOpen && (results.length > 0 || specialResults.length > 0 || tceResults.length > 0) && (
           <div
             ref={dropdownRef}
             className="absolute top-full left-0 right-0 z-50 mt-1 rounded-lg border bg-white/95 backdrop-blur-sm shadow-[var(--shadow-lg)] max-h-80 overflow-y-auto"
@@ -223,6 +238,28 @@ export function Header({ user }: HeaderProps) {
                     }`}
                   >
                     {s.title}
+                  </Link>
+                ))}
+              </div>
+            )}
+            {tceResults.length > 0 && (
+              <div className="p-1 border-t">
+                <div className="px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                  TCE Resources
+                </div>
+                {tceResults.slice(0, 5).map((t, i) => (
+                  <Link
+                    key={t.slug}
+                    href={`/tce-resources#${t.slug}`}
+                    onClick={() => {
+                      setIsOpen(false);
+                      setQuery("");
+                    }}
+                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-accent ${
+                      i + results.length + specialResults.length === selectedIndex ? "bg-accent" : ""
+                    }`}
+                  >
+                    {t.title}
                   </Link>
                 ))}
               </div>

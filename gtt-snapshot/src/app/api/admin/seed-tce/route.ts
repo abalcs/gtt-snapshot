@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { validateSession } from "@/lib/user-queries";
 import { getDb } from "@/../db/database";
 import { TCE_ARTICLES } from "@/lib/tce-data";
+import { invalidateCache } from "@/lib/data-cache";
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,6 +40,7 @@ export async function POST(request: NextRequest) {
     }
 
     await batch.commit();
+    invalidateCache("tce-articles");
 
     return NextResponse.json({ success: true, count: TCE_ARTICLES.length });
   } catch {
