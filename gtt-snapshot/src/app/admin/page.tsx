@@ -48,6 +48,9 @@ export default async function AdminPage() {
           <Link href="/admin/email-templates">
             <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Email Templates</Button>
           </Link>
+          <Link href="/admin/tce-articles">
+            <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">TCE Resources</Button>
+          </Link>
           <Link href="/admin/feedback" className="relative">
             <Button variant="outline" className="bg-white/90 hover:bg-white border-white/30">Feedback</Button>
             {newFeedbackCount > 0 && (
