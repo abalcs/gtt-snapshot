@@ -124,8 +124,11 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
     });
   };
 
+  const [statusMsg, setStatusMsg] = useState("");
+
   const handleToggleDestination = async (slug: string, action: "disable" | "enable") => {
     setToggling(true);
+    setStatusMsg("");
     try {
       const res = await fetch("/api/admin/booking-settings", {
         method: "PUT",
@@ -136,10 +139,13 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
       if (data.success) {
         setDisabledDests(data.disabledDestinations);
         if (action === "disable") setDisableInput("");
-        // Reload to reflect changes in region data
-        window.location.reload();
+        setStatusMsg(action === "disable" ? `"${slug}" disabled. Refresh to see changes.` : `"${slug}" re-enabled. Refresh to see changes.`);
+      } else {
+        setStatusMsg(`Error: ${data.error || "Something went wrong"}`);
       }
-    } catch { /* ignore */ }
+    } catch (err) {
+      setStatusMsg(`Error: ${err instanceof Error ? err.message : "Network error"}`);
+    }
     setToggling(false);
   };
 
@@ -162,16 +168,21 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
               <p className="text-sm text-muted-foreground">
                 Disabled destinations are hidden from regional booking calendars but remain visible in Travel Agents view.
               </p>
+              {statusMsg && (
+                <p className={`text-sm font-medium ${statusMsg.startsWith("Error") ? "text-red-600" : "text-green-700"}`}>
+                  {statusMsg}
+                </p>
+              )}
               {disabledDests.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {disabledDests.map((slug) => (
-                    <span key={slug} className="inline-flex items-center gap-1 rounded-full bg-red-100 text-red-800 px-3 py-1 text-sm font-medium">
+                    <span key={slug} className="inline-flex items-center gap-2 rounded-full bg-red-100 text-red-800 px-3 py-1.5 text-sm font-medium">
                       {slug}
                       <button
                         onClick={() => handleToggleDestination(slug, "enable")}
                         disabled={toggling}
-                        className="ml-1 hover:text-red-600 disabled:opacity-50"
-                        title="Re-enable"
+                        className="inline-flex items-center justify-center rounded-full bg-red-200 hover:bg-red-300 h-5 w-5 text-red-700 text-xs font-bold disabled:opacity-50 transition-colors"
+                        title={`Re-enable ${slug}`}
                       >
                         x
                       </button>
