@@ -176,6 +176,15 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
               </div>
             </div>
             <Link
+              href="/country-specialists"
+              className={cn(
+                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                pathname === "/country-specialists" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
+              )}
+            >
+              Country Specialists
+            </Link>
+            <Link
               href="/email-templates"
               className={cn(
                 "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
