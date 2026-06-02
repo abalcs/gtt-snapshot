@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireAuth } from "@/lib/admin-auth";
 import { getConsultantsByRegion, getTaRanksByConsultant, getDisabledBookingDestinations } from "@/lib/booking-calendars";
+import { getAllDestinations } from "@/lib/queries";
 import { invalidateCache } from "@/lib/data-cache";
 import { BookingCalendarsClient } from "./booking-calendars-client";
 
@@ -9,11 +10,15 @@ export const dynamic = "force-dynamic";
 export default async function BookingCalendarsPage() {
   const user = await requireAuth();
   invalidateCache("consultants");
-  const [regions, taRanks, disabledDests] = await Promise.all([
+  const isAdmin = user.role === "admin";
+  const [regions, taRanks, disabledDests, allDests] = await Promise.all([
     getConsultantsByRegion(),
     getTaRanksByConsultant(),
-    user.role === "admin" ? getDisabledBookingDestinations() : Promise.resolve([]),
+    isAdmin ? getDisabledBookingDestinations() : Promise.resolve([]),
+    isAdmin ? getAllDestinations() : Promise.resolve([]),
   ]);
+
+  const destOptions = allDests.map((d) => ({ slug: d.slug, name: d.name })).sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
@@ -26,7 +31,7 @@ export default async function BookingCalendarsPage() {
         <h1 className="text-3xl font-bold tracking-tight">Booking Calendars</h1>
       </div>
 
-      <BookingCalendarsClient regions={regions} taRanks={taRanks} isAdmin={user.role === "admin"} disabledDestinations={disabledDests} />
+      <BookingCalendarsClient regions={regions} taRanks={taRanks} isAdmin={isAdmin} disabledDestinations={disabledDests} allDestinations={destOptions} />
     </div>
   );
 }

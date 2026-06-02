@@ -24,7 +24,9 @@ interface RegionGroup {
 
 interface TaRankEntry { country: string; rank: number }
 
-export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disabledDestinations = [] }: { regions: RegionGroup[]; taRanks: Record<string, TaRankEntry[]>; isAdmin?: boolean; disabledDestinations?: string[] }) {
+interface DestOption { slug: string; name: string }
+
+export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disabledDestinations = [], allDestinations = [] }: { regions: RegionGroup[]; taRanks: Record<string, TaRankEntry[]>; isAdmin?: boolean; disabledDestinations?: string[]; allDestinations?: DestOption[] }) {
   const [expandedRegions, setExpandedRegions] = useState<Set<string>>(new Set());
   const [calendarModal, setCalendarModal] = useState<{ url: string; name: string } | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -175,32 +177,40 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
               )}
               {disabledDests.length > 0 && (
                 <div className="flex flex-wrap gap-2">
-                  {disabledDests.map((slug) => (
+                  {disabledDests.map((slug) => {
+                    const destName = allDestinations.find((d) => d.slug === slug)?.name ?? slug;
+                    return (
                     <span key={slug} className="inline-flex items-center gap-2 rounded-full bg-red-100 text-red-800 px-3 py-1.5 text-sm font-medium">
-                      {slug}
+                      {destName}
                       <button
                         onClick={() => handleToggleDestination(slug, "enable")}
                         disabled={toggling}
                         className="inline-flex items-center justify-center rounded-full bg-red-200 hover:bg-red-300 h-5 w-5 text-red-700 text-xs font-bold disabled:opacity-50 transition-colors"
-                        title={`Re-enable ${slug}`}
+                        title={`Re-enable ${destName}`}
                       >
                         x
                       </button>
                     </span>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
               <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Destination slug (e.g. italy)"
+                <select
                   value={disableInput}
                   onChange={(e) => setDisableInput(e.target.value)}
-                  className="flex-1 px-3 py-1.5 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54]/30"
-                />
+                  className="flex-1 px-3 py-1.5 border rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#3a5f54]/30"
+                >
+                  <option value="">Select a destination to disable...</option>
+                  {allDestinations
+                    .filter((d) => !disabledDests.includes(d.slug))
+                    .map((d) => (
+                      <option key={d.slug} value={d.slug}>{d.name}</option>
+                    ))}
+                </select>
                 <button
-                  onClick={() => disableInput.trim() && handleToggleDestination(disableInput.trim().toLowerCase(), "disable")}
-                  disabled={toggling || !disableInput.trim()}
+                  onClick={() => disableInput && handleToggleDestination(disableInput, "disable")}
+                  disabled={toggling || !disableInput}
                   className="px-4 py-1.5 rounded-md bg-red-600 text-white text-sm font-medium hover:bg-red-700 disabled:opacity-50 transition-colors"
                 >
                   Disable
