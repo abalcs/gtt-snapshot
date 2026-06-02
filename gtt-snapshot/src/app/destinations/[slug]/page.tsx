@@ -21,8 +21,14 @@ import { MobilityAccessibility } from "@/components/destinations/mobility-access
 
 export const dynamic = 'force-dynamic';
 
-function formatInline(text: string): string {
-  return text
+function formatInline(text: unknown): string {
+  if (!text) return "";
+  const str = String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+  return str
     .replace(
       /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
       '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[#3a5f54] font-medium underline decoration-[#3a5f54]/30 underline-offset-2 hover:decoration-[#3a5f54] transition-colors">$1</a>'
