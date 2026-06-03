@@ -61,6 +61,17 @@ function MarkdownContent({ content, searchQuery }: { content: string; searchQuer
         <h1 key={key++} className="text-xl font-bold mt-6 mb-3"
           dangerouslySetInnerHTML={{ __html: highlightText(formatInline(trimmed.slice(2)), searchQuery) }} />
       );
+    } else if (/^!\[.*?\]\(.+?\)$/.test(trimmed)) {
+      flushList();
+      const imgMatch = trimmed.match(/^!\[([^\]]*)\]\((.+?)\)$/);
+      if (imgMatch) {
+        elements.push(
+          <div key={key++} className="my-3">
+            <img src={imgMatch[2]} alt={imgMatch[1]} className="rounded-lg border shadow-sm max-w-full" />
+            {imgMatch[1] && <p className="text-xs text-muted-foreground mt-1">{imgMatch[1]}</p>}
+          </div>
+        );
+      }
     } else if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
       currentList.push(trimmed.slice(2));
     } else if (/^\d+\.\s/.test(trimmed)) {
