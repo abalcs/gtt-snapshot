@@ -47,19 +47,19 @@ function MarkdownContent({ content, searchQuery }: { content: string; searchQuer
       flushList();
       elements.push(
         <h3 key={key++} className="text-base font-semibold mt-4 mb-2"
-          dangerouslySetInnerHTML={{ __html: highlightText(trimmed.slice(4), searchQuery) }} />
+          dangerouslySetInnerHTML={{ __html: highlightText(formatInline(trimmed.slice(4)), searchQuery) }} />
       );
     } else if (trimmed.startsWith("## ")) {
       flushList();
       elements.push(
         <h2 key={key++} className="text-lg font-semibold mt-5 mb-2"
-          dangerouslySetInnerHTML={{ __html: highlightText(trimmed.slice(3), searchQuery) }} />
+          dangerouslySetInnerHTML={{ __html: highlightText(formatInline(trimmed.slice(3)), searchQuery) }} />
       );
     } else if (trimmed.startsWith("# ")) {
       flushList();
       elements.push(
         <h1 key={key++} className="text-xl font-bold mt-6 mb-3"
-          dangerouslySetInnerHTML={{ __html: highlightText(trimmed.slice(2), searchQuery) }} />
+          dangerouslySetInnerHTML={{ __html: highlightText(formatInline(trimmed.slice(2)), searchQuery) }} />
       );
     } else if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
       currentList.push(trimmed.slice(2));
