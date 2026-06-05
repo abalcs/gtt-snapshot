@@ -16,6 +16,14 @@ function highlightText(text: string, query: string): string {
   return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark class="bg-yellow-200 rounded px-0.5">$1</mark>');
 }
 
+function parseTableRow(row: string): string[] {
+  return row.split("|").slice(1, -1).map((cell) => cell.trim());
+}
+
+function isTableSeparator(line: string): boolean {
+  return /^\|[\s\-:|]+\|$/.test(line);
+}
+
 function MarkdownContent({ content, searchQuery }: { content: string; searchQuery: string }) {
   const lines = content.split("\n");
   const elements: React.ReactNode[] = [];
@@ -35,11 +43,55 @@ function MarkdownContent({ content, searchQuery }: { content: string; searchQuer
     }
   };
 
-  for (const line of lines) {
-    const trimmed = line.trim();
+  let i = 0;
+  while (i < lines.length) {
+    const trimmed = lines[i].trim();
 
     if (!trimmed) {
       flushList();
+      i++;
+      continue;
+    }
+
+    // Table detection: line starts and ends with | and next line is separator
+    if (trimmed.startsWith("|") && trimmed.endsWith("|") && i + 1 < lines.length && isTableSeparator(lines[i + 1].trim())) {
+      flushList();
+      const headerCells = parseTableRow(trimmed);
+      i += 2; // skip header and separator
+      const bodyRows: string[][] = [];
+      while (i < lines.length) {
+        const rowLine = lines[i].trim();
+        if (rowLine.startsWith("|") && rowLine.endsWith("|")) {
+          bodyRows.push(parseTableRow(rowLine));
+          i++;
+        } else {
+          break;
+        }
+      }
+      elements.push(
+        <div key={key++} className="my-4 overflow-x-auto">
+          <table className="w-full text-sm border-collapse border border-border rounded-lg">
+            <thead>
+              <tr className="bg-muted/50">
+                {headerCells.map((cell, ci) => (
+                  <th key={ci} className="border border-border px-3 py-2 text-left font-semibold"
+                    dangerouslySetInnerHTML={{ __html: highlightText(formatInline(cell), searchQuery) }} />
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {bodyRows.map((row, ri) => (
+                <tr key={ri} className={ri % 2 === 0 ? "bg-white" : "bg-muted/30"}>
+                  {row.map((cell, ci) => (
+                    <td key={ci} className="border border-border px-3 py-2"
+                      dangerouslySetInnerHTML={{ __html: highlightText(formatInline(cell), searchQuery) }} />
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
       continue;
     }
 
@@ -83,6 +135,7 @@ function MarkdownContent({ content, searchQuery }: { content: string; searchQuer
           dangerouslySetInnerHTML={{ __html: highlightText(formatInline(trimmed), searchQuery) }} />
       );
     }
+    i++;
   }
   flushList();
 
