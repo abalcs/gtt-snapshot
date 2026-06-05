@@ -35,7 +35,9 @@ const CLIENT_PORTAL_ARTICLE = {
 
 ![Auth0 User Detail — Verified/Unverified status](/images/tce/auth0-verified.png)
 
-**If it is not verified and the client needs to be resent the email, you can do that with the drop-down menu.**
+**If it is not verified and the client needs to be resent the email, you can do that with the Actions drop-down menu as shown below.**
+
+![Auth0 Actions — Send Verification Email](/images/tce/auth0-resend-email.png)
 
 **Video Demo:** Recap: Client Portal — clients not being able to log in (Thursday, June 4 | Microsoft Teams)
 
@@ -45,13 +47,21 @@ const CLIENT_PORTAL_ARTICLE = {
 
 **Step one:** Log into the portal
 
-**Step two:** Click on the airplane icon
+**Step two:** Click on the airplane icon as seen below
+
+![Click the airplane icon to view trips](/images/tce/portal-trips-icon.png)
 
 **Step three:** Click on the trip you want to share
 
+![Click View Trip](/images/tce/portal-view-trip.png)
+
 **Step four:** Click on **Invite Passengers**
 
+![Click Invite Passengers](/images/tce/portal-invite-passengers.png)
+
 **Step five:** Client can type in the name and email of the travel companion they want to share with
+
+![Enter passenger name and email](/images/tce/portal-passenger-details.png)
 
 ## POC Structure with Email Templates
 
