@@ -21,11 +21,19 @@ const CLIENT_PORTAL_ARTICLE = {
 
 ## How to Diagnose a Client Not Being Able to Sign In
 
-**Step One:** Log on to [Auth0](https://manage.auth0.com/)
+**Step One:** Log on to [Auth0](https://manage.auth0.com/) and navigate to User Management > Users
+
+![Auth0 Dashboard — User Management](/images/tce/auth0-dashboard.png)
 
 **Step Two:** Search for the client email
 
+![Auth0 Users — Search for client email](/images/tce/auth0-search.png)
+
+![Auth0 Users — Search result](/images/tce/auth0-search-result.png)
+
 **Step Three:** Check if the client is Verified or Unverified
+
+![Auth0 User Detail — Verified/Unverified status](/images/tce/auth0-verified.png)
 
 **If it is not verified and the client needs to be resent the email, you can do that with the drop-down menu.**
 
@@ -143,16 +151,10 @@ export async function POST(request: NextRequest) {
     }
 
     const docRef = getDb().collection("tce-articles").doc(CLIENT_PORTAL_ARTICLE.slug);
-    const doc = await docRef.get();
-
-    if (doc.exists) {
-      return NextResponse.json({ success: true, status: "already exists" });
-    }
-
-    await docRef.set(CLIENT_PORTAL_ARTICLE);
+    await docRef.set({ ...CLIENT_PORTAL_ARTICLE, updated_at: new Date().toISOString() }, { merge: true });
     invalidateCache("tce-articles");
 
-    return NextResponse.json({ success: true, status: "created" });
+    return NextResponse.json({ success: true, status: "updated" });
   } catch (err) {
     console.error("migrate-client-portal error:", err);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
