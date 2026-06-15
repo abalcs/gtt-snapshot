@@ -294,8 +294,9 @@ export function StopSellManagement() {
 
       {/* Edit dialog */}
       {editSlug && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setEditSlug(null)}>
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg mx-4 space-y-4" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50" onClick={() => setEditSlug(null)}>
+          <div className="flex min-h-full items-center justify-center p-4">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg space-y-4" onClick={(e) => e.stopPropagation()}>
             <h2 className="text-lg font-semibold">
               Edit Stop Sell — {entries.find((e) => e.slug === editSlug)?.name}
             </h2>
@@ -341,6 +342,7 @@ export function StopSellManagement() {
               <Button variant="outline" onClick={() => setEditSlug(null)}>Cancel</Button>
               <Button onClick={saveEdit} disabled={saving}>{saving ? "Saving..." : "Save"}</Button>
             </div>
+          </div>
           </div>
         </div>
       )}
