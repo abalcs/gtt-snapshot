@@ -47,6 +47,8 @@ export interface Destination {
   walking_required: number | null;
   altitude_concern: number | null;
   mobility_notes: string | null;
+  stop_sell_expires: string | null;
+  stop_sell_note: string | null;
 }
 
 export interface DestinationWithRegion extends Destination {}

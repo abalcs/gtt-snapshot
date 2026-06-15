@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getAllDestinations, getAllRegions, getAllSpecialSections } from "@/lib/queries";
+import { getAllDestinations, getAllDestinationsAdmin, getAllRegions, getAllSpecialSections } from "@/lib/queries";
 import { AdminList } from "@/components/admin/admin-list";
 import { requireAdmin } from "@/lib/admin-auth";
 import { getDb } from "@/../db/database";
@@ -11,12 +11,21 @@ export const dynamic = 'force-dynamic';
 export default async function AdminPage() {
   await requireAdmin();
   const [destinations, regions, specialSections, feedbackSnap] = await Promise.all([
-    getAllDestinations(),
+    getAllDestinationsAdmin(),
     getAllRegions(),
     getAllSpecialSections(),
     getDb().collection("feedback").where("status", "==", "new").get(),
   ]);
   const newFeedbackCount = feedbackSnap.size;
+
+  // Count expired stop sells
+  const today = new Date().toISOString().split("T")[0];
+  let expiredStopSellCount = 0;
+  for (const dest of destinations) {
+    if (dest.stop_sell_expires && dest.stop_sell_expires < today) {
+      expiredStopSellCount++;
+    }
+  }
 
   // Sort destinations alphabetically by name
   const sorted = [...destinations].sort((a, b) => a.name.localeCompare(b.name));
@@ -55,6 +64,14 @@ export default async function AdminPage() {
             </Link>
             <Link href="/admin/tce-articles">
               <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">TCE Resources</Button>
+            </Link>
+            <Link href="/admin/stop-sells" className="relative">
+              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Stop Sells</Button>
+              {expiredStopSellCount > 0 && (
+                <span className="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-bold text-white">
+                  {expiredStopSellCount}
+                </span>
+              )}
             </Link>
             <Link href="/admin/feedback" className="relative">
               <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Feedback</Button>

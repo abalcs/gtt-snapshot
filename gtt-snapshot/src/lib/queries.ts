@@ -69,6 +69,8 @@ function docToDestination(id: string, data: FirebaseFirestore.DocumentData): Des
     walking_required: data.walking_required ?? null,
     altitude_concern: data.altitude_concern ?? null,
     mobility_notes: data.mobility_notes ?? null,
+    stop_sell_expires: data.stop_sell_expires ?? null,
+    stop_sell_note: data.stop_sell_note ?? null,
   };
 }
 
@@ -133,6 +135,19 @@ export async function getAllDestinations(): Promise<DestinationWithRegion[]> {
   });
 
   return setCache('destinations:all', destinations);
+}
+
+export async function getAllDestinationsAdmin(): Promise<DestinationWithRegion[]> {
+  const snap = await db().collection('destinations').get();
+
+  const destinations = snap.docs.map(doc => docToDestination(doc.id, doc.data()));
+  destinations.sort((a, b) => {
+    const regionCmp = (a.region_name || '').localeCompare(b.region_name || '');
+    if (regionCmp !== 0) return regionCmp;
+    return a.name.localeCompare(b.name);
+  });
+
+  return destinations;
 }
 
 export async function getDestinationsByRegion(regionSlug: string): Promise<DestinationWithRegion[]> {
@@ -380,6 +395,8 @@ export async function createDestination(data: Partial<Destination> & { region_id
     walking_required: data.walking_required ?? null,
     altitude_concern: data.altitude_concern ?? null,
     mobility_notes: data.mobility_notes ?? null,
+    stop_sell_expires: data.stop_sell_expires ?? null,
+    stop_sell_note: data.stop_sell_note ?? null,
     search_tokens: generateSearchTokens({
       ...data,
       region_name: regionData.name as string,

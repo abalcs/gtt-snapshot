@@ -161,6 +161,8 @@ export function DestinationForm({ destination, regions }: Props) {
   const [walkingRequired, setWalkingRequired] = useState<number | null>(destination?.walking_required ?? null);
   const [altitudeConcern, setAltitudeConcern] = useState<number | null>(destination?.altitude_concern ?? null);
   const [mobilityNotes, setMobilityNotes] = useState(destination?.mobility_notes || "");
+  const [stopSellExpires, setStopSellExpires] = useState(destination?.stop_sell_expires || "");
+  const [stopSellNote, setStopSellNote] = useState(destination?.stop_sell_note || "");
 
   // Seasonality
   const existingSeasonality: SeasonalityForm[] = (() => {
@@ -290,6 +292,8 @@ export function DestinationForm({ destination, regions }: Props) {
       walking_required: walkingRequired,
       altitude_concern: altitudeConcern,
       mobility_notes: mobilityNotes || null,
+      stop_sell_expires: stopSellExpires || null,
+      stop_sell_note: stopSellNote || null,
       pricing_tiers: [
         { tier_label: "Peak", price_per_week: seasonPricing.peak || null, notes: seasonPricing.peakNotes || null, sort_order: 0 },
         { tier_label: "Shoulder", price_per_week: seasonPricing.shoulder || null, notes: seasonPricing.shoulderNotes || null, sort_order: 1 },
@@ -518,6 +522,36 @@ export function DestinationForm({ destination, regions }: Props) {
           <div>
             <Label htmlFor="generalNotes2">General Notes 2</Label>
             <Textarea id="generalNotes2" value={generalNotes2} onChange={(e) => setGeneralNotes2(e.target.value)} rows={4} />
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Stop Sell */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Stop Sell</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="stopSellExpires">Expiration Date</Label>
+              <Input
+                id="stopSellExpires"
+                type="date"
+                value={stopSellExpires}
+                onChange={(e) => setStopSellExpires(e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground mt-1">When should this stop sell expire?</p>
+            </div>
+            <div>
+              <Label htmlFor="stopSellNote">Stop Sell Note</Label>
+              <Input
+                id="stopSellNote"
+                value={stopSellNote}
+                onChange={(e) => setStopSellNote(e.target.value)}
+                placeholder="Reason for stop sell..."
+              />
+            </div>
           </div>
         </CardContent>
       </Card>

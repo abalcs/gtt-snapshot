@@ -141,6 +141,30 @@ export default async function DestinationDetailPage({
               <div>
                 <h3 className="font-semibold text-amber-800 text-sm">Urgency</h3>
                 <p className="text-sm text-amber-700 whitespace-pre-line" dangerouslySetInnerHTML={{ __html: formatInline(destination.urgency) }} />
+                {destination.stop_sell_expires && (
+                  <p className="text-xs text-amber-600 mt-1">
+                    Stop sell expires: {destination.stop_sell_expires}
+                    {destination.stop_sell_note && ` — ${destination.stop_sell_note}`}
+                  </p>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Standalone Stop Sell card (when stop_sell_expires is set but no urgency text) */}
+      {!destination.urgency && destination.stop_sell_expires && (
+        <Card className="border-l-4 border-l-red-500 bg-white">
+          <CardContent className="pt-4 pb-4">
+            <div className="flex items-start gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-600 mt-0.5 shrink-0"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
+              <div>
+                <h3 className="font-semibold text-red-800 text-sm">Stop Sell</h3>
+                <p className="text-sm text-red-700">
+                  Expires: {destination.stop_sell_expires}
+                  {destination.stop_sell_note && ` — ${destination.stop_sell_note}`}
+                </p>
               </div>
             </div>
           </CardContent>
