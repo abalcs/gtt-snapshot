@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 interface SidebarContinent {
   name: string;
-  destinations: { name: string; slug: string; regionSlug: string; regionName: string }[];
+  destinations: { name: string; slug: string; regionSlug: string; regionName: string; status: string }[];
 }
 
 interface SidebarData {
@@ -234,12 +234,16 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
                         key={dest.slug}
                         href={`/destinations/${dest.slug}`}
                         className={cn(
-                          "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                          "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
                           pathname === `/destinations/${dest.slug}` &&
-                            "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
+                            "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]",
+                          dest.status === "stop_sell" && "text-red-300/90"
                         )}
                       >
                         {dest.name}
+                        {dest.status === "stop_sell" && (
+                          <span className="shrink-0 rounded bg-red-500/80 px-1 py-px text-[10px] font-bold leading-tight text-white uppercase">Stop</span>
+                        )}
                       </Link>
                     ))}
                   </div>

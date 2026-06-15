@@ -92,7 +92,7 @@ export async function getAllRegions(): Promise<RegionWithCount[]> {
 
   const [regionsSnap, destsSnap] = await Promise.all([
     db().collection('regions').orderBy('sort_order').get(),
-    db().collection('destinations').where('status', '==', 'active').get(),
+    db().collection('destinations').where('status', 'in', ['active', 'stop_sell']).get(),
   ]);
 
   // Count destinations per region
@@ -123,7 +123,7 @@ export async function getAllDestinations(): Promise<DestinationWithRegion[]> {
   if (cached) return cached;
 
   const snap = await db().collection('destinations')
-    .where('status', '==', 'active')
+    .where('status', 'in', ['active', 'stop_sell'])
     .get();
 
   const destinations = snap.docs.map(doc => docToDestination(doc.id, doc.data()));
@@ -153,7 +153,7 @@ export async function getAllDestinationsAdmin(): Promise<DestinationWithRegion[]
 export async function getDestinationsByRegion(regionSlug: string): Promise<DestinationWithRegion[]> {
   const snap = await db().collection('destinations')
     .where('region_slug', '==', regionSlug)
-    .where('status', '==', 'active')
+    .where('status', 'in', ['active', 'stop_sell'])
     .get();
 
   const destinations = snap.docs.map(doc => docToDestination(doc.id, doc.data()));
@@ -249,9 +249,9 @@ export async function searchDestinations(query: string, limit = 20): Promise<Sea
 
   const queryWords = sanitized.split(/\s+/).filter(Boolean);
 
-  // Fetch all active destinations and filter in memory (~150 docs)
+  // Fetch all visible destinations and filter in memory (~150 docs)
   const snap = await db().collection('destinations')
-    .where('status', '==', 'active')
+    .where('status', 'in', ['active', 'stop_sell'])
     .get();
 
   const results: SearchResult[] = [];
@@ -523,7 +523,7 @@ export async function getDestinationsByTags(tagSlugs: string[], seasonSlugs?: st
   if (tagSlugs.length === 0 && (!seasonSlugs || seasonSlugs.length === 0) && (!budgetSlugs || budgetSlugs.length === 0)) return [];
 
   const snap = await db().collection('destinations')
-    .where('status', '==', 'active')
+    .where('status', 'in', ['active', 'stop_sell'])
     .get();
 
   const results: DestinationWithRegion[] = [];
@@ -619,25 +619,25 @@ export async function deleteTagDefinition(slug: string): Promise<void> {
 
 // ── Sidebar Data ─────────────────────────────────────────
 
-export async function getSidebarData(): Promise<{ regions: (Region & { destinations: { name: string; slug: string }[] })[]; specialSections: { title: string; slug: string }[] }> {
-  type SidebarResult = { regions: (Region & { destinations: { name: string; slug: string }[] })[]; specialSections: { title: string; slug: string }[] };
+export async function getSidebarData(): Promise<{ regions: (Region & { destinations: { name: string; slug: string; status: string }[] })[]; specialSections: { title: string; slug: string }[] }> {
+  type SidebarResult = { regions: (Region & { destinations: { name: string; slug: string; status: string }[] })[]; specialSections: { title: string; slug: string }[] };
   const cached = getCached<SidebarResult>('sidebar');
   if (cached) return cached;
 
   const [regionsSnap, destsSnap, specialSnap] = await Promise.all([
     db().collection('regions').orderBy('sort_order').get(),
-    db().collection('destinations').where('status', '==', 'active').get(),
+    db().collection('destinations').where('status', 'in', ['active', 'stop_sell']).get(),
     db().collection('special_sections').get(),
   ]);
 
   const regions = regionsSnap.docs.map(doc => docToRegion(doc.id, doc.data()));
 
-  const destsByRegion = new Map<string, { name: string; slug: string }[]>();
+  const destsByRegion = new Map<string, { name: string; slug: string; status: string }[]>();
   for (const doc of destsSnap.docs) {
     const d = doc.data();
     const regionSlug = d.region_slug as string;
     if (!destsByRegion.has(regionSlug)) destsByRegion.set(regionSlug, []);
-    destsByRegion.get(regionSlug)!.push({ name: d.name, slug: d.slug });
+    destsByRegion.get(regionSlug)!.push({ name: d.name, slug: d.slug, status: (d.status as string) || 'active' });
   }
 
   // Sort destinations within each region

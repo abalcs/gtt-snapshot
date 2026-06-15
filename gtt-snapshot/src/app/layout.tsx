@@ -31,7 +31,7 @@ async function fetchSidebarData() {
     const data = await getSidebarData();
     const continentOrder = getContinentOrder();
 
-    const continentMap = new Map<string, { name: string; slug: string; regionSlug: string; regionName: string }[]>();
+    const continentMap = new Map<string, { name: string; slug: string; regionSlug: string; regionName: string; status: string }[]>();
 
     for (const region of data.regions) {
       for (const dest of region.destinations) {
@@ -44,6 +44,7 @@ async function fetchSidebarData() {
           slug: dest.slug,
           regionSlug: region.slug,
           regionName: region.name,
+          status: dest.status,
         });
       }
     }
