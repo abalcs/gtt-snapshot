@@ -161,10 +161,12 @@ const SLUG_DISPLAY_OVERRIDES: Record<string, string> = {
   'sardinia': 'Italy',
 };
 
-function buildTeamCountriesDisplay(destinations: string[], teamSlugs: Set<string>, nameMap: Map<string, string>): string {
+function buildTeamCountriesDisplay(destinations: string[], teamSlugs: Set<string>, nameMap: Map<string, string>, disabledSlugs: Set<string>, consultantDisabled: string[]): string {
   const names = new Set<string>();
   for (const slug of destinations) {
     if (!teamSlugs.has(slug)) continue;
+    if (disabledSlugs.has(slug)) continue;
+    if (consultantDisabled.includes(slug)) continue;
     const displayName = SLUG_DISPLAY_OVERRIDES[slug] ?? nameMap.get(slug) ?? slugToDisplayName(slug);
     names.add(displayName);
   }
@@ -194,7 +196,7 @@ export async function getConsultantsByRegion(): Promise<{ region: string; consul
         })
         .map((c) => ({
           ...c,
-          countriesDisplay: buildTeamCountriesDisplay(c.destinations, team.slugs, nameMap),
+          countriesDisplay: buildTeamCountriesDisplay(c.destinations, team.slugs, nameMap, globalDisabledSet, c.disabledDestinations || []),
         }));
 
       // Collect unique enabled destination slugs for this team
