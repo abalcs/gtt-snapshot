@@ -75,7 +75,7 @@ async function getDestSlugMaps(): Promise<{ continentMap: Map<string, string>; n
   try {
     const snap = await getDb()
       .collection("destinations")
-      .where("status", "==", "active")
+      .where("status", "in", ["active", "stop_sell"])
       .get();
 
     for (const doc of snap.docs) {
@@ -125,8 +125,28 @@ export async function getDisabledBookingDestinations(): Promise<string[]> {
   }
 }
 
+// Team-based groupings for the Regions booking calendar page
+const BOOKING_TEAMS: { name: string; slugs: Set<string> }[] = [
+  {
+    name: 'ESE',
+    slugs: new Set(['greece', 'italy', 'sardinia', 'sweden', 'croatia', 'denmark', 'norway']),
+  },
+  {
+    name: 'CANAL',
+    slugs: new Set(['canada-east', 'canada-west', 'chile', 'costa-rica', 'mexico', 'argentina', 'brazil', 'belize', 'usa-hawaii', 'usa-california', 'usa-new-england', 'usa-national-parks', 'usa-alaska']),
+  },
+  {
+    name: 'ASIA',
+    slugs: new Set(['india', 'uzbekistan', 'china', 'south-korea', 'kyrgyzstan']),
+  },
+  {
+    name: 'WEMEA',
+    slugs: new Set(['kenya', 'tanzania', 'morocco', 'uae', 'south-africa', 'egypt', 'jordan', 'ireland', 'scotland', 'england']),
+  },
+];
+
 export async function getConsultantsByRegion(): Promise<{ region: string; consultants: Consultant[]; destinationOptions: DestinationOption[] }[]> {
-  const [consultants, { continentMap, nameMap }, globalDisabled] = await Promise.all([
+  const [consultants, { nameMap }, globalDisabled] = await Promise.all([
     getActiveConsultants(),
     getDestSlugMaps(),
     getDisabledBookingDestinations(),
@@ -134,24 +154,24 @@ export async function getConsultantsByRegion(): Promise<{ region: string; consul
 
   const globalDisabledSet = new Set(globalDisabled);
 
-  return getContinentOrder()
-    .map((continent) => {
+  return BOOKING_TEAMS
+    .map((team) => {
       const filtered = consultants.filter((c) => {
         const disabled = c.disabledDestinations || [];
         return c.destinations.some(
           (slug) =>
             !disabled.includes(slug) &&
             !globalDisabledSet.has(slug) &&
-            continentForSlug(slug, continentMap) === continent
+            team.slugs.has(slug)
         );
       });
 
-      // Collect unique enabled destination slugs for this continent
+      // Collect unique enabled destination slugs for this team
       const destSlugs = new Set<string>();
       for (const c of filtered) {
         const disabled = c.disabledDestinations || [];
         for (const slug of c.destinations) {
-          if (!disabled.includes(slug) && !globalDisabledSet.has(slug) && continentForSlug(slug, continentMap) === continent) {
+          if (!disabled.includes(slug) && !globalDisabledSet.has(slug) && team.slugs.has(slug)) {
             destSlugs.add(slug);
           }
         }
@@ -161,7 +181,7 @@ export async function getConsultantsByRegion(): Promise<{ region: string; consul
         .map((slug) => ({ slug, name: nameMap.get(slug) ?? slugToDisplayName(slug) }))
         .sort((a, b) => a.name.localeCompare(b.name));
 
-      return { region: continent, consultants: filtered, destinationOptions };
+      return { region: team.name, consultants: filtered, destinationOptions };
     })
     .filter(({ consultants }) => consultants.length > 0);
 }
