@@ -145,6 +145,32 @@ const BOOKING_TEAMS: { name: string; slugs: Set<string> }[] = [
   },
 ];
 
+// Consolidated display names for destination slugs (used to build countriesDisplay per team)
+const SLUG_DISPLAY_OVERRIDES: Record<string, string> = {
+  'canada-east': 'Canada',
+  'canada-west': 'Canada',
+  'usa-hawaii': 'USA',
+  'usa-california': 'USA',
+  'usa-new-england': 'USA',
+  'usa-national-parks': 'USA',
+  'usa-alaska': 'USA',
+  'uae': 'Dubai',
+  'ireland': 'UK & Ireland',
+  'scotland': 'UK & Ireland',
+  'england': 'UK & Ireland',
+  'sardinia': 'Italy',
+};
+
+function buildTeamCountriesDisplay(destinations: string[], teamSlugs: Set<string>, nameMap: Map<string, string>): string {
+  const names = new Set<string>();
+  for (const slug of destinations) {
+    if (!teamSlugs.has(slug)) continue;
+    const displayName = SLUG_DISPLAY_OVERRIDES[slug] ?? nameMap.get(slug) ?? slugToDisplayName(slug);
+    names.add(displayName);
+  }
+  return Array.from(names).sort().join(', ');
+}
+
 export async function getConsultantsByRegion(): Promise<{ region: string; consultants: Consultant[]; destinationOptions: DestinationOption[] }[]> {
   const [consultants, { nameMap }, globalDisabled] = await Promise.all([
     getActiveConsultants(),
@@ -156,15 +182,20 @@ export async function getConsultantsByRegion(): Promise<{ region: string; consul
 
   return BOOKING_TEAMS
     .map((team) => {
-      const filtered = consultants.filter((c) => {
-        const disabled = c.disabledDestinations || [];
-        return c.destinations.some(
-          (slug) =>
-            !disabled.includes(slug) &&
-            !globalDisabledSet.has(slug) &&
-            team.slugs.has(slug)
-        );
-      });
+      const filtered = consultants
+        .filter((c) => {
+          const disabled = c.disabledDestinations || [];
+          return c.destinations.some(
+            (slug) =>
+              !disabled.includes(slug) &&
+              !globalDisabledSet.has(slug) &&
+              team.slugs.has(slug)
+          );
+        })
+        .map((c) => ({
+          ...c,
+          countriesDisplay: buildTeamCountriesDisplay(c.destinations, team.slugs, nameMap),
+        }));
 
       // Collect unique enabled destination slugs for this team
       const destSlugs = new Set<string>();
