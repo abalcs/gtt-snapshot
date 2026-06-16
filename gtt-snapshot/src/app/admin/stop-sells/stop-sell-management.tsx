@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -292,59 +293,60 @@ export function StopSellManagement() {
         </CardContent>
       </Card>
 
-      {/* Edit dialog */}
-      {editSlug && (
+      {/* Edit dialog — rendered via portal to escape PageTransition's transform context */}
+      {editSlug && createPortal(
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50" onClick={() => setEditSlug(null)}>
           <div className="flex min-h-full items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg space-y-4" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-lg font-semibold">
-              Edit Stop Sell — {entries.find((e) => e.slug === editSlug)?.name}
-            </h2>
+            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg space-y-4" onClick={(e) => e.stopPropagation()}>
+              <h2 className="text-lg font-semibold">
+                Edit Stop Sell — {entries.find((e) => e.slug === editSlug)?.name}
+              </h2>
 
-            <div>
-              <Label htmlFor="edit-expires">Expiration Date</Label>
-              <Input
-                id="edit-expires"
-                type="date"
-                value={editForm.stop_sell_expires}
-                onChange={(e) => setEditForm((prev) => ({ ...prev, stop_sell_expires: e.target.value }))}
-              />
-            </div>
+              <div>
+                <Label htmlFor="edit-expires">Expiration Date</Label>
+                <Input
+                  id="edit-expires"
+                  type="date"
+                  value={editForm.stop_sell_expires}
+                  onChange={(e) => setEditForm((prev) => ({ ...prev, stop_sell_expires: e.target.value }))}
+                />
+              </div>
 
-            <div className="flex flex-wrap gap-2">
-              <Button type="button" variant="outline" size="sm" onClick={() => extendDate(30)}>Extend 30 Days</Button>
-              <Button type="button" variant="outline" size="sm" onClick={() => extendDate(90)}>Extend 90 Days</Button>
-              <Button type="button" variant="outline" size="sm" className="text-red-600 border-red-200 hover:bg-red-50" onClick={clearStopSell}>Clear Stop Sell</Button>
-            </div>
+              <div className="flex flex-wrap gap-2">
+                <Button type="button" variant="outline" size="sm" onClick={() => extendDate(30)}>Extend 30 Days</Button>
+                <Button type="button" variant="outline" size="sm" onClick={() => extendDate(90)}>Extend 90 Days</Button>
+                <Button type="button" variant="outline" size="sm" className="text-red-600 border-red-200 hover:bg-red-50" onClick={clearStopSell}>Clear Stop Sell</Button>
+              </div>
 
-            <div>
-              <Label htmlFor="edit-note">Stop Sell Note</Label>
-              <Textarea
-                id="edit-note"
-                value={editForm.stop_sell_note}
-                onChange={(e) => setEditForm((prev) => ({ ...prev, stop_sell_note: e.target.value }))}
-                rows={2}
-                placeholder="Reason for stop sell..."
-              />
-            </div>
+              <div>
+                <Label htmlFor="edit-note">Stop Sell Note</Label>
+                <Textarea
+                  id="edit-note"
+                  value={editForm.stop_sell_note}
+                  onChange={(e) => setEditForm((prev) => ({ ...prev, stop_sell_note: e.target.value }))}
+                  rows={2}
+                  placeholder="Reason for stop sell..."
+                />
+              </div>
 
-            <div>
-              <Label htmlFor="edit-urgency">Urgency Text</Label>
-              <Textarea
-                id="edit-urgency"
-                value={editForm.urgency}
-                onChange={(e) => setEditForm((prev) => ({ ...prev, urgency: e.target.value }))}
-                rows={3}
-              />
-            </div>
+              <div>
+                <Label htmlFor="edit-urgency">Urgency Text</Label>
+                <Textarea
+                  id="edit-urgency"
+                  value={editForm.urgency}
+                  onChange={(e) => setEditForm((prev) => ({ ...prev, urgency: e.target.value }))}
+                  rows={3}
+                />
+              </div>
 
-            <div className="flex justify-end gap-2 pt-2">
-              <Button variant="outline" onClick={() => setEditSlug(null)}>Cancel</Button>
-              <Button onClick={saveEdit} disabled={saving}>{saving ? "Saving..." : "Save"}</Button>
+              <div className="flex justify-end gap-2 pt-2">
+                <Button variant="outline" onClick={() => setEditSlug(null)}>Cancel</Button>
+                <Button onClick={saveEdit} disabled={saving}>{saving ? "Saving..." : "Save"}</Button>
+              </div>
             </div>
           </div>
-          </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
