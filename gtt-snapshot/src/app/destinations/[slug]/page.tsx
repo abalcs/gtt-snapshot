@@ -13,9 +13,7 @@ import { TagBadges } from "@/components/destinations/tag-badges";
 import DestinationMap from "@/components/destinations/destination-map";
 import { getCoordinates } from "@/lib/country-coordinates";
 import { requireAuth } from "@/lib/admin-auth";
-import { getConsultantsForDestination } from "@/lib/booking-calendars";
 import { invalidateCache } from "@/lib/data-cache";
-import { CountrySpecialists } from "@/components/destinations/country-specialists";
 import { MobilityAccessibility } from "@/components/destinations/mobility-accessibility";
 
 
@@ -42,12 +40,10 @@ export default async function DestinationDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   await requireAuth();
-  invalidateCache("consultants");
   const { slug } = await params;
-  const [destination, tagDefinitions, specialists] = await Promise.all([
+  const [destination, tagDefinitions] = await Promise.all([
     getDestinationBySlug(slug),
     getAllTagDefinitions(),
-    getConsultantsForDestination(slug),
   ]);
 
   if (!destination) notFound();
@@ -316,17 +312,6 @@ export default async function DestinationDetailPage({
             {destination.general_notes_2 && (
               <p className="text-sm whitespace-pre-line leading-relaxed" dangerouslySetInnerHTML={{ __html: formatInline(destination.general_notes_2) }} />
             )}
-          </div>
-        </>
-      )}
-
-      {/* Country Specialists */}
-      {specialists.length > 0 && (
-        <>
-          <Separator />
-          <div>
-            <h2 className="text-lg font-semibold mb-3">Country Specialists</h2>
-            <CountrySpecialists consultants={specialists} />
           </div>
         </>
       )}
