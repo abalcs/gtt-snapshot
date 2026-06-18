@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { SPECIALIST_DATA, SPECIALIST_REGIONS } from "@/lib/specialist-data";
+import type { SpecialistEntry } from "@/lib/specialist-data";
 
 function highlightText(text: string, query: string): string {
   if (!query.trim()) return text;
@@ -24,12 +24,17 @@ const REGION_COLORS: Record<string, { bg: string; text: string; activeBg: string
   "USA & Canada": { bg: "bg-slate-50", text: "text-slate-700", activeBg: "bg-slate-600", activeText: "text-white" },
 };
 
-export function SpecialistsClient() {
+interface Props {
+  entries: SpecialistEntry[];
+  regions: string[];
+}
+
+export function SpecialistsClient({ entries, regions }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
-    let results = SPECIALIST_DATA;
+    let results = entries;
 
     if (activeRegion) {
       results = results.filter((e) => e.region === activeRegion);
@@ -45,7 +50,7 @@ export function SpecialistsClient() {
     }
 
     return results;
-  }, [searchQuery, activeRegion]);
+  }, [entries, searchQuery, activeRegion]);
 
   // Count unique specialists across all matching entries
   const specialistCount = useMemo(() => {
@@ -101,7 +106,7 @@ export function SpecialistsClient() {
         >
           All Regions
         </button>
-        {SPECIALIST_REGIONS.map((region) => {
+        {regions.map((region) => {
           const colors = REGION_COLORS[region];
           const isActive = activeRegion === region;
           return (
@@ -110,8 +115,8 @@ export function SpecialistsClient() {
               onClick={() => setActiveRegion(isActive ? null : region)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 isActive
-                  ? `${colors.activeBg} ${colors.activeText}`
-                  : `${colors.bg} ${colors.text} hover:opacity-80`
+                  ? `${colors?.activeBg || "bg-gray-600"} ${colors?.activeText || "text-white"}`
+                  : `${colors?.bg || "bg-gray-50"} ${colors?.text || "text-gray-700"} hover:opacity-80`
               }`}
             >
               {region}

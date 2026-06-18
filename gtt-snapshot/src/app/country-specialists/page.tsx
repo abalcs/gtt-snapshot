@@ -1,10 +1,12 @@
 import { requireAuth } from "@/lib/admin-auth";
+import { getSpecialistEntries, SPECIALIST_REGIONS } from "@/lib/specialist-data";
 import { SpecialistsClient } from "./specialists-client";
 
 export const dynamic = "force-dynamic";
 
 export default async function CountrySpecialistsPage() {
   await requireAuth();
+  const entries = await getSpecialistEntries();
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -21,7 +23,7 @@ export default async function CountrySpecialistsPage() {
         </p>
       </div>
 
-      <SpecialistsClient />
+      <SpecialistsClient entries={entries} regions={[...SPECIALIST_REGIONS]} />
     </div>
   );
 }

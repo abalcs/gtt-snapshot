@@ -1,4 +1,8 @@
+import { getDb } from "@/../db/database";
+import { getCached, setCache, invalidateCache } from "./data-cache";
+
 export interface SpecialistEntry {
+  id?: string;
   interest: string;
   region: string;
   specialists: string[];
@@ -136,3 +140,71 @@ export const SPECIALIST_DATA: SpecialistEntry[] = [
   { interest: "Pacific Northwest", region: "USA & Canada", specialists: ["(None currently)"] },
   { interest: "Canada", region: "USA & Canada", specialists: ["Connor Chess", "Jillian McVey", "Julia Criscuolo", "Meghan Bergstrom", "Piper Eskridge", "Shea Spillane"] },
 ];
+
+// ── Firestore-backed specialist data ─────────────────────
+
+const COLLECTION = "specialist-assignments";
+
+function slugifyInterest(interest: string): string {
+  return interest.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+/** Get all specialist entries from Firestore, falling back to hardcoded data */
+export async function getSpecialistEntries(): Promise<SpecialistEntry[]> {
+  const cached = getCached<SpecialistEntry[]>("specialists:all");
+  if (cached) return cached;
+
+  const snap = await getDb().collection(COLLECTION).get();
+
+  if (snap.empty) {
+    // No Firestore data yet — return hardcoded
+    return setCache("specialists:all", SPECIALIST_DATA);
+  }
+
+  const entries: SpecialistEntry[] = snap.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      interest: (data.interest as string) || doc.id,
+      region: (data.region as string) || "",
+      specialists: (data.specialists as string[]) || [],
+    };
+  });
+
+  entries.sort((a, b) => {
+    const regionCmp = a.region.localeCompare(b.region);
+    if (regionCmp !== 0) return regionCmp;
+    return a.interest.localeCompare(b.interest);
+  });
+
+  return setCache("specialists:all", entries);
+}
+
+/** Seed Firestore with hardcoded data (one-time migration) */
+export async function seedSpecialistData(): Promise<number> {
+  const db = getDb();
+  const batch = db.batch();
+
+  for (const entry of SPECIALIST_DATA) {
+    const id = slugifyInterest(entry.interest);
+    batch.set(db.collection(COLLECTION).doc(id), {
+      interest: entry.interest,
+      region: entry.region,
+      specialists: entry.specialists,
+    });
+  }
+
+  await batch.commit();
+  invalidateCache("specialists:all");
+  return SPECIALIST_DATA.length;
+}
+
+/** Update a single specialist entry */
+export async function updateSpecialistEntry(id: string, specialists: string[]): Promise<void> {
+  await getDb().collection(COLLECTION).doc(id).update({
+    specialists,
+  });
+  invalidateCache("specialists:all");
+}
+
+export { slugifyInterest };
