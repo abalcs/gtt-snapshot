@@ -150,7 +150,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
                         "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
                     )}
                   >
-                    Regions
+                    CS by Region
                   </Link>
                   <Link
                     href="/booking-calendars/travel-agents"
@@ -160,7 +160,17 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
                         "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
                     )}
                   >
-                    Travel Agents
+                    TA Preferred
+                  </Link>
+                  <Link
+                    href="/booking-calendars/gta"
+                    className={cn(
+                      "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                      pathname === "/booking-calendars/gta" &&
+                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
+                    )}
+                  >
+                    GTA Calendars
                   </Link>
                   <Link
                     href="/booking-calendars/tam"
