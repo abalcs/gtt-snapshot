@@ -130,3 +130,15 @@ export function getFlagUrl(name: string): string {
 export function getFlag(name: string): string {
   return countryCodes[name] || "";
 }
+
+/**
+ * Get uppercase ISO-2 country code for a destination name.
+ * Returns null if not mapped. Used for travel data lookups.
+ */
+export function getIsoCode(name: string): string | null {
+  const code = countryCodes[name];
+  if (!code) return null;
+  // Skip sub-national codes like gb-eng, gb-sct
+  if (code.includes("-")) return null;
+  return code.toUpperCase();
+}

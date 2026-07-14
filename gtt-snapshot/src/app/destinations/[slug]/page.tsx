@@ -9,6 +9,8 @@ import { ClientTypes } from "@/components/destinations/client-types";
 import { KeyFactsDisplay } from "@/components/destinations/key-facts-display";
 import { getDestinationBySlug, getAllTagDefinitions } from "@/lib/queries";
 import { getFlagUrl } from "@/lib/country-flags";
+import { getTravelDataForDestination } from "@/lib/travel-data-queries";
+import { TravelInfo } from "@/components/destinations/travel-info";
 import { TagBadges } from "@/components/destinations/tag-badges";
 import DestinationMap from "@/components/destinations/destination-map";
 import { getCoordinates } from "@/lib/country-coordinates";
@@ -47,6 +49,8 @@ export default async function DestinationDetailPage({
   ]);
 
   if (!destination) notFound();
+
+  const travelData = await getTravelDataForDestination(destination.name).catch(() => null);
 
   const pairWithItems = destination.pair_with
     ? destination.pair_with.split(/,|\//).map((s) => s.trim()).filter(Boolean)
@@ -112,6 +116,9 @@ export default async function DestinationDetailPage({
           name={destination.name}
         />
       )}
+
+      {/* Travel Information */}
+      {travelData && <TravelInfo data={travelData} />}
 
       {/* Talking Points */}
       {destination.talking_points && (

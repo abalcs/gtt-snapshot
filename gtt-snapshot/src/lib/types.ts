@@ -115,6 +115,31 @@ export interface User {
   invited_by: string | null;
 }
 
+export interface TravelData {
+  country_code: string;
+  country_name: string;
+  // Advisory
+  advisory_level: number | null;
+  advisory_summary: string | null;
+  advisory_link: string | null;
+  advisory_updated: string | null;
+  // Visa
+  visa_status: string | null;
+  visa_max_days: number | null;
+  // Entry/Exit (State Dept prose)
+  entry_exit_info: string | null;
+  // Health (TuGo)
+  health_vaccines_recommended: string[];
+  health_vaccines_required: string[];
+  health_malaria_info: string | null;
+  health_notes: string | null;
+  // Sync metadata
+  synced_at: string;
+  advisory_synced_at: string | null;
+  visa_synced_at: string | null;
+  health_synced_at: string | null;
+}
+
 export interface AdminLogEntry {
   id: string;
   action: 'created' | 'updated' | 'deleted';

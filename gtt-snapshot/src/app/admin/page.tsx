@@ -68,6 +68,9 @@ export default async function AdminPage() {
             <Link href="/admin/country-specialists">
               <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Specialists</Button>
             </Link>
+            <Link href="/admin/travel-data">
+              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Travel Data</Button>
+            </Link>
             <Link href="/admin/stop-sells" className="relative">
               <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Stop Sells</Button>
               {expiredStopSellCount > 0 && (
