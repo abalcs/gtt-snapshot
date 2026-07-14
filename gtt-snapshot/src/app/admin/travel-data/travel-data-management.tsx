@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { EmptyState } from "@/components/ui/empty-state";
 import type { TravelData } from "@/lib/types";
 
 interface SyncResult {
@@ -225,11 +226,11 @@ export function TravelDataManagement({ initialData }: { initialData: TravelData[
         </CardHeader>
         <CardContent>
           {filtered.length === 0 ? (
-            <p className="text-sm text-muted-foreground py-4 text-center">
-              {data.length === 0
-                ? "No travel data synced yet. Click a sync button above to get started."
-                : "No matching countries found."}
-            </p>
+            <EmptyState
+              icon={<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>}
+              heading={data.length === 0 ? "No travel data synced yet" : "No matching countries"}
+              description={data.length === 0 ? "Click a sync button above to get started." : "Try a different search term."}
+            />
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">

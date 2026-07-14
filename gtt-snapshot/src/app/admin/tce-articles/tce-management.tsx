@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { EmptyState } from "@/components/ui/empty-state";
 import {
   Dialog,
   DialogContent,
@@ -196,26 +196,23 @@ export function TceManagement() {
 
   if (loading) {
     return (
-      <div className="max-w-6xl mx-auto p-6">
-        <p className="text-muted-foreground">Loading TCE articles...</p>
+      <div className="flex items-center justify-center py-12">
+        <div className="flex items-center gap-3 text-muted-foreground">
+          <svg className="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
+          <span>Loading TCE articles...</span>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
-      {/* Header */}
+    <div className="space-y-6">
+      {/* Actions bar */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Manage TCE Articles</h1>
-          <p className="text-muted-foreground">
-            {articles.length} article{articles.length !== 1 && "s"}
-          </p>
-        </div>
+        <p className="text-muted-foreground">
+          {articles.length} article{articles.length !== 1 && "s"}
+        </p>
         <div className="flex gap-2">
-          <Link href="/admin">
-            <Button variant="outline">Back to Admin</Button>
-          </Link>
           {articles.length === 0 && (
             <Button variant="outline" onClick={handleSeed}>
               Seed Data
@@ -235,9 +232,11 @@ export function TceManagement() {
 
       {/* Article list */}
       {filtered.length === 0 ? (
-        <p className="text-center text-muted-foreground py-8">
-          {search ? "No articles match your search" : "No TCE articles yet"}
-        </p>
+        <EmptyState
+          icon={<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>}
+          heading={search ? "No articles match your search" : "No TCE articles yet"}
+          description={search ? "Try a different search term." : "Get started by adding your first article."}
+        />
       ) : (
         <div className="space-y-3">
           {filtered.map((article) => {

@@ -18,7 +18,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Trash2, ChevronDown, ChevronUp } from "lucide-react";
-import Link from "next/link";
+import { EmptyState } from "@/components/ui/empty-state";
+import { cn } from "@/lib/utils";
 
 interface FeedbackItem {
   id: string;
@@ -140,24 +141,21 @@ export function FeedbackManagement() {
 
   if (loading) {
     return (
-      <div className="max-w-6xl mx-auto p-6">
-        <p className="text-muted-foreground">Loading...</p>
+      <div className="flex items-center justify-center py-12">
+        <div className="flex items-center gap-3 text-muted-foreground">
+          <svg className="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" /></svg>
+          <span>Loading feedback...</span>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Feedback</h1>
-          <p className="text-muted-foreground">
-            {feedback.length} submission{feedback.length !== 1 ? "s" : ""}
-          </p>
-        </div>
-        <Link href="/admin">
-          <Button variant="outline">Back to Admin</Button>
-        </Link>
+        <p className="text-muted-foreground">
+          {feedback.length} submission{feedback.length !== 1 ? "s" : ""}
+        </p>
       </div>
 
       <div className="flex gap-3">
@@ -187,9 +185,11 @@ export function FeedbackManagement() {
       </div>
 
       {filtered.length === 0 ? (
-        <p className="text-muted-foreground py-8 text-center">
-          No feedback found
-        </p>
+        <EmptyState
+          icon={<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>}
+          heading="No feedback found"
+          description="No submissions match the current filters."
+        />
       ) : (
         <div className="space-y-3">
           {filtered.map((item) => {
@@ -237,93 +237,102 @@ export function FeedbackManagement() {
                   )}
                 </button>
 
-                {isExpanded && (
-                  <div className="px-4 pb-4 border-t bg-muted/30 space-y-3">
-                    <div className="grid grid-cols-2 gap-4 pt-3">
-                      <div>
-                        <p className="text-xs text-muted-foreground">
-                          From
-                        </p>
-                        <p className="text-sm">
-                          {item.user_name} ({item.user_email})
-                        </p>
+                <div
+                  className={cn(
+                    "grid transition-[grid-template-rows,opacity] duration-200 ease-in-out",
+                    isExpanded
+                      ? "grid-rows-[1fr] opacity-100"
+                      : "grid-rows-[0fr] opacity-0"
+                  )}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-4 pb-4 border-t bg-muted/30 space-y-3">
+                      <div className="grid grid-cols-2 gap-4 pt-3">
+                        <div>
+                          <p className="text-xs text-muted-foreground">
+                            From
+                          </p>
+                          <p className="text-sm">
+                            {item.user_name} ({item.user_email})
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">
+                            Page
+                          </p>
+                          <p className="text-sm truncate">
+                            {item.page_url || "\u2014"}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-xs text-muted-foreground">
-                          Page
-                        </p>
-                        <p className="text-sm truncate">
-                          {item.page_url || "\u2014"}
-                        </p>
-                      </div>
-                    </div>
 
-                    <div>
-                      <p className="text-xs text-muted-foreground mb-1">
-                        Message
-                      </p>
-                      <p className="text-sm whitespace-pre-wrap bg-white rounded p-3 border">
-                        {item.message}
-                      </p>
-                    </div>
-
-                    {item.admin_notes && (
                       <div>
                         <p className="text-xs text-muted-foreground mb-1">
-                          Admin Notes
+                          Message
                         </p>
-                        <p className="text-sm whitespace-pre-wrap bg-amber-50 rounded p-3 border border-amber-200">
-                          {item.admin_notes}
+                        <p className="text-sm whitespace-pre-wrap bg-white rounded p-3 border">
+                          {item.message}
                         </p>
                       </div>
-                    )}
 
-                    <div className="flex gap-2 pt-1">
-                      {item.status === "new" && (
+                      {item.admin_notes && (
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1">
+                            Admin Notes
+                          </p>
+                          <p className="text-sm whitespace-pre-wrap bg-amber-50 rounded p-3 border border-amber-200">
+                            {item.admin_notes}
+                          </p>
+                        </div>
+                      )}
+
+                      <div className="flex gap-2 pt-1">
+                        {item.status === "new" && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateStatus(item.id, "reviewed")}
+                          >
+                            Mark Reviewed
+                          </Button>
+                        )}
+                        {item.status !== "archived" && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateStatus(item.id, "archived")}
+                          >
+                            Archive
+                          </Button>
+                        )}
+                        {item.status === "archived" && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateStatus(item.id, "new")}
+                          >
+                            Reopen
+                          </Button>
+                        )}
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => updateStatus(item.id, "reviewed")}
+                          onClick={() => openNotes(item)}
                         >
-                          Mark Reviewed
+                          {item.admin_notes ? "Edit Notes" : "Add Notes"}
                         </Button>
-                      )}
-                      {item.status !== "archived" && (
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => updateStatus(item.id, "archived")}
+                          className="text-destructive hover:text-destructive"
+                          onClick={() => deleteFeedback(item.id)}
                         >
-                          Archive
+                          <Trash2 className="h-3.5 w-3.5" />
                         </Button>
-                      )}
-                      {item.status === "archived" && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => updateStatus(item.id, "new")}
-                        >
-                          Reopen
-                        </Button>
-                      )}
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => openNotes(item)}
-                      >
-                        {item.admin_notes ? "Edit Notes" : "Add Notes"}
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="text-destructive hover:text-destructive"
-                        onClick={() => deleteFeedback(item.id)}
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </Button>
+                      </div>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}

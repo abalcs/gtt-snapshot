@@ -13,6 +13,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import type { AdminLogEntry } from "@/lib/types";
 
 const actionColors: Record<string, string> = {
@@ -75,29 +76,15 @@ export function AdminLogList({ logs }: { logs: AdminLogEntry[] }) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Activity Log</h1>
-          <p className="text-muted-foreground">
-            Recent admin changes ({logs.length} entries)
-          </p>
-        </div>
-        <Link
-          href="/admin"
-          className="text-sm text-primary hover:underline"
-        >
-          Back to Dashboard
-        </Link>
-      </div>
-
+    <div className="space-y-6">
       {logs.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-muted-foreground">No activity recorded yet.</p>
-            <p className="text-sm text-muted-foreground mt-1">
-              Changes made through the admin panel will appear here.
-            </p>
+          <CardContent className="py-4">
+            <EmptyState
+              icon={<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>}
+              heading="No activity recorded yet"
+              description="Changes made through the admin panel will appear here."
+            />
           </CardContent>
         </Card>
       ) : (
