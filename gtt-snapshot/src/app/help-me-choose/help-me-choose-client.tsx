@@ -91,6 +91,9 @@ export function HelpMeChooseClient() {
       const data = await res.json();
       setResults(data.destinations ?? []);
       setFetched(true);
+      window.dispatchEvent(new CustomEvent("analytics-track", {
+        detail: { type: "help_me_choose", feature: "help_me_choose", search_results: data.destinations?.length ?? 0 },
+      }));
     } catch {
       setResults([]);
     } finally {

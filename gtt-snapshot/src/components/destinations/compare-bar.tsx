@@ -14,6 +14,9 @@ export function CompareBar({ selectedSlugs, destinationNames, onRemove, onClear 
   const router = useRouter();
 
   const handleCompare = () => {
+    window.dispatchEvent(new CustomEvent("analytics-track", {
+      detail: { type: "compare", feature: "compare", filter_value: selectedSlugs.join(",") },
+    }));
     router.push(`/compare?slugs=${selectedSlugs.join(",")}`);
   };
 

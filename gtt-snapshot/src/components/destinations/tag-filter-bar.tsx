@@ -21,6 +21,9 @@ export function TagFilterBar({ currentTags, tagDefinitions }: TagFilterBarProps)
       next = current.filter(s => s !== slug);
     } else {
       next = [...current, slug];
+      window.dispatchEvent(new CustomEvent("analytics-track", {
+        detail: { type: "filter_tag", filter_type: "tag", filter_value: slug },
+      }));
     }
     if (next.length > 0) {
       params.set("tags", next.join(","));

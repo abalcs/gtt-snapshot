@@ -21,6 +21,11 @@ export function BudgetFilterBar({ currentBudget }: BudgetFilterBarProps) {
     } else {
       params.delete("budget");
     }
+    if (!currentBudget.includes(slug)) {
+      window.dispatchEvent(new CustomEvent("analytics-track", {
+        detail: { type: "filter_budget", filter_type: "budget", filter_value: slug },
+      }));
+    }
     router.push(`/destinations?${params.toString()}`);
   };
 

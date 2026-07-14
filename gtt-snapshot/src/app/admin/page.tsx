@@ -116,6 +116,9 @@ export default async function AdminPage() {
                     </span>
                   )}
                 </Link>
+                <Link href="/admin/analytics">
+                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Analytics</Button>
+                </Link>
                 <Link href="/admin/log">
                   <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Activity Log</Button>
                 </Link>

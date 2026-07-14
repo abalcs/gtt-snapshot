@@ -9,6 +9,7 @@ import { getSidebarData } from "@/lib/queries";
 import { getContinentForDestination, getContinentOrder } from "@/lib/continents";
 import { getCurrentUser } from "@/lib/admin-auth";
 import { FeedbackButton } from "@/components/feedback/feedback-button";
+import { AnalyticsTracker } from "@/components/analytics/analytics-tracker";
 
 const merriweather = Merriweather({
   variable: "--font-merriweather",
@@ -106,6 +107,7 @@ export default async function RootLayout({
           </div>
         </div>
         <FeedbackButton user={{ name: user.name, email: user.email }} />
+        <AnalyticsTracker userEmail={user.email} userName={user.name} />
       </body>
     </html>
   );

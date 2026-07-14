@@ -24,6 +24,9 @@ export function SeasonFilterBar({ currentSeasons }: SeasonFilterBarProps) {
       params.delete("seasons");
     } else {
       params.set("seasons", slug);
+      window.dispatchEvent(new CustomEvent("analytics-track", {
+        detail: { type: "filter_season", filter_type: "season", filter_value: slug },
+      }));
     }
     router.push(`/destinations?${params.toString()}`);
   };

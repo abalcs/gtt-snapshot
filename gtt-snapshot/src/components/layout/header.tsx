@@ -59,6 +59,10 @@ export function Header({ user }: HeaderProps) {
       setTceResults(data.tceArticles || []);
       setIsOpen(true);
       setSelectedIndex(-1);
+      const totalCount = (data.destinations?.length ?? 0) + (data.specialSections?.length ?? 0) + (data.tceArticles?.length ?? 0);
+      window.dispatchEvent(new CustomEvent("analytics-track", {
+        detail: { type: "search", search_query: q, search_results: totalCount },
+      }));
     } catch {
       setResults([]);
       setSpecialResults([]);
