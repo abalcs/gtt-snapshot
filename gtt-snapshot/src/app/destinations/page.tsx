@@ -1,9 +1,11 @@
+import Link from "next/link";
 import { getAllDestinations, getAllRegions, getAllTagDefinitions } from "@/lib/queries";
 import { DestinationFilters } from "@/components/destinations/destination-filters";
 import { TagFilterBar } from "@/components/destinations/tag-filter-bar";
 import { SeasonFilterBar } from "@/components/destinations/season-filter-bar";
 import { BudgetFilterBar } from "@/components/destinations/budget-filter-bar";
 import { DestinationGrid } from "@/components/destinations/destination-grid";
+import { EmptyState } from "@/components/ui/empty-state";
 import { requireAuth } from "@/lib/admin-auth";
 
 export const dynamic = 'force-dynamic';
@@ -33,6 +35,8 @@ async function DestinationsContent({
   const activeSeasons = seasonsParam ? seasonsParam.split(",").filter(Boolean) : [];
   const activeBudget = budgetParam ? budgetParam.split(",").filter(Boolean) : [];
 
+  const hasFilters = !!region || activeTags.length > 0 || activeSeasons.length > 0 || activeBudget.length > 0;
+
   let filteredDestinations = region
     ? allDestinations.filter((d) => d.region_slug === region)
     : allDestinations;
@@ -58,7 +62,18 @@ async function DestinationsContent({
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">All Destinations</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold tracking-tight">All Destinations</h1>
+          {hasFilters && (
+            <Link
+              href="/destinations"
+              className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              Clear all filters
+            </Link>
+          )}
+        </div>
         <p className="text-muted-foreground">
           {filteredDestinations.length} destination{filteredDestinations.length !== 1 ? "s" : ""}
           {region ? ` in selected region` : ""}
@@ -76,7 +91,16 @@ async function DestinationsContent({
 
       <TagFilterBar currentTags={activeTags} tagDefinitions={tagDefinitions} />
 
-      <DestinationGrid destinations={filteredDestinations} tagDefinitions={tagDefinitions} />
+      {filteredDestinations.length > 0 ? (
+        <DestinationGrid destinations={filteredDestinations} tagDefinitions={tagDefinitions} />
+      ) : hasFilters ? (
+        <EmptyState
+          icon={<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>}
+          heading="No destinations match your filters"
+          description="Try removing some filters or broadening your search."
+          action={{ label: "Clear all filters", href: "/destinations" }}
+        />
+      ) : null}
     </div>
   );
 }

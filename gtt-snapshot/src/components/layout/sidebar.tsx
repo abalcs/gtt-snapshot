@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -17,21 +17,74 @@ interface SidebarData {
   specialSections: { title: string; slug: string }[];
 }
 
+const STORAGE_KEY_EXPANDED = "sidebar-expanded-continents";
+const STORAGE_KEY_COLLAPSED = "sidebar-collapsed";
+
 export function Sidebar({ initialData }: { initialData: SidebarData }) {
   const pathname = usePathname();
   const data = initialData;
-  const [expandedContinents, setExpandedContinents] = useState<Set<string>>(new Set());
-  const [collapsed, setCollapsed] = useState(false);
+
+  // Initialize from localStorage if available
+  const [expandedContinents, setExpandedContinents] = useState<Set<string>>(() => {
+    if (typeof window === "undefined") return new Set<string>();
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY_EXPANDED);
+      return stored ? new Set(JSON.parse(stored)) : new Set<string>();
+    } catch { return new Set<string>(); }
+  });
+
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      return localStorage.getItem(STORAGE_KEY_COLLAPSED) === "true";
+    } catch { return false; }
+  });
+
   const [bookingExpanded, setBookingExpanded] = useState(pathname.startsWith("/booking-calendars"));
 
-  const toggleContinent = (name: string) => {
+  // Auto-expand continent containing current destination
+  useEffect(() => {
+    if (!pathname.startsWith("/destinations/")) return;
+    const currentSlug = pathname.split("/destinations/")[1]?.split("/")[0];
+    if (!currentSlug) return;
+    for (const continent of data.continents) {
+      if (continent.destinations.some((d) => d.slug === currentSlug)) {
+        setExpandedContinents((prev) => {
+          if (prev.has(continent.name)) return prev;
+          const next = new Set(prev);
+          next.add(continent.name);
+          return next;
+        });
+        break;
+      }
+    }
+  }, [pathname, data.continents]);
+
+  // Persist expanded continents to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY_EXPANDED, JSON.stringify([...expandedContinents]));
+    } catch {}
+  }, [expandedContinents]);
+
+  // Persist collapsed state
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY_COLLAPSED, String(collapsed));
+    } catch {}
+  }, [collapsed]);
+
+  const toggleContinent = useCallback((name: string) => {
     setExpandedContinents((prev) => {
       const next = new Set(prev);
       if (next.has(name)) next.delete(name);
       else next.add(name);
       return next;
     });
-  };
+  }, []);
+
+  // Check if current destination belongs to a continent
+  const currentDestSlug = pathname.startsWith("/destinations/") ? pathname.split("/destinations/")[1]?.split("/")[0] : null;
 
   return (
     <div
@@ -209,57 +262,61 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
               <div className="mt-1.5 h-px bg-gradient-to-r from-white/20 via-white/10 to-transparent" />
             </div>
 
-            {data.continents.map((continent) => (
-              <div key={continent.name}>
-                <button
-                  onClick={() => toggleContinent(continent.name)}
-                  className={cn(
-                    "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:translate-x-0.5 transition-all duration-150",
-                  )}
-                >
-                  <span className="flex-1 text-left">{continent.name}</span>
-                  <span className="flex items-center gap-1.5 text-white/50 text-xs ml-2">
-                    <span>{continent.destinations.length}</span>
-                    <span
-                      className={cn(
-                        "transition-transform duration-200 inline-block",
-                        expandedContinents.has(continent.name) && "rotate-90"
-                      )}
-                    >
-                      ›
-                    </span>
-                  </span>
-                </button>
-                <div
-                  className={cn(
-                    "grid transition-[grid-template-rows,opacity] duration-200 ease-in-out",
-                    expandedContinents.has(continent.name)
-                      ? "grid-rows-[1fr] opacity-100"
-                      : "grid-rows-[0fr] opacity-0"
-                  )}
-                >
-                  <div className="overflow-hidden ml-3 border-l border-white/20 pl-2 space-y-0.5">
-                    {continent.destinations.map((dest) => (
-                      <Link
-                        key={dest.slug}
-                        href={`/destinations/${dest.slug}`}
+            {data.continents.map((continent) => {
+              const hasActiveDestination = currentDestSlug && continent.destinations.some((d) => d.slug === currentDestSlug);
+              return (
+                <div key={continent.name}>
+                  <button
+                    onClick={() => toggleContinent(continent.name)}
+                    className={cn(
+                      "flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:translate-x-0.5 transition-all duration-150",
+                      hasActiveDestination && "bg-white/10 text-white"
+                    )}
+                  >
+                    <span className="flex-1 text-left">{continent.name}</span>
+                    <span className="flex items-center gap-1.5 text-white/50 text-xs ml-2">
+                      <span>{continent.destinations.length}</span>
+                      <span
                         className={cn(
-                          "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                          pathname === `/destinations/${dest.slug}` &&
-                            "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]",
-                          dest.status === "stop_sell" && "text-red-300/90"
+                          "transition-transform duration-200 inline-block",
+                          expandedContinents.has(continent.name) && "rotate-90"
                         )}
                       >
-                        {dest.name}
-                        {dest.status === "stop_sell" && (
-                          <span className="shrink-0 rounded bg-red-500/80 px-1 py-px text-[10px] font-bold leading-tight text-white uppercase">Stop</span>
-                        )}
-                      </Link>
-                    ))}
+                        ›
+                      </span>
+                    </span>
+                  </button>
+                  <div
+                    className={cn(
+                      "grid transition-[grid-template-rows,opacity] duration-200 ease-in-out",
+                      expandedContinents.has(continent.name)
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0"
+                    )}
+                  >
+                    <div className="overflow-hidden ml-3 border-l border-white/20 pl-2 space-y-0.5">
+                      {continent.destinations.map((dest) => (
+                        <Link
+                          key={dest.slug}
+                          href={`/destinations/${dest.slug}`}
+                          className={cn(
+                            "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                            pathname === `/destinations/${dest.slug}` &&
+                              "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]",
+                            dest.status === "stop_sell" && "text-red-300/90"
+                          )}
+                        >
+                          {dest.name}
+                          {dest.status === "stop_sell" && (
+                            <span className="shrink-0 rounded bg-red-500/80 px-1 py-px text-[10px] font-bold leading-tight text-white uppercase">Stop</span>
+                          )}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
             <div className="pt-3 pb-1 px-3">
               <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">Special Sections</span>

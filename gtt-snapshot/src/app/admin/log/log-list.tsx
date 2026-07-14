@@ -55,16 +55,24 @@ function formatFieldName(field: string) {
     .replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-function truncate(str: string, len: number) {
-  return str.length > len ? str.slice(0, len) + "..." : str;
-}
-
 export function AdminLogList({ logs }: { logs: AdminLogEntry[] }) {
   const [selectedLog, setSelectedLog] = useState<AdminLogEntry | null>(null);
+  const [actionFilter, setActionFilter] = useState<string>("all");
+  const [nameFilter, setNameFilter] = useState("");
+
+  // Apply filters
+  let filteredLogs = logs;
+  if (actionFilter !== "all") {
+    filteredLogs = filteredLogs.filter((l) => l.action === actionFilter);
+  }
+  if (nameFilter.trim()) {
+    const q = nameFilter.toLowerCase();
+    filteredLogs = filteredLogs.filter((l) => l.target_name.toLowerCase().includes(q));
+  }
 
   // Group logs by date
   const grouped = new Map<string, AdminLogEntry[]>();
-  for (const log of logs) {
+  for (const log of filteredLogs) {
     const dateKey = new Date(log.timestamp).toLocaleDateString("en-US", {
       weekday: "long",
       year: "numeric",
@@ -77,13 +85,47 @@ export function AdminLogList({ logs }: { logs: AdminLogEntry[] }) {
 
   return (
     <div className="space-y-6">
-      {logs.length === 0 ? (
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex gap-1 rounded-lg border p-1 bg-muted/30">
+          {["all", "created", "updated", "deleted"].map((action) => (
+            <button
+              key={action}
+              onClick={() => setActionFilter(action)}
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                actionFilter === action
+                  ? "bg-white shadow-sm text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {action === "all" ? "All" : actionLabels[action]}
+            </button>
+          ))}
+        </div>
+        <div className="relative flex-1 max-w-xs">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input
+            type="text"
+            placeholder="Filter by name..."
+            value={nameFilter}
+            onChange={(e) => setNameFilter(e.target.value)}
+            className="w-full rounded-md border bg-background pl-9 pr-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          />
+        </div>
+        {(actionFilter !== "all" || nameFilter) && (
+          <span className="text-xs text-muted-foreground self-center">
+            {filteredLogs.length} of {logs.length} entries
+          </span>
+        )}
+      </div>
+
+      {filteredLogs.length === 0 ? (
         <Card>
           <CardContent className="py-4">
             <EmptyState
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>}
-              heading="No activity recorded yet"
-              description="Changes made through the admin panel will appear here."
+              heading={logs.length === 0 ? "No activity recorded yet" : "No matching entries"}
+              description={logs.length === 0 ? "Changes made through the admin panel will appear here." : "Try adjusting your filters."}
             />
           </CardContent>
         </Card>

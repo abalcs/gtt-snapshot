@@ -136,7 +136,7 @@ export default async function HomePage() {
         <h2 className="text-xl font-semibold mb-4">Continents</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {continents.map((continent) => (
-            <Card key={continent.name} className="h-full border-l-4 border-l-[#3a5f54]">
+            <Card key={continent.name} className="h-full border-l-4 border-l-[#3a5f54] hover:shadow-md hover:-translate-y-0.5 hover:border-l-[#2a4a40] transition-all duration-200">
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg">{continent.name}</CardTitle>
               </CardHeader>

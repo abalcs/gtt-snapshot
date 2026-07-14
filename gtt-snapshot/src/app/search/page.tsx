@@ -16,10 +16,25 @@ export default async function SearchPage({
   const query = q || "";
 
   if (!query.trim()) {
+    const suggestions = ["Kenya", "Stop Sells", "Visa Requirements", "Safari"];
     return (
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold">Search</h1>
-        <p className="text-muted-foreground mt-2">Enter a search term to find destinations.</p>
+      <div className="max-w-4xl mx-auto space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold">Search</h1>
+          <p className="text-muted-foreground mt-2">Search destinations, special sections, and TCE articles.</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {suggestions.map((term) => (
+            <Link
+              key={term}
+              href={`/search?q=${encodeURIComponent(term)}`}
+              className="inline-flex items-center gap-1.5 rounded-full border bg-muted/50 px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              {term}
+            </Link>
+          ))}
+        </div>
       </div>
     );
   }

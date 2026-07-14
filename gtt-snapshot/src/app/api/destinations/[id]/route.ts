@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDestinationById, updateDestination, deleteDestination, upsertPricingTiers } from '@/lib/queries';
+import { validateSession } from '@/lib/user-queries';
 
 export async function GET(
   _request: NextRequest,
@@ -20,6 +21,11 @@ export async function PUT(
   const { id } = await params;
 
   try {
+    const sessionCookie = request.cookies.get("__session");
+    if (!sessionCookie?.value) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const user = await validateSession(sessionCookie.value);
+    if (!user || user.role !== "admin") return NextResponse.json({ error: "Admin access required" }, { status: 403 });
+
     const body = await request.json();
     const { pricing_tiers, pricing_footnotes, ...destData } = body;
 
@@ -37,11 +43,16 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
   try {
+    const sessionCookie = request.cookies.get("__session");
+    if (!sessionCookie?.value) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const user = await validateSession(sessionCookie.value);
+    if (!user || user.role !== "admin") return NextResponse.json({ error: "Admin access required" }, { status: 403 });
+
     await deleteDestination(id);
     return NextResponse.json({ success: true });
   } catch (error) {

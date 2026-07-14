@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getAllDestinations, getAllDestinationsAdmin, getAllRegions, getAllSpecialSections } from "@/lib/queries";
+import { getAllDestinations, getAllDestinationsAdmin, getAllRegions, getAllSpecialSections, getAdminLogs } from "@/lib/queries";
 import { AdminList } from "@/components/admin/admin-list";
 import { requireAdmin } from "@/lib/admin-auth";
 import { getDb } from "@/../db/database";
@@ -10,22 +10,33 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminPage() {
   await requireAdmin();
-  const [destinations, regions, specialSections, feedbackSnap] = await Promise.all([
+  const [destinations, regions, specialSections, feedbackSnap, todayLogs] = await Promise.all([
     getAllDestinationsAdmin(),
     getAllRegions(),
     getAllSpecialSections(),
     getDb().collection("feedback").where("status", "==", "new").get(),
+    getAdminLogs(200),
   ]);
   const newFeedbackCount = feedbackSnap.size;
 
   // Count expired stop sells
   const today = new Date().toISOString().split("T")[0];
   let expiredStopSellCount = 0;
+  let activeStopSellCount = 0;
   for (const dest of destinations) {
+    if (dest.status === "stop_sell") activeStopSellCount++;
     if (dest.stop_sell_expires && dest.stop_sell_expires < today) {
       expiredStopSellCount++;
     }
   }
+
+  // Count changes today
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const changesToday = todayLogs.filter(l => new Date(l.timestamp) >= todayStart).length;
+
+  // Active destinations count
+  const activeCount = destinations.filter(d => d.status === "active").length;
 
   // Sort destinations alphabetically by name
   const sorted = [...destinations].sort((a, b) => a.name.localeCompare(b.name));
@@ -49,49 +60,97 @@ export default async function AdminPage() {
               <Button className="bg-white text-amber-700 hover:bg-white/90 shadow-sm">Add Destination</Button>
             </Link>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <Link href="/admin/users">
-              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Manage Users</Button>
-            </Link>
-            <Link href="/admin/tags">
-              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Manage Tags</Button>
-            </Link>
-            <Link href="/admin/consultants">
-              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Consultants</Button>
-            </Link>
-            <Link href="/admin/email-templates">
-              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Email Templates</Button>
-            </Link>
-            <Link href="/admin/tce-articles">
-              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">TCE Resources</Button>
-            </Link>
-            <Link href="/admin/country-specialists">
-              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Specialists</Button>
-            </Link>
-            <Link href="/admin/travel-data">
-              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Travel Data</Button>
-            </Link>
-            <Link href="/admin/stop-sells" className="relative">
-              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Stop Sells</Button>
-              {expiredStopSellCount > 0 && (
-                <span className="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-bold text-white">
-                  {expiredStopSellCount}
-                </span>
-              )}
-            </Link>
-            <Link href="/admin/feedback" className="relative">
-              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Feedback</Button>
-              {newFeedbackCount > 0 && (
-                <span className="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-bold text-white">
-                  {newFeedbackCount}
-                </span>
-              )}
-            </Link>
-            <Link href="/admin/log">
-              <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Activity Log</Button>
-            </Link>
+
+          {/* Grouped admin buttons */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Content */}
+            <div>
+              <p className="text-xs font-semibold text-white/70 uppercase tracking-wider mb-2">Content</p>
+              <div className="flex flex-wrap gap-1.5">
+                <Link href="/admin/tags">
+                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Tags</Button>
+                </Link>
+                <Link href="/admin/tce-articles">
+                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">TCE Resources</Button>
+                </Link>
+                <Link href="/admin/email-templates">
+                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Email Templates</Button>
+                </Link>
+              </div>
+            </div>
+            {/* People */}
+            <div>
+              <p className="text-xs font-semibold text-white/70 uppercase tracking-wider mb-2">People</p>
+              <div className="flex flex-wrap gap-1.5">
+                <Link href="/admin/users">
+                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Users</Button>
+                </Link>
+                <Link href="/admin/consultants">
+                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Consultants</Button>
+                </Link>
+                <Link href="/admin/country-specialists">
+                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Specialists</Button>
+                </Link>
+              </div>
+            </div>
+            {/* Operations */}
+            <div>
+              <p className="text-xs font-semibold text-white/70 uppercase tracking-wider mb-2">Operations</p>
+              <div className="flex flex-wrap gap-1.5">
+                <Link href="/admin/travel-data">
+                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Travel Data</Button>
+                </Link>
+                <Link href="/admin/stop-sells" className="relative">
+                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Stop Sells</Button>
+                  {expiredStopSellCount > 0 && (
+                    <span className="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-bold text-white">
+                      {expiredStopSellCount}
+                    </span>
+                  )}
+                </Link>
+                <Link href="/admin/feedback" className="relative">
+                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Feedback</Button>
+                  {newFeedbackCount > 0 && (
+                    <span className="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-bold text-white">
+                      {newFeedbackCount}
+                    </span>
+                  )}
+                </Link>
+                <Link href="/admin/log">
+                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Activity Log</Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Quick stats */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <Card>
+          <CardContent className="pt-4 pb-4">
+            <div className="text-2xl font-bold">{activeCount}</div>
+            <p className="text-xs text-muted-foreground">Active Destinations</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 pb-4">
+            <div className="text-2xl font-bold text-red-600">{activeStopSellCount}</div>
+            <p className="text-xs text-muted-foreground">Stop Sells</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 pb-4">
+            <div className="text-2xl font-bold text-amber-600">{newFeedbackCount}</div>
+            <p className="text-xs text-muted-foreground">Pending Feedback</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-4 pb-4">
+            <div className="text-2xl font-bold text-[#3a5f54]">{changesToday}</div>
+            <p className="text-xs text-muted-foreground">Changes Today</p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Stats by region */}

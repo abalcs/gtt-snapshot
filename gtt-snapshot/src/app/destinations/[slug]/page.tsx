@@ -7,7 +7,7 @@ import { PricingTable } from "@/components/destinations/pricing-table";
 import { SeasonalityDisplay } from "@/components/destinations/seasonality-display";
 import { ClientTypes } from "@/components/destinations/client-types";
 import { KeyFactsDisplay } from "@/components/destinations/key-facts-display";
-import { getDestinationBySlug, getAllTagDefinitions } from "@/lib/queries";
+import { getDestinationBySlug, getAllTagDefinitions, getAllDestinations } from "@/lib/queries";
 import { getFlagUrl } from "@/lib/country-flags";
 import { getTravelDataForDestination } from "@/lib/travel-data-queries";
 import { TravelInfo } from "@/components/destinations/travel-info";
@@ -15,8 +15,9 @@ import { TagBadges } from "@/components/destinations/tag-badges";
 import DestinationMap from "@/components/destinations/destination-map";
 import { getCoordinates } from "@/lib/country-coordinates";
 import { requireAuth } from "@/lib/admin-auth";
-import { invalidateCache } from "@/lib/data-cache";
 import { MobilityAccessibility } from "@/components/destinations/mobility-accessibility";
+import { TableOfContents } from "@/components/destinations/table-of-contents";
+import { DestinationCard } from "@/components/destinations/destination-card";
 
 
 export const dynamic = 'force-dynamic';
@@ -43,9 +44,10 @@ export default async function DestinationDetailPage({
 }) {
   await requireAuth();
   const { slug } = await params;
-  const [destination, tagDefinitions] = await Promise.all([
+  const [destination, tagDefinitions, allDestinations] = await Promise.all([
     getDestinationBySlug(slug),
     getAllTagDefinitions(),
+    getAllDestinations(),
   ]);
 
   if (!destination) notFound();
@@ -57,6 +59,32 @@ export default async function DestinationDetailPage({
     : [];
 
   const coords = getCoordinates(slug);
+
+  // Build related destinations from pair_with names, fallback to same region
+  let relatedDestinations = pairWithItems.length > 0
+    ? allDestinations.filter((d) =>
+        pairWithItems.some((name) => d.name.toLowerCase() === name.toLowerCase()) && d.slug !== slug
+      ).slice(0, 3)
+    : [];
+  if (relatedDestinations.length === 0) {
+    relatedDestinations = allDestinations
+      .filter((d) => d.region_slug === destination.region_slug && d.slug !== slug)
+      .slice(0, 3);
+  }
+
+  // Build TOC sections based on which content exists
+  const tocSections: { id: string; label: string }[] = [];
+  if (travelData) tocSections.push({ id: "travel-info", label: "Travel Info" });
+  if (destination.talking_points) tocSections.push({ id: "talking-points", label: "Talking Points" });
+  if (destination.key_facts) tocSections.push({ id: "key-facts", label: "Key Facts" });
+  if (destination.pricing_tiers.length > 0) tocSections.push({ id: "pricing", label: "Pricing" });
+  if (destination.seasonality) tocSections.push({ id: "seasonality", label: "Seasonality" });
+  if (destination.client_types_good || destination.client_types_okay || destination.client_types_bad) tocSections.push({ id: "client-types", label: "Client Types" });
+  if (destination.terrain_difficulty !== null || destination.wheelchair_friendliness !== null || destination.walking_required !== null || destination.altitude_concern !== null || destination.mobility_notes) tocSections.push({ id: "mobility", label: "Mobility" });
+  if (destination.accommodations) tocSections.push({ id: "accommodations", label: "Accommodations" });
+  if (destination.general_notes_1 || destination.general_notes_2) tocSections.push({ id: "general-notes", label: "Notes" });
+  if (pairWithItems.length > 0) tocSections.push({ id: "pair-with", label: "Pair With" });
+  if (relatedDestinations.length > 0) tocSections.push({ id: "related", label: "Related" });
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 print:space-y-4">
@@ -107,6 +135,9 @@ export default async function DestinationDetailPage({
         </div>
       </div>
 
+      {/* Table of Contents */}
+      {tocSections.length > 2 && <TableOfContents sections={tocSections} />}
+
       {/* Location Map */}
       {coords && (
         <DestinationMap
@@ -118,11 +149,11 @@ export default async function DestinationDetailPage({
       )}
 
       {/* Travel Information */}
-      {travelData && <TravelInfo data={travelData} />}
+      {travelData && <div id="travel-info" className="scroll-mt-20"><TravelInfo data={travelData} /></div>}
 
       {/* Talking Points */}
       {destination.talking_points && (
-        <Card className="border-l-4 border-l-[#3a5f54] bg-white">
+        <Card id="talking-points" className="border-l-4 border-l-[#3a5f54] bg-white scroll-mt-20">
           <CardContent className="pt-4 pb-4">
             <div className="flex items-start gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#3a5f54] mt-0.5 shrink-0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -222,7 +253,7 @@ export default async function DestinationDetailPage({
       {destination.key_facts && (
         <>
           <Separator />
-          <div>
+          <div id="key-facts" className="scroll-mt-20">
             <h2 className="text-lg font-semibold mb-3">Key Facts</h2>
             <KeyFactsDisplay keyFacts={destination.key_facts} />
           </div>
@@ -233,7 +264,7 @@ export default async function DestinationDetailPage({
       {destination.pricing_tiers.length > 0 && (
         <>
           <Separator />
-          <div>
+          <div id="pricing" className="scroll-mt-20">
             <h2 className="text-lg font-semibold mb-3">Pricing</h2>
             <PricingTable tiers={destination.pricing_tiers} footnotes={destination.pricing_footnotes} />
           </div>
@@ -244,7 +275,7 @@ export default async function DestinationDetailPage({
       {destination.seasonality && (
         <>
           <Separator />
-          <div>
+          <div id="seasonality" className="scroll-mt-20">
             <h2 className="text-lg font-semibold mb-3">Seasonality</h2>
             <SeasonalityDisplay seasonality={destination.seasonality} />
           </div>
@@ -255,7 +286,7 @@ export default async function DestinationDetailPage({
       {(destination.client_types_good || destination.client_types_okay || destination.client_types_bad) && (
         <>
           <Separator />
-          <div>
+          <div id="client-types" className="scroll-mt-20">
             <h2 className="text-lg font-semibold mb-3">Client Types</h2>
             <ClientTypes
               good={destination.client_types_good}
@@ -270,7 +301,7 @@ export default async function DestinationDetailPage({
       {(destination.terrain_difficulty !== null || destination.wheelchair_friendliness !== null || destination.walking_required !== null || destination.altitude_concern !== null || destination.mobility_notes) && (
         <>
           <Separator />
-          <div>
+          <div id="mobility" className="scroll-mt-20">
             <h2 className="text-lg font-semibold mb-3">Mobility & Accessibility</h2>
             <MobilityAccessibility
               terrainDifficulty={destination.terrain_difficulty}
@@ -287,7 +318,7 @@ export default async function DestinationDetailPage({
       {destination.accommodations && (
         <>
           <Separator />
-          <div>
+          <div id="accommodations" className="scroll-mt-20">
             <h2 className="text-lg font-semibold mb-3">Accommodations</h2>
             <ul className="list-disc list-inside space-y-1 text-sm leading-relaxed">
               {destination.accommodations.split("\n").filter((l: string) => l.trim()).map((line: string, i: number) => (
@@ -311,7 +342,7 @@ export default async function DestinationDetailPage({
       {(destination.general_notes_1 || destination.general_notes_2) && (
         <>
           <Separator />
-          <div className="space-y-4">
+          <div id="general-notes" className="scroll-mt-20 space-y-4">
             <h2 className="text-lg font-semibold">General Notes</h2>
             {destination.general_notes_1 && (
               <p className="text-sm whitespace-pre-line leading-relaxed" dangerouslySetInnerHTML={{ __html: formatInline(destination.general_notes_1) }} />
@@ -327,13 +358,28 @@ export default async function DestinationDetailPage({
       {pairWithItems.length > 0 && (
         <>
           <Separator />
-          <div>
+          <div id="pair-with" className="scroll-mt-20">
             <h2 className="text-lg font-semibold mb-3">Pair With</h2>
             <div className="flex flex-wrap gap-2">
               {pairWithItems.map((item) => (
                 <Badge key={item} variant="outline" className="text-sm">
                   {item}
                 </Badge>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Related Destinations */}
+      {relatedDestinations.length > 0 && (
+        <>
+          <Separator />
+          <div id="related" className="scroll-mt-20">
+            <h2 className="text-lg font-semibold mb-3">Related Destinations</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {relatedDestinations.map((dest) => (
+                <DestinationCard key={dest.id} destination={dest} tagDefinitions={tagDefinitions} />
               ))}
             </div>
           </div>
