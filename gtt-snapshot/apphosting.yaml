@@ -8,8 +8,5 @@ runConfig:
 env:
   - variable: CRON_SECRET
     secret: CRON_SECRET
-  - variable: TUGO_API_KEY
-    secret: TUGO_API_KEY
     availability:
-      - BUILD
       - RUNTIME
