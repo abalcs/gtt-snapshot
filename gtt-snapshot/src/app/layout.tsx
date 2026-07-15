@@ -107,7 +107,7 @@ export default async function RootLayout({
           </div>
         </div>
         <FeedbackButton user={{ name: user.name, email: user.email }} />
-        <AnalyticsTracker userEmail={user.email} userName={user.name} />
+        {user.role !== "admin" && <AnalyticsTracker userEmail={user.email} userName={user.name} />}
       </body>
     </html>
   );
