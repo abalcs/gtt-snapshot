@@ -1,6 +1,7 @@
 import { getDb } from "@/../db/database";
 import { getCached, setCache } from "./data-cache";
 import { getContinentForDestination, getContinentOrder } from "./continents";
+import { SPECIALIST_DATA } from "./specialist-data";
 
 export interface TaAssignment {
   country: string;
@@ -306,14 +307,43 @@ export const COUNTRY_AGENT_ASSIGNMENTS: { country: string; agents: string[] }[] 
   { country: "India", agents: ["Jason Toms", "Kat DiPlacido"] },
   { country: "Spain", agents: ["Corinne Landry", "Erika Jolie", "Riley Casadei", "Erika Jolie", "Riley Casadei"] },
   { country: "Indonesia", agents: ["Jack Tydeman", "Matt McLean", "Zachary Vogel"] },
-  { country: "Peru/Ecuador", agents: ["Tyler NilssonGoodwin", "Jasmine Scott", "Nataly Solis-Alva", "Spencer Kulis"] },
+  { country: "Peru", agents: ["Tyler NilssonGoodwin", "Jasmine Scott", "Nataly Solis-Alva"] },
+  { country: "Ecuador", agents: ["Tyler NilssonGoodwin", "Jasmine Scott", "Nataly Solis-Alva", "Spencer Kulis"] },
   { country: "Costa Rica", agents: ["Jasmine Scott", "Spencer Kulis", "Eileen Dinn"] },
 ];
+
+/** Maps country section names to destination slugs for filtering */
+const COUNTRY_SLUG_MAP: Record<string, string[]> = {
+  "Japan": ["japan"],
+  "Italy": ["italy", "sardinia"],
+  "Australia & NZ": ["australia", "new-zealand"],
+  "Thailand": ["thailand"],
+  "Switzerland": ["switzerland"],
+  "French Poly": ["french-polynesia"],
+  "Ireland": ["ireland"],
+  "Portugal": ["portugal", "azores"],
+  "Iceland": ["iceland"],
+  "France": ["france"],
+  "Egypt": ["egypt"],
+  "South Africa": ["south-africa"],
+  "Scotland": ["scotland"],
+  "Greece": ["greece"],
+  "Morocco": ["morocco"],
+  "India": ["india"],
+  "Spain": ["spain"],
+  "Indonesia": ["indonesia"],
+  "Peru": ["peru"],
+  "Ecuador": ["ecuador", "galapagos"],
+  "Costa Rica": ["costa-rica"],
+  "Tanzania": ["tanzania", "zanzibar"],
+  "England": ["england"],
+};
 
 export interface CountryAgentEntry {
   taLabel: string; // "TA1", "TA2", etc.
   name: string; // display name
   consultant: Consultant | null; // matched Firestore record, or null
+  relevantDestinations: string[]; // destinations this agent sells that match this section
 }
 
 export interface CountryAgentGroup {
@@ -336,6 +366,118 @@ export async function getCountryAgentGroups(): Promise<CountryAgentGroup[]> {
     if (c.taAssignments && c.taAssignments.length > 0) {
       firestoreManaged.add(c.name.toLowerCase());
     }
+  }
+
+  // Helper: filter a consultant's destinations to only those relevant to this country section
+  function getRelevantDestinations(country: string, destinations: string[]): string[] {
+    const slugs = COUNTRY_SLUG_MAP[country];
+    if (!slugs) return [];
+    return destinations.filter(d => slugs.includes(d));
+  }
+
+  // Helper: format destination slugs as display names
+  function formatSlug(slug: string): string {
+    return slug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  }
+
+  /** Maps specialist interest names to TA Preferred section names */
+  const INTEREST_TO_SECTION: Record<string, string> = {
+    "Australia": "Australia & NZ",
+    "New Zealand": "Australia & NZ",
+    "French Polynesia": "French Poly",
+    "Southern India": "India",
+    "Northern India / Rajasthan": "India",
+    "Wildlife India": "India",
+    "Peru": "Peru",
+    "Ecuador": "Ecuador",
+    "Costa Rica": "Costa Rica",
+    "Japan": "Japan",
+    "Italy": "Italy",
+    "Thailand": "Thailand",
+    "Switzerland": "Switzerland",
+    "Ireland": "Ireland",
+    "Portugal": "Portugal",
+    "Iceland": "Iceland",
+    "France": "France",
+    "Egypt": "Egypt",
+    "South Africa": "South Africa",
+    "Scotland": "Scotland",
+    "Greece": "Greece",
+    "Morocco": "Morocco",
+    "England": "England",
+    "Spain": "Spain",
+    "Indonesia": "Indonesia",
+    "Tanzania": "Tanzania",
+    "India": "India",
+  };
+
+  // Normalize name for matching: lowercase, collapse whitespace/hyphens
+  function normalizeName(name: string): string {
+    return name.toLowerCase().replace(/[-\s]+/g, " ").trim();
+  }
+
+  // Build specialist lookup: normalized consultant name → set of section names they cover
+  const specialistSections = new Map<string, Set<string>>();
+  // Also map normalized name → display interest names per section
+  const specialistInterests = new Map<string, Map<string, string[]>>();
+  for (const entry of SPECIALIST_DATA) {
+    const section = INTEREST_TO_SECTION[entry.interest];
+    if (!section) continue;
+    for (const name of entry.specialists) {
+      const cleanName = name.replace(/\s*\(.*?\)\s*/g, "").trim();
+      if (!cleanName || cleanName === "None currently") continue;
+      const norm = normalizeName(cleanName);
+      if (!specialistSections.has(norm)) specialistSections.set(norm, new Set());
+      specialistSections.get(norm)!.add(section);
+      if (!specialistInterests.has(norm)) specialistInterests.set(norm, new Map());
+      const secMap = specialistInterests.get(norm)!;
+      if (!secMap.has(section)) secMap.set(section, []);
+      if (!secMap.get(section)!.includes(entry.interest)) {
+        secMap.get(section)!.push(entry.interest);
+      }
+    }
+  }
+
+  // Helper: get relevant destinations for display — filter to only destinations
+  // matching this section's country. Falls back to specialist data when the
+  // consultant's Firestore destinations don't match the section slugs.
+  function getContextualDestinations(country: string, destinations: string[], consultantName: string): string[] {
+    const sectionSlugs = COUNTRY_SLUG_MAP[country] ?? [];
+    if (sectionSlugs.length === 0) return [];
+
+    // Include this section's slugs + check for closely related paired sections
+    const PAIRED_SECTIONS: Record<string, string[]> = {
+      "Peru": ["Ecuador"],
+      "Ecuador": ["Peru"],
+    };
+    const relevantSlugs = new Set(sectionSlugs);
+    for (const paired of PAIRED_SECTIONS[country] ?? []) {
+      (COUNTRY_SLUG_MAP[paired] ?? []).forEach(s => relevantSlugs.add(s));
+    }
+
+    // Try matching from consultant's Firestore destinations
+    const matched = destinations.filter(d => relevantSlugs.has(d)).map(formatSlug);
+    if (matched.length > 0) return matched;
+
+    // Fallback: use specialist data to find which interests this consultant covers
+    const norm = normalizeName(consultantName);
+    const interestMap = specialistInterests.get(norm);
+    if (!interestMap) return [];
+
+    const results: string[] = [];
+    // Get interests for this section
+    const sectionInterests = interestMap.get(country) ?? [];
+    results.push(...sectionInterests);
+
+    // Also include paired section interests
+    for (const paired of PAIRED_SECTIONS[country] ?? []) {
+      const pairedInterests = interestMap.get(paired) ?? [];
+      for (const interest of pairedInterests) {
+        if (!results.includes(interest)) results.push(interest);
+      }
+    }
+
+    return results;
   }
 
   // 1. Build base from static COUNTRY_AGENT_ASSIGNMENTS
@@ -368,29 +510,40 @@ export async function getCountryAgentGroups(): Promise<CountryAgentGroup[]> {
           displayRegions: consultant.displayRegions,
           countriesDisplay: consultant.countriesDisplay,
         },
+        relevantDestinations: getContextualDestinations(country, consultant.destinations, consultant.name),
       });
     });
 
     countryMap.set(country, entries);
   }
 
+  // Legacy combined sections that have been split — expand into individual sections
+  const SPLIT_SECTIONS: Record<string, string[]> = {
+    "Peru/Ecuador": ["Peru", "Ecuador"],
+  };
+
   // 2. Overlay Firestore taAssignments (admin-managed overrides)
   for (const c of consultants) {
     if (!c.taAssignments || c.taAssignments.length === 0) continue;
     for (const { country, rank } of c.taAssignments) {
-      if (!countryMap.has(country)) countryMap.set(country, []);
-      countryMap.get(country)!.push({
-        taLabel: `TA${rank}`,
-        name: c.name,
-        consultant: {
+      // Expand legacy combined sections into their individual sections
+      const targetCountries = SPLIT_SECTIONS[country] ?? [country];
+      for (const targetCountry of targetCountries) {
+        if (!countryMap.has(targetCountry)) countryMap.set(targetCountry, []);
+        countryMap.get(targetCountry)!.push({
+          taLabel: `TA${rank}`,
           name: c.name,
-          title: c.title,
-          calendarUrl: c.calendarUrl,
-          destinations: c.destinations,
-          displayRegions: c.displayRegions,
-          countriesDisplay: c.countriesDisplay,
-        },
-      });
+          consultant: {
+            name: c.name,
+            title: c.title,
+            calendarUrl: c.calendarUrl,
+            destinations: c.destinations,
+            displayRegions: c.displayRegions,
+            countriesDisplay: c.countriesDisplay,
+          },
+          relevantDestinations: getContextualDestinations(targetCountry, c.destinations, c.name),
+        });
+      }
     }
   }
 

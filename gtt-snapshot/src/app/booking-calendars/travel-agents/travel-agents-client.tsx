@@ -162,6 +162,11 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
                                   {agent.consultant.title}
                                 </p>
                               )}
+                              {agent.relevantDestinations && agent.relevantDestinations.length > 0 && (
+                                <p className="text-xs text-muted-foreground ml-10 mt-0.5">
+                                  {agent.relevantDestinations.join(", ")}
+                                </p>
+                              )}
                               {count > 0 && (
                                 <div className="ml-10 mt-0.5">
                                   <Badge variant="outline" className="text-xs">
