@@ -17,7 +17,7 @@ export const TAG_CATEGORIES: { key: TagCategory; label: string; color: string }[
 
 /** Seed / fallback constant — used by seed script and as offline fallback */
 export const ALL_TAGS: Tag[] = [
-  // Trip Style (9)
+  // Trip Style (11)
   { slug: 'beaches-and-coast', label: 'Beaches & Coast', category: 'trip-style' },
   { slug: 'safari-and-wildlife', label: 'Safari & Wildlife', category: 'trip-style' },
   { slug: 'cultural-immersion', label: 'Cultural Immersion', category: 'trip-style' },
@@ -27,8 +27,10 @@ export const ALL_TAGS: Tag[] = [
   { slug: 'adventure-and-outdoors', label: 'Adventure & Outdoors', category: 'trip-style' },
   { slug: 'relaxation-and-wellness', label: 'Relaxation & Wellness', category: 'trip-style' },
   { slug: 'off-the-beaten-path', label: 'Off the Beaten Path', category: 'trip-style' },
+  { slug: 'nightlife-and-drinks', label: 'Nightlife & Drinks', category: 'trip-style' },
+  { slug: 'all-inclusive', label: 'All-Inclusive', category: 'trip-style' },
 
-  // Activities (7)
+  // Activities (9)
   { slug: 'hiking-and-trekking', label: 'Hiking & Trekking', category: 'activities' },
   { slug: 'diving-and-snorkeling', label: 'Diving & Snorkeling', category: 'activities' },
   { slug: 'water-sports', label: 'Water Sports', category: 'activities' },
@@ -36,6 +38,8 @@ export const ALL_TAGS: Tag[] = [
   { slug: 'whale-watching', label: 'Whale Watching', category: 'activities' },
   { slug: 'birding', label: 'Birding', category: 'activities' },
   { slug: 'photography', label: 'Photography', category: 'activities' },
+  { slug: 'cruising', label: 'Cruising', category: 'activities' },
+  { slug: 'self-drive', label: 'Self-Drive', category: 'activities' },
 
   // Traveler Profile (8)
   { slug: 'honeymoon-and-romance', label: 'Honeymoon & Romance', category: 'traveler-profile' },
