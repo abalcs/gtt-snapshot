@@ -41,18 +41,19 @@ export async function recordEventBatch(batch: AnalyticsEventBatch): Promise<void
     if (event.session_id) sessionIds.add(event.session_id);
 
     if (event.type === "page_view") {
-      // Daily rollup
+      // Daily rollup — use nested objects (not dot-notation keys) so
+      // Firestore set-with-merge creates proper nested fields.
       await eventDailyRef.set({
         date: eventDate,
         total_page_views: FieldValue.increment(1),
         unique_users: FieldValue.arrayUnion(batch.user_email),
-        [`hourly_views.${eventHour}`]: FieldValue.increment(1),
+        hourly_views: { [String(eventHour)]: FieldValue.increment(1) },
       }, { merge: true });
 
       // Destination-specific view count
       if (event.destination) {
         await eventDailyRef.set({
-          [`destination_views.${event.destination}`]: FieldValue.increment(1),
+          destination_views: { [event.destination]: FieldValue.increment(1) },
         }, { merge: true });
       }
 
@@ -67,7 +68,7 @@ export async function recordEventBatch(batch: AnalyticsEventBatch): Promise<void
 
       if (event.destination) {
         await userRef.set({
-          [`favorite_destinations.${event.destination}`]: FieldValue.increment(1),
+          favorite_destinations: { [event.destination]: FieldValue.increment(1) },
         }, { merge: true });
       }
     }
@@ -85,7 +86,7 @@ export async function recordEventBatch(batch: AnalyticsEventBatch): Promise<void
       const queryKey = event.search_query.toLowerCase().trim().replace(/\./g, "_");
       await eventDailyRef.set({
         date: eventDate,
-        [`searches.${queryKey}`]: FieldValue.increment(1),
+        searches: { [queryKey]: FieldValue.increment(1) },
         unique_users: FieldValue.arrayUnion(batch.user_email),
       }, { merge: true });
 
@@ -106,7 +107,7 @@ export async function recordEventBatch(batch: AnalyticsEventBatch): Promise<void
     if (event.type === "compare" || event.type === "help_me_choose") {
       await eventDailyRef.set({
         date: eventDate,
-        [`feature_usage.${event.type}`]: FieldValue.increment(1),
+        feature_usage: { [event.type]: FieldValue.increment(1) },
         unique_users: FieldValue.arrayUnion(batch.user_email),
       }, { merge: true });
     }
@@ -115,7 +116,7 @@ export async function recordEventBatch(batch: AnalyticsEventBatch): Promise<void
       const filterKey = `${event.filter_type}:${event.filter_value}`;
       await eventDailyRef.set({
         date: eventDate,
-        [`filter_usage.${filterKey}`]: FieldValue.increment(1),
+        filter_usage: { [filterKey]: FieldValue.increment(1) },
         unique_users: FieldValue.arrayUnion(batch.user_email),
       }, { merge: true });
     }
@@ -127,6 +128,47 @@ export async function recordEventBatch(batch: AnalyticsEventBatch): Promise<void
       session_ids: FieldValue.arrayUnion(...Array.from(sessionIds)),
     }, { merge: true });
   }
+}
+
+// ── Helpers: reconstruct nested maps from flat dot-notation fields ──
+// Firestore set-with-merge previously stored "destination_views.italy": 1
+// as a flat top-level field instead of destination_views: { italy: 1 }.
+// This helper merges both formats into proper nested objects.
+
+function extractNestedMap(data: Record<string, unknown>, prefix: string): Record<string, number> {
+  // Start with the nested object if it exists
+  const nested = (data[prefix] as Record<string, number> | undefined) ?? {};
+  const result: Record<string, number> = { ...nested };
+  // Also collect flat dot-notation keys like "prefix.key"
+  const dotPrefix = prefix + ".";
+  for (const [key, value] of Object.entries(data)) {
+    if (key.startsWith(dotPrefix) && typeof value === "number") {
+      const subKey = key.slice(dotPrefix.length);
+      result[subKey] = (result[subKey] ?? 0) + value;
+    }
+  }
+  return result;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizeDailyDoc(raw: Record<string, any>): DailyDoc {
+  return {
+    date: raw.date,
+    total_page_views: raw.total_page_views,
+    unique_users: raw.unique_users,
+    destination_views: extractNestedMap(raw, "destination_views"),
+    searches: extractNestedMap(raw, "searches"),
+    zero_result_searches: raw.zero_result_searches,
+    feature_usage: extractNestedMap(raw, "feature_usage"),
+    filter_usage: extractNestedMap(raw, "filter_usage"),
+    hourly_views: extractNestedMap(raw, "hourly_views"),
+    destination_dwell_ms: raw.destination_dwell_ms,
+    destination_dwell_count: raw.destination_dwell_count,
+  };
+}
+
+function extractUserFavorites(data: Record<string, unknown>): Record<string, number> {
+  return extractNestedMap(data, "favorite_destinations");
 }
 
 // ── Read: Dashboard data (v1) ─────────────────────────────
@@ -145,18 +187,10 @@ export async function getDashboardData(rangeDays: number): Promise<AnalyticsDash
     .orderBy("date", "asc")
     .get();
 
-  const dailyDocs = dailySnap.docs.map(d => ({ id: d.id, ...d.data() })) as Array<{
-    id: string;
-    date: string;
-    total_page_views?: number;
-    unique_users?: string[];
-    destination_views?: Record<string, number>;
-    searches?: Record<string, number>;
-    zero_result_searches?: string[];
-    feature_usage?: Record<string, number>;
-    filter_usage?: Record<string, number>;
-    hourly_views?: Record<string, number>;
-  }>;
+  const dailyDocs = dailySnap.docs.map(d => {
+    const norm = normalizeDailyDoc(d.data());
+    return { id: d.id, ...norm };
+  });
 
   // Overview
   const todayDoc = dailyDocs.find(d => d.date === todayStr);
@@ -253,7 +287,7 @@ export async function getDashboardData(rangeDays: number): Promise<AnalyticsDash
     const data = d.data();
     const activeDays: string[] = data.active_days ?? [];
     const recentDays = activeDays.filter(day => day >= startStr);
-    const favDests: Record<string, number> = data.favorite_destinations ?? {};
+    const favDests: Record<string, number> = extractUserFavorites(data as Record<string, unknown>);
     const topDest = Object.entries(favDests).sort((a, b) => b[1] - a[1])[0];
     return {
       email: data.email ?? d.id,
@@ -317,7 +351,7 @@ async function fetchDailyDocs(fromDate: string): Promise<DailyDoc[]> {
     .where("date", ">=", fromDate)
     .orderBy("date", "asc")
     .get();
-  return snap.docs.map(d => d.data() as DailyDoc);
+  return snap.docs.map(d => normalizeDailyDoc(d.data()));
 }
 
 function splitPeriods(docs: DailyDoc[], startStr: string): { current: DailyDoc[]; previous: DailyDoc[] } {
@@ -469,7 +503,7 @@ export async function getUserEngagement(rangeDays: number): Promise<UserEngageme
     const data = d.data();
     const activeDays: string[] = data.active_days ?? [];
     const recentDays = activeDays.filter(day => day >= startStr);
-    const favDests: Record<string, number> = data.favorite_destinations ?? {};
+    const favDests: Record<string, number> = extractUserFavorites(data as Record<string, unknown>);
     const topDest = Object.entries(favDests).sort((a, b) => b[1] - a[1])[0];
     const features = Array.from(userFeatures[data.email ?? d.id] ?? []);
 

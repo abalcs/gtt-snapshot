@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { getAllDestinations, getAllRegions, getAllTagDefinitions } from "@/lib/queries";
+import { getAllDestinations, getAllRegions, getAllTagDefinitions, getDestinationPopularity } from "@/lib/queries";
 import { DestinationFilters } from "@/components/destinations/destination-filters";
-import { TagFilterBar } from "@/components/destinations/tag-filter-bar";
-import { SeasonFilterBar } from "@/components/destinations/season-filter-bar";
-import { BudgetFilterBar } from "@/components/destinations/budget-filter-bar";
+import { FilterPanel } from "@/components/destinations/filter-panel";
 import { DestinationGrid } from "@/components/destinations/destination-grid";
 import { EmptyState } from "@/components/ui/empty-state";
 import { requireAuth } from "@/lib/admin-auth";
@@ -25,10 +23,11 @@ async function DestinationsContent({
 }) {
   await requireAuth();
   const { region, tags: tagsParam, seasons: seasonsParam, budget: budgetParam } = await searchParamsPromise;
-  const [allDestinations, regions, tagDefinitions] = await Promise.all([
+  const [allDestinations, regions, tagDefinitions, popularity] = await Promise.all([
     getAllDestinations(),
     getAllRegions(),
     getAllTagDefinitions(),
+    getDestinationPopularity(),
   ]);
 
   const activeTags = tagsParam ? tagsParam.split(",").filter(Boolean) : [];
@@ -59,6 +58,14 @@ async function DestinationsContent({
     );
   }
 
+  // Sort by popularity (view count desc), then alphabetically for 0-view destinations
+  filteredDestinations.sort((a, b) => {
+    const aViews = popularity[a.slug] ?? 0;
+    const bViews = popularity[b.slug] ?? 0;
+    if (aViews !== bViews) return bViews - aViews;
+    return a.name.localeCompare(b.name);
+  });
+
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div>
@@ -85,14 +92,21 @@ async function DestinationsContent({
 
       <DestinationFilters regions={regions} currentRegion={region} />
 
-      <SeasonFilterBar currentSeasons={activeSeasons} />
-
-      <BudgetFilterBar currentBudget={activeBudget} />
-
-      <TagFilterBar currentTags={activeTags} tagDefinitions={tagDefinitions} />
+      <FilterPanel
+        currentTags={activeTags}
+        currentSeasons={activeSeasons}
+        currentBudget={activeBudget}
+        tagDefinitions={tagDefinitions}
+      />
 
       {filteredDestinations.length > 0 ? (
-        <DestinationGrid destinations={filteredDestinations} tagDefinitions={tagDefinitions} />
+        <DestinationGrid
+          destinations={filteredDestinations}
+          tagDefinitions={tagDefinitions}
+          activeTags={activeTags}
+          activeSeasons={activeSeasons}
+          activeBudget={activeBudget}
+        />
       ) : hasFilters ? (
         <EmptyState
           icon={<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>}

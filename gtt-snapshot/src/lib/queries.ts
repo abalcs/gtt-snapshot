@@ -617,6 +617,44 @@ export async function deleteTagDefinition(slug: string): Promise<void> {
   invalidateCache();
 }
 
+// ── Destination Popularity ────────────────────────────────
+
+export async function getDestinationPopularity(): Promise<Record<string, number>> {
+  const cached = getCached<Record<string, number>>('popularity:30d');
+  if (cached) return cached;
+
+  const now = new Date();
+  const start = new Date(now);
+  start.setDate(start.getDate() - 30);
+  const startStr = start.toISOString().slice(0, 10);
+
+  const snap = await db()
+    .collection('analytics_daily')
+    .where('date', '>=', startStr)
+    .get();
+
+  const viewCounts: Record<string, number> = {};
+  for (const doc of snap.docs) {
+    const data = doc.data();
+    // Handle nested object format
+    const destViews: Record<string, number> = data.destination_views ?? {};
+    for (const [slug, count] of Object.entries(destViews)) {
+      if (typeof count === 'number') {
+        viewCounts[slug] = (viewCounts[slug] ?? 0) + count;
+      }
+    }
+    // Handle flat dot-notation format ("destination_views.slug": count)
+    for (const [key, value] of Object.entries(data)) {
+      if (key.startsWith('destination_views.') && typeof value === 'number') {
+        const slug = key.slice('destination_views.'.length);
+        viewCounts[slug] = (viewCounts[slug] ?? 0) + value;
+      }
+    }
+  }
+
+  return setCache('popularity:30d', viewCounts, 5 * 60 * 1000); // 5 min cache
+}
+
 // ── Sidebar Data ─────────────────────────────────────────
 
 export async function getSidebarData(): Promise<{ regions: (Region & { destinations: { name: string; slug: string; status: string }[] })[]; specialSections: { title: string; slug: string }[] }> {

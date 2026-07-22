@@ -148,15 +148,6 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
                 pathname === "/destinations" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
               )}
             >
-              All Destinations
-            </Link>
-            <Link
-              href="/help-me-choose"
-              className={cn(
-                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                pathname === "/help-me-choose" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
-              )}
-            >
               Help Me Choose
             </Link>
             <Link
