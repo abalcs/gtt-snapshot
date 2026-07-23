@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
+import { useState, useRef, useCallback } from "react";
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { getCoordinates } from "@/lib/country-coordinates";
 import { MapPopupCard } from "@/components/destinations/map-popup-card";
 import type { DestinationWithRegion, TagDefinition } from "@/lib/types";
+
+const MAP_HEIGHT = 600;
 
 const REGION_COLORS: Record<string, string> = {
   "africa": "#d97706",
@@ -47,7 +49,6 @@ function createMarkerIcon(
     className: "",
     iconSize: [totalSize, totalSize],
     iconAnchor: [totalSize / 2, totalSize / 2],
-    popupAnchor: [0, -totalSize / 2],
   });
 }
 
@@ -120,6 +121,23 @@ function MapLabels() {
   );
 }
 
+// ── Child component to capture map ref + close popup on background click ──
+
+function MapSetup({
+  mapRef,
+  onBackgroundClick,
+}: {
+  mapRef: React.MutableRefObject<L.Map | null>;
+  onBackgroundClick: () => void;
+}) {
+  const map = useMap();
+  mapRef.current = map;
+  useMapEvents({
+    click: onBackgroundClick,
+  });
+  return null;
+}
+
 // ── Main component ─────────────────────────────────────────────────
 
 interface WorldMapProps {
@@ -145,6 +163,33 @@ export default function WorldMap({
   onToggleCompare,
   buildMatchBadges,
 }: WorldMapProps) {
+  const mapRef = useRef<L.Map | null>(null);
+  const [activeDest, setActiveDest] = useState<DestinationWithRegion | null>(null);
+  const [popupPos, setPopupPos] = useState<{ x: number; y: number } | null>(null);
+  const [popupBelow, setPopupBelow] = useState(false);
+
+  const closePopup = useCallback(() => {
+    setActiveDest(null);
+    setPopupPos(null);
+  }, []);
+
+  const handleMarkerClick = useCallback((dest: DestinationWithRegion) => {
+    if (!mapRef.current) return;
+    const coords = getCoordinates(dest.slug);
+    if (!coords) return;
+
+    if (activeDest?.slug === dest.slug) {
+      closePopup();
+      return;
+    }
+
+    const point = mapRef.current.latLngToContainerPoint([coords.lat, coords.lng]);
+    // Show popup below marker if it's in the top 40% of the map
+    setPopupBelow(point.y < MAP_HEIGHT * 0.4);
+    setActiveDest(dest);
+    setPopupPos({ x: point.x, y: point.y });
+  }, [activeDest, closePopup]);
+
   const visibleDestinations = allDestinations.filter((dest) => {
     const coords = getCoordinates(dest.slug);
     if (!coords) return false;
@@ -153,53 +198,103 @@ export default function WorldMap({
   });
 
   return (
-    <MapContainer
-      center={[20, 0]}
-      zoom={2}
-      minZoom={2}
-      maxZoom={8}
-      style={{ height: "600px", width: "100%" }}
-      scrollWheelZoom={false}
-      dragging={false}
-      doubleClickZoom={false}
-      touchZoom={false}
-      boxZoom={false}
-      keyboard={false}
-      className="rounded-lg border border-border world-map-container"
-    >
-      <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
-      />
-      <MapLabels />
-      {visibleDestinations.map((dest) => {
-        const coords = getCoordinates(dest.slug)!;
-        const isMatch = filteredSlugs.has(dest.slug);
-        const isDimmed = hasFilters && !isMatch;
-        const isSelected = selectedSlugs.includes(dest.slug);
-        const isStopSell = dest.status === "stop_sell";
+    <div className="relative">
+      <MapContainer
+        center={[30, 0]}
+        zoom={2}
+        minZoom={2}
+        maxZoom={8}
+        style={{ height: `${MAP_HEIGHT}px`, width: "100%" }}
+        scrollWheelZoom={false}
+        dragging={false}
+        doubleClickZoom={false}
+        touchZoom={false}
+        boxZoom={false}
+        keyboard={false}
+        className="rounded-lg border border-border"
+      >
+        <TileLayer
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+        />
+        <MapSetup mapRef={mapRef} onBackgroundClick={closePopup} />
+        <MapLabels />
+        {visibleDestinations.map((dest) => {
+          const coords = getCoordinates(dest.slug)!;
+          const isMatch = filteredSlugs.has(dest.slug);
+          const isDimmed = hasFilters && !isMatch;
+          const isSelected = selectedSlugs.includes(dest.slug);
+          const isStopSell = dest.status === "stop_sell";
 
-        const icon = createMarkerIcon(dest.region_slug, {
-          dimmed: isDimmed,
-          selected: isSelected,
-          stopSell: isStopSell,
-        });
+          const icon = createMarkerIcon(dest.region_slug, {
+            dimmed: isDimmed,
+            selected: isSelected,
+            stopSell: isStopSell,
+          });
 
-        return (
-          <Marker key={dest.slug} position={[coords.lat, coords.lng]} icon={icon}>
-            <Popup className="world-map-popup" maxWidth={280} minWidth={280} autoPan={false}>
+          return (
+            <Marker
+              key={dest.slug}
+              position={[coords.lat, coords.lng]}
+              icon={icon}
+              eventHandlers={{ click: (e) => { L.DomEvent.stopPropagation(e.originalEvent); handleMarkerClick(dest); } }}
+            />
+          );
+        })}
+      </MapContainer>
+
+      {/* Custom popup rendered outside map container so it's never clipped */}
+      {activeDest && popupPos && (
+        <div
+          className="absolute z-[1000] pointer-events-auto"
+          style={{
+            left: popupPos.x,
+            ...(popupBelow
+              ? { top: popupPos.y + 12 }
+              : { top: popupPos.y - 12, transform: "translate(-50%, -100%)" }),
+            ...(!popupBelow ? {} : { transform: "translateX(-50%)" }),
+          }}
+        >
+          {/* Arrow tip */}
+          {popupBelow ? (
+            <div className="flex justify-center -mb-1">
+              <div className="w-3 h-3 bg-white border-l border-t border-border rotate-45 -translate-y-0.5" />
+            </div>
+          ) : null}
+
+          <div className="bg-white rounded-xl shadow-lg border border-border w-[280px]">
+            <div className="flex justify-end p-1 pb-0">
+              <button
+                onClick={closePopup}
+                className="text-muted-foreground hover:text-foreground text-lg leading-none px-1.5"
+              >
+                &times;
+              </button>
+            </div>
+            <div className="px-3.5 pb-3.5 -mt-1">
               <MapPopupCard
-                destination={dest}
+                destination={activeDest}
                 tagDefinitions={tagDefinitions}
-                matchBadges={isDimmed ? [] : buildMatchBadges(dest)}
+                matchBadges={
+                  hasFilters && !filteredSlugs.has(activeDest.slug)
+                    ? []
+                    : buildMatchBadges(activeDest)
+                }
                 compareMode={compareMode}
-                isSelected={isSelected}
+                isSelected={selectedSlugs.includes(activeDest.slug)}
                 onToggleCompare={onToggleCompare}
               />
-            </Popup>
-          </Marker>
-        );
-      })}
-    </MapContainer>
+            </div>
+          </div>
+
+          {/* Arrow tip below */}
+          {!popupBelow ? (
+            <div className="flex justify-center -mt-1">
+              <div className="w-3 h-3 bg-white border-r border-b border-border rotate-45 translate-y-0.5" />
+            </div>
+          ) : null}
+        </div>
+      )}
+    </div>
   );
 }
