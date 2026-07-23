@@ -159,11 +159,13 @@ export default function WorldMap({
       minZoom={2}
       maxZoom={8}
       style={{ height: "600px", width: "100%" }}
-      scrollWheelZoom={true}
-      className="rounded-lg border border-border"
-      zoomSnap={0}
-      zoomDelta={1}
-      wheelPxPerZoomLevel={60}
+      scrollWheelZoom={false}
+      dragging={false}
+      doubleClickZoom={false}
+      touchZoom={false}
+      boxZoom={false}
+      keyboard={false}
+      className="rounded-lg border border-border world-map-container"
     >
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png"
@@ -185,7 +187,7 @@ export default function WorldMap({
 
         return (
           <Marker key={dest.slug} position={[coords.lat, coords.lng]} icon={icon}>
-            <Popup className="world-map-popup" maxWidth={280} minWidth={280}>
+            <Popup className="world-map-popup" maxWidth={280} minWidth={280} autoPan={false}>
               <MapPopupCard
                 destination={dest}
                 tagDefinitions={tagDefinitions}

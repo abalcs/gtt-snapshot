@@ -144,7 +144,7 @@ export function DestinationGrid({
       </div>
 
       {viewMode === "map" ? (
-        <div className={compareMode && selectedSlugs.length > 0 ? "pb-20" : ""}>
+        <div className={`rounded-xl border border-border bg-white shadow-[var(--shadow-sm)] p-3 ${compareMode && selectedSlugs.length > 0 ? "pb-20" : ""}`}>
           <WorldMap
             allDestinations={allDestinations}
             filteredSlugs={filteredSlugs}
