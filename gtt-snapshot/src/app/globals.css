@@ -156,3 +156,30 @@
     height: 1px;
   }
 }
+
+/* World map popup overrides */
+.world-map-popup .leaflet-popup-content-wrapper {
+  border-radius: 0.75rem;
+  border: none;
+  box-shadow: 0 4px 6px rgba(58,95,84,0.06), 0 10px 20px rgba(58,95,84,0.05), 0 2px 4px rgba(58,95,84,0.03);
+  padding: 0;
+}
+.world-map-popup .leaflet-popup-content {
+  width: 280px !important;
+  margin: 12px 14px;
+  font-family: var(--font-open-sans), system-ui, sans-serif;
+}
+.world-map-popup .leaflet-popup-tip {
+  background: white;
+  border: none;
+  box-shadow: 0 2px 4px rgba(58,95,84,0.06);
+}
+.world-map-popup .leaflet-popup-close-button {
+  top: 6px;
+  right: 8px;
+  font-size: 18px;
+  color: #6b7c72;
+}
+.world-map-popup .leaflet-popup-close-button:hover {
+  color: #333333;
+}

@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 export default function DestinationsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string }>;
+  searchParams: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string; view?: string }>;
 }) {
   return <DestinationsContent searchParamsPromise={searchParams} />;
 }
@@ -19,10 +19,10 @@ export default function DestinationsPage({
 async function DestinationsContent({
   searchParamsPromise,
 }: {
-  searchParamsPromise: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string }>;
+  searchParamsPromise: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string; view?: string }>;
 }) {
   await requireAuth();
-  const { region, tags: tagsParam, seasons: seasonsParam, budget: budgetParam } = await searchParamsPromise;
+  const { region, tags: tagsParam, seasons: seasonsParam, budget: budgetParam, view } = await searchParamsPromise;
   const [allDestinations, regions, tagDefinitions, popularity] = await Promise.all([
     getAllDestinations(),
     getAllRegions(),
@@ -102,10 +102,12 @@ async function DestinationsContent({
       {filteredDestinations.length > 0 ? (
         <DestinationGrid
           destinations={filteredDestinations}
+          allDestinations={allDestinations}
           tagDefinitions={tagDefinitions}
           activeTags={activeTags}
           activeSeasons={activeSeasons}
           activeBudget={activeBudget}
+          initialViewMode={view === "map" ? "map" : "cards"}
         />
       ) : hasFilters ? (
         <EmptyState
