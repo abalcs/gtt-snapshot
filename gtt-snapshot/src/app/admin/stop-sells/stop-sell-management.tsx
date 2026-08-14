@@ -74,6 +74,7 @@ export function StopSellManagement() {
   const [editForm, setEditForm] = useState({ stop_sell_expires: "", stop_sell_note: "", urgency: "" });
   const [saving, setSaving] = useState(false);
   const [clearing, setClearing] = useState(false);
+  const [exporting, setExporting] = useState(false);
 
   const fetchEntries = useCallback(async () => {
     try {
@@ -149,6 +150,27 @@ export function StopSellManagement() {
     }
   };
 
+  const downloadReport = async () => {
+    setExporting(true);
+    try {
+      const res = await fetch("/api/admin/stop-sells/export");
+      if (!res.ok) throw new Error("Export failed");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `GTT_Stop_Sell_Report_${new Date().toISOString().split("T")[0]}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      console.error("Failed to download report");
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const extendDate = (days: number) => {
     const date = new Date();
     date.setDate(date.getDate() + days);
@@ -183,6 +205,13 @@ export function StopSellManagement() {
             <p className="text-red-100">{entries.length} destinations with stop sells or urgency alerts</p>
           </div>
           <div className="flex gap-2">
+            <Button
+              onClick={downloadReport}
+              disabled={exporting}
+              className="bg-white text-red-700 hover:bg-white/90"
+            >
+              {exporting ? "Generating..." : "Download Reports"}
+            </Button>
             {counts.expired > 0 && (
               <Button
                 onClick={clearExpired}

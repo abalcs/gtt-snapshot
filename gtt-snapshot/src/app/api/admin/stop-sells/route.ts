@@ -27,6 +27,7 @@ export async function GET(request: NextRequest) {
       slug: string;
       name: string;
       region_name: string;
+      region_slug: string;
       urgency: string | null;
       status: string;
       stop_sell_expires: string | null;
@@ -45,6 +46,7 @@ export async function GET(request: NextRequest) {
           slug: doc.id,
           name: (data.name as string) || doc.id,
           region_name: (data.region_name as string) || "",
+          region_slug: (data.region_slug as string) || "",
           urgency,
           status,
           stop_sell_expires: stopSellExpires,
