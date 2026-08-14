@@ -101,7 +101,7 @@ export async function GET(request: NextRequest) {
       { header: "Status", width: 16 },
       { header: "Expiration Date", width: 18 },
       { header: "Days Until Expiry", width: 18 },
-      { header: "Stop Sell Notes", width: 35 },
+      { header: "Urgency Notes", width: 35 },
       { header: "Rep Notes / Commentary", width: 35 },
     ];
 
@@ -198,7 +198,7 @@ export async function GET(request: NextRequest) {
           excelRow.getCell(4).value = row.days !== null ? row.days : "";
 
           const noteCell = excelRow.getCell(5);
-          noteCell.value = row.note || "";
+          noteCell.value = row.urgency || "";
           noteCell.alignment = { wrapText: true, vertical: "top" };
 
           const repCell = excelRow.getCell(6);
@@ -207,7 +207,7 @@ export async function GET(request: NextRequest) {
           repCell.alignment = { wrapText: true, vertical: "top" };
 
           excelRow.height = calcRowHeight([
-            { value: row.note || "", colWidth: 35 },
+            { value: row.urgency || "", colWidth: 35 },
           ]);
 
           currentRow++;
