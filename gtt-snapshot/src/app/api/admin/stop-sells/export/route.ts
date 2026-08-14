@@ -182,11 +182,15 @@ export async function GET(request: NextRequest) {
 
           excelRow.getCell(4).value = row.expires || "";
           excelRow.getCell(5).value = row.days !== null ? row.days : "";
-          excelRow.getCell(6).value = row.note || "";
+
+          const noteCell = excelRow.getCell(6);
+          noteCell.value = row.note || "";
+          noteCell.alignment = { wrapText: true, vertical: "top" };
 
           const repCell = excelRow.getCell(7);
           repCell.value = "";
           repCell.fill = repNotesFill;
+          repCell.alignment = { wrapText: true, vertical: "top" };
 
           currentRow++;
         }
@@ -232,11 +236,15 @@ export async function GET(request: NextRequest) {
           const excelRow = sheet.getRow(currentRow);
           excelRow.getCell(1).value = row.name;
           excelRow.getCell(2).value = row.region_name;
-          excelRow.getCell(3).value = row.urgency || "";
+
+          const urgencyCell = excelRow.getCell(3);
+          urgencyCell.value = row.urgency || "";
+          urgencyCell.alignment = { wrapText: true, vertical: "top" };
 
           const repCell = excelRow.getCell(4);
           repCell.value = "";
           repCell.fill = repNotesFill;
+          repCell.alignment = { wrapText: true, vertical: "top" };
 
           currentRow++;
         }
