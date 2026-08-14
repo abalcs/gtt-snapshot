@@ -28,7 +28,7 @@ function getStatusLabel(expires: string | null): string {
   if (days === null) return "No Date";
   if (days < 0) return "Expired";
   if (days <= 14) return "Expiring Soon";
-  return "Active";
+  return "Stop Sell Active";
 }
 
 function getStatusFill(expires: string | null): Partial<ExcelJS.Fill> {
@@ -98,7 +98,7 @@ export async function GET(request: NextRequest) {
 
     const stopSellColumns = [
       { header: "Destination", width: 28 },
-      { header: "Status", width: 16 },
+      { header: "Status", width: 18 },
       { header: "Expiration Date", width: 18 },
       { header: "Days Until Expiry", width: 18 },
       { header: "Urgency Notes", width: 35 },
@@ -131,7 +131,7 @@ export async function GET(request: NextRequest) {
       return Math.max(MIN_ROW_HEIGHT, maxLines * LINE_HEIGHT);
     }
 
-    function writeHeaderRow(sheet: ExcelJS.Worksheet, rowNum: number, cols: { header: string; width: number }[], colOffset: number) {
+    function writeHeaderRow(sheet: ExcelJS.Worksheet, rowNum: number, cols: { header: string; width: number }[], setWidths: boolean) {
       const row = sheet.getRow(rowNum);
       cols.forEach((col, i) => {
         const cell = row.getCell(i + 1);
@@ -139,7 +139,9 @@ export async function GET(request: NextRequest) {
         cell.fill = headerFill;
         cell.font = headerFont;
         cell.alignment = { vertical: "middle", horizontal: "left" };
-        sheet.getColumn(i + 1).width = Math.max(sheet.getColumn(i + 1).width || 0, col.width);
+        if (setWidths) {
+          sheet.getColumn(i + 1).width = col.width;
+        }
       });
       row.height = 22;
     }
@@ -174,7 +176,7 @@ export async function GET(request: NextRequest) {
       stopSellLabel.border = sectionBorder;
       currentRow++;
 
-      writeHeaderRow(sheet, currentRow, stopSellColumns, 0);
+      writeHeaderRow(sheet, currentRow, stopSellColumns, true);
       const stopSellHeaderRow = currentRow;
       currentRow++;
 
@@ -231,16 +233,7 @@ export async function GET(request: NextRequest) {
       urgencyLabel.border = sectionBorder;
       currentRow++;
 
-      const urgencyHeaderRow = sheet.getRow(currentRow);
-      urgencyColumns.forEach((col, i) => {
-        const cell = urgencyHeaderRow.getCell(i + 1);
-        cell.value = col.header;
-        cell.fill = headerFill;
-        cell.font = headerFont;
-        cell.alignment = { vertical: "middle", horizontal: "left" };
-        sheet.getColumn(i + 1).width = Math.max(sheet.getColumn(i + 1).width || 0, col.width);
-      });
-      urgencyHeaderRow.height = 22;
+      writeHeaderRow(sheet, currentRow, urgencyColumns, false);
       currentRow++;
 
       if (urgencyOnly.length === 0) {
