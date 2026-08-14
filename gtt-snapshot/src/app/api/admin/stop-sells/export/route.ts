@@ -115,6 +115,23 @@ export async function GET(request: NextRequest) {
 
     const sectionFont: Partial<ExcelJS.Font> = { bold: true, size: 12, color: { argb: "FF333333" } };
     const sectionBorder: Partial<ExcelJS.Borders> = { bottom: { style: "medium", color: { argb: "FF3A5F54" } } };
+    const LINE_HEIGHT = 15; // approx pixels per line of text at default font size
+    const MIN_ROW_HEIGHT = 15;
+
+    function calcRowHeight(texts: { value: string; colWidth: number }[]): number {
+      let maxLines = 1;
+      for (const { value, colWidth } of texts) {
+        if (!value) continue;
+        const charsPerLine = Math.floor(colWidth * 1.2); // approx chars that fit in column width
+        const paragraphs = value.split(/\n/);
+        let lines = 0;
+        for (const p of paragraphs) {
+          lines += Math.max(1, Math.ceil(p.length / charsPerLine));
+        }
+        maxLines = Math.max(maxLines, lines);
+      }
+      return Math.max(MIN_ROW_HEIGHT, maxLines * LINE_HEIGHT);
+    }
 
     function writeHeaderRow(sheet: ExcelJS.Worksheet, rowNum: number, cols: { header: string; width: number }[], colOffset: number) {
       const row = sheet.getRow(rowNum);
@@ -192,6 +209,10 @@ export async function GET(request: NextRequest) {
           repCell.fill = repNotesFill;
           repCell.alignment = { wrapText: true, vertical: "top" };
 
+          excelRow.height = calcRowHeight([
+            { value: row.note || "", colWidth: 35 },
+          ]);
+
           currentRow++;
         }
       }
@@ -245,6 +266,10 @@ export async function GET(request: NextRequest) {
           repCell.value = "";
           repCell.fill = repNotesFill;
           repCell.alignment = { wrapText: true, vertical: "top" };
+
+          excelRow.height = calcRowHeight([
+            { value: row.urgency || "", colWidth: 60 },
+          ]);
 
           currentRow++;
         }
