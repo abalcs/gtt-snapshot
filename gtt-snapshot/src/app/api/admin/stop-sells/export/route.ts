@@ -102,13 +102,13 @@ export async function GET(request: NextRequest) {
       { header: "Expiration Date", width: 18 },
       { header: "Days Until Expiry", width: 18 },
       { header: "Urgency Notes", width: 35 },
-      { header: "Rep Notes / Commentary", width: 35 },
+      { header: "RSM Notes / Updates", width: 35 },
     ];
 
     const urgencyColumns = [
       { header: "Destination", width: 28 },
       { header: "Urgency Notes", width: 60 },
-      { header: "Rep Notes / Commentary", width: 35 },
+      { header: "RSM Notes / Updates", width: 35 },
     ];
 
     const sectionFont: Partial<ExcelJS.Font> = { bold: true, size: 12, color: { argb: "FF333333" } };
