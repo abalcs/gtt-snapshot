@@ -98,7 +98,6 @@ export async function GET(request: NextRequest) {
 
     const stopSellColumns = [
       { header: "Destination", width: 28 },
-      { header: "Region", width: 20 },
       { header: "Status", width: 16 },
       { header: "Expiration Date", width: 18 },
       { header: "Days Until Expiry", width: 18 },
@@ -108,7 +107,6 @@ export async function GET(request: NextRequest) {
 
     const urgencyColumns = [
       { header: "Destination", width: 28 },
-      { header: "Region", width: 20 },
       { header: "Urgency Notes", width: 60 },
       { header: "Rep Notes / Commentary", width: 35 },
     ];
@@ -151,13 +149,13 @@ export async function GET(request: NextRequest) {
       sheet.pageSetup = { orientation: "landscape", fitToPage: true, fitToWidth: 1, fitToHeight: 0 };
 
       // Row 1: Title
-      sheet.mergeCells("A1:G1");
+      sheet.mergeCells("A1:F1");
       const titleCell = sheet.getCell("A1");
       titleCell.value = `GTT Stop Sell Report — ${dept}`;
       titleCell.font = { bold: true, size: 14 };
 
       // Row 2: Date
-      sheet.mergeCells("A2:G2");
+      sheet.mergeCells("A2:F2");
       const dateCell = sheet.getCell("A2");
       dateCell.value = `Generated: ${today}`;
       dateCell.font = { size: 10, color: { argb: "FF666666" } };
@@ -169,7 +167,7 @@ export async function GET(request: NextRequest) {
       let currentRow = 4;
 
       // --- Stop Sells section ---
-      sheet.mergeCells(`A${currentRow}:G${currentRow}`);
+      sheet.mergeCells(`A${currentRow}:F${currentRow}`);
       const stopSellLabel = sheet.getCell(`A${currentRow}`);
       stopSellLabel.value = `Stop Sells (${stopSells.length})`;
       stopSellLabel.font = sectionFont;
@@ -181,7 +179,7 @@ export async function GET(request: NextRequest) {
       currentRow++;
 
       if (stopSells.length === 0) {
-        sheet.mergeCells(`A${currentRow}:G${currentRow}`);
+        sheet.mergeCells(`A${currentRow}:F${currentRow}`);
         const emptyCell = sheet.getCell(`A${currentRow}`);
         emptyCell.value = "No active stop sells";
         emptyCell.font = { italic: true, color: { argb: "FF999999" } };
@@ -191,20 +189,19 @@ export async function GET(request: NextRequest) {
         for (const row of stopSells) {
           const excelRow = sheet.getRow(currentRow);
           excelRow.getCell(1).value = row.name;
-          excelRow.getCell(2).value = row.region_name;
 
-          const statusCell = excelRow.getCell(3);
+          const statusCell = excelRow.getCell(2);
           statusCell.value = row.status;
           statusCell.fill = getStatusFill(row.expires) as ExcelJS.Fill;
 
-          excelRow.getCell(4).value = row.expires || "";
-          excelRow.getCell(5).value = row.days !== null ? row.days : "";
+          excelRow.getCell(3).value = row.expires || "";
+          excelRow.getCell(4).value = row.days !== null ? row.days : "";
 
-          const noteCell = excelRow.getCell(6);
+          const noteCell = excelRow.getCell(5);
           noteCell.value = row.note || "";
           noteCell.alignment = { wrapText: true, vertical: "top" };
 
-          const repCell = excelRow.getCell(7);
+          const repCell = excelRow.getCell(6);
           repCell.value = "";
           repCell.fill = repNotesFill;
           repCell.alignment = { wrapText: true, vertical: "top" };
@@ -227,7 +224,7 @@ export async function GET(request: NextRequest) {
       currentRow++;
 
       // --- Urgency Alerts section ---
-      sheet.mergeCells(`A${currentRow}:G${currentRow}`);
+      sheet.mergeCells(`A${currentRow}:F${currentRow}`);
       const urgencyLabel = sheet.getCell(`A${currentRow}`);
       urgencyLabel.value = `Urgency Alerts (${urgencyOnly.length})`;
       urgencyLabel.font = sectionFont;
@@ -247,7 +244,7 @@ export async function GET(request: NextRequest) {
       currentRow++;
 
       if (urgencyOnly.length === 0) {
-        sheet.mergeCells(`A${currentRow}:D${currentRow}`);
+        sheet.mergeCells(`A${currentRow}:C${currentRow}`);
         const emptyCell = sheet.getCell(`A${currentRow}`);
         emptyCell.value = "No urgency alerts";
         emptyCell.font = { italic: true, color: { argb: "FF999999" } };
@@ -256,13 +253,12 @@ export async function GET(request: NextRequest) {
         for (const row of urgencyOnly) {
           const excelRow = sheet.getRow(currentRow);
           excelRow.getCell(1).value = row.name;
-          excelRow.getCell(2).value = row.region_name;
 
-          const urgencyCell = excelRow.getCell(3);
+          const urgencyCell = excelRow.getCell(2);
           urgencyCell.value = row.urgency || "";
           urgencyCell.alignment = { wrapText: true, vertical: "top" };
 
-          const repCell = excelRow.getCell(4);
+          const repCell = excelRow.getCell(3);
           repCell.value = "";
           repCell.fill = repNotesFill;
           repCell.alignment = { wrapText: true, vertical: "top" };
