@@ -96,80 +96,154 @@ export async function GET(request: NextRequest) {
     const headerFont: Partial<ExcelJS.Font> = { bold: true, color: { argb: "FFFFFFFF" }, size: 11 };
     const repNotesFill: ExcelJS.Fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFDE7" } };
 
-    const columns = [
+    const stopSellColumns = [
       { header: "Destination", width: 28 },
       { header: "Region", width: 20 },
       { header: "Status", width: 16 },
       { header: "Expiration Date", width: 18 },
       { header: "Days Until Expiry", width: 18 },
-      { header: "Urgency Notes", width: 35 },
       { header: "Stop Sell Notes", width: 35 },
       { header: "Rep Notes / Commentary", width: 35 },
     ];
+
+    const urgencyColumns = [
+      { header: "Destination", width: 28 },
+      { header: "Region", width: 20 },
+      { header: "Urgency Notes", width: 60 },
+      { header: "Rep Notes / Commentary", width: 35 },
+    ];
+
+    const sectionFont: Partial<ExcelJS.Font> = { bold: true, size: 12, color: { argb: "FF333333" } };
+    const sectionBorder: Partial<ExcelJS.Borders> = { bottom: { style: "medium", color: { argb: "FF3A5F54" } } };
+
+    function writeHeaderRow(sheet: ExcelJS.Worksheet, rowNum: number, cols: { header: string; width: number }[], colOffset: number) {
+      const row = sheet.getRow(rowNum);
+      cols.forEach((col, i) => {
+        const cell = row.getCell(i + 1);
+        cell.value = col.header;
+        cell.fill = headerFill;
+        cell.font = headerFont;
+        cell.alignment = { vertical: "middle", horizontal: "left" };
+        sheet.getColumn(i + 1).width = Math.max(sheet.getColumn(i + 1).width || 0, col.width);
+      });
+      row.height = 22;
+    }
 
     for (const dept of DEPARTMENTS) {
       const sheet = workbook.addWorksheet(dept);
       sheet.pageSetup = { orientation: "landscape", fitToPage: true, fitToWidth: 1, fitToHeight: 0 };
 
       // Row 1: Title
-      sheet.mergeCells("A1:H1");
+      sheet.mergeCells("A1:G1");
       const titleCell = sheet.getCell("A1");
       titleCell.value = `GTT Stop Sell Report — ${dept}`;
       titleCell.font = { bold: true, size: 14 };
 
       // Row 2: Date
-      sheet.mergeCells("A2:H2");
+      sheet.mergeCells("A2:G2");
       const dateCell = sheet.getCell("A2");
       dateCell.value = `Generated: ${today}`;
       dateCell.font = { size: 10, color: { argb: "FF666666" } };
 
-      // Row 3: spacer (empty)
+      const allRows = byDepartment[dept].sort((a, b) => a.name.localeCompare(b.name));
+      const stopSells = allRows.filter((r) => r.expires !== null);
+      const urgencyOnly = allRows.filter((r) => r.expires === null);
 
-      // Row 4: Column headers
-      const headerRow = sheet.getRow(4);
-      columns.forEach((col, i) => {
-        const cell = headerRow.getCell(i + 1);
+      let currentRow = 4;
+
+      // --- Stop Sells section ---
+      sheet.mergeCells(`A${currentRow}:G${currentRow}`);
+      const stopSellLabel = sheet.getCell(`A${currentRow}`);
+      stopSellLabel.value = `Stop Sells (${stopSells.length})`;
+      stopSellLabel.font = sectionFont;
+      stopSellLabel.border = sectionBorder;
+      currentRow++;
+
+      writeHeaderRow(sheet, currentRow, stopSellColumns, 0);
+      const stopSellHeaderRow = currentRow;
+      currentRow++;
+
+      if (stopSells.length === 0) {
+        sheet.mergeCells(`A${currentRow}:G${currentRow}`);
+        const emptyCell = sheet.getCell(`A${currentRow}`);
+        emptyCell.value = "No active stop sells";
+        emptyCell.font = { italic: true, color: { argb: "FF999999" } };
+        emptyCell.alignment = { horizontal: "center" };
+        currentRow++;
+      } else {
+        for (const row of stopSells) {
+          const excelRow = sheet.getRow(currentRow);
+          excelRow.getCell(1).value = row.name;
+          excelRow.getCell(2).value = row.region_name;
+
+          const statusCell = excelRow.getCell(3);
+          statusCell.value = row.status;
+          statusCell.fill = getStatusFill(row.expires) as ExcelJS.Fill;
+
+          excelRow.getCell(4).value = row.expires || "";
+          excelRow.getCell(5).value = row.days !== null ? row.days : "";
+          excelRow.getCell(6).value = row.note || "";
+
+          const repCell = excelRow.getCell(7);
+          repCell.value = "";
+          repCell.fill = repNotesFill;
+
+          currentRow++;
+        }
+      }
+
+      // Auto-filter on stop sells header
+      sheet.autoFilter = {
+        from: { row: stopSellHeaderRow, column: 1 },
+        to: { row: stopSellHeaderRow, column: stopSellColumns.length },
+      };
+
+      // Spacer row
+      currentRow++;
+
+      // --- Urgency Alerts section ---
+      sheet.mergeCells(`A${currentRow}:G${currentRow}`);
+      const urgencyLabel = sheet.getCell(`A${currentRow}`);
+      urgencyLabel.value = `Urgency Alerts (${urgencyOnly.length})`;
+      urgencyLabel.font = sectionFont;
+      urgencyLabel.border = sectionBorder;
+      currentRow++;
+
+      const urgencyHeaderRow = sheet.getRow(currentRow);
+      urgencyColumns.forEach((col, i) => {
+        const cell = urgencyHeaderRow.getCell(i + 1);
         cell.value = col.header;
         cell.fill = headerFill;
         cell.font = headerFont;
         cell.alignment = { vertical: "middle", horizontal: "left" };
-        sheet.getColumn(i + 1).width = col.width;
+        sheet.getColumn(i + 1).width = Math.max(sheet.getColumn(i + 1).width || 0, col.width);
       });
-      headerRow.height = 22;
+      urgencyHeaderRow.height = 22;
+      currentRow++;
 
-      // Freeze header row and add auto-filter
-      sheet.views = [{ state: "frozen", ySplit: 4, xSplit: 0 }];
-      sheet.autoFilter = { from: "A4", to: "H4" };
-
-      const rows = byDepartment[dept].sort((a, b) => a.name.localeCompare(b.name));
-
-      if (rows.length === 0) {
-        sheet.mergeCells("A5:H5");
-        const emptyCell = sheet.getCell("A5");
-        emptyCell.value = "No active stop sells";
+      if (urgencyOnly.length === 0) {
+        sheet.mergeCells(`A${currentRow}:D${currentRow}`);
+        const emptyCell = sheet.getCell(`A${currentRow}`);
+        emptyCell.value = "No urgency alerts";
         emptyCell.font = { italic: true, color: { argb: "FF999999" } };
         emptyCell.alignment = { horizontal: "center" };
-        continue;
+      } else {
+        for (const row of urgencyOnly) {
+          const excelRow = sheet.getRow(currentRow);
+          excelRow.getCell(1).value = row.name;
+          excelRow.getCell(2).value = row.region_name;
+          excelRow.getCell(3).value = row.urgency || "";
+
+          const repCell = excelRow.getCell(4);
+          repCell.value = "";
+          repCell.fill = repNotesFill;
+
+          currentRow++;
+        }
       }
 
-      rows.forEach((row, idx) => {
-        const excelRow = sheet.getRow(5 + idx);
-        excelRow.getCell(1).value = row.name;
-        excelRow.getCell(2).value = row.region_name;
-
-        const statusCell = excelRow.getCell(3);
-        statusCell.value = row.status;
-        statusCell.fill = getStatusFill(row.expires) as ExcelJS.Fill;
-
-        excelRow.getCell(4).value = row.expires || "";
-        excelRow.getCell(5).value = row.days !== null ? row.days : "";
-        excelRow.getCell(6).value = row.urgency || "";
-        excelRow.getCell(7).value = row.note || "";
-
-        const repCell = excelRow.getCell(8);
-        repCell.value = "";
-        repCell.fill = repNotesFill;
-      });
+      // Freeze top rows
+      sheet.views = [{ state: "frozen", ySplit: 3, xSplit: 0 }];
     }
 
     const buffer = await workbook.xlsx.writeBuffer();
