@@ -7,31 +7,54 @@ import type { StopSellEntry } from "./page";
 
 const DEPARTMENTS = ["All", "ESE", "WEMEA", "CANAL", "Asia"] as const;
 
-function getDaysUntilExpiry(expires: string | null): number | null {
-  if (!expires) return null;
+type StatusFilter = "all" | "expired" | "expiring_soon" | "active" | "no_date";
+
+function getExpirationStatus(expires: string | null): "expired" | "expiring_soon" | "active" | "no_date" {
+  if (!expires) return "no_date";
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const expiryDate = new Date(expires + "T00:00:00");
-  return Math.ceil((expiryDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  const diffMs = expiryDate.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDays < 0) return "expired";
+  if (diffDays <= 14) return "expiring_soon";
+  return "active";
 }
 
-function ExpiryBadge({ expires }: { expires: string | null }) {
-  const days = getDaysUntilExpiry(expires);
-  if (days === null) {
-    return <span className="inline-flex items-center rounded-full bg-gray-100 border border-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600">No Date</span>;
-  }
-  if (days < 0) {
-    return <span className="inline-flex items-center rounded-full bg-red-100 border border-red-200 px-2 py-0.5 text-xs font-medium text-red-700">Expired {Math.abs(days)}d ago</span>;
-  }
-  if (days <= 14) {
-    return <span className="inline-flex items-center rounded-full bg-amber-100 border border-amber-200 px-2 py-0.5 text-xs font-medium text-amber-700">{days}d remaining</span>;
-  }
-  return <span className="inline-flex items-center rounded-full bg-green-100 border border-green-200 px-2 py-0.5 text-xs font-medium text-green-700">{days}d remaining</span>;
+function getCountdownText(expires: string | null): string {
+  if (!expires) return "";
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const expiryDate = new Date(expires + "T00:00:00");
+  const diffMs = expiryDate.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDays < 0) return `Expired ${Math.abs(diffDays)} day${Math.abs(diffDays) !== 1 ? "s" : ""} ago`;
+  if (diffDays === 0) return "Expires today";
+  return `Expires in ${diffDays} day${diffDays !== 1 ? "s" : ""}`;
+}
+
+function StatusBadge({ status }: { status: "expired" | "expiring_soon" | "active" | "no_date" }) {
+  const styles = {
+    expired: "bg-red-100 text-red-800 border-red-200",
+    expiring_soon: "bg-amber-100 text-amber-800 border-amber-200",
+    active: "bg-green-100 text-green-800 border-green-200",
+    no_date: "bg-gray-100 text-gray-600 border-gray-200",
+  };
+  const labels = {
+    expired: "Expired",
+    expiring_soon: "Expiring Soon",
+    active: "Active",
+    no_date: "Urgency Notes",
+  };
+  return (
+    <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${styles[status]}`}>
+      {labels[status]}
+    </span>
+  );
 }
 
 function DetailModal({ entry, onClose }: { entry: StopSellEntry; onClose: () => void }) {
-  const days = getDaysUntilExpiry(entry.stop_sell_expires);
-  const isStopSell = entry.status === "stop_sell" || !!entry.stop_sell_expires;
+  const expStatus = getExpirationStatus(entry.stop_sell_expires);
 
   return createPortal(
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50" onClick={onClose}>
@@ -50,17 +73,14 @@ function DetailModal({ entry, onClose }: { entry: StopSellEntry; onClose: () => 
 
           {/* Body */}
           <div className="px-6 py-5 space-y-4">
-            {isStopSell && (
-              <div className="flex items-center gap-3">
-                <ExpiryBadge expires={entry.stop_sell_expires} />
-                {entry.stop_sell_expires && (
-                  <span className="text-sm text-gray-500">
-                    Expires: {entry.stop_sell_expires}
-                    {days !== null && ` (${days < 0 ? `${Math.abs(days)} days ago` : days === 0 ? "today" : `in ${days} days`})`}
-                  </span>
-                )}
-              </div>
-            )}
+            <div className="flex items-center gap-3">
+              <StatusBadge status={expStatus} />
+              {entry.stop_sell_expires && (
+                <span className="text-sm text-gray-500">
+                  {getCountdownText(entry.stop_sell_expires)}
+                </span>
+              )}
+            </div>
 
             {entry.stop_sell_note && (
               <div>
@@ -107,12 +127,24 @@ function DetailModal({ entry, onClose }: { entry: StopSellEntry; onClose: () => 
 
 export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
   const [activeDept, setActiveDept] = useState<string>("All");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [selectedEntry, setSelectedEntry] = useState<StopSellEntry | null>(null);
 
-  const filtered = activeDept === "All" ? entries : entries.filter((e) => e.department === activeDept);
+  // Apply department filter first
+  const deptFiltered = activeDept === "All" ? entries : entries.filter((e) => e.department === activeDept);
 
-  const stopSells = filtered.filter((e) => e.status === "stop_sell" || e.stop_sell_expires);
-  const urgencyOnly = filtered.filter((e) => e.status !== "stop_sell" && !e.stop_sell_expires && e.urgency);
+  // Compute status counts from department-filtered entries
+  const counts = {
+    expired: deptFiltered.filter((e) => getExpirationStatus(e.stop_sell_expires) === "expired").length,
+    expiring_soon: deptFiltered.filter((e) => getExpirationStatus(e.stop_sell_expires) === "expiring_soon").length,
+    active: deptFiltered.filter((e) => getExpirationStatus(e.stop_sell_expires) === "active").length,
+    no_date: deptFiltered.filter((e) => getExpirationStatus(e.stop_sell_expires) === "no_date").length,
+  };
+
+  // Apply status filter
+  const filtered = statusFilter === "all"
+    ? deptFiltered
+    : deptFiltered.filter((e) => getExpirationStatus(e.stop_sell_expires) === statusFilter);
 
   const deptCounts = DEPARTMENTS.reduce((acc, dept) => {
     acc[dept] = dept === "All" ? entries.length : entries.filter((e) => e.department === dept).length;
@@ -121,6 +153,27 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
 
   return (
     <div className="space-y-6">
+      {/* Summary count cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {([
+          { key: "expired" as const, label: "Expired", color: "border-red-300 bg-red-50", textColor: "text-red-700", countColor: "text-red-800" },
+          { key: "expiring_soon" as const, label: "Expiring Soon", color: "border-amber-300 bg-amber-50", textColor: "text-amber-700", countColor: "text-amber-800" },
+          { key: "active" as const, label: "Active", color: "border-green-300 bg-green-50", textColor: "text-green-700", countColor: "text-green-800" },
+          { key: "no_date" as const, label: "Urgency Notes", color: "border-gray-300 bg-gray-50", textColor: "text-gray-600", countColor: "text-gray-800" },
+        ]).map(({ key, label, color, textColor, countColor }) => (
+          <button
+            key={key}
+            onClick={() => setStatusFilter(statusFilter === key ? "all" : key)}
+            className={`rounded-lg border p-3 text-left transition-all ${
+              statusFilter === key ? `${color} ring-2 ring-offset-1 ring-current` : `${color} hover:shadow-sm`
+            }`}
+          >
+            <div className={`text-2xl font-bold ${countColor}`}>{counts[key]}</div>
+            <div className={`text-xs font-medium ${textColor}`}>{label}</div>
+          </button>
+        ))}
+      </div>
+
       {/* Department filter */}
       <div className="flex flex-wrap gap-2">
         {DEPARTMENTS.map((dept) => (
@@ -141,25 +194,38 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
         ))}
       </div>
 
-      {/* Stop Sells section */}
-      {stopSells.length > 0 && (
-        <section>
-          <div className="flex items-center gap-3 mb-3">
-            <h2 className="text-lg font-semibold text-gray-900">Stop Sells</h2>
-            <span className="rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-700">{stopSells.length}</span>
+      {/* Unified table */}
+      {filtered.length > 0 ? (
+        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 border-b bg-gray-50/80">
+            <span className="text-sm font-medium text-gray-700">
+              {statusFilter === "all" ? "All Stop Sells" : statusFilter.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+              {" "}({filtered.length})
+            </span>
+            {statusFilter !== "all" && (
+              <button
+                onClick={() => setStatusFilter("all")}
+                className="text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                Show All
+              </button>
+            )}
           </div>
-          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b bg-gray-50/80 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  <th className="px-4 py-3">Destination</th>
-                  <th className="px-4 py-3">Region</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">Notes</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {stopSells.map((entry) => (
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b bg-gray-50/80 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-4 py-3">Destination</th>
+                <th className="px-4 py-3">Region</th>
+                <th className="px-4 py-3">Department</th>
+                <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Expires</th>
+                <th className="px-4 py-3">Notes</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {filtered.map((entry) => {
+                const expStatus = getExpirationStatus(entry.stop_sell_expires);
+                return (
                   <tr
                     key={entry.slug}
                     onClick={() => setSelectedEntry(entry)}
@@ -167,8 +233,21 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
                   >
                     <td className="px-4 py-3 font-medium text-[#3a5f54]">{entry.name}</td>
                     <td className="px-4 py-3 text-gray-500">{entry.region_name}</td>
+                    <td className="px-4 py-3 text-gray-500">{entry.department}</td>
                     <td className="px-4 py-3">
-                      <ExpiryBadge expires={entry.stop_sell_expires} />
+                      <StatusBadge status={expStatus} />
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      {entry.stop_sell_expires ? (
+                        <div>
+                          <div className="text-gray-700">{entry.stop_sell_expires}</div>
+                          <div className={`text-xs ${expStatus === "expired" ? "text-red-600 font-medium" : expStatus === "expiring_soon" ? "text-amber-600 font-medium" : "text-green-600"}`}>
+                            {getCountdownText(entry.stop_sell_expires)}
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-gray-300">&mdash;</span>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-gray-500 max-w-xs">
                       {entry.stop_sell_note && (
@@ -180,52 +259,14 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
                       {!entry.stop_sell_note && !entry.urgency && <span className="text-gray-300">&mdash;</span>}
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
-
-      {/* Urgency Alerts section */}
-      {urgencyOnly.length > 0 && (
-        <section>
-          <div className="flex items-center gap-3 mb-3">
-            <h2 className="text-lg font-semibold text-gray-900">Urgency Alerts</h2>
-            <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-700">{urgencyOnly.length}</span>
-          </div>
-          <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b bg-gray-50/80 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  <th className="px-4 py-3">Destination</th>
-                  <th className="px-4 py-3">Region</th>
-                  <th className="px-4 py-3">Alert</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {urgencyOnly.map((entry) => (
-                  <tr
-                    key={entry.slug}
-                    onClick={() => setSelectedEntry(entry)}
-                    className="hover:bg-gray-50/50 transition-colors cursor-pointer"
-                  >
-                    <td className="px-4 py-3 font-medium text-[#3a5f54]">{entry.name}</td>
-                    <td className="px-4 py-3 text-gray-500">{entry.region_name}</td>
-                    <td className="px-4 py-3 text-amber-600 max-w-md">
-                      <p className="truncate">{entry.urgency}</p>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
-
-      {stopSells.length === 0 && urgencyOnly.length === 0 && (
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      ) : (
         <div className="rounded-xl border border-gray-200 bg-white px-6 py-12 text-center text-gray-500">
-          No stop sells or urgency alerts{activeDept !== "All" ? ` for ${activeDept}` : ""}.
+          No stop sells or urgency alerts{activeDept !== "All" ? ` for ${activeDept}` : ""}{statusFilter !== "all" ? ` in this category` : ""}.
         </div>
       )}
 
