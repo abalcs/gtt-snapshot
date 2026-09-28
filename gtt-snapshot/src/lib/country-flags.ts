@@ -59,6 +59,7 @@ const countryCodes: Record<string, string> = {
   "Czech Republic (Prague)": "cz",
   "France": "fr",
   "Denmark": "dk",
+  "Finland": "fi",
   "Germany": "de",
   "Greece": "gr",
   "Hungary (Budapest)": "hu",

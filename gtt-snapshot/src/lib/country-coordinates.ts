@@ -91,6 +91,7 @@ const coordinates: Record<string, DestinationCoordinates> = {
   "croatia":                { lat: 44.5, lng: 16.0, zoom: 7 },
   "czech-republic-prague":  { lat: 50.1, lng: 14.4, zoom: 7 },
   "denmark":                { lat: 56.3, lng: 9.5, zoom: 7 },
+  "finland":                { lat: 64.0, lng: 26.0, zoom: 5 },
   "france":                 { lat: 46.6, lng: 2.2, zoom: 6 },
   "germany":                { lat: 51.2, lng: 10.5, zoom: 6 },
   "greece":                 { lat: 38.3, lng: 23.7, zoom: 6 },

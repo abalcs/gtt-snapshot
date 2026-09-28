@@ -238,7 +238,7 @@ const cdcSlugs: Record<string, string> = {
   BE: "belgium", BO: "bolivia", BR: "brazil", BT: "bhutan", BW: "botswana",
   BZ: "belize", CA: "canada", CH: "switzerland", CK: "cook-islands", CL: "chile",
   CN: "china", CO: "colombia", CR: "costa-rica", CU: "cuba", CZ: "czech-republic",
-  DE: "germany", DK: "denmark", EC: "ecuador", EG: "egypt", ES: "spain",
+  DE: "germany", DK: "denmark", EC: "ecuador", EG: "egypt", ES: "spain", FI: "finland",
   FJ: "fiji", FR: "france", GR: "greece", GT: "guatemala", HN: "honduras",
   HR: "croatia", HU: "hungary", ID: "indonesia", IE: "ireland", IL: "israel",
   IN: "india", IS: "iceland", IT: "italy", JO: "jordan", JP: "japan",

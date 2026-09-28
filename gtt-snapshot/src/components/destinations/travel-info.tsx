@@ -270,7 +270,7 @@ export function TravelInfo({ data }: { data: TravelData | null }) {
       <p className="text-xs text-muted-foreground">
         Sources: US State Dept, Passport Index
         {data.health_synced_at && ", CDC Travelers' Health"}
-        {" · "}Last updated {new Date(data.synced_at).toLocaleDateString()}
+        {" · "}Last updated <span suppressHydrationWarning>{new Date(data.synced_at).toLocaleDateString()}</span>
       </p>
     </div>
   );
