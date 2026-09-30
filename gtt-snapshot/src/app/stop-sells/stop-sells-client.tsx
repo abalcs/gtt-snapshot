@@ -7,7 +7,7 @@ import type { StopSellEntry } from "./page";
 
 const DEPARTMENTS = ["All", "ESE", "WEMEA", "CANAL", "Asia"] as const;
 
-type StatusFilter = "all" | "expired" | "expiring_soon" | "active" | "no_date";
+type StatusFilter = "all" | "expired" | "expiring_soon" | "active";
 
 function getExpirationStatus(expires: string | null): "expired" | "expiring_soon" | "active" | "no_date" {
   if (!expires) return "no_date";
@@ -130,21 +130,25 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [selectedEntry, setSelectedEntry] = useState<StopSellEntry | null>(null);
 
-  // Apply department filter first
-  const deptFiltered = activeDept === "All" ? entries : entries.filter((e) => e.department === activeDept);
+  // Split into stop sells vs urgency-only notes
+  const stopSellEntries = entries.filter((e) => e.is_stop_sell);
+  const urgencyOnlyEntries = entries.filter((e) => !e.is_stop_sell);
 
-  // Compute status counts from department-filtered entries
+  // Apply department filter
+  const deptFilteredStopSells = activeDept === "All" ? stopSellEntries : stopSellEntries.filter((e) => e.department === activeDept);
+  const deptFilteredUrgency = activeDept === "All" ? urgencyOnlyEntries : urgencyOnlyEntries.filter((e) => e.department === activeDept);
+
+  // Compute status counts from department-filtered stop sell entries only
   const counts = {
-    expired: deptFiltered.filter((e) => getExpirationStatus(e.stop_sell_expires) === "expired").length,
-    expiring_soon: deptFiltered.filter((e) => getExpirationStatus(e.stop_sell_expires) === "expiring_soon").length,
-    active: deptFiltered.filter((e) => getExpirationStatus(e.stop_sell_expires) === "active").length,
-    no_date: deptFiltered.filter((e) => getExpirationStatus(e.stop_sell_expires) === "no_date").length,
+    expired: deptFilteredStopSells.filter((e) => getExpirationStatus(e.stop_sell_expires) === "expired").length,
+    expiring_soon: deptFilteredStopSells.filter((e) => getExpirationStatus(e.stop_sell_expires) === "expiring_soon").length,
+    active: deptFilteredStopSells.filter((e) => getExpirationStatus(e.stop_sell_expires) === "active").length,
   };
 
-  // Apply status filter
-  const filtered = statusFilter === "all"
-    ? deptFiltered
-    : deptFiltered.filter((e) => getExpirationStatus(e.stop_sell_expires) === statusFilter);
+  // Apply status filter to stop sells
+  const filteredStopSells = statusFilter === "all"
+    ? deptFilteredStopSells
+    : deptFilteredStopSells.filter((e) => getExpirationStatus(e.stop_sell_expires) === statusFilter);
 
   const deptCounts = DEPARTMENTS.reduce((acc, dept) => {
     acc[dept] = dept === "All" ? entries.length : entries.filter((e) => e.department === dept).length;
@@ -153,13 +157,12 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
 
   return (
     <div className="space-y-6">
-      {/* Summary count cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      {/* Summary count cards — stop sells only */}
+      <div className="grid grid-cols-3 gap-3">
         {([
           { key: "expired" as const, label: "Expired", color: "border-red-300 bg-red-50", textColor: "text-red-700", countColor: "text-red-800" },
           { key: "expiring_soon" as const, label: "Expiring Soon", color: "border-amber-300 bg-amber-50", textColor: "text-amber-700", countColor: "text-amber-800" },
           { key: "active" as const, label: "Active", color: "border-green-300 bg-green-50", textColor: "text-green-700", countColor: "text-green-800" },
-          { key: "no_date" as const, label: "Urgency Notes", color: "border-gray-300 bg-gray-50", textColor: "text-gray-600", countColor: "text-gray-800" },
         ]).map(({ key, label, color, textColor, countColor }) => (
           <button
             key={key}
@@ -194,13 +197,13 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
         ))}
       </div>
 
-      {/* Unified table */}
-      {filtered.length > 0 ? (
+      {/* Stop Sells table */}
+      {filteredStopSells.length > 0 ? (
         <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b bg-gray-50/80">
             <span className="text-sm font-medium text-gray-700">
-              {statusFilter === "all" ? "All Stop Sells" : statusFilter.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
-              {" "}({filtered.length})
+              {statusFilter === "all" ? "Stop Sells" : statusFilter.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+              {" "}({filteredStopSells.length})
             </span>
             {statusFilter !== "all" && (
               <button
@@ -223,7 +226,7 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {filtered.map((entry) => {
+              {filteredStopSells.map((entry) => {
                 const expStatus = getExpirationStatus(entry.stop_sell_expires);
                 return (
                   <tr
@@ -266,7 +269,47 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
         </div>
       ) : (
         <div className="rounded-xl border border-gray-200 bg-white px-6 py-12 text-center text-gray-500">
-          No stop sells or urgency alerts{activeDept !== "All" ? ` for ${activeDept}` : ""}{statusFilter !== "all" ? ` in this category` : ""}.
+          No stop sells{activeDept !== "All" ? ` for ${activeDept}` : ""}{statusFilter !== "all" ? ` in this category` : ""}.
+        </div>
+      )}
+
+      {/* Urgency Notes section — separate from stop sells */}
+      {deptFilteredUrgency.length > 0 && (
+        <div className="space-y-3">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">Destination Advisories</h2>
+            <p className="text-sm text-muted-foreground">
+              These destinations are not on stop sell but have important notes for clients.
+            </p>
+          </div>
+          <div className="rounded-xl border border-amber-200 bg-amber-50/30 overflow-hidden">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-amber-200 bg-amber-50/60 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 py-3">Destination</th>
+                  <th className="px-4 py-3">Region</th>
+                  <th className="px-4 py-3">Department</th>
+                  <th className="px-4 py-3">Notes</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-amber-100">
+                {deptFilteredUrgency.map((entry) => (
+                  <tr
+                    key={entry.slug}
+                    onClick={() => setSelectedEntry(entry)}
+                    className="hover:bg-amber-50/50 transition-colors cursor-pointer"
+                  >
+                    <td className="px-4 py-3 font-medium text-[#3a5f54]">{entry.name}</td>
+                    <td className="px-4 py-3 text-gray-500">{entry.region_name}</td>
+                    <td className="px-4 py-3 text-gray-500">{entry.department}</td>
+                    <td className="px-4 py-3 text-amber-700 max-w-md">
+                      <p className="truncate">{entry.urgency}</p>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 

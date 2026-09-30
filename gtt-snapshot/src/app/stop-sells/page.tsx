@@ -24,6 +24,7 @@ export interface StopSellEntry {
   stop_sell_expires: string | null;
   stop_sell_note: string | null;
   urgency: string | null;
+  is_stop_sell: boolean;
 }
 
 export default async function StopSellsPage() {
@@ -43,6 +44,7 @@ export default async function StopSellsPage() {
 
     const regionSlug = (data.region_slug as string) || "";
     const department = DEPARTMENT_MAP[regionSlug] || "Other";
+    const isStopSell = status === "stop_sell" || !!stopSellExpires;
 
     entries.push({
       name: (data.name as string) || doc.id,
@@ -53,6 +55,7 @@ export default async function StopSellsPage() {
       stop_sell_expires: stopSellExpires,
       stop_sell_note: stopSellNote,
       urgency,
+      is_stop_sell: isStopSell,
     });
   }
 
