@@ -12,6 +12,12 @@ const BACKGROUND_VIDEOS = [
   "https://assets.mixkit.co/videos/41537/41537-720.mp4", // Curvy road on a tree-covered hill
   "https://assets.mixkit.co/videos/49334/49334-720.mp4", // Drone flight above a jungle river
   "https://assets.mixkit.co/videos/2875/2875-720.mp4",   // Wooden pier on a paradise beach
+  "https://assets.mixkit.co/videos/17746/17746-720.mp4", // Autumn forest and mountains
+  "https://assets.mixkit.co/videos/45271/45271-720.mp4", // Slow pan through autumn forest with rotunda
+  "https://assets.mixkit.co/videos/34856/34856-720.mp4", // Fog covering an autumnal forest time-lapse
+  "https://assets.mixkit.co/videos/30606/30606-720.mp4", // Tunnel of yellow autumn leaves
+  "https://assets.mixkit.co/videos/9940/9940-720.mp4",   // Blue lake and forest in autumn
+  "https://assets.mixkit.co/videos/45258/45258-720.mp4", // Autumn trees along a highway
 ];
 
 export function LoginForm() {
