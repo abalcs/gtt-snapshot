@@ -144,20 +144,30 @@
       ],
       "pricing_tiers": [
         {
-          "tier_label": "High Season",
-          "price_per_week": "$7k-$9k (self-drive), $8k-$9k (private drive)",
-          "price_per_day": null
+          "tier_label": "Self-Drive (Countryside)",
+          "price_per_week": "$7k-$10k",
+          "price_per_day": null,
+          "notes": "Cotswolds, Bath, Cornwall, Lake District. Lower end for shoulder/low season, higher for peak.",
+          "sort_order": 0
         },
         {
-          "tier_label": "Shoulder",
-          "price_per_week": "$7k-$8k",
-          "price_per_day": null
+          "tier_label": "Private Driver",
+          "price_per_week": "$9k-$12k",
+          "price_per_day": null,
+          "notes": "Curated experiences with private guide. Includes historic houses, garden tours, literary sites.",
+          "sort_order": 1
         },
         {
-          "tier_label": "Low Season",
-          "price_per_week": "$7k",
-          "price_per_day": null
+          "tier_label": "Premium / Comprehensive",
+          "price_per_week": "$12k-$16k",
+          "price_per_day": null,
+          "notes": "Extended Cornwall, castle stays, exclusive access experiences. Peak season at upper end.",
+          "sort_order": 2
         }
+      ],
+      "pricing_footnotes": [
+        { "label": "Solo Traveler", "price": "$10k-$15k" },
+        { "label": "London City Only (7 days)", "price": "$7k-$10k" }
       ],
       "status": "active"
     },
@@ -300,20 +310,31 @@
       ],
       "pricing_tiers": [
         {
-          "tier_label": "High Season",
-          "price_per_week": "$7k-$9k (self-drive), $8k-$9k (private driver)",
-          "price_per_day": null
+          "tier_label": "Self-Drive (Highlands & Islands)",
+          "price_per_week": "$5k-$7k",
+          "price_per_day": null,
+          "notes": "Outer Hebrides, Skye, Highland road trips. Budget-friendly, more independent.",
+          "sort_order": 0
         },
         {
-          "tier_label": "Shoulder",
-          "price_per_week": "$7k-$9k",
-          "price_per_day": null
+          "tier_label": "Private Driver / Guided",
+          "price_per_week": "$7k-$11k",
+          "price_per_day": null,
+          "notes": "Castle tours, scenic routes with private guide. Edinburgh + Highlands.",
+          "sort_order": 1
         },
         {
-          "tier_label": "Low Season",
-          "price_per_week": "$5k-$6.5k (more bare bones, less Audley)",
-          "price_per_day": null
+          "tier_label": "Deluxe Castle & Luxury",
+          "price_per_week": "$12k-$16k",
+          "price_per_day": null,
+          "notes": "5-star castle stays, exclusive whisky tours, private estate experiences.",
+          "sort_order": 2
         }
+      ],
+      "pricing_footnotes": [
+        { "label": "Solo Traveler", "price": "$12k" },
+        { "label": "Royal Scotsman (8 days)", "price": "$30k+" },
+        { "label": "Family (2 adults + 2 children)", "price": "$5k-$7k pp" }
       ],
       "status": "active"
     },
