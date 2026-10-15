@@ -30,14 +30,15 @@ async function DestinationsContent({
     getDestinationPopularity(),
   ]);
 
+  const activeRegions = region ? region.split(",").filter(Boolean) : [];
   const activeTags = tagsParam ? tagsParam.split(",").filter(Boolean) : [];
   const activeSeasons = seasonsParam ? seasonsParam.split(",").filter(Boolean) : [];
   const activeBudget = budgetParam ? budgetParam.split(",").filter(Boolean) : [];
 
-  const hasFilters = !!region || activeTags.length > 0 || activeSeasons.length > 0 || activeBudget.length > 0;
+  const hasFilters = activeRegions.length > 0 || activeTags.length > 0 || activeSeasons.length > 0 || activeBudget.length > 0;
 
-  let filteredDestinations = region
-    ? allDestinations.filter((d) => d.region_slug === region)
+  let filteredDestinations = activeRegions.length > 0
+    ? allDestinations.filter((d) => activeRegions.some((r) => d.region_slug === r))
     : allDestinations;
 
   if (activeTags.length > 0) {
@@ -83,14 +84,14 @@ async function DestinationsContent({
         </div>
         <p className="text-muted-foreground">
           {filteredDestinations.length} destination{filteredDestinations.length !== 1 ? "s" : ""}
-          {region ? ` in selected region` : ""}
+          {activeRegions.length > 0 ? ` in ${activeRegions.length} region${activeRegions.length !== 1 ? "s" : ""}` : ""}
           {activeTags.length > 0 ? ` matching ${activeTags.length} tag${activeTags.length !== 1 ? "s" : ""}` : ""}
           {activeSeasons.length > 0 ? ` in ${activeSeasons.length} season${activeSeasons.length !== 1 ? "s" : ""}` : ""}
           {activeBudget.length > 0 ? ` in ${activeBudget.length} budget tier${activeBudget.length !== 1 ? "s" : ""}` : ""}
         </p>
       </div>
 
-      <DestinationFilters regions={regions} currentRegion={region} />
+      <DestinationFilters regions={regions} currentRegions={activeRegions} />
 
       <FilterPanel
         currentTags={activeTags}
