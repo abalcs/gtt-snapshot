@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { TAG_CATEGORIES, SEASONS, BUDGET_TIERS, type TagCategory } from "@/lib/tags";
+import { TAG_CATEGORIES, SEASONS, BUDGET_TIERS, ACCESSIBILITY_FILTERS, type TagCategory } from "@/lib/tags";
 import type { TagDefinition } from "@/lib/types";
 
 const categoryActiveMap: Record<TagCategory, string> = {
@@ -36,14 +36,15 @@ interface FilterPanelProps {
   currentTags: string[];
   currentSeasons: string[];
   currentBudget: string[];
+  currentAccessibility: string[];
   tagDefinitions: TagDefinition[];
 }
 
-export function FilterPanel({ currentTags, currentSeasons, currentBudget, tagDefinitions }: FilterPanelProps) {
+export function FilterPanel({ currentTags, currentSeasons, currentBudget, currentAccessibility, tagDefinitions }: FilterPanelProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const totalSelections = currentTags.length + currentSeasons.length + currentBudget.length;
+  const totalSelections = currentTags.length + currentSeasons.length + currentBudget.length + currentAccessibility.length;
 
   const updateParam = (key: string, values: string[]) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -91,11 +92,24 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, tagDef
     updateParam("budget", next);
   };
 
+  const toggleAccessibility = (slug: string) => {
+    const next = currentAccessibility.includes(slug)
+      ? currentAccessibility.filter(s => s !== slug)
+      : [...currentAccessibility, slug];
+    if (!currentAccessibility.includes(slug)) {
+      window.dispatchEvent(new CustomEvent("analytics-track", {
+        detail: { type: "filter_accessibility", filter_type: "accessibility", filter_value: slug },
+      }));
+    }
+    updateParam("accessibility", next);
+  };
+
   const clearAll = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete("tags");
     params.delete("seasons");
     params.delete("budget");
+    params.delete("accessibility");
     router.push(`/destinations?${params.toString()}`);
   };
 
@@ -156,6 +170,30 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, tagDef
               >
                 {tier.label}
                 <span className={`text-xs ${isActive ? 'opacity-80' : 'opacity-60'}`}>{tier.description}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Accessibility */}
+      <div>
+        <p className="text-sm font-medium text-muted-foreground mb-2">Accessibility needs?</p>
+        <div className="flex flex-wrap gap-2">
+          {ACCESSIBILITY_FILTERS.map(filter => {
+            const isActive = currentAccessibility.includes(filter.slug);
+            return (
+              <button
+                key={filter.slug}
+                onClick={() => toggleAccessibility(filter.slug)}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer hover:scale-[1.03] ${
+                  isActive
+                    ? 'bg-teal-600 text-white border-teal-600 shadow-sm'
+                    : 'bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100'
+                }`}
+              >
+                {filter.label}
+                <span className={`text-xs ${isActive ? 'opacity-80' : 'opacity-60'}`}>{filter.description}</span>
               </button>
             );
           })}

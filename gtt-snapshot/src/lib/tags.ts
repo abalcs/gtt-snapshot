@@ -90,6 +90,21 @@ export const BUDGET_TIERS: BudgetTier[] = [
   { slug: 'premium', label: 'Premium', description: '$8k+/week', color: '#8b5cf6' },
 ];
 
+// ── Accessibility Filters ────────────────────────────────────────
+
+export interface AccessibilityFilter {
+  slug: string;
+  label: string;
+  description: string;
+}
+
+export const ACCESSIBILITY_FILTERS: AccessibilityFilter[] = [
+  { slug: 'easy-terrain', label: 'Easy Terrain', description: 'Flat to moderate' },
+  { slug: 'wheelchair-friendly', label: 'Wheelchair Friendly', description: 'Moderate+ access' },
+  { slug: 'minimal-walking', label: 'Minimal Walking', description: 'Light activity' },
+  { slug: 'low-altitude', label: 'Low Altitude', description: 'No altitude risk' },
+];
+
 // ── Helpers that work with a passed-in array (or fallback to ALL_TAGS) ──
 
 export function getTagBySlug(slug: string, tags: TagDefinition[] = ALL_TAGS): Tag | undefined {

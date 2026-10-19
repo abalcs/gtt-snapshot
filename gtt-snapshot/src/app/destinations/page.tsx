@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 export default function DestinationsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string; view?: string }>;
+  searchParams: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string; accessibility?: string; view?: string }>;
 }) {
   return <DestinationsContent searchParamsPromise={searchParams} />;
 }
@@ -19,10 +19,10 @@ export default function DestinationsPage({
 async function DestinationsContent({
   searchParamsPromise,
 }: {
-  searchParamsPromise: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string; view?: string }>;
+  searchParamsPromise: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string; accessibility?: string; view?: string }>;
 }) {
   await requireAuth();
-  const { region, tags: tagsParam, seasons: seasonsParam, budget: budgetParam, view } = await searchParamsPromise;
+  const { region, tags: tagsParam, seasons: seasonsParam, budget: budgetParam, accessibility: accessibilityParam, view } = await searchParamsPromise;
   const [allDestinations, regions, tagDefinitions, popularity] = await Promise.all([
     getAllDestinations(),
     getAllRegions(),
@@ -34,8 +34,9 @@ async function DestinationsContent({
   const activeTags = tagsParam ? tagsParam.split(",").filter(Boolean) : [];
   const activeSeasons = seasonsParam ? seasonsParam.split(",").filter(Boolean) : [];
   const activeBudget = budgetParam ? budgetParam.split(",").filter(Boolean) : [];
+  const activeAccessibility = accessibilityParam ? accessibilityParam.split(",").filter(Boolean) : [];
 
-  const hasFilters = activeRegions.length > 0 || activeTags.length > 0 || activeSeasons.length > 0 || activeBudget.length > 0;
+  const hasFilters = activeRegions.length > 0 || activeTags.length > 0 || activeSeasons.length > 0 || activeBudget.length > 0 || activeAccessibility.length > 0;
 
   let filteredDestinations = activeRegions.length > 0
     ? allDestinations.filter((d) => activeRegions.some((r) => d.region_slug === r))
@@ -56,6 +57,18 @@ async function DestinationsContent({
   if (activeBudget.length > 0) {
     filteredDestinations = filteredDestinations.filter((d) =>
       activeBudget.some((b) => d.budget_tiers?.includes(b))
+    );
+  }
+
+  if (activeAccessibility.length > 0) {
+    const accessibilityChecks: Record<string, (d: typeof filteredDestinations[0]) => boolean> = {
+      'easy-terrain': (d) => d.terrain_difficulty !== null && d.terrain_difficulty !== undefined && d.terrain_difficulty <= 2,
+      'wheelchair-friendly': (d) => d.wheelchair_friendliness !== null && d.wheelchair_friendliness !== undefined && d.wheelchair_friendliness >= 3,
+      'minimal-walking': (d) => d.walking_required !== null && d.walking_required !== undefined && d.walking_required <= 2,
+      'low-altitude': (d) => d.altitude_concern !== null && d.altitude_concern !== undefined && d.altitude_concern <= 2,
+    };
+    filteredDestinations = filteredDestinations.filter((d) =>
+      activeAccessibility.every((slug) => accessibilityChecks[slug]?.(d) ?? false)
     );
   }
 
@@ -88,6 +101,7 @@ async function DestinationsContent({
           {activeTags.length > 0 ? ` matching ${activeTags.length} tag${activeTags.length !== 1 ? "s" : ""}` : ""}
           {activeSeasons.length > 0 ? ` in ${activeSeasons.length} season${activeSeasons.length !== 1 ? "s" : ""}` : ""}
           {activeBudget.length > 0 ? ` in ${activeBudget.length} budget tier${activeBudget.length !== 1 ? "s" : ""}` : ""}
+          {activeAccessibility.length > 0 ? ` with ${activeAccessibility.length} accessibility filter${activeAccessibility.length !== 1 ? "s" : ""}` : ""}
         </p>
       </div>
 
@@ -97,6 +111,7 @@ async function DestinationsContent({
         currentTags={activeTags}
         currentSeasons={activeSeasons}
         currentBudget={activeBudget}
+        currentAccessibility={activeAccessibility}
         tagDefinitions={tagDefinitions}
       />
 
