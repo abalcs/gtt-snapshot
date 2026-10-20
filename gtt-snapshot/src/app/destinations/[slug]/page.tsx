@@ -7,7 +7,7 @@ import { PricingTable } from "@/components/destinations/pricing-table";
 import { SeasonalityDisplay } from "@/components/destinations/seasonality-display";
 import { ClientTypes } from "@/components/destinations/client-types";
 import { KeyFactsDisplay } from "@/components/destinations/key-facts-display";
-import { getDestinationBySlug, getAllTagDefinitions, getAllDestinations } from "@/lib/queries";
+import { getDestinationBySlug, getAllTagDefinitions, getAllDestinations, getPricingVisible } from "@/lib/queries";
 import { getFlagUrl } from "@/lib/country-flags";
 import { getTravelDataForDestination } from "@/lib/travel-data-queries";
 import { TravelInfo } from "@/components/destinations/travel-info";
@@ -44,10 +44,11 @@ export default async function DestinationDetailPage({
 }) {
   await requireAuth();
   const { slug } = await params;
-  const [destination, tagDefinitions, allDestinations] = await Promise.all([
+  const [destination, tagDefinitions, allDestinations, pricingVisible] = await Promise.all([
     getDestinationBySlug(slug),
     getAllTagDefinitions(),
     getAllDestinations(),
+    getPricingVisible(),
   ]);
 
   if (!destination) notFound();
@@ -218,11 +219,11 @@ export default async function DestinationDetailPage({
           </Card>
         )}
         {destination.solo_pricing && (
-          <Card>
+          <Card className={!pricingVisible ? "relative" : ""}>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground">Solo Pricing</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className={!pricingVisible ? "blur-sm select-none" : ""}>
               <p className="text-sm" dangerouslySetInnerHTML={{ __html: formatInline(destination.solo_pricing) }} />
             </CardContent>
           </Card>
@@ -266,7 +267,7 @@ export default async function DestinationDetailPage({
           <Separator />
           <div id="pricing" className="scroll-mt-20">
             <h2 className="text-lg font-semibold mb-3">Pricing</h2>
-            <PricingTable tiers={destination.pricing_tiers} footnotes={destination.pricing_footnotes} />
+            <PricingTable tiers={destination.pricing_tiers} footnotes={destination.pricing_footnotes} obscured={!pricingVisible} />
           </div>
         </>
       )}

@@ -1,21 +1,23 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getAllDestinations, getAllDestinationsAdmin, getAllRegions, getAllSpecialSections, getAdminLogs } from "@/lib/queries";
+import { getAllDestinations, getAllDestinationsAdmin, getAllRegions, getAllSpecialSections, getAdminLogs, getPricingVisible } from "@/lib/queries";
 import { AdminList } from "@/components/admin/admin-list";
 import { requireAdmin } from "@/lib/admin-auth";
 import { getDb } from "@/../db/database";
+import { PricingToggle } from "@/components/admin/pricing-toggle";
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPage() {
   await requireAdmin();
-  const [destinations, regions, specialSections, feedbackSnap, todayLogs] = await Promise.all([
+  const [destinations, regions, specialSections, feedbackSnap, todayLogs, pricingVisible] = await Promise.all([
     getAllDestinationsAdmin(),
     getAllRegions(),
     getAllSpecialSections(),
     getDb().collection("feedback").where("status", "==", "new").get(),
     getAdminLogs(200),
+    getPricingVisible(),
   ]);
   const newFeedbackCount = feedbackSnap.size;
 
@@ -129,7 +131,7 @@ export default async function AdminPage() {
       </div>
 
       {/* Quick stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
         <Card>
           <CardContent className="pt-4 pb-4">
             <div className="text-2xl font-bold">{activeCount}</div>
@@ -154,6 +156,7 @@ export default async function AdminPage() {
             <p className="text-xs text-muted-foreground">Changes Today</p>
           </CardContent>
         </Card>
+        <PricingToggle initialVisible={pricingVisible} />
       </div>
 
       {/* Stats by region */}

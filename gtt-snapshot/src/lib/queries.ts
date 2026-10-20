@@ -655,6 +655,16 @@ export async function getDestinationPopularity(): Promise<Record<string, number>
   return setCache('popularity:30d', viewCounts, 5 * 60 * 1000); // 5 min cache
 }
 
+// ── Display Settings ─────────────────────────────────────
+
+export async function getPricingVisible(): Promise<boolean> {
+  const cached = getCached<boolean>('display:pricing-visible');
+  if (cached !== null) return cached;
+  const doc = await db().collection('settings').doc('display').get();
+  const val = doc.data()?.pricing_visible ?? true;
+  return setCache('display:pricing-visible', val);
+}
+
 // ── Sidebar Data ─────────────────────────────────────────
 
 export async function getSidebarData(): Promise<{ regions: (Region & { destinations: { name: string; slug: string; status: string }[] })[]; specialSections: { title: string; slug: string }[] }> {

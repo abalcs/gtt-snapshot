@@ -11,6 +11,7 @@ interface CompareClientProps {
   allDestinations: Destination[];
   tagDefinitions: TagDefinition[];
   initialSlugs: string[];
+  pricingVisible?: boolean;
 }
 
 function parseSeasonality(raw: string | null): SeasonalityEntry[] {
@@ -29,7 +30,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   stop_sell: { label: "Stop Sell", color: "bg-red-100 text-red-800" },
 };
 
-export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }: CompareClientProps) {
+export function CompareClient({ allDestinations, tagDefinitions, initialSlugs, pricingVisible = true }: CompareClientProps) {
   const router = useRouter();
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>(initialSlugs);
   const [pickerOpen, setPickerOpen] = useState(initialSlugs.length === 0);
@@ -253,26 +254,32 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }:
                 d.night_min || <Dash />
               )} />
               <CompareRow label="Solo Pricing" values={selected.map((d) =>
-                d.solo_pricing || <Dash />
+                d.solo_pricing ? (
+                  !pricingVisible ? <span className="text-xs text-muted-foreground italic">Hidden</span> : d.solo_pricing
+                ) : <Dash />
               )} />
               <CompareRow label="Pax Limit" values={selected.map((d) =>
                 d.pax_limit || <Dash />
               )} />
               <CompareRow label="Pricing" values={selected.map((d) =>
                 d.pricing_tiers.length > 0 ? (
-                  <div className="space-y-1">
-                    {d.pricing_tiers.map((t, i) => (
-                      <div key={i} className="text-xs">
-                        <span className="font-medium">{t.tier_label}:</span>{" "}
-                        {t.price_per_week ? <span>{t.price_per_week}/wk</span> : <span className="text-muted-foreground">{"\u2014"}</span>}
-                      </div>
-                    ))}
-                    {(d.pricing_footnotes ?? []).map((fn, i) => (
-                      <div key={`fn-${i}`} className="text-xs text-muted-foreground">
-                        <span className="font-medium">{fn.label}:</span> from {fn.price}
-                      </div>
-                    ))}
-                  </div>
+                  !pricingVisible ? (
+                    <span className="text-xs text-muted-foreground italic">Hidden</span>
+                  ) : (
+                    <div className="space-y-1">
+                      {d.pricing_tiers.map((t, i) => (
+                        <div key={i} className="text-xs">
+                          <span className="font-medium">{t.tier_label}:</span>{" "}
+                          {t.price_per_week ? <span>{t.price_per_week}/wk</span> : <span className="text-muted-foreground">{"\u2014"}</span>}
+                        </div>
+                      ))}
+                      {(d.pricing_footnotes ?? []).map((fn, i) => (
+                        <div key={`fn-${i}`} className="text-xs text-muted-foreground">
+                          <span className="font-medium">{fn.label}:</span> from {fn.price}
+                        </div>
+                      ))}
+                    </div>
+                  )
                 ) : <Dash />
               )} />
               <CompareRow label="Seasonality" values={selected.map((d) => {
@@ -347,23 +354,31 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs }:
                     <MobileField label="Status" value={<Badge variant="outline" className={`text-xs ${s.color}`}>{s.label}</Badge>} />
                     {d.talking_points && <MobileField label="Talking Points" value={<span className="whitespace-pre-line">{d.talking_points}</span>} />}
                     {d.night_min && <MobileField label="Night Min" value={d.night_min} />}
-                    {d.solo_pricing && <MobileField label="Solo Pricing" value={d.solo_pricing} />}
+                    {d.solo_pricing && (
+                      <MobileField label="Solo Pricing" value={
+                        !pricingVisible ? <span className="text-xs text-muted-foreground italic">Hidden</span> : d.solo_pricing
+                      } />
+                    )}
                     {d.pax_limit && <MobileField label="Pax Limit" value={d.pax_limit} />}
                     {d.pricing_tiers.length > 0 && (
                       <MobileField label="Pricing" value={
-                        <div className="space-y-1">
-                          {d.pricing_tiers.map((t, i) => (
-                            <div key={i} className="text-xs">
-                              <span className="font-medium">{t.tier_label}:</span>{" "}
-                              {t.price_per_week ? <span>{t.price_per_week}/wk</span> : <span className="text-muted-foreground">{"\u2014"}</span>}
-                            </div>
-                          ))}
-                          {(d.pricing_footnotes ?? []).map((fn, i) => (
-                            <div key={`fn-${i}`} className="text-xs text-muted-foreground">
-                              <span className="font-medium">{fn.label}:</span> from {fn.price}
-                            </div>
-                          ))}
-                        </div>
+                        !pricingVisible ? (
+                          <span className="text-xs text-muted-foreground italic">Hidden</span>
+                        ) : (
+                          <div className="space-y-1">
+                            {d.pricing_tiers.map((t, i) => (
+                              <div key={i} className="text-xs">
+                                <span className="font-medium">{t.tier_label}:</span>{" "}
+                                {t.price_per_week ? <span>{t.price_per_week}/wk</span> : <span className="text-muted-foreground">{"\u2014"}</span>}
+                              </div>
+                            ))}
+                            {(d.pricing_footnotes ?? []).map((fn, i) => (
+                              <div key={`fn-${i}`} className="text-xs text-muted-foreground">
+                                <span className="font-medium">{fn.label}:</span> from {fn.price}
+                              </div>
+                            ))}
+                          </div>
+                        )
                       } />
                     )}
                     {entries.length > 0 && (

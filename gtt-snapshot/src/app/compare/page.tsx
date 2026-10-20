@@ -1,4 +1,4 @@
-import { getAllDestinations, getAllTagDefinitions } from "@/lib/queries";
+import { getAllDestinations, getAllTagDefinitions, getPricingVisible } from "@/lib/queries";
 import { CompareClient } from "./compare-client";
 import { requireAuth } from "@/lib/admin-auth";
 
@@ -13,9 +13,10 @@ export default async function ComparePage({
   const { slugs: slugsParam } = await searchParams;
   const initialSlugs = slugsParam ? slugsParam.split(",").filter(Boolean).slice(0, 3) : [];
 
-  const [allDestinations, tagDefinitions] = await Promise.all([
+  const [allDestinations, tagDefinitions, pricingVisible] = await Promise.all([
     getAllDestinations(),
     getAllTagDefinitions(),
+    getPricingVisible(),
   ]);
 
   return (
@@ -23,6 +24,7 @@ export default async function ComparePage({
       allDestinations={allDestinations}
       tagDefinitions={tagDefinitions}
       initialSlugs={initialSlugs}
+      pricingVisible={pricingVisible}
     />
   );
 }
