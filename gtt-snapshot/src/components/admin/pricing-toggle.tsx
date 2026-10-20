@@ -1,22 +1,27 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 
 export function PricingToggle({ initialVisible }: { initialVisible: boolean }) {
+  const router = useRouter();
   const [visible, setVisible] = useState(initialVisible);
   const [loading, setLoading] = useState(false);
 
   const toggle = async () => {
     setLoading(true);
+    const newValue = !visible;
     try {
       const res = await fetch("/api/admin/display-settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pricing_visible: !visible }),
+        body: JSON.stringify({ pricing_visible: newValue }),
       });
       if (res.ok) {
-        setVisible(!visible);
+        setVisible(newValue);
+        // Refresh server component data so revisiting this page stays in sync
+        router.refresh();
       }
     } catch {
       // silently fail — state stays unchanged

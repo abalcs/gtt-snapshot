@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { validateSession } from "@/lib/user-queries";
 import { getDb } from "@/../db/database";
-import { invalidateCache } from "@/lib/data-cache";
 
 const DOC_PATH = "settings/display";
 
@@ -48,8 +47,6 @@ export async function PUT(request: NextRequest) {
       { pricing_visible, updated_at: new Date().toISOString() },
       { merge: true }
     );
-
-    invalidateCache("display:pricing-visible");
 
     return NextResponse.json({ success: true, pricing_visible });
   } catch (err) {

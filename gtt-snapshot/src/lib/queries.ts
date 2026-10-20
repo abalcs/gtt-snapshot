@@ -658,11 +658,10 @@ export async function getDestinationPopularity(): Promise<Record<string, number>
 // ── Display Settings ─────────────────────────────────────
 
 export async function getPricingVisible(): Promise<boolean> {
-  const cached = getCached<boolean>('display:pricing-visible');
-  if (cached !== null) return cached;
+  // No in-memory cache — this setting must be fresh on every request
+  // since it's toggled by admin and read across all destination pages.
   const doc = await db().collection('settings').doc('display').get();
-  const val = doc.data()?.pricing_visible ?? true;
-  return setCache('display:pricing-visible', val);
+  return doc.data()?.pricing_visible ?? true;
 }
 
 // ── Sidebar Data ─────────────────────────────────────────
