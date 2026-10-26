@@ -34,9 +34,33 @@ export default async function SpecialSectionPage({
         </p>
       )}
 
-      <div className="prose prose-sm max-w-none">
-        <MarkdownContent content={section.content} />
-      </div>
+      {section.pdf_url && (
+        <div className="space-y-3">
+          <div className="flex items-center gap-3">
+            <a
+              href={section.pdf_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border rounded-md hover:bg-muted transition-colors"
+            >
+              Open PDF in new tab
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+          <iframe
+            src={section.pdf_url}
+            className="w-full rounded-lg border"
+            style={{ height: "85vh" }}
+            title={section.title}
+          />
+        </div>
+      )}
+
+      {section.content && (
+        <div className="prose prose-sm max-w-none">
+          <MarkdownContent content={section.content} />
+        </div>
+      )}
     </div>
   );
 }

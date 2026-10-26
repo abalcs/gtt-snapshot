@@ -23,6 +23,7 @@ export function SpecialSectionForm({ section, regions }: Props) {
   const [title, setTitle] = useState(section.title);
   const [content, setContent] = useState(section.content);
   const [regionScope, setRegionScope] = useState(section.region_scope || "");
+  const [pdfUrl, setPdfUrl] = useState(section.pdf_url || "");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,6 +34,7 @@ export function SpecialSectionForm({ section, regions }: Props) {
       title,
       content,
       region_scope: regionScope || null,
+      pdf_url: pdfUrl || null,
     };
 
     try {
@@ -123,6 +125,16 @@ export function SpecialSectionForm({ section, regions }: Props) {
                 </option>
               ))}
             </select>
+          </div>
+          <div>
+            <Label htmlFor="pdfUrl">PDF URL (optional)</Label>
+            <Input
+              id="pdfUrl"
+              value={pdfUrl}
+              onChange={(e) => setPdfUrl(e.target.value)}
+              placeholder="/publications/filename.pdf or https://..."
+            />
+            <p className="text-xs text-muted-foreground mt-1">If set, an embedded PDF viewer will be shown above the content.</p>
           </div>
           <div>
             <Label htmlFor="content">Content</Label>

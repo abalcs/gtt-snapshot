@@ -81,6 +81,7 @@ function docToSpecialSection(id: string, data: FirebaseFirestore.DocumentData): 
     slug: data.slug,
     content: data.content,
     region_scope: data.region_scope ?? null,
+    pdf_url: data.pdf_url ?? null,
   };
 }
 
@@ -187,7 +188,7 @@ export async function getSpecialSectionBySlug(slug: string): Promise<SpecialSect
   return docToSpecialSection(doc.id, doc.data()!);
 }
 
-export async function updateSpecialSection(slug: string, data: { title?: string; content?: string; region_scope?: string | null }): Promise<void> {
+export async function updateSpecialSection(slug: string, data: { title?: string; content?: string; region_scope?: string | null; pdf_url?: string | null }): Promise<void> {
   const existing = await db().collection('special_sections').doc(slug).get();
   const existingData = existing.data() || {};
 

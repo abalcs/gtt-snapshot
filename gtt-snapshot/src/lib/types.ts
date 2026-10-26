@@ -71,6 +71,7 @@ export interface SpecialSection {
   slug: string;
   content: string;
   region_scope: string | null;
+  pdf_url: string | null;
 }
 
 export interface DestinationDetail extends Destination {}
