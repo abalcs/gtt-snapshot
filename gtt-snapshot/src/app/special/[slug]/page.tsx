@@ -34,33 +34,44 @@ export default async function SpecialSectionPage({
         </p>
       )}
 
-      {section.pdf_url && (
-        <div className="space-y-3">
+      {section.pdf_url ? (
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">{section.content}</p>
           <div className="flex items-center gap-3">
             <a
               href={section.pdf_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium border rounded-md hover:bg-muted transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#3a5f54] rounded-md hover:bg-[#2a4a40] transition-colors"
             >
-              Open PDF in new tab
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Open PDF in New Tab
+            </a>
+            <a
+              href={section.pdf_url}
+              download
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium border rounded-md hover:bg-muted transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
             </a>
           </div>
-          <iframe
-            src={section.pdf_url}
+          <object
+            data={section.pdf_url}
+            type="application/pdf"
             className="w-full rounded-lg border"
             style={{ height: "85vh" }}
-            title={section.title}
-          />
+          >
+            <p className="text-sm text-muted-foreground p-4">
+              Your browser does not support embedded PDFs. Use the buttons above to open or download the file.
+            </p>
+          </object>
         </div>
-      )}
-
-      {section.content && (
+      ) : section.content ? (
         <div className="prose prose-sm max-w-none">
           <MarkdownContent content={section.content} />
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
