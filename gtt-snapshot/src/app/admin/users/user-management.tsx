@@ -36,7 +36,9 @@ export function UserManagement() {
     try {
       const res = await fetch("/api/admin/users");
       const data = await res.json();
-      setUsers(data.users || []);
+      const list: UserData[] = data.users || [];
+      list.sort((a, b) => a.name.localeCompare(b.name));
+      setUsers(list);
     } catch {
       setError("Failed to load users");
     } finally {
