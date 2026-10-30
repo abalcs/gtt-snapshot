@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,9 +17,14 @@ interface UserData {
   invited_by: string | null;
 }
 
+type SortKey = 'name' | 'email' | 'role' | 'status';
+type SortDir = 'asc' | 'desc';
+
 export function UserManagement() {
   const [users, setUsers] = useState<UserData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sortKey, setSortKey] = useState<SortKey>('name');
+  const [sortDir, setSortDir] = useState<SortDir>('asc');
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteName, setInviteName] = useState("");
   const [invitePassword, setInvitePassword] = useState("");
@@ -36,9 +41,7 @@ export function UserManagement() {
     try {
       const res = await fetch("/api/admin/users");
       const data = await res.json();
-      const list: UserData[] = data.users || [];
-      list.sort((a, b) => a.name.localeCompare(b.name));
-      setUsers(list);
+      setUsers(data.users || []);
     } catch {
       setError("Failed to load users");
     } finally {
@@ -153,6 +156,38 @@ export function UserManagement() {
     }
   };
 
+  const sortedUsers = useMemo(() => {
+    return [...users].sort((a, b) => {
+      const av = a[sortKey].toLowerCase();
+      const bv = b[sortKey].toLowerCase();
+      const cmp = av.localeCompare(bv);
+      return sortDir === 'asc' ? cmp : -cmp;
+    });
+  }, [users, sortKey, sortDir]);
+
+  const handleSort = (key: SortKey) => {
+    if (sortKey === key) {
+      setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortKey(key);
+      setSortDir('asc');
+    }
+  };
+
+  const SortHeader = ({ label, field }: { label: string; field: SortKey }) => (
+    <th
+      className="text-left py-2 px-3 font-medium cursor-pointer select-none hover:text-foreground transition-colors"
+      onClick={() => handleSort(field)}
+    >
+      <span className="inline-flex items-center gap-1">
+        {label}
+        <span className="text-muted-foreground/50">
+          {sortKey === field ? (sortDir === 'asc' ? "\u25B2" : "\u25BC") : "\u25B4"}
+        </span>
+      </span>
+    </th>
+  );
+
   return (
     <div className="space-y-6">
       {/* Create user form */}
@@ -236,15 +271,15 @@ export function UserManagement() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left py-2 px-3 font-medium">Name</th>
-                    <th className="text-left py-2 px-3 font-medium">Email</th>
-                    <th className="text-left py-2 px-3 font-medium">Role</th>
-                    <th className="text-left py-2 px-3 font-medium">Status</th>
+                    <SortHeader label="Name" field="name" />
+                    <SortHeader label="Email" field="email" />
+                    <SortHeader label="Role" field="role" />
+                    <SortHeader label="Status" field="status" />
                     <th className="text-right py-2 px-3 font-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((u) => (
+                  {sortedUsers.map((u) => (
                     <tr key={u.id} className="border-b last:border-0">
                       <td className="py-2 px-3">
                         {u.name}
