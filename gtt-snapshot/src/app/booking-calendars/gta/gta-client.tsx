@@ -88,6 +88,9 @@ export function GtaClient({ consultants }: { consultants: Consultant[] }) {
                           {consultant.name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()}
                         </div>
                         <p className="font-medium">{consultant.name}</p>
+                        {consultant.is_tam && (
+                          <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-300 text-[10px] px-1.5 py-0">TAM</Badge>
+                        )}
                       </div>
                       {count > 0 && (
                         <Badge variant="outline" className="text-xs shrink-0">

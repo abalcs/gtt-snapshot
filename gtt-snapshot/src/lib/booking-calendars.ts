@@ -17,6 +17,7 @@ export interface Consultant {
   countriesDisplay: string;
   disabledDestinations?: string[];
   taAssignments?: TaAssignment[];
+  is_tam?: boolean;
 }
 
 export interface ConsultantDoc extends Consultant {
@@ -235,6 +236,21 @@ export async function getConsultantsByTitle(title: string): Promise<Consultant[]
   return consultants.filter(
     (c) => c.title.toLowerCase() === title.toLowerCase()
   );
+}
+
+/** Fetch GTA and TAM consultants combined, with is_tam flag set on TAM ones */
+export async function getGtaConsultantsWithTam(): Promise<Consultant[]> {
+  const consultants = await getActiveConsultants();
+  return consultants
+    .filter((c) => {
+      const t = c.title.toLowerCase();
+      return t === "gta" || t === "tam";
+    })
+    .map((c) => ({
+      ...c,
+      is_tam: c.is_tam ?? c.title.toLowerCase() === "tam",
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export { slugify };

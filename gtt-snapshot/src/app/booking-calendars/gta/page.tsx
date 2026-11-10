@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { requireAuth } from "@/lib/admin-auth";
-import { getConsultantsByTitle } from "@/lib/booking-calendars";
+import { getGtaConsultantsWithTam } from "@/lib/booking-calendars";
 import { invalidateCache } from "@/lib/data-cache";
 import { GtaClient } from "./gta-client";
 
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default async function GtaPage() {
   await requireAuth();
   invalidateCache("consultants");
-  const consultants = await getConsultantsByTitle("GTA");
+  const consultants = await getGtaConsultantsWithTam();
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">

@@ -37,6 +37,7 @@ interface ConsultantDoc {
   countriesDisplay: string;
   disabledDestinations: string[];
   taAssignments: TaAssignment[];
+  is_tam: boolean;
   status: "active" | "inactive";
   created_at: string;
   updated_at: string;
@@ -51,6 +52,7 @@ interface FormData {
   countriesDisplay: string;
   disabledDestinations: string[];
   taAssignments: TaAssignment[];
+  is_tam: boolean;
 }
 
 const emptyForm: FormData = {
@@ -62,6 +64,7 @@ const emptyForm: FormData = {
   countriesDisplay: "",
   disabledDestinations: [],
   taAssignments: [],
+  is_tam: false,
 };
 
 export function ConsultantManagement() {
@@ -128,6 +131,7 @@ export function ConsultantManagement() {
       countriesDisplay: c.countriesDisplay,
       disabledDestinations: c.disabledDestinations || [],
       taAssignments: c.taAssignments || [],
+      is_tam: c.is_tam ?? false,
     });
     setError("");
     setDialogOpen(true);
@@ -155,6 +159,7 @@ export function ConsultantManagement() {
       countriesDisplay: form.countriesDisplay.trim(),
       disabledDestinations: cleanedDisabled,
       taAssignments: form.taAssignments,
+      is_tam: form.is_tam,
     };
 
     try {
@@ -289,7 +294,14 @@ export function ConsultantManagement() {
             ) : (
               filtered.map((c) => (
                 <TableRow key={c.id}>
-                  <TableCell className="font-medium">{c.name}</TableCell>
+                  <TableCell className="font-medium">
+                    <span className="flex items-center gap-1.5">
+                      {c.name}
+                      {c.is_tam && (
+                        <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-300 text-[10px] px-1.5 py-0">TAM</Badge>
+                      )}
+                    </span>
+                  </TableCell>
                   <TableCell>{c.title || "\u2014"}</TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
@@ -479,6 +491,18 @@ export function ConsultantManagement() {
                 onChange={(e) => setForm({ ...form, countriesDisplay: e.target.value })}
                 placeholder="e.g. Greece, Italy, France"
               />
+            </div>
+
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="is_tam"
+                checked={form.is_tam}
+                onChange={(e) => setForm({ ...form, is_tam: e.target.checked })}
+                className="rounded"
+              />
+              <Label htmlFor="is_tam">TAM Badge</Label>
+              <span className="text-xs text-muted-foreground">Show a TAM badge on the GTA Calendars page</span>
             </div>
 
             {/* TA Assignments */}

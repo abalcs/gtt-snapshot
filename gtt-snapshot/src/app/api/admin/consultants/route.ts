@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, title, calendarUrl, destinations, displayRegions, countriesDisplay, disabledDestinations, taAssignments } = body;
+    const { name, title, calendarUrl, destinations, displayRegions, countriesDisplay, disabledDestinations, taAssignments, is_tam } = body;
 
     if (!name) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 });
@@ -72,6 +72,7 @@ export async function POST(request: NextRequest) {
       countriesDisplay: countriesDisplay || "",
       disabledDestinations: disabledDestinations || [],
       taAssignments: taAssignments || [],
+      is_tam: is_tam ?? false,
       status: "active",
       created_at: now,
       updated_at: now,
