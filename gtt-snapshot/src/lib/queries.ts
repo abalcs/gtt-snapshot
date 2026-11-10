@@ -188,6 +188,30 @@ export async function getSpecialSectionBySlug(slug: string): Promise<SpecialSect
   return docToSpecialSection(doc.id, doc.data()!);
 }
 
+export async function createSpecialSection(data: { title: string; slug: string; content: string; region_scope?: string | null; pdf_url?: string | null }): Promise<void> {
+  const existing = await db().collection('special_sections').doc(data.slug).get();
+  if (existing.exists) throw new Error('A special section with this slug already exists');
+
+  await db().collection('special_sections').doc(data.slug).set({
+    title: data.title,
+    slug: data.slug,
+    content: data.content,
+    region_scope: data.region_scope ?? null,
+    pdf_url: data.pdf_url ?? null,
+  });
+
+  await logAdminAction({
+    action: 'created',
+    target_name: data.title,
+    target_slug: data.slug,
+    updated_by: 'Admin',
+    changes: [],
+    timestamp: new Date().toISOString(),
+  });
+
+  invalidateCache();
+}
+
 export async function updateSpecialSection(slug: string, data: { title?: string; content?: string; region_scope?: string | null; pdf_url?: string | null }): Promise<void> {
   const existing = await db().collection('special_sections').doc(slug).get();
   const existingData = existing.data() || {};

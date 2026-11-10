@@ -10,20 +10,32 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SpecialSection, RegionWithCount } from "@/lib/types";
 
 interface Props {
-  section: SpecialSection;
+  section?: SpecialSection;
   regions: RegionWithCount[];
+}
+
+function slugify(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
 export function SpecialSectionForm({ section, regions }: Props) {
   const router = useRouter();
+  const isNew = !section;
 
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
-  const [title, setTitle] = useState(section.title);
-  const [content, setContent] = useState(section.content);
-  const [regionScope, setRegionScope] = useState(section.region_scope || "");
-  const [pdfUrl, setPdfUrl] = useState(section.pdf_url || "");
+  const [title, setTitle] = useState(section?.title || "");
+  const [slug, setSlug] = useState(section?.slug || "");
+  const [autoSlug, setAutoSlug] = useState(isNew);
+  const [content, setContent] = useState(section?.content || "");
+  const [regionScope, setRegionScope] = useState(section?.region_scope || "");
+  const [pdfUrl, setPdfUrl] = useState(section?.pdf_url || "");
+
+  const handleTitleChange = (value: string) => {
+    setTitle(value);
+    if (autoSlug) setSlug(slugify(value));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,21 +44,33 @@ export function SpecialSectionForm({ section, regions }: Props) {
 
     const body = {
       title,
+      slug,
       content,
       region_scope: regionScope || null,
       pdf_url: pdfUrl || null,
     };
 
     try {
-      const res = await fetch(`/api/special-sections/${section.slug}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Failed to save");
+      if (isNew) {
+        const res = await fetch("/api/special-sections", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.error || "Failed to create");
+        }
+      } else {
+        const res = await fetch(`/api/special-sections/${section.slug}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.error || "Failed to save");
+        }
       }
 
       router.push("/admin");
@@ -59,6 +83,7 @@ export function SpecialSectionForm({ section, regions }: Props) {
   };
 
   const handleDelete = async () => {
+    if (!section) return;
     if (!confirm("Are you sure you want to delete this special section?")) return;
 
     try {
@@ -76,16 +101,18 @@ export function SpecialSectionForm({ section, regions }: Props) {
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Edit: {section.title}</h1>
+        <h1 className="text-2xl font-bold">{isNew ? "New Special Section" : `Edit: ${section.title}`}</h1>
         <div className="flex gap-2">
-          <Button type="button" variant="destructive" onClick={handleDelete}>
-            Delete
-          </Button>
+          {!isNew && (
+            <Button type="button" variant="destructive" onClick={handleDelete}>
+              Delete
+            </Button>
+          )}
           <Button type="button" variant="outline" onClick={() => router.back()}>
             Cancel
           </Button>
           <Button type="submit" disabled={saving}>
-            {saving ? "Saving..." : "Save"}
+            {saving ? "Saving..." : isNew ? "Create Section" : "Update Section"}
           </Button>
         </div>
       </div>
@@ -106,10 +133,24 @@ export function SpecialSectionForm({ section, regions }: Props) {
             <Input
               id="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => handleTitleChange(e.target.value)}
               required
             />
           </div>
+          {isNew && (
+            <div>
+              <Label htmlFor="slug">Slug</Label>
+              <Input
+                id="slug"
+                value={slug}
+                onChange={(e) => { setSlug(e.target.value); setAutoSlug(false); }}
+                required
+                pattern="[a-z0-9-]+"
+                title="Lowercase letters, numbers, and hyphens only"
+              />
+              <p className="text-xs text-muted-foreground mt-1">URL-friendly identifier. Auto-generated from title.</p>
+            </div>
+          )}
           <div>
             <Label htmlFor="regionScope">Region Scope</Label>
             <select
@@ -154,7 +195,7 @@ export function SpecialSectionForm({ section, regions }: Props) {
           Cancel
         </Button>
         <Button type="submit" disabled={saving}>
-          {saving ? "Saving..." : "Update Section"}
+          {saving ? "Saving..." : isNew ? "Create Section" : "Update Section"}
         </Button>
       </div>
     </form>

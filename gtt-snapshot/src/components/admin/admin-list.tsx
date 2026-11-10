@@ -102,10 +102,15 @@ export function AdminList({ destinations, specialSections }: Props) {
               <>
                 <tr className="border-b bg-muted/50">
                   <td
-                    colSpan={5}
+                    colSpan={4}
                     className="py-2 px-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground"
                   >
                     Special Sections ({filteredSections.length})
+                  </td>
+                  <td className="py-2 text-right">
+                    <Link href="/admin/special-sections/new">
+                      <Button variant="outline" size="sm">+ New Section</Button>
+                    </Link>
                   </td>
                 </tr>
                 {filteredSections.map((section) => (
@@ -154,8 +159,21 @@ export function AdminList({ destinations, specialSections }: Props) {
               </>
             )}
 
+            {filteredSections.length === 0 && !query && (
+              <tr className="border-b bg-muted/50">
+                <td colSpan={4} className="py-2 px-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Special Sections (0)
+                </td>
+                <td className="py-2 text-right">
+                  <Link href="/admin/special-sections/new">
+                    <Button variant="outline" size="sm">+ New Section</Button>
+                  </Link>
+                </td>
+              </tr>
+            )}
+
             {filteredDestinations.length === 0 &&
-              filteredSections.length === 0 && (
+              filteredSections.length === 0 && query && (
                 <tr>
                   <td
                     colSpan={5}
