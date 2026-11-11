@@ -18,6 +18,7 @@ import { requireAuth } from "@/lib/admin-auth";
 import { MobilityAccessibility } from "@/components/destinations/mobility-accessibility";
 import { TableOfContents } from "@/components/destinations/table-of-contents";
 import { DestinationCard } from "@/components/destinations/destination-card";
+import { FlightTimeWidget } from "@/components/destinations/flight-time-widget";
 
 
 export const dynamic = 'force-dynamic';
@@ -147,6 +148,11 @@ export default async function DestinationDetailPage({
           zoom={coords.zoom}
           name={destination.name}
         />
+      )}
+
+      {/* Flight Time Estimator */}
+      {coords && (
+        <FlightTimeWidget destLat={coords.lat} destLng={coords.lng} destName={destination.name} />
       )}
 
       {/* Travel Information */}
