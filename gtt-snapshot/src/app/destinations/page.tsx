@@ -1,19 +1,15 @@
 import Link from "next/link";
 import { getAllDestinations, getAllRegions, getAllTagDefinitions, getDestinationPopularity } from "@/lib/queries";
 import { DestinationFilters } from "@/components/destinations/destination-filters";
-import { FilterPanel } from "@/components/destinations/filter-panel";
-import { DestinationGrid } from "@/components/destinations/destination-grid";
-import { EmptyState } from "@/components/ui/empty-state";
+import { FlightFilteredResults } from "@/components/destinations/flight-filtered-results";
 import { requireAuth } from "@/lib/admin-auth";
-import { getCoordinates } from "@/lib/country-coordinates";
-import { getFlightTimeForSlug } from "@/lib/flight-time";
 
 export const dynamic = 'force-dynamic';
 
 export default function DestinationsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string; accessibility?: string; view?: string; departureCity?: string; maxFlightTime?: string }>;
+  searchParams: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string; accessibility?: string; view?: string }>;
 }) {
   return <DestinationsContent searchParamsPromise={searchParams} />;
 }
@@ -21,10 +17,10 @@ export default function DestinationsPage({
 async function DestinationsContent({
   searchParamsPromise,
 }: {
-  searchParamsPromise: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string; accessibility?: string; view?: string; departureCity?: string; maxFlightTime?: string }>;
+  searchParamsPromise: Promise<{ region?: string; tags?: string; seasons?: string; budget?: string; accessibility?: string; view?: string }>;
 }) {
   await requireAuth();
-  const { region, tags: tagsParam, seasons: seasonsParam, budget: budgetParam, accessibility: accessibilityParam, view, departureCity: departureCityParam, maxFlightTime: maxFlightTimeParam } = await searchParamsPromise;
+  const { region, tags: tagsParam, seasons: seasonsParam, budget: budgetParam, accessibility: accessibilityParam, view } = await searchParamsPromise;
   const [allDestinations, regions, tagDefinitions, popularity] = await Promise.all([
     getAllDestinations(),
     getAllRegions(),
@@ -37,10 +33,8 @@ async function DestinationsContent({
   const activeSeasons = seasonsParam ? seasonsParam.split(",").filter(Boolean) : [];
   const activeBudget = budgetParam ? budgetParam.split(",").filter(Boolean) : [];
   const activeAccessibility = accessibilityParam ? accessibilityParam.split(",").filter(Boolean) : [];
-  const activeDepartureCity = departureCityParam || "";
-  const activeMaxFlightTime = maxFlightTimeParam ? parseFloat(maxFlightTimeParam) : null;
 
-  const hasFilters = activeRegions.length > 0 || activeTags.length > 0 || activeSeasons.length > 0 || activeBudget.length > 0 || activeAccessibility.length > 0 || !!activeDepartureCity;
+  const hasFilters = activeRegions.length > 0 || activeTags.length > 0 || activeSeasons.length > 0 || activeBudget.length > 0 || activeAccessibility.length > 0;
 
   let filteredDestinations = activeRegions.length > 0
     ? allDestinations.filter((d) => activeRegions.some((r) => d.region_slug === r))
@@ -76,16 +70,6 @@ async function DestinationsContent({
     );
   }
 
-  // Flight time filter
-  if (activeDepartureCity && activeMaxFlightTime) {
-    filteredDestinations = filteredDestinations.filter((d) => {
-      const coords = getCoordinates(d.slug);
-      if (!coords) return true; // destinations without coordinates pass through
-      const hours = getFlightTimeForSlug(activeDepartureCity, coords.lat, coords.lng);
-      return hours !== null && hours <= activeMaxFlightTime;
-    });
-  }
-
   // Sort by popularity (view count desc), then alphabetically for 0-view destinations
   filteredDestinations.sort((a, b) => {
     const aViews = popularity[a.slug] ?? 0;
@@ -116,40 +100,22 @@ async function DestinationsContent({
           {activeSeasons.length > 0 ? ` in ${activeSeasons.length} season${activeSeasons.length !== 1 ? "s" : ""}` : ""}
           {activeBudget.length > 0 ? ` in ${activeBudget.length} budget tier${activeBudget.length !== 1 ? "s" : ""}` : ""}
           {activeAccessibility.length > 0 ? ` with ${activeAccessibility.length} accessibility filter${activeAccessibility.length !== 1 ? "s" : ""}` : ""}
-          {activeDepartureCity && activeMaxFlightTime ? ` within ${activeMaxFlightTime}h flight` : ""}
         </p>
       </div>
 
       <DestinationFilters regions={regions} currentRegions={activeRegions} />
 
-      <FilterPanel
-        currentTags={activeTags}
-        currentSeasons={activeSeasons}
-        currentBudget={activeBudget}
-        currentAccessibility={activeAccessibility}
-        currentDepartureCity={activeDepartureCity}
-        currentMaxFlightTime={activeMaxFlightTime}
+      <FlightFilteredResults
+        destinations={filteredDestinations}
+        allDestinations={allDestinations}
         tagDefinitions={tagDefinitions}
+        activeTags={activeTags}
+        activeSeasons={activeSeasons}
+        activeBudget={activeBudget}
+        activeAccessibility={activeAccessibility}
+        hasServerFilters={hasFilters}
+        initialViewMode={view === "map" ? "map" : "cards"}
       />
-
-      {filteredDestinations.length > 0 ? (
-        <DestinationGrid
-          destinations={filteredDestinations}
-          allDestinations={allDestinations}
-          tagDefinitions={tagDefinitions}
-          activeTags={activeTags}
-          activeSeasons={activeSeasons}
-          activeBudget={activeBudget}
-          initialViewMode={view === "map" ? "map" : "cards"}
-        />
-      ) : hasFilters ? (
-        <EmptyState
-          icon={<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>}
-          heading="No destinations match your filters"
-          description="Try removing some filters or broadening your search."
-          action={{ label: "Clear all filters", href: "/destinations" }}
-        />
-      ) : null}
     </div>
   );
 }

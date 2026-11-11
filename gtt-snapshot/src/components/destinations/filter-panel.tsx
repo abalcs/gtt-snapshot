@@ -40,16 +40,18 @@ interface FilterPanelProps {
   currentSeasons: string[];
   currentBudget: string[];
   currentAccessibility: string[];
-  currentDepartureCity: string;
-  currentMaxFlightTime: number | null;
+  departureCity: string;
+  maxFlightTime: number | null;
+  onDepartureCityChange: (code: string) => void;
+  onMaxFlightTimeChange: (hours: number) => void;
   tagDefinitions: TagDefinition[];
 }
 
-export function FilterPanel({ currentTags, currentSeasons, currentBudget, currentAccessibility, currentDepartureCity, currentMaxFlightTime, tagDefinitions }: FilterPanelProps) {
+export function FilterPanel({ currentTags, currentSeasons, currentBudget, currentAccessibility, departureCity, maxFlightTime, onDepartureCityChange, onMaxFlightTimeChange, tagDefinitions }: FilterPanelProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const flightFilterCount = currentDepartureCity ? (currentMaxFlightTime ? 2 : 1) : 0;
+  const flightFilterCount = departureCity ? (maxFlightTime !== null && maxFlightTime < 20 ? 2 : 1) : 0;
   const totalSelections = currentTags.length + currentSeasons.length + currentBudget.length + currentAccessibility.length + flightFilterCount;
 
   const updateParam = (key: string, values: string[]) => {
@@ -110,31 +112,13 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, curren
     updateParam("accessibility", next);
   };
 
-  const setDepartureCity = (code: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (code) {
-      params.set("departureCity", code);
-    } else {
-      params.delete("departureCity");
-      params.delete("maxFlightTime");
-    }
-    router.push(`/destinations?${params.toString()}`);
-  };
-
-  const setMaxFlightTime = (hours: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("maxFlightTime", String(hours));
-    router.push(`/destinations?${params.toString()}`);
-  };
-
   const clearAll = () => {
+    onDepartureCityChange("");
     const params = new URLSearchParams(searchParams.toString());
     params.delete("tags");
     params.delete("seasons");
     params.delete("budget");
     params.delete("accessibility");
-    params.delete("departureCity");
-    params.delete("maxFlightTime");
     router.push(`/destinations?${params.toString()}`);
   };
 
@@ -156,7 +140,7 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, curren
       <div>
         <p className="text-sm font-medium text-muted-foreground mb-2">How far are they willing to fly?</p>
         <div className="flex items-center gap-3 flex-wrap">
-          <Select value={currentDepartureCity} onValueChange={setDepartureCity}>
+          <Select value={departureCity || undefined} onValueChange={onDepartureCityChange}>
             <SelectTrigger className="w-[220px]">
               <SelectValue placeholder="Departure city" />
             </SelectTrigger>
@@ -168,19 +152,19 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, curren
               ))}
             </SelectContent>
           </Select>
-          {currentDepartureCity && (
+          {departureCity && (
             <div className="flex items-center gap-3 flex-1 min-w-[200px]">
               <span className="text-sm text-muted-foreground whitespace-nowrap">Max flight:</span>
               <Slider
                 min={4}
                 max={20}
                 step={0.5}
-                value={currentMaxFlightTime ? [currentMaxFlightTime] : [20]}
-                onValueChange={([v]) => setMaxFlightTime(v)}
+                value={[maxFlightTime ?? 20]}
+                onValueChange={([v]) => onMaxFlightTimeChange(v)}
                 className="flex-1"
               />
               <span className="text-sm font-medium text-[#3a5f54] whitespace-nowrap w-[60px]">
-                {currentMaxFlightTime ? `${currentMaxFlightTime}h` : "Any"}
+                {maxFlightTime !== null && maxFlightTime < 20 ? `${maxFlightTime}h` : "Any"}
               </span>
             </div>
           )}
