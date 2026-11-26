@@ -90,9 +90,6 @@ export default async function AdminPage() {
                 <Link href="/admin/consultants">
                   <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Consultants</Button>
                 </Link>
-                <Link href="/admin/country-specialists">
-                  <Button variant="outline" size="sm" className="bg-white/90 hover:bg-white border-white/30">Specialists</Button>
-                </Link>
               </div>
             </div>
             {/* Operations */}
