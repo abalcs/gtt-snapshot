@@ -52,6 +52,9 @@ export function MyActivityDialog({ user, open, onOpenChange }: MyActivityDialogP
     setShareState("working");
     try {
       const blob = await buildStatsImageBlob(activity, user.name, user.role);
+      window.dispatchEvent(new CustomEvent("analytics-track", {
+        detail: { type: "feature_use", feature: "share_stats" },
+      }));
       try {
         await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
         setShareState("copied");

@@ -44,6 +44,22 @@ export function Header({ user }: HeaderProps) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const lastSearchRef = useRef<{ q: string; count: number } | null>(null);
+  const trackedQueryRef = useRef<string>("");
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Record a search ONCE, when it settles — the previous code dispatched on
+  // every debounced keystroke, so one search for "tanzania" logged as five
+  // fragment searches and polluted the search analytics (and user stats).
+  const trackSearchNow = useCallback(() => {
+    const s = lastSearchRef.current;
+    if (s && s.q.trim().length >= 2 && trackedQueryRef.current !== s.q) {
+      trackedQueryRef.current = s.q;
+      window.dispatchEvent(new CustomEvent("analytics-track", {
+        detail: { type: "search", search_query: s.q, search_results: s.count },
+      }));
+    }
+  }, []);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const doSearch = useCallback(async (q: string) => {
@@ -63,9 +79,7 @@ export function Header({ user }: HeaderProps) {
       setIsOpen(true);
       setSelectedIndex(-1);
       const totalCount = (data.destinations?.length ?? 0) + (data.specialSections?.length ?? 0) + (data.tceArticles?.length ?? 0);
-      window.dispatchEvent(new CustomEvent("analytics-track", {
-        detail: { type: "search", search_query: q, search_results: totalCount },
-      }));
+      lastSearchRef.current = { q, count: totalCount };
     } catch {
       setResults([]);
       setSpecialResults([]);
@@ -77,6 +91,8 @@ export function Header({ user }: HeaderProps) {
     setQuery(value);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => doSearch(value), 300);
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    idleTimerRef.current = setTimeout(trackSearchNow, 1200);
   };
 
   const totalResults = results.length + specialResults.length + tceResults.length;
@@ -105,6 +121,7 @@ export function Header({ user }: HeaderProps) {
         setIsOpen(false);
         setQuery("");
       } else if (query.trim()) {
+        trackSearchNow();
         router.push(`/search?q=${encodeURIComponent(query)}`);
         setIsOpen(false);
       }
@@ -206,6 +223,7 @@ export function Header({ user }: HeaderProps) {
                     key={r.id}
                     href={`/destinations/${r.slug}`}
                     onClick={() => {
+                      trackSearchNow();
                       setIsOpen(false);
                       setQuery("");
                     }}
@@ -237,6 +255,7 @@ export function Header({ user }: HeaderProps) {
                     key={s.slug}
                     href={`/special/${s.slug}`}
                     onClick={() => {
+                      trackSearchNow();
                       setIsOpen(false);
                       setQuery("");
                     }}
@@ -259,6 +278,7 @@ export function Header({ user }: HeaderProps) {
                     key={t.slug}
                     href={`/tce-resources#${t.slug}`}
                     onClick={() => {
+                      trackSearchNow();
                       setIsOpen(false);
                       setQuery("");
                     }}

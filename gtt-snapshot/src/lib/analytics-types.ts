@@ -8,7 +8,11 @@ export type AnalyticsEventType =
   | 'filter_budget'
   | 'filter_tag'
   | 'compare'
-  | 'help_me_choose';
+  | 'help_me_choose'
+  | 'filter_month'
+  | 'filter_accessibility'
+  | 'filter_flight'
+  | 'feature_use';
 
 export interface AnalyticsEvent {
   type: AnalyticsEventType;

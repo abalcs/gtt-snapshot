@@ -39,6 +39,9 @@ export function EmailTemplatesClient({ destinations }: { destinations: Destinati
       setCopiedKey(key);
       setTimeout(() => setCopiedKey(null), 2000);
     }
+    window.dispatchEvent(new CustomEvent("analytics-track", {
+      detail: { type: "feature_use", feature: "email_template_copy", filter_value: key },
+    }));
   };
 
   return (

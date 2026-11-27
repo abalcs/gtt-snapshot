@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { DestinationGrid } from "@/components/destinations/destination-grid";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -137,6 +137,33 @@ export function FlightFilteredResults({
   }, [filters]);
 
   // Zero-results rescue: which single filter group, if removed, restores the most?
+  // Analytics: report settled filter use (debounced, never the initial
+  // page state) so Popular Filters and Help Me Choose usage stay truthful.
+  const filtersFirstRender = useRef(true);
+  useEffect(() => {
+    if (filtersFirstRender.current) {
+      filtersFirstRender.current = false;
+      return;
+    }
+    const t = setTimeout(() => {
+      const f = filters;
+      const activeCount =
+        f.tags.length + f.budget.length + f.accessibility.length + f.months.length + (f.maxFlightTime ? 1 : 0);
+      if (activeCount === 0) return;
+      const track = (detail: Record<string, string>) =>
+        window.dispatchEvent(new CustomEvent("analytics-track", { detail }));
+      track({ type: "help_me_choose" });
+      for (const m of f.months) track({ type: "filter_month", filter_type: "month", filter_value: String(m) });
+      for (const b of f.budget) track({ type: "filter_budget", filter_type: "budget", filter_value: b });
+      for (const tag of f.tags) track({ type: "filter_tag", filter_type: "tag", filter_value: tag });
+      for (const a of f.accessibility) track({ type: "filter_accessibility", filter_type: "accessibility", filter_value: a });
+      if (f.maxFlightTime) {
+        track({ type: "filter_flight", filter_type: "flight", filter_value: `${f.departureCity}-${f.maxFlightTime}h` });
+      }
+    }, 800);
+    return () => clearTimeout(t);
+  }, [filters]);
+
   const rescue = useMemo(() => {
     if (filtered.length > 0) return null;
     const groups: { label: string; cleared: ChooserFilters }[] = [];

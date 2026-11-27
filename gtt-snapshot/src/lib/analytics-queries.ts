@@ -104,10 +104,11 @@ export async function recordEventBatch(batch: AnalyticsEventBatch): Promise<void
       }, { merge: true });
     }
 
-    if (event.type === "compare" || event.type === "help_me_choose") {
+    if (event.type === "compare" || event.type === "help_me_choose" || (event.type === "feature_use" && event.feature)) {
+      const featureKey = event.type === "feature_use" ? event.feature! : event.type;
       await eventDailyRef.set({
         date: eventDate,
-        feature_usage: { [event.type]: FieldValue.increment(1) },
+        feature_usage: { [featureKey]: FieldValue.increment(1) },
         unique_users: FieldValue.arrayUnion(batch.user_email),
       }, { merge: true });
     }
