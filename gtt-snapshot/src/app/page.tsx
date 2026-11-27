@@ -39,6 +39,20 @@ export default async function HomePage() {
     })
     .map(([name, destinations]) => ({ name, destinations }));
 
+  // Hero flag mosaic: one flag per country sold, deduped by flag (Canada
+  // East/West share one, as do the US regions), in continent order.
+  const seenFlags = new Set<string>();
+  const heroFlags: { name: string; slug: string; url: string }[] = [];
+  for (const continent of continents) {
+    for (const dest of continent.destinations) {
+      const url = getFlagUrl(dest.name);
+      if (!url || seenFlags.has(url)) continue;
+      seenFlags.add(url);
+      heroFlags.push({ name: dest.name, slug: dest.slug, url });
+    }
+  }
+  const heroFlagGrid = heroFlags.slice(0, 42);
+
   const siteSettings = await getSiteSettings();
 
   // Search suggestions: a few recognisable destinations that exist in the data
@@ -55,7 +69,8 @@ export default async function HomePage() {
       {/* Search-first hero */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0d4256] via-[#0e4d5c] to-[#07222b] px-8 py-10">
         <div className="absolute inset-0 bg-dots opacity-10" />
-        <div className="relative max-w-2xl">
+        <div className="relative flex items-center gap-10">
+        <div className="min-w-0 flex-1">
           <h1 className="text-4xl font-bold tracking-tight text-white">{siteSettings.hero_title}</h1>
           <p className="text-white/70 mt-2 text-base">{siteSettings.hero_subtitle}</p>
           <div className="mt-4 h-0.5 w-24 bg-[#c9a227]" />
@@ -90,6 +105,32 @@ export default async function HomePage() {
               ))}
             </div>
           )}
+        </div>
+        {heroFlagGrid.length > 0 && (
+          <div className="hidden w-[400px] shrink-0 lg:block" aria-hidden="false">
+            <div className="grid grid-cols-7 gap-1.5 [mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_80%)]">
+              {heroFlagGrid.map((flag) => (
+                <Link
+                  key={flag.url}
+                  href={`/destinations/${flag.slug}`}
+                  title={flag.name}
+                  className="block transition-transform duration-150 hover:scale-110"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={flag.url}
+                    alt={flag.name}
+                    loading="lazy"
+                    className="aspect-[4/3] w-full rounded-[4px] object-cover shadow-sm ring-1 ring-white/25"
+                  />
+                </Link>
+              ))}
+            </div>
+            <p className="mt-3 text-center text-[11px] font-medium uppercase tracking-[0.18em] text-white/45">
+              {heroFlags.length} countries, one snapshot
+            </p>
+          </div>
+        )}
         </div>
       </div>
 
