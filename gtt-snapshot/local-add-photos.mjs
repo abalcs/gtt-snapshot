@@ -1,6 +1,8 @@
 // Applies header photos to destinations in the LOCAL emulator only.
 // Reads app/local/destination-photos.json: { "<slug>": "<image url>", ... }
 // Idempotent: only writes when the stored image_url differs.
+import { initializeApp } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 import { readFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -12,23 +14,22 @@ if (!existsSync(photosPath)) {
   process.exit(0);
 }
 const photos = JSON.parse(readFileSync(photosPath, "utf8"));
-const base = "http://127.0.0.1:8080/v1/projects/demo-gtt/databases/(default)/documents/destinations";
+
+initializeApp({ projectId: "demo-gtt" });
+const db = getFirestore();
 
 let applied = 0;
+let present = 0;
+const batch = db.batch();
 for (const [slug, url] of Object.entries(photos)) {
-  try {
-    const getRes = await fetch(`${base}/${slug}`);
-    if (!getRes.ok) continue; // destination not in this dataset
-    const doc = await getRes.json();
-    if (doc.fields?.image_url?.stringValue === url) continue;
-    const patchRes = await fetch(`${base}/${slug}?updateMask.fieldPaths=image_url`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fields: { image_url: { stringValue: url } } }),
-    });
-    if (patchRes.ok) applied++;
-  } catch {
-    // emulator not up yet or doc missing; leave it for the next run
-  }
+  const ref = db.collection("destinations").doc(slug);
+  const snap = await ref.get();
+  if (!snap.exists) continue;
+  present++;
+  if (snap.data().image_url === url) continue;
+  batch.update(ref, { image_url: url });
+  applied++;
 }
-console.log(`Header photos: ${applied} destination(s) updated.`);
+if (applied > 0) await batch.commit();
+console.log(`Header photos: ${applied} updated, ${present} destinations found.`);
+process.exit(0);
