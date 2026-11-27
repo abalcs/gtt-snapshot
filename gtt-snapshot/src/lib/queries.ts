@@ -1,4 +1,5 @@
 import { getDb } from '../../db/database';
+import { bundledPhoto } from "@/lib/destination-photos";
 import { generateSearchTokens, generateSnippet } from './search-utils';
 import { getCached, setCache, invalidateCache } from './data-cache';
 import type {
@@ -43,7 +44,7 @@ function docToDestination(id: string, data: FirebaseFirestore.DocumentData): Des
     pax_limit: data.pax_limit ?? null,
     accommodations: data.accommodations ?? null,
     accommodation_url: data.accommodation_url ?? null,
-    image_url: data.image_url ?? null,
+    image_url: data.image_url ?? bundledPhoto(data.slug) ?? null,
     how_to_feature: data.how_to_feature ?? null,
     talking_points: data.talking_points ?? null,
     pair_with: data.pair_with ?? null,
