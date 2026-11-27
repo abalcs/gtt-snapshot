@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
  */
 
 // Common abbreviations that shouldn't trigger sentence splits
-const ABBREVIATIONS = /(?:U\.S|Dr|Mr|Mrs|Jr|Sr|St|vs|etc|approx|govt|dept|avg|min|max|hrs?|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\./gi;
+const ABBREVIATIONS = /\b(?:U\.S|Dr|Mr|Mrs|Jr|Sr|St|vs|etc|approx|govt|dept|avg|min|max|hrs?|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\./gi;
 
 function splitIntoFacts(text: string): string[] {
   // Replace abbreviation periods with a placeholder to avoid false splits

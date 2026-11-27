@@ -12,7 +12,7 @@ import { TagPicker } from "@/components/admin/tag-picker";
 import { SEASONS, BUDGET_TIERS } from "@/lib/tags";
 
 // Common abbreviations that shouldn't trigger sentence splits
-const ABBREVIATIONS = /(?:U\.S|Dr|Mr|Mrs|Jr|Sr|St|vs|etc|approx|govt|dept|avg|min|max|hrs?|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\./gi;
+const ABBREVIATIONS = /\b(?:U\.S|Dr|Mr|Mrs|Jr|Sr|St|vs|etc|approx|govt|dept|avg|min|max|hrs?|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\./gi;
 
 function splitIntoFacts(text: string): string[] {
   if (!text.trim()) return [];
