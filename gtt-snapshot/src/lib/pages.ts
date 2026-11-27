@@ -169,11 +169,14 @@ export async function createPage(input: PageInput): Promise<PageDoc> {
 
 export async function updatePage(
   id: string,
-  input: Partial<PageInput> & { sort_order?: number }
+  input: Partial<PageInput> & { sort_order?: number },
+  editor: string = ""
 ): Promise<void> {
   const ref = db().collection(COLLECTION).doc(id);
   const existing = await ref.get();
   if (!existing.exists) throw new Error("Page not found");
+  // Keep a restorable copy of the page as it was before this save.
+  await snapshotRevision(id, editor);
   const update: Record<string, unknown> = { updated_at: new Date().toISOString() };
   if (input.title !== undefined) update.title = input.title;
   if (input.summary !== undefined) update.summary = input.summary;
@@ -187,7 +190,12 @@ export async function updatePage(
 }
 
 export async function deletePage(id: string): Promise<void> {
-  await db().collection(COLLECTION).doc(id).delete();
+  const ref = db().collection(COLLECTION).doc(id);
+  const revs = await ref.collection(REVISIONS_SUB).get();
+  const batch = db().batch();
+  revs.docs.forEach((d) => batch.delete(d.ref));
+  batch.delete(ref);
+  await batch.commit();
 }
 
 export async function reorderPages(orderedIds: string[]): Promise<void> {
@@ -196,4 +204,136 @@ export async function reorderPages(orderedIds: string[]): Promise<void> {
     batch.update(db().collection(COLLECTION).doc(id), { sort_order: index });
   });
   await batch.commit();
+}
+
+// ── Revisions ───────────────────────────────────────────
+
+const REVISIONS_SUB = "revisions";
+const MAX_REVISIONS = 20;
+
+export interface PageRevisionMeta {
+  id: string;
+  saved_at: string;
+  editor: string;
+  title: string;
+  status: string;
+}
+
+async function snapshotRevision(id: string, editor: string): Promise<void> {
+  const ref = db().collection(COLLECTION).doc(id);
+  const snap = await ref.get();
+  if (!snap.exists) return;
+  const data = snap.data()!;
+  await ref.collection(REVISIONS_SUB).doc().set({
+    title: data.title ?? "",
+    summary: data.summary ?? "",
+    icon: data.icon ?? "book",
+    section: data.section ?? "Guides",
+    status: data.status ?? "published",
+    visible: data.visible !== false,
+    blocks: cleanBlocks((data.blocks as PageBlock[]) ?? []),
+    saved_at: new Date().toISOString(),
+    editor: editor || "",
+  });
+  const all = await ref.collection(REVISIONS_SUB).orderBy("saved_at", "desc").get();
+  if (all.size > MAX_REVISIONS) {
+    const batch = db().batch();
+    all.docs.slice(MAX_REVISIONS).forEach((d) => batch.delete(d.ref));
+    await batch.commit();
+  }
+}
+
+export async function listRevisions(id: string): Promise<PageRevisionMeta[]> {
+  const snap = await db()
+    .collection(COLLECTION)
+    .doc(id)
+    .collection(REVISIONS_SUB)
+    .orderBy("saved_at", "desc")
+    .get();
+  return snap.docs.map((d) => {
+    const data = d.data();
+    return {
+      id: d.id,
+      saved_at: data.saved_at ?? "",
+      editor: data.editor ?? "",
+      title: data.title ?? "",
+      status: data.status ?? "",
+    };
+  });
+}
+
+export async function restoreRevision(
+  id: string,
+  revisionId: string,
+  editor: string
+): Promise<void> {
+  const ref = db().collection(COLLECTION).doc(id);
+  const revSnap = await ref.collection(REVISIONS_SUB).doc(revisionId).get();
+  if (!revSnap.exists) throw new Error("That version no longer exists");
+  // Snapshot the current state first, so a restore can itself be undone.
+  await snapshotRevision(id, editor);
+  const data = revSnap.data()!;
+  await ref.update({
+    title: data.title ?? "",
+    summary: data.summary ?? "",
+    icon: data.icon ?? "book",
+    section: data.section ?? "Guides",
+    status: data.status ?? "published",
+    visible: data.visible !== false,
+    blocks: cleanBlocks((data.blocks as PageBlock[]) ?? []),
+    updated_at: new Date().toISOString(),
+  });
+}
+
+// ── Search ──────────────────────────────────────────────
+
+export interface PageSearchResult {
+  page: PageDoc;
+  snippet: string;
+}
+
+function blockText(block: PageBlock): string {
+  switch (block.type) {
+    case "heading":
+      return block.text;
+    case "richtext":
+      return block.markdown;
+    case "callout":
+      return [block.title ?? "", block.text].join(" ");
+    case "checklist":
+      return block.items.join(" ");
+    case "table":
+      return [...block.headers, ...block.rows.flat()].join(" ");
+    case "accordion":
+      return block.items.map((i) => `${i.title} ${i.body}`).join(" ");
+    case "links":
+      return block.items.map((i) => `${i.label} ${i.description ?? ""}`).join(" ");
+    case "cta":
+      return [block.label, block.text ?? ""].join(" ");
+    case "divider":
+      return "";
+  }
+}
+
+/** Published pages whose title, summary or block content mentions the query. */
+export async function searchPages(query: string): Promise<PageSearchResult[]> {
+  const sanitized = query.replace(/[^\w\s-]/g, "").trim().toLowerCase();
+  if (!sanitized) return [];
+  const pages = await getPublishedPages();
+  const results: PageSearchResult[] = [];
+  for (const page of pages) {
+    const body = page.blocks.map(blockText).join("\n");
+    const haystack = `${page.title} ${page.summary} ${body}`.toLowerCase();
+    if (!haystack.includes(sanitized)) continue;
+    const bodyIdx = body.toLowerCase().indexOf(sanitized);
+    let snippet = page.summary || "";
+    if (bodyIdx >= 0) {
+      const start = Math.max(0, bodyIdx - 60);
+      const end = Math.min(body.length, bodyIdx + sanitized.length + 80);
+      snippet = `${start > 0 ? "…" : ""}${body.slice(start, end).replace(/\s+/g, " ").trim()}${end < body.length ? "…" : ""}`;
+    }
+    results.push({ page, snippet });
+    if (results.length >= 20) break;
+  }
+  return results;
 }

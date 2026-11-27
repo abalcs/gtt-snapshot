@@ -19,7 +19,7 @@ export async function PUT(
   const { id } = await params;
   try {
     const body = await request.json();
-    await updatePage(id, body);
+    await updatePage(id, body, user.email);
     return NextResponse.json({ success: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to update page";

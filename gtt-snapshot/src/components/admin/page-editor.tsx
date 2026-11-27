@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { PageHistory } from "@/components/admin/page-history";
 
 const BLOCK_LABELS: Record<PageBlock["type"], string> = {
   heading: "Heading",
@@ -275,6 +276,7 @@ export function PageEditor({ page }: { page?: PageDoc }) {
           </Card>
         </div>
       </div>
+      {!isNew && page && <PageHistory pageId={page.id} />}
     </div>
   );
 }

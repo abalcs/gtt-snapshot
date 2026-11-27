@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { searchDestinations, searchSpecialSections } from "@/lib/queries";
+import { searchPages } from "@/lib/pages";
 import { requireAuth } from "@/lib/admin-auth";
 
 export const dynamic = 'force-dynamic';
@@ -21,7 +22,7 @@ export default async function SearchPage({
       <div className="max-w-4xl mx-auto space-y-6">
         <div>
           <h1 className="text-2xl font-bold">Search</h1>
-          <p className="text-muted-foreground mt-2">Search destinations, special sections, and TCE articles.</p>
+          <p className="text-muted-foreground mt-2">Search destinations, guide pages, special sections, and TCE articles.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {suggestions.map((term) => (
@@ -39,19 +40,22 @@ export default async function SearchPage({
     );
   }
 
-  const [destinations, specialSections] = await Promise.all([
+  const [destinations, specialSections, pageResults] = await Promise.all([
     searchDestinations(query, 50),
     searchSpecialSections(query),
+    searchPages(query),
   ]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">
+        <h1 className="font-serif text-[28px] font-semibold tracking-tight">
           Search results for &ldquo;{query}&rdquo;
         </h1>
         <p className="text-muted-foreground mt-1">
           {destinations.length} destination{destinations.length !== 1 ? "s" : ""}
+          {pageResults.length > 0 &&
+            `, ${pageResults.length} guide page${pageResults.length !== 1 ? "s" : ""}`}
           {specialSections.length > 0 &&
             `, ${specialSections.length} special section${specialSections.length !== 1 ? "s" : ""}`}
         </p>
@@ -59,7 +63,7 @@ export default async function SearchPage({
 
       {destinations.length > 0 && (
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold">Destinations</h2>
+          <h2 className="font-serif text-xl font-semibold">Destinations</h2>
           {destinations.map((dest) => (
             <Link key={dest.id} href={`/destinations/${dest.slug}`}>
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
@@ -85,9 +89,28 @@ export default async function SearchPage({
         </div>
       )}
 
+      {pageResults.length > 0 && (
+        <div className="space-y-3">
+          <h2 className="font-serif text-xl font-semibold">Guides &amp; Pages</h2>
+          {pageResults.map(({ page, snippet }) => (
+            <Link key={page.slug} href={`/p/${page.slug}`}>
+              <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="pt-4 pb-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-medium">{page.title}</h3>
+                    <Badge variant="secondary" className="shrink-0">{page.section}</Badge>
+                  </div>
+                  {snippet && <p className="text-sm text-muted-foreground mt-2">{snippet}</p>}
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      )}
+
       {specialSections.length > 0 && (
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold">Special Sections</h2>
+          <h2 className="font-serif text-xl font-semibold">Special Sections</h2>
           {specialSections.map((section) => (
             <Link key={section.slug} href={`/special/${section.slug}`}>
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
@@ -100,7 +123,7 @@ export default async function SearchPage({
         </div>
       )}
 
-      {destinations.length === 0 && specialSections.length === 0 && (
+      {destinations.length === 0 && specialSections.length === 0 && pageResults.length === 0 && (
         <p className="text-muted-foreground">
           No results found. Try a different search term.
         </p>
