@@ -10,6 +10,7 @@ import { getCoordinates } from "@/lib/country-coordinates";
 import { US_DEPARTURE_CITIES, getFlightTimeForSlug, formatFlightTime } from "@/lib/flight-time";
 import { getFlagUrl } from "@/lib/country-flags";
 import { MONTH_LABELS, parseSeasonalityRaw, seasonMonths, describeMonths } from "@/lib/seasonality-months";
+import { minWeeklyPrice } from "@/lib/pricing";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface CompareClientProps {
@@ -54,12 +55,8 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs, p
   const peakCounts = selected.map(
     (d) => seasonMonths(parseSeasonalityRaw(d.seasonality)).peak.size
   );
-  const minPrices = selected.map((d) => {
-    const nums = d.pricing_tiers
-      .map((t) => parseInt((t.price_per_week || "").replace(/[^0-9]/g, ""), 10))
-      .filter((n) => !Number.isNaN(n) && n > 0);
-    return nums.length ? Math.min(...nums) : null;
-  });
+  const minPrices = selected.map((d) => minWeeklyPrice(d.pricing_tiers)?.value ?? null);
+  const minPriceLabels = selected.map((d) => minWeeklyPrice(d.pricing_tiers)?.label ?? null);
 
   function bestIndex(values: (number | null)[], mode: "min" | "max"): number | null {
     const present = values.filter((v) => v !== null) as number[];
@@ -238,7 +235,7 @@ export function CompareClient({ allDestinations, tagDefinitions, initialSlugs, p
     }
     const peak = describeMonths(seasonMonths(parseSeasonalityRaw(d.seasonality)).peak);
     if (peak) parts.push(`Peak ${peak}`);
-    if (pricingVisible && minPrices[i]) parts.push(`From $${minPrices[i]!.toLocaleString()}/wk`);
+    if (pricingVisible && minPriceLabels[i]) parts.push(`From ${minPriceLabels[i]}/wk`);
     if (flightHours[i]) parts.push(`${formatFlightTime(flightHours[i]!)} from ${departureCity}`);
     return parts.join(" · ");
   });

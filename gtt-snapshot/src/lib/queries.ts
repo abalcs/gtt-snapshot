@@ -12,6 +12,7 @@ import type {
   AdminLogEntry,
   TagDefinition,
 } from './types';
+import { deriveBudgetTiers } from './pricing';
 
 const db = () => getDb();
 
@@ -64,7 +65,7 @@ function docToDestination(id: string, data: FirebaseFirestore.DocumentData): Des
     pricing_footnotes: data.pricing_footnotes ?? [],
     tags: data.tags ?? [],
     best_seasons: data.best_seasons ?? [],
-    budget_tiers: data.budget_tiers ?? [],
+    budget_tiers: deriveBudgetTiers(data),
     terrain_difficulty: data.terrain_difficulty ?? null,
     wheelchair_friendliness: data.wheelchair_friendliness ?? null,
     walking_required: data.walking_required ?? null,
@@ -416,7 +417,7 @@ export async function createDestination(data: Partial<Destination> & { region_id
     pricing_footnotes: data.pricing_footnotes ?? [],
     tags: data.tags ?? [],
     best_seasons: data.best_seasons ?? [],
-    budget_tiers: data.budget_tiers ?? [],
+    budget_tiers: deriveBudgetTiers(data),
     terrain_difficulty: data.terrain_difficulty ?? null,
     wheelchair_friendliness: data.wheelchair_friendliness ?? null,
     walking_required: data.walking_required ?? null,
