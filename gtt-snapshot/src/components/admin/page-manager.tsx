@@ -8,6 +8,7 @@ import { PAGE_SECTIONS } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import {
   Dialog,
   DialogContent,
@@ -141,17 +142,14 @@ export function PageManager({ initialPages }: { initialPages: PageDoc[] }) {
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Page Manager</h1>
-          <p className="text-sm text-muted-foreground">
-            Create, edit and organise the guide pages in the sidebar. No code needed.
-          </p>
-        </div>
+      <AdminPageHeader
+        title="Page Manager"
+        description="Create, edit and organise the guide pages in the sidebar. No code needed."
+      >
         <Link href="/admin/pages/new">
           <Button className="bg-[#0e4d5c] hover:bg-[#0d4256]">New Page</Button>
         </Link>
-      </div>
+      </AdminPageHeader>
 
       {error && (
         <div className="rounded-md border border-red-300 bg-red-50 px-4 py-2 text-sm text-red-700">{error}</div>
