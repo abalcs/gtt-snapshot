@@ -84,12 +84,12 @@ export function GtaClient({ consultants }: { consultants: Consultant[] }) {
                   <div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="flex items-center justify-center h-8 w-8 rounded-full bg-[#0e4d5c]/10 text-[#0e4d5c] text-xs font-semibold shrink-0">
+                        <div className="flex items-center justify-center h-8 w-8 rounded-full bg-[#0e4d5c]/10 text-[#0e4d5c] ring-1 ring-[#0e4d5c]/20 dark:bg-[#6db3c4]/15 dark:text-[#6db3c4] dark:ring-[#6db3c4]/30 text-xs font-semibold shrink-0">
                           {consultant.name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()}
                         </div>
-                        <p className="font-medium">{consultant.name}</p>
+                        <p className="font-serif text-[17px] font-semibold">{consultant.name}</p>
                         {consultant.is_tam && (
-                          <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-300 text-[10px] px-1.5 py-0">TAM</Badge>
+                          <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-300 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30 dark:hover:bg-amber-500/15 text-[10px] px-1.5 py-0">TAM</Badge>
                         )}
                       </div>
                       {count > 0 && (
@@ -106,7 +106,7 @@ export function GtaClient({ consultants }: { consultants: Consultant[] }) {
                     consultant.calendarUrl.includes("/bookwithme/") ? (
                       <button
                         onClick={() => handleExternalBookClick(consultant.calendarUrl!, consultant.name)}
-                        className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#0e4d5c] to-[#2a4a40] px-4 py-2 text-sm font-medium text-white hover:from-[#2a4a40] hover:to-[#1e3830] transition-all shadow-[var(--shadow-sm)] active:translate-y-px gap-1.5"
+                        className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#14657c] to-[#0e4d5c] px-4 py-2 text-sm font-medium text-white hover:from-[#0e4d5c] hover:to-[#07222b] transition-all shadow-[var(--shadow-sm)] active:translate-y-px gap-1.5"
                       >
                         Book a Call
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -114,7 +114,7 @@ export function GtaClient({ consultants }: { consultants: Consultant[] }) {
                     ) : (
                       <button
                         onClick={() => setCalendarModal({ url: consultant.calendarUrl!, name: consultant.name })}
-                        className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#0e4d5c] to-[#2a4a40] px-4 py-2 text-sm font-medium text-white hover:from-[#2a4a40] hover:to-[#1e3830] transition-all shadow-[var(--shadow-sm)] active:translate-y-px"
+                        className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#14657c] to-[#0e4d5c] px-4 py-2 text-sm font-medium text-white hover:from-[#0e4d5c] hover:to-[#07222b] transition-all shadow-[var(--shadow-sm)] active:translate-y-px"
                       >
                         Book a Call
                       </button>
@@ -141,7 +141,7 @@ export function GtaClient({ consultants }: { consultants: Consultant[] }) {
             <div className="flex flex-col items-center justify-center h-full gap-6 p-6">
               <p className="text-lg font-semibold text-center">Did you book a call with {calendarModal?.name}?</p>
               <div className="flex gap-3">
-                <button onClick={handleConfirmYes} className="inline-flex items-center justify-center rounded-md bg-[#0e4d5c] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors">Yes</button>
+                <button onClick={handleConfirmYes} className="inline-flex items-center justify-center rounded-md bg-[#0e4d5c] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#0d4256] transition-colors">Yes</button>
                 <button onClick={handleConfirmNo} className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium hover:bg-accent transition-colors">No</button>
                 <button onClick={handleBack} className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium text-muted-foreground hover:bg-accent transition-colors">Go Back</button>
               </div>
@@ -171,7 +171,7 @@ export function GtaClient({ consultants }: { consultants: Consultant[] }) {
           <div className="flex flex-col items-center gap-6 py-4">
             <p className="text-lg font-semibold text-center">Did you book a call with {externalConfirm?.name}?</p>
             <div className="flex gap-3">
-              <button onClick={handleExternalYes} className="inline-flex items-center justify-center rounded-md bg-[#0e4d5c] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors">Yes</button>
+              <button onClick={handleExternalYes} className="inline-flex items-center justify-center rounded-md bg-[#0e4d5c] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#0d4256] transition-colors">Yes</button>
               <button onClick={handleExternalNo} className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium hover:bg-accent transition-colors">No</button>
             </div>
           </div>

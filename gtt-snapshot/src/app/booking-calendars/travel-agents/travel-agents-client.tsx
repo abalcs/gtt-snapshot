@@ -98,13 +98,13 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
     <>
       <div className="space-y-4">
         {countryGroups.map(({ country, agents }) => (
-          <section key={country} className="border rounded-lg overflow-hidden shadow-[var(--shadow-sm)]">
+          <section key={country} className="border border-border rounded-xl overflow-hidden shadow-[var(--shadow-sm)] bg-card">
             <button
               onClick={() => toggleCountry(country)}
-              className="flex w-full items-center justify-between px-4 py-3 bg-gradient-to-r from-[#f0f5f2] to-[#e8f0ec] border-l-4 border-l-[#0e4d5c] hover:from-[#e8f0ec] hover:to-[#dde9e3] transition-colors"
+              className="flex w-full items-center justify-between px-4 py-3 bg-gradient-to-r from-[#0d4256] via-[#0e4d5c] to-[#07222b] text-white hover:from-[#0e4d5c] hover:via-[#12586a] hover:to-[#0d4256] transition-colors"
             >
               <h2 className="text-lg font-semibold">{country}</h2>
-              <span className="flex items-center gap-2 text-muted-foreground text-sm">
+              <span className="flex items-center gap-2 text-white/70 text-sm">
                 <span>{agents.length} agents</span>
                 <span
                   className={cn(
@@ -138,7 +138,7 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
                             <div className="flex-1">
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
-                                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-[#0e4d5c]/10 text-[#0e4d5c] text-xs font-semibold shrink-0">
+                                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-[#0e4d5c]/10 text-[#0e4d5c] ring-1 ring-[#0e4d5c]/20 dark:bg-[#6db3c4]/15 dark:text-[#6db3c4] dark:ring-[#6db3c4]/30 text-xs font-semibold shrink-0">
                                     {(agent.name)
                                       .split(" ")
                                       .map((n) => n[0])
@@ -146,7 +146,7 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
                                       .slice(0, 2)
                                       .toUpperCase()}
                                   </div>
-                                  <p className="font-medium">
+                                  <p className="font-serif text-[17px] font-semibold">
                                     {agent.name}
                                   </p>
                                 </div>
@@ -186,7 +186,7 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
                                         agent.consultant!.name
                                       )
                                     }
-                                    className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#0e4d5c] to-[#2a4a40] px-4 py-2 text-sm font-medium text-white hover:from-[#2a4a40] hover:to-[#1e3830] transition-all shadow-[var(--shadow-sm)] active:translate-y-px gap-1.5"
+                                    className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#14657c] to-[#0e4d5c] px-4 py-2 text-sm font-medium text-white hover:from-[#0e4d5c] hover:to-[#07222b] transition-all shadow-[var(--shadow-sm)] active:translate-y-px gap-1.5"
                                   >
                                     Book a Call
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -199,7 +199,7 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
                                         name: agent.consultant!.name,
                                       })
                                     }
-                                    className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#0e4d5c] to-[#2a4a40] px-4 py-2 text-sm font-medium text-white hover:from-[#2a4a40] hover:to-[#1e3830] transition-all shadow-[var(--shadow-sm)] active:translate-y-px"
+                                    className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#14657c] to-[#0e4d5c] px-4 py-2 text-sm font-medium text-white hover:from-[#0e4d5c] hover:to-[#07222b] transition-all shadow-[var(--shadow-sm)] active:translate-y-px"
                                   >
                                     Book a Call
                                   </button>
@@ -210,7 +210,7 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
                                 </Badge>
                               )
                             ) : (
-                              <Badge className="w-fit bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-100">
+                              <Badge className="w-fit bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-100 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30 dark:hover:bg-amber-500/15">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                                 Call for Live Transfer
                               </Badge>
@@ -244,7 +244,7 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
               <div className="flex gap-3">
                 <button
                   onClick={handleConfirmYes}
-                  className="inline-flex items-center justify-center rounded-md bg-[#0e4d5c] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
+                  className="inline-flex items-center justify-center rounded-md bg-[#0e4d5c] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#0d4256] transition-colors"
                 >
                   Yes
                 </button>
@@ -296,7 +296,7 @@ export function TravelAgentsClient({ countryGroups }: { countryGroups: CountryAg
             <div className="flex gap-3">
               <button
                 onClick={handleExternalYes}
-                className="inline-flex items-center justify-center rounded-md bg-[#0e4d5c] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
+                className="inline-flex items-center justify-center rounded-md bg-[#0e4d5c] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#0d4256] transition-colors"
               >
                 Yes
               </button>
