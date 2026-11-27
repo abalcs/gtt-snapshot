@@ -23,7 +23,7 @@ function splitIntoFacts(text: string): string[] {
     return `__ABBREV${abbrevMatches.length - 1}__`;
   });
   const raw = safe.split(/\.(?=\s+[A-Z])|\n+/);
-  return raw
+  const cleaned = raw
     .map((s) => {
       let restored = s;
       for (let i = 0; i < abbrevMatches.length; i++) {
@@ -32,6 +32,23 @@ function splitIntoFacts(text: string): string[] {
       return restored.trim().replace(/\.$/, "").trim();
     })
     .filter((s) => s.length > 0);
+
+  // Merge fragments that were split inside parentheses: a fragment whose
+  // "(" count exceeds its ")" count continues into the next fragment.
+  const merged: string[] = [];
+  for (const frag of cleaned) {
+    if (merged.length > 0) {
+      const prev = merged[merged.length - 1];
+      const balance =
+        (prev.match(/\(/g) || []).length - (prev.match(/\)/g) || []).length;
+      if (balance > 0) {
+        merged[merged.length - 1] = prev + " " + frag;
+        continue;
+      }
+    }
+    merged.push(frag);
+  }
+  return merged;
 }
 
 function factsToString(facts: string[]): string {

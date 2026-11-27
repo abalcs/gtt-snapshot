@@ -22,7 +22,7 @@ function splitIntoFacts(text: string): string[] {
   // Split on period followed by space and an uppercase letter, or on newlines
   const raw = safe.split(/\.(?=\s+[A-Z])|\n+/);
 
-  return raw
+  const cleaned = raw
     .map((s) => {
       // Restore abbreviations
       let restored = s;
@@ -32,6 +32,23 @@ function splitIntoFacts(text: string): string[] {
       return restored.trim().replace(/\.$/, "").trim();
     })
     .filter((s) => s.length > 0);
+
+  // Merge fragments that were split inside parentheses: a fragment whose
+  // "(" count exceeds its ")" count continues into the next fragment.
+  const merged: string[] = [];
+  for (const frag of cleaned) {
+    if (merged.length > 0) {
+      const prev = merged[merged.length - 1];
+      const balance =
+        (prev.match(/\(/g) || []).length - (prev.match(/\)/g) || []).length;
+      if (balance > 0) {
+        merged[merged.length - 1] = prev + " " + frag;
+        continue;
+      }
+    }
+    merged.push(frag);
+  }
+  return merged;
 }
 
 // Detect ALL CAPS phrases that are warnings/alerts (3+ uppercase chars, allowing spaces between words)
