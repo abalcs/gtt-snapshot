@@ -1,135 +1,100 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { TAG_CATEGORIES, SEASONS, BUDGET_TIERS, ACCESSIBILITY_FILTERS, type TagCategory } from "@/lib/tags";
 import type { TagDefinition } from "@/lib/types";
 import { US_DEPARTURE_CITIES } from "@/lib/flight-time";
+import { MONTH_LABELS } from "@/lib/seasonality-months";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 
-const categoryActiveMap: Record<TagCategory, string> = {
-  'trip-style': 'bg-blue-600 text-white border-blue-600 shadow-sm',
-  'activities': 'bg-green-600 text-white border-green-600 shadow-sm',
-  'traveler-profile': 'bg-purple-600 text-white border-purple-600 shadow-sm',
-  'landscape': 'bg-amber-600 text-white border-amber-600 shadow-sm',
-};
+export interface ChooserFilters {
+  tags: string[];
+  seasons: string[];
+  budget: string[];
+  accessibility: string[];
+  months: number[];
+  departureCity: string;
+  maxFlightTime: number | null;
+}
 
-const categoryInactiveMap: Record<TagCategory, string> = {
-  'trip-style': 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100',
-  'activities': 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100',
-  'traveler-profile': 'bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100',
-  'landscape': 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100',
-};
-
-const seasonActiveMap: Record<string, string> = {
-  sky: 'bg-sky-600 text-white border-sky-600 shadow-sm',
-  emerald: 'bg-emerald-600 text-white border-emerald-600 shadow-sm',
-  orange: 'bg-orange-600 text-white border-orange-600 shadow-sm',
-  rose: 'bg-rose-600 text-white border-rose-600 shadow-sm',
-};
-
-const seasonInactiveMap: Record<string, string> = {
-  sky: 'bg-sky-50 text-sky-700 border-sky-200 hover:bg-sky-100',
-  emerald: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100',
-  orange: 'bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100',
-  rose: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100',
+export const EMPTY_FILTERS: ChooserFilters = {
+  tags: [],
+  seasons: [],
+  budget: [],
+  accessibility: [],
+  months: [],
+  departureCity: "",
+  maxFlightTime: null,
 };
 
 interface FilterPanelProps {
-  currentTags: string[];
-  currentSeasons: string[];
-  currentBudget: string[];
-  currentAccessibility: string[];
-  departureCity: string;
-  maxFlightTime: number | null;
-  onDepartureCityChange: (code: string) => void;
-  onMaxFlightTimeChange: (hours: number) => void;
+  filters: ChooserFilters;
+  onChange: (next: ChooserFilters) => void;
   tagDefinitions: TagDefinition[];
+  shownCount: number;
+  totalCount: number;
 }
 
-export function FilterPanel({ currentTags, currentSeasons, currentBudget, currentAccessibility, departureCity, maxFlightTime, onDepartureCityChange, onMaxFlightTimeChange, tagDefinitions }: FilterPanelProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+const CHIP =
+  "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer hover:scale-[1.03]";
+const CHIP_ON = "bg-[#0e4d5c] text-white border-[#0e4d5c] shadow-sm";
+const CHIP_OFF = "bg-white text-foreground border-input hover:border-[#0e4d5c]/60";
+const MONTH_ON = "bg-[#c9a227] text-[#3d2f04] border-[#c9a227] shadow-sm";
 
-  const flightFilterCount = departureCity ? (maxFlightTime !== null && maxFlightTime < 20 ? 2 : 1) : 0;
-  const totalSelections = currentTags.length + currentSeasons.length + currentBudget.length + currentAccessibility.length + flightFilterCount;
+function track(type: string, value: string) {
+  window.dispatchEvent(
+    new CustomEvent("analytics-track", {
+      detail: { type: `filter_${type}`, filter_type: type, filter_value: value },
+    })
+  );
+}
 
-  const updateParam = (key: string, values: string[]) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (values.length > 0) {
-      params.set(key, values.join(","));
-    } else {
-      params.delete(key);
-    }
-    router.push(`/destinations?${params.toString()}`);
-  };
+export function FilterPanel({ filters, onChange, tagDefinitions, shownCount, totalCount }: FilterPanelProps) {
+  const { tags, seasons, budget, accessibility, months, departureCity, maxFlightTime } = filters;
+
+  const toggleIn = (list: string[], value: string) =>
+    list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
 
   const toggleTag = (slug: string) => {
-    const next = currentTags.includes(slug)
-      ? currentTags.filter(s => s !== slug)
-      : [...currentTags, slug];
-    if (!currentTags.includes(slug)) {
-      window.dispatchEvent(new CustomEvent("analytics-track", {
-        detail: { type: "filter_tag", filter_type: "tag", filter_value: slug },
-      }));
-    }
-    updateParam("tags", next);
+    if (!tags.includes(slug)) track("tag", slug);
+    onChange({ ...filters, tags: toggleIn(tags, slug) });
   };
-
   const toggleSeason = (slug: string) => {
-    const next = currentSeasons.includes(slug)
-      ? currentSeasons.filter(s => s !== slug)
-      : [...currentSeasons, slug];
-    if (!currentSeasons.includes(slug)) {
-      window.dispatchEvent(new CustomEvent("analytics-track", {
-        detail: { type: "filter_season", filter_type: "season", filter_value: slug },
-      }));
-    }
-    updateParam("seasons", next);
+    if (!seasons.includes(slug)) track("season", slug);
+    onChange({ ...filters, seasons: toggleIn(seasons, slug) });
   };
-
   const toggleBudget = (slug: string) => {
-    const next = currentBudget.includes(slug)
-      ? currentBudget.filter(b => b !== slug)
-      : [...currentBudget, slug];
-    if (!currentBudget.includes(slug)) {
-      window.dispatchEvent(new CustomEvent("analytics-track", {
-        detail: { type: "filter_budget", filter_type: "budget", filter_value: slug },
-      }));
-    }
-    updateParam("budget", next);
+    if (!budget.includes(slug)) track("budget", slug);
+    onChange({ ...filters, budget: toggleIn(budget, slug) });
   };
-
   const toggleAccessibility = (slug: string) => {
-    const next = currentAccessibility.includes(slug)
-      ? currentAccessibility.filter(s => s !== slug)
-      : [...currentAccessibility, slug];
-    if (!currentAccessibility.includes(slug)) {
-      window.dispatchEvent(new CustomEvent("analytics-track", {
-        detail: { type: "filter_accessibility", filter_type: "accessibility", filter_value: slug },
-      }));
-    }
-    updateParam("accessibility", next);
+    if (!accessibility.includes(slug)) track("accessibility", slug);
+    onChange({ ...filters, accessibility: toggleIn(accessibility, slug) });
+  };
+  const toggleMonth = (m: number) => {
+    onChange({
+      ...filters,
+      months: months.includes(m) ? months.filter((x) => x !== m) : [...months, m].sort((a, b) => a - b),
+    });
   };
 
-  const clearAll = () => {
-    onDepartureCityChange("");
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("tags");
-    params.delete("seasons");
-    params.delete("budget");
-    params.delete("accessibility");
-    router.push(`/destinations?${params.toString()}`);
-  };
+  const flightCount = departureCity ? (maxFlightTime !== null && maxFlightTime < 20 ? 2 : 1) : 0;
+  const totalSelections =
+    tags.length + seasons.length + budget.length + accessibility.length + months.length + flightCount;
 
   return (
-    <div className="bg-white border rounded-lg p-6 space-y-5">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">What are they looking for?</h2>
+    <div className="space-y-6 rounded-xl border bg-card p-5 shadow-sm">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <h2 className="font-serif text-lg font-semibold">Refine the shortlist</h2>
+          <p className="text-sm text-muted-foreground">
+            Showing <span className="font-semibold text-[#0e4d5c]">{shownCount}</span> of {totalCount} destinations
+          </p>
+        </div>
         {totalSelections > 0 && (
           <button
-            onClick={clearAll}
-            className="text-sm text-muted-foreground hover:text-foreground underline"
+            onClick={() => onChange(EMPTY_FILTERS)}
+            className="text-sm text-muted-foreground underline hover:text-foreground"
           >
             Clear all ({totalSelections})
           </button>
@@ -140,7 +105,12 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, curren
       <div>
         <p className="text-sm font-medium text-muted-foreground mb-2">How far are they willing to fly?</p>
         <div className="flex items-center gap-3 flex-wrap">
-          <Select value={departureCity || undefined} onValueChange={onDepartureCityChange}>
+          <Select
+            value={departureCity || undefined}
+            onValueChange={(code) =>
+              onChange({ ...filters, departureCity: code, maxFlightTime: code ? maxFlightTime : null })
+            }
+          >
             <SelectTrigger className="w-[220px]">
               <SelectValue placeholder="Departure city" />
             </SelectTrigger>
@@ -160,7 +130,7 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, curren
                 max={20}
                 step={0.5}
                 value={[maxFlightTime ?? 20]}
-                onValueChange={([v]) => onMaxFlightTimeChange(v)}
+                onValueChange={([v]) => onChange({ ...filters, maxFlightTime: v })}
                 className="flex-1"
               />
               <span className="text-sm font-medium text-[#0e4d5c] whitespace-nowrap w-[60px]">
@@ -171,24 +141,41 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, curren
         </div>
       </div>
 
+      {/* Travel months */}
+      <div>
+        <p className="text-sm font-medium text-muted-foreground mb-2">
+          Travelling in <span className="normal-case">(matches peak and shoulder seasons)</span>
+        </p>
+        <div className="flex flex-wrap gap-1.5">
+          {MONTH_LABELS.map((label, i) => {
+            const isActive = months.includes(i);
+            return (
+              <button
+                key={label}
+                onClick={() => toggleMonth(i)}
+                className={`${CHIP} px-2.5 ${isActive ? MONTH_ON : CHIP_OFF}`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Seasons */}
       <div>
-        <p className="text-sm font-medium text-muted-foreground mb-2">When are they traveling?</p>
+        <p className="text-sm font-medium text-muted-foreground mb-2">Best in</p>
         <div className="flex flex-wrap gap-2">
-          {SEASONS.map(season => {
-            const isActive = currentSeasons.includes(season.slug);
+          {SEASONS.map((season) => {
+            const isActive = seasons.includes(season.slug);
             return (
               <button
                 key={season.slug}
                 onClick={() => toggleSeason(season.slug)}
-                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer hover:scale-[1.03] ${
-                  isActive
-                    ? seasonActiveMap[season.color]
-                    : seasonInactiveMap[season.color]
-                }`}
+                className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF}`}
               >
                 {season.label}
-                <span className={`text-xs ${isActive ? 'opacity-80' : 'opacity-60'}`}>{season.subtitle}</span>
+                <span className={`text-xs ${isActive ? "opacity-80" : "opacity-60"}`}>{season.subtitle}</span>
               </button>
             );
           })}
@@ -199,21 +186,16 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, curren
       <div>
         <p className="text-sm font-medium text-muted-foreground mb-2">What&apos;s their budget?</p>
         <div className="flex flex-wrap gap-2">
-          {BUDGET_TIERS.map(tier => {
-            const isActive = currentBudget.includes(tier.slug);
+          {BUDGET_TIERS.map((tier) => {
+            const isActive = budget.includes(tier.slug);
             return (
               <button
                 key={tier.slug}
                 onClick={() => toggleBudget(tier.slug)}
-                className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer hover:scale-[1.03]"
-                style={
-                  isActive
-                    ? { backgroundColor: tier.color, color: 'white', borderColor: tier.color, boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }
-                    : { backgroundColor: `${tier.color}10`, color: tier.color, borderColor: `${tier.color}40` }
-                }
+                className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF}`}
               >
                 {tier.label}
-                <span className={`text-xs ${isActive ? 'opacity-80' : 'opacity-60'}`}>{tier.description}</span>
+                <span className={`text-xs ${isActive ? "opacity-80" : "opacity-60"}`}>{tier.description}</span>
               </button>
             );
           })}
@@ -224,20 +206,16 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, curren
       <div>
         <p className="text-sm font-medium text-muted-foreground mb-2">Accessibility needs?</p>
         <div className="flex flex-wrap gap-2">
-          {ACCESSIBILITY_FILTERS.map(filter => {
-            const isActive = currentAccessibility.includes(filter.slug);
+          {ACCESSIBILITY_FILTERS.map((filter) => {
+            const isActive = accessibility.includes(filter.slug);
             return (
               <button
                 key={filter.slug}
                 onClick={() => toggleAccessibility(filter.slug)}
-                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer hover:scale-[1.03] ${
-                  isActive
-                    ? 'bg-teal-600 text-white border-teal-600 shadow-sm'
-                    : 'bg-teal-50 text-teal-700 border-teal-200 hover:bg-teal-100'
-                }`}
+                className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF}`}
               >
                 {filter.label}
-                <span className={`text-xs ${isActive ? 'opacity-80' : 'opacity-60'}`}>{filter.description}</span>
+                <span className={`text-xs ${isActive ? "opacity-80" : "opacity-60"}`}>{filter.description}</span>
               </button>
             );
           })}
@@ -245,23 +223,20 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, curren
       </div>
 
       {/* Tag Categories */}
-      {TAG_CATEGORIES.map(cat => {
-        const tags = tagDefinitions.filter(t => t.category === cat.key);
+      {TAG_CATEGORIES.map((cat) => {
+        const catTags = tagDefinitions.filter((t) => t.category === (cat.key as TagCategory));
+        if (catTags.length === 0) return null;
         return (
           <div key={cat.key}>
             <p className="text-sm font-medium text-muted-foreground mb-2">{cat.label}</p>
             <div className="flex flex-wrap gap-2">
-              {tags.map(tag => {
-                const isActive = currentTags.includes(tag.slug);
+              {catTags.map((tag) => {
+                const isActive = tags.includes(tag.slug);
                 return (
                   <button
                     key={tag.slug}
                     onClick={() => toggleTag(tag.slug)}
-                    className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer hover:scale-[1.03] ${
-                      isActive
-                        ? categoryActiveMap[cat.key]
-                        : categoryInactiveMap[cat.key]
-                    }`}
+                    className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF}`}
                   >
                     {tag.label}
                   </button>
