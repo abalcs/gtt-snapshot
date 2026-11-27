@@ -143,10 +143,10 @@ export function Header({ user }: HeaderProps) {
   }, []);
 
   return (
-    <header className={`flex items-center gap-4 border-b px-6 py-3 transition-colors ${
+    <header className={`flex items-center gap-4 border-b px-6 py-3.5 transition-colors ${
       isAdmin
-        ? "bg-[#fdf6e9] border-[#d4b896] shadow-[0_1px_3px_rgba(180,150,100,0.06)]"
-        : "bg-white border-[#b2cab8] shadow-[0_1px_3px_rgba(58,95,84,0.06)]"
+        ? "bg-[#fdf6e9] border-[#e3d3ae] shadow-[0_1px_4px_rgba(180,150,100,0.08)]"
+        : "bg-[#fffdf8]/95 backdrop-blur border-[#e8e2d2] shadow-[0_1px_4px_rgba(14,77,92,0.05)]"
     }`}>
       {isAdmin && (
         <div className="flex items-center gap-1.5 mr-2">
@@ -166,7 +166,7 @@ export function Header({ user }: HeaderProps) {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-[#0e4d5c]/50 transition-colors group-focus-within:text-[#0e4d5c]"
           >
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.3-4.3" />
@@ -174,16 +174,16 @@ export function Header({ user }: HeaderProps) {
           <Input
             ref={inputRef}
             type="search"
-            placeholder="Search destinations..."
+            placeholder="Search destinations, guides and more..."
             value={query}
             onChange={(e) => handleChange(e.target.value)}
             onKeyDown={handleKeyDown}
             onFocus={() => {
               if (results.length > 0 || specialResults.length > 0 || tceResults.length > 0) setIsOpen(true);
             }}
-            className="pl-10 pr-16 rounded-full bg-[#f1f6f3] border-transparent focus-within:bg-white focus-within:border-border transition-colors"
+            className="h-11 pl-11 pr-16 rounded-full bg-[#faf6ee] border-[#e8e2d2] shadow-inner placeholder:text-muted-foreground/70 focus-visible:bg-white focus-visible:border-[#0e4d5c]/40 focus-visible:ring-4 focus-visible:ring-[#c9a227]/15 transition-all"
           />
-          <kbd className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-0.5 rounded-md border bg-muted/80 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+          <kbd className="absolute right-3.5 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-0.5 rounded-md border border-[#e8e2d2] bg-white px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground shadow-sm">
             <span className="text-xs">⌘</span>K
           </kbd>
         </div>
@@ -191,11 +191,11 @@ export function Header({ user }: HeaderProps) {
         {isOpen && (results.length > 0 || specialResults.length > 0 || tceResults.length > 0) && (
           <div
             ref={dropdownRef}
-            className="absolute top-full left-0 right-0 z-50 mt-1 rounded-lg border bg-white/95 backdrop-blur-sm shadow-[var(--shadow-lg)] max-h-80 overflow-y-auto"
+            className="absolute top-full left-0 right-0 z-50 mt-2 rounded-2xl border border-[#e8e2d2] bg-white/97 backdrop-blur-sm shadow-[var(--shadow-lg)] max-h-80 overflow-y-auto"
           >
             {results.length > 0 && (
               <div className="p-1">
-                <div className="px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                <div className="px-3 pb-1 pt-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0e4d5c]/55">
                   Destinations
                 </div>
                 {results.map((r, i) => (
@@ -206,8 +206,8 @@ export function Header({ user }: HeaderProps) {
                       setIsOpen(false);
                       setQuery("");
                     }}
-                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-accent ${
-                      i === selectedIndex ? "bg-accent" : ""
+                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-[#faf6ee] ${
+                      i === selectedIndex ? "bg-[#faf6ee]" : ""
                     }`}
                   >
                     <div className="font-medium">{r.name}</div>
@@ -226,7 +226,7 @@ export function Header({ user }: HeaderProps) {
             )}
             {specialResults.length > 0 && (
               <div className="p-1 border-t">
-                <div className="px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                <div className="px-3 pb-1 pt-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0e4d5c]/55">
                   Special Sections
                 </div>
                 {specialResults.map((s, i) => (
@@ -237,8 +237,8 @@ export function Header({ user }: HeaderProps) {
                       setIsOpen(false);
                       setQuery("");
                     }}
-                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-accent ${
-                      i + results.length === selectedIndex ? "bg-accent" : ""
+                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-[#faf6ee] ${
+                      i + results.length === selectedIndex ? "bg-[#faf6ee]" : ""
                     }`}
                   >
                     {s.title}
@@ -248,7 +248,7 @@ export function Header({ user }: HeaderProps) {
             )}
             {tceResults.length > 0 && (
               <div className="p-1 border-t">
-                <div className="px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                <div className="px-3 pb-1 pt-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0e4d5c]/55">
                   TCE Resources
                 </div>
                 {tceResults.slice(0, 5).map((t, i) => (
@@ -259,8 +259,8 @@ export function Header({ user }: HeaderProps) {
                       setIsOpen(false);
                       setQuery("");
                     }}
-                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-accent ${
-                      i + results.length + specialResults.length === selectedIndex ? "bg-accent" : ""
+                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-[#faf6ee] ${
+                      i + results.length + specialResults.length === selectedIndex ? "bg-[#faf6ee]" : ""
                     }`}
                   >
                     {t.title}
@@ -274,7 +274,7 @@ export function Header({ user }: HeaderProps) {
                 onClick={() => {
                   setIsOpen(false);
                 }}
-                className="block rounded-sm px-3 py-2 text-sm text-muted-foreground hover:bg-accent"
+                className="block rounded-sm px-3 py-2 text-sm text-muted-foreground hover:bg-[#faf6ee]"
               >
                 View all results for &ldquo;{query}&rdquo;
               </Link>
@@ -283,33 +283,39 @@ export function Header({ user }: HeaderProps) {
         )}
       </div>
 
-      <div className="ml-auto flex items-center gap-3">
+      <div className="ml-auto flex items-center gap-4">
+        <div className="hidden h-9 w-px bg-[#e8e2d2] sm:block" />
         {user && (
-          <div className="flex items-center gap-2">
-            <div className="flex items-center justify-center h-7 w-7 rounded-full bg-[#0e4d5c] text-white text-xs font-semibold">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#0e5a6e] to-[#07222b] text-[13px] font-semibold text-white ring-2 ring-[#c9a227]/60 ring-offset-2 ring-offset-[#fffdf8]">
               {user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
             </div>
-            <span className="text-sm text-muted-foreground">
-              {user.name}
-            </span>
+            <div className="hidden leading-tight md:block">
+              <p className="text-sm font-medium text-foreground">{user.name}</p>
+              <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                {user.role === 'admin' ? 'Administrator' : 'Advisor'}
+              </p>
+            </div>
           </div>
         )}
         {user?.role === 'admin' && !isAdmin && (
           <Link
             href="/admin"
-            className="inline-flex items-center gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#0e4d5c]/30 bg-white px-3.5 py-1.5 text-sm font-medium text-[#0e4d5c] shadow-sm transition-all hover:bg-[#0e4d5c] hover:text-white"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1-1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
             Admin
           </Link>
         )}
         <button
           onClick={handleLogout}
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+          className="inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-[#faf6ee] hover:text-foreground"
         >
-          Logout
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+          Sign out
         </button>
       </div>
+
     </header>
   );
 }

@@ -20,6 +20,7 @@ export function LoginForm({ hero = null }: { hero?: LoginSpot | null }) {
   const [capsLock, setCapsLock] = useState(false);
   const [remember, setRemember] = useState(false);
   const [shaking, setShaking] = useState(false);
+  const [entering, setEntering] = useState(false);
 
   const fail = (message: string) => {
     setError(message);
@@ -46,7 +47,12 @@ export function LoginForm({ hero = null }: { hero?: LoginSpot | null }) {
         if (data.must_change_password) {
           window.location.href = "/set-password";
         } else {
-          window.location.href = "/";
+          // A short branded pause between sign-in and the app, purely for feel.
+          setEntering(true);
+          const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          window.setTimeout(() => {
+            window.location.href = "/";
+          }, reduced ? 250 : 1800);
         }
         return;
       } else {
@@ -56,6 +62,30 @@ export function LoginForm({ hero = null }: { hero?: LoginSpot | null }) {
       fail("Something went wrong. Check your connection and try again.");
     }
   };
+
+  if (entering) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#faf6ee] px-6">
+        <div className="animate-fade-up text-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/audley-logo-green.png"
+            alt="Audley Travel"
+            className="mx-auto h-12 w-auto"
+          />
+          <p className="mt-6 font-serif text-2xl font-semibold tracking-tight text-[#0e4d5c]">
+            GTT Country Snapshot
+          </p>
+          <div className="mx-auto mt-6 h-[3px] w-52 overflow-hidden rounded-full bg-[#0e4d5c]/10">
+            <div className="animate-loadbar h-full w-full rounded-full bg-gradient-to-r from-[#c9a227] via-[#e7cb6b] to-[#c9a227]" />
+          </div>
+          <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.3em] text-gray-400">
+            Preparing your snapshot
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col lg:flex-row">
