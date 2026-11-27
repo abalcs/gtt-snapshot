@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
-import { Merriweather, Open_Sans } from "next/font/google";
+import { Fraunces, Open_Sans } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 import { PageTransition } from "@/components/layout/page-transition";
 import { AdminShell } from "@/components/layout/admin-shell";
 import { getSidebarData } from "@/lib/queries";
+import { getPublishedPages } from "@/lib/pages";
 import { getContinentForDestination, getContinentOrder } from "@/lib/continents";
 import { getCurrentUser } from "@/lib/admin-auth";
 import { FeedbackButton } from "@/components/feedback/feedback-button";
 import { AnalyticsTracker } from "@/components/analytics/analytics-tracker";
 
-const merriweather = Merriweather({
-  variable: "--font-merriweather",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["300", "400", "700", "900"],
+  weight: ["400", "600", "700"],
 });
 
 const openSans = Open_Sans({
@@ -64,9 +65,12 @@ async function fetchSidebarData() {
         destinations: destinations.sort((a, b) => a.name.localeCompare(b.name)),
       }));
 
-    return { continents, specialSections: data.specialSections };
+    const pages = await getPublishedPages()
+      .then((ps) => ps.map((p) => ({ title: p.title, slug: p.slug, section: p.section })))
+      .catch(() => [] as { title: string; slug: string; section: string }[]);
+    return { continents, specialSections: data.specialSections, pages };
   } catch {
-    return { continents: [], specialSections: [] };
+    return { continents: [], specialSections: [], pages: [] };
   }
 }
 
@@ -81,7 +85,7 @@ export default async function RootLayout({
   if (!user || user.must_change_password) {
     return (
       <html lang="en">
-        <body className={`${merriweather.variable} ${openSans.variable} antialiased`}>
+        <body className={`${fraunces.variable} ${openSans.variable} antialiased`}>
           {children}
         </body>
       </html>
@@ -93,7 +97,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${merriweather.variable} ${openSans.variable} antialiased`}
+        className={`${fraunces.variable} ${openSans.variable} antialiased`}
       >
         <div className="flex h-screen overflow-hidden bg-noise">
           <Sidebar initialData={sidebarData} />

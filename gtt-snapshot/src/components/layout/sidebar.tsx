@@ -15,6 +15,7 @@ interface SidebarContinent {
 interface SidebarData {
   continents: SidebarContinent[];
   specialSections: { title: string; slug: string }[];
+  pages: { title: string; slug: string; section: string }[];
 }
 
 const STORAGE_KEY_EXPANDED = "sidebar-expanded-continents";
@@ -89,7 +90,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
   return (
     <div
       className={cn(
-        "hidden md:flex flex-col border-r border-[#2a4a40] bg-gradient-to-b from-[#3a5f54] to-[#2a4a40] text-white transition-all duration-300 ease-in-out",
+        "hidden md:flex flex-col border-r border-[#07222b] bg-gradient-to-b from-[#0d4256] to-[#07222b] text-white transition-all duration-300 ease-in-out",
         collapsed ? "w-12" : "w-64"
       )}
     >
@@ -136,7 +137,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
               href="/"
               className={cn(
                 "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                pathname === "/" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
+                pathname === "/" && "bg-white/20 text-white shadow-[inset_3px_0_0_#c9a227]"
               )}
             >
               Home
@@ -145,7 +146,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
               href="/destinations"
               className={cn(
                 "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                pathname === "/destinations" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
+                pathname === "/destinations" && "bg-white/20 text-white shadow-[inset_3px_0_0_#c9a227]"
               )}
             >
               Help Me Choose
@@ -154,7 +155,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
               href="/compare"
               className={cn(
                 "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                pathname === "/compare" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
+                pathname === "/compare" && "bg-white/20 text-white shadow-[inset_3px_0_0_#c9a227]"
               )}
             >
               Compare
@@ -191,7 +192,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
                     className={cn(
                       "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
                       pathname === "/booking-calendars" &&
-                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
+                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_#c9a227]"
                     )}
                   >
                     CS by Region
@@ -201,7 +202,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
                     className={cn(
                       "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
                       pathname === "/booking-calendars/travel-agents" &&
-                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
+                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_#c9a227]"
                     )}
                   >
                     TA Preferred
@@ -211,7 +212,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
                     className={cn(
                       "block rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
                       pathname === "/booking-calendars/gta" &&
-                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
+                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_#c9a227]"
                     )}
                   >
                     GTA Calendars
@@ -223,7 +224,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
               href="/country-specialists"
               className={cn(
                 "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                pathname === "/country-specialists" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
+                pathname === "/country-specialists" && "bg-white/20 text-white shadow-[inset_3px_0_0_#c9a227]"
               )}
             >
               Country Specialists
@@ -232,7 +233,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
               href="/email-templates"
               className={cn(
                 "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                pathname === "/email-templates" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
+                pathname === "/email-templates" && "bg-white/20 text-white shadow-[inset_3px_0_0_#c9a227]"
               )}
             >
               Email Templates
@@ -241,11 +242,46 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
               href="/stop-sells"
               className={cn(
                 "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                pathname === "/stop-sells" && "bg-white/20 text-white shadow-[inset_3px_0_0_white]"
+                pathname === "/stop-sells" && "bg-white/20 text-white shadow-[inset_3px_0_0_#c9a227]"
               )}
             >
               Current Stop Sells
             </Link>
+            <Link
+              href="/tce-resources"
+              className={cn(
+                "block rounded-md px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                pathname === "/tce-resources" && "bg-white/20 text-white shadow-[inset_3px_0_0_#c9a227]"
+              )}
+            >
+              TCE Resources
+            </Link>
+
+            {(["Guides", "Resources", "Tools"] as const).map((sectionName) => {
+              const sectionPages = (data.pages ?? []).filter((p) => p.section === sectionName);
+              if (sectionPages.length === 0) return null;
+              return (
+                <div key={sectionName}>
+                  <div className="pt-3 pb-1 px-3">
+                    <span className="text-xs font-semibold text-[#c9a227]/90 uppercase tracking-wider">{sectionName}</span>
+                    <div className="mt-1.5 h-px bg-gradient-to-r from-[#c9a227]/40 via-white/10 to-transparent" />
+                  </div>
+                  {sectionPages.map((page) => (
+                    <Link
+                      key={page.slug}
+                      href={`/p/${page.slug}`}
+                      className={cn(
+                        "block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                        pathname === `/p/${page.slug}` &&
+                          "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_#c9a227]"
+                      )}
+                    >
+                      {page.title}
+                    </Link>
+                  ))}
+                </div>
+              );
+            })}
 
             <div className="pt-3 pb-1 px-3">
               <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">Regions</span>
@@ -292,7 +328,7 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
                           className={cn(
                             "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
                             pathname === `/destinations/${dest.slug}` &&
-                              "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]",
+                              "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_#c9a227]",
                             dest.status === "stop_sell" && "text-red-300/90"
                           )}
                         >
@@ -308,37 +344,6 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
               );
             })}
 
-            <div className="pt-3 pb-1 px-3">
-              <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">Special Sections</span>
-              <div className="mt-1.5 h-px bg-gradient-to-r from-white/20 via-white/10 to-transparent" />
-            </div>
-            <Link
-              href="/tce-resources"
-              className={cn(
-                "block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                pathname === "/tce-resources" &&
-                  "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
-              )}
-            >
-              TCE Resources
-            </Link>
-            {data.specialSections.length > 0 && (
-              <>
-                {data.specialSections.map((section) => (
-                  <Link
-                    key={section.slug}
-                    href={`/special/${section.slug}`}
-                    className={cn(
-                      "block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                      pathname === `/special/${section.slug}` &&
-                        "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_white]"
-                    )}
-                  >
-                    {section.title}
-                  </Link>
-                ))}
-              </>
-            )}
           </nav>
         </ScrollArea>
       </div>

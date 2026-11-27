@@ -74,6 +74,49 @@ export interface SpecialSection {
   pdf_url: string | null;
 }
 
+// ── Pages (modular content pages, managed in Admin → Page Manager) ──
+
+export type PageBlock =
+  | { type: "heading"; text: string; level?: 2 | 3 }
+  | { type: "richtext"; markdown: string }
+  | { type: "callout"; tone: "info" | "warning" | "tip"; title?: string; text: string }
+  | { type: "checklist"; items: string[] }
+  | { type: "table"; headers: string[]; rows: string[][] }
+  | { type: "accordion"; items: { title: string; body: string }[] }
+  | { type: "links"; items: { label: string; href: string; description?: string }[] }
+  | { type: "cta"; label: string; href: string; text?: string }
+  | { type: "divider" };
+
+export interface PageDoc {
+  id: string; // document id = slug
+  title: string;
+  slug: string;
+  summary: string;
+  icon: string;
+  section: string;
+  sort_order: number;
+  status: "published" | "draft";
+  visible: boolean;
+  blocks: PageBlock[];
+  created_at: string;
+  updated_at: string;
+}
+
+export const PAGE_SECTIONS = ["Guides", "Resources", "Tools"] as const;
+
+export const PAGE_ICONS = [
+  "book",
+  "compass",
+  "map",
+  "ship",
+  "plane",
+  "calendar",
+  "users",
+  "star",
+  "info",
+  "list",
+] as const;
+
 export interface DestinationDetail extends Destination {}
 
 export interface SearchResult {

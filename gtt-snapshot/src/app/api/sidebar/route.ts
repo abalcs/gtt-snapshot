@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSidebarData } from '@/lib/queries';
+import { getPublishedPages } from '@/lib/pages';
 import { getContinentForDestination, getContinentOrder } from '@/lib/continents';
 import { getCached, setCache } from '@/lib/data-cache';
 
@@ -7,6 +8,7 @@ interface SidebarResponse {
   continents: { name: string; destinations: { name: string; slug: string; regionSlug: string; regionName: string }[] }[];
   regions: unknown[];
   specialSections: { title: string; slug: string }[];
+  pages: { title: string; slug: string; section: string }[];
 }
 
 export async function GET() {
@@ -54,11 +56,14 @@ export async function GET() {
       continents,
       regions: data.regions,
       specialSections: data.specialSections,
+      pages: await getPublishedPages()
+        .then((ps) => ps.map((p) => ({ title: p.title, slug: p.slug, section: p.section })))
+        .catch(() => [] as { title: string; slug: string; section: string }[]),
     };
 
     setCache('sidebar:api', responseData);
     return NextResponse.json(responseData);
   } catch {
-    return NextResponse.json({ continents: [], regions: [], specialSections: [] });
+    return NextResponse.json({ continents: [], regions: [], specialSections: [], pages: [] });
   }
 }

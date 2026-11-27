@@ -286,7 +286,7 @@ export function Header({ user }: HeaderProps) {
       <div className="ml-auto flex items-center gap-3">
         {user && (
           <div className="flex items-center gap-2">
-            <div className="flex items-center justify-center h-7 w-7 rounded-full bg-[#3a5f54] text-white text-xs font-semibold">
+            <div className="flex items-center justify-center h-7 w-7 rounded-full bg-[#0e4d5c] text-white text-xs font-semibold">
               {user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
             </div>
             <span className="text-sm text-muted-foreground">
