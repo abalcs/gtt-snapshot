@@ -109,3 +109,11 @@ so the badge count stays meaningful.
 Check the page's **Version History** (for content mistakes), the **Activity
 Log** under Admin → Operations (to see who changed what, and when), and this
 guide. Most content problems are one restore away from fixed.
+
+## Recent additions (Nov 27, 2026)
+
+- **Dark mode**: moon/sun toggle in the header. Each person's choice is saved on their machine; first visit follows the computer's own setting. The login page keeps its fixed design in both modes.
+- **Your activity**: clicking your initials in the header opens your usage stats, with a "Share my stats" button that copies a picture card you can paste into Teams.
+- **Home hero**: the flag mosaic on the right of the home hero links each flag to its destination.
+- **Analytics quality**: searches are recorded once when the person finishes typing (not per keystroke), Help Me Choose filter use is recorded again (see Popular Filters), and copying an email template counts in Feature Usage alongside Compare.
+- **Travel Data sync**: health data now syncs in small batches with a progress count, so the buttons no longer time out. If a sync reports an error, note the message shown; the counts on each card show how many countries updated.
