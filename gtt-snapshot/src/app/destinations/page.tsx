@@ -9,7 +9,6 @@ export const dynamic = 'force-dynamic';
 type DestinationsParams = {
   region?: string;
   tags?: string;
-  seasons?: string;
   budget?: string;
   accessibility?: string;
   months?: string;
@@ -30,7 +29,7 @@ async function DestinationsContent({
   searchParamsPromise: Promise<DestinationsParams>;
 }) {
   await requireAuth();
-  const { region, tags: tagsParam, seasons: seasonsParam, budget: budgetParam, accessibility: accessibilityParam, months: monthsParam, view } = await searchParamsPromise;
+  const { region, tags: tagsParam, budget: budgetParam, accessibility: accessibilityParam, months: monthsParam, view } = await searchParamsPromise;
   const [allDestinations, regions, tagDefinitions, popularity] = await Promise.all([
     getAllDestinations(),
     getAllRegions(),
@@ -40,7 +39,6 @@ async function DestinationsContent({
 
   const activeRegions = region ? region.split(",").filter(Boolean) : [];
   const activeTags = tagsParam ? tagsParam.split(",").filter(Boolean) : [];
-  const activeSeasons = seasonsParam ? seasonsParam.split(",").filter(Boolean) : [];
   const activeBudget = budgetParam ? budgetParam.split(",").filter(Boolean) : [];
   const activeAccessibility = accessibilityParam ? accessibilityParam.split(",").filter(Boolean) : [];
   const activeMonths = monthsParam
@@ -53,7 +51,6 @@ async function DestinationsContent({
   const hasFilters =
     activeRegions.length > 0 ||
     activeTags.length > 0 ||
-    activeSeasons.length > 0 ||
     activeBudget.length > 0 ||
     activeAccessibility.length > 0 ||
     activeMonths.length > 0;
@@ -101,7 +98,6 @@ async function DestinationsContent({
         tagDefinitions={tagDefinitions}
         initialFilters={{
           tags: activeTags,
-          seasons: activeSeasons,
           budget: activeBudget,
           accessibility: activeAccessibility,
           months: activeMonths,
