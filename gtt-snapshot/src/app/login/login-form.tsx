@@ -20,15 +20,35 @@ const BACKGROUND_VIDEOS = [
   "https://assets.mixkit.co/videos/45258/45258-720.mp4", // Autumn trees along a highway
 ];
 
+// Seasonal rotation: Christmas travel scenes. Every clip is Mixkit Free
+// License (cleared for commercial use) — the prettier Europe window-shopping
+// clip was Restricted License (personal use only), so it is deliberately out.
+// The seasonal set plays from 26 November to New Year's Eve; from
+// 1 January the regular set takes over again automatically.
+const SEASONAL_VIDEOS = [
+  "https://assets.mixkit.co/videos/2618/2618-720.mp4",   // Walking through a snowy town
+  "https://assets.mixkit.co/videos/40637/40637-720.mp4", // City street at sunset, trees decorated with Christmas lights
+  "https://assets.mixkit.co/videos/4033/4033-720.mp4",   // Aurora borealis timelapse over mountains
+  "https://assets.mixkit.co/videos/4040/4040-720.mp4",   // Northern Lights at dawn, lake between mountains
+  "https://assets.mixkit.co/videos/4036/4036-720.mp4",   // Yellow northern lights in Norway
+];
+const SEASON_START = new Date(2026, 10, 26); // 26 November 2026
+const SEASON_END = new Date(2027, 0, 1); // 1 January 2027 (exclusive)
+
+function activeVideoPool(now: Date): string[] {
+  return now >= SEASON_START && now < SEASON_END ? SEASONAL_VIDEOS : BACKGROUND_VIDEOS;
+}
+
 export function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [videoUrl] = useState(() =>
-    BACKGROUND_VIDEOS[Math.floor(Math.random() * BACKGROUND_VIDEOS.length)]
-  );
+  const [videoUrl] = useState(() => {
+    const pool = activeVideoPool(new Date());
+    return pool[Math.floor(Math.random() * pool.length)];
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
