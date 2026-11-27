@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -39,7 +39,15 @@ function activeVideoPool(now: Date): string[] {
   return now >= SEASON_START && now < SEASON_END ? SEASONAL_VIDEOS : BACKGROUND_VIDEOS;
 }
 
-export function LoginForm() {
+export interface LoginSpot {
+  name: string;
+  slug: string;
+  imageUrl: string;
+  peakLabel: string | null;
+  population: string | null;
+}
+
+export function LoginForm({ spots = [] }: { spots?: LoginSpot[] }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,6 +61,14 @@ export function LoginForm() {
     const pool = activeVideoPool(new Date());
     return pool[Math.floor(Math.random() * pool.length)];
   });
+  const [spot, setSpot] = useState<LoginSpot | null>(null);
+  useEffect(() => {
+    if (spots.length === 0) return;
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const dayOfYear = Math.floor((now.getTime() - start.getTime()) / 86_400_000);
+    setSpot(spots[dayOfYear % spots.length]);
+  }, [spots]);
 
   const fail = (message: string) => {
     setError(message);
@@ -95,22 +111,38 @@ export function LoginForm() {
       {/* Layer 1: Sage gradient fallback (visible while video loads) */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0d4256] via-[#0e4d5c] to-[#07222b]" />
 
-      {/* Layer 2: Slow-motion video background */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="login-video absolute inset-0 w-full h-full object-cover"
-      >
-        <source src={videoUrl} type="video/mp4" />
-      </video>
-
-      {/* Layer 3: Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#07222b]/70 via-black/35 to-[#07222b]/75" />
+      {/* Layer 2: Destination of the day photo, or the video background */}
+      {spot ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={spot.imageUrl}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07222b]/85 via-black/20 to-[#07222b]/40" />
+        </>
+      ) : (
+        <>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="login-video absolute inset-0 w-full h-full object-cover"
+          >
+            <source src={videoUrl} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-b from-[#07222b]/70 via-black/35 to-[#07222b]/75" />
+        </>
+      )}
 
       {/* Layer 4: Login content */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen animate-fade-up">
+      <div
+        className={`relative z-10 flex min-h-screen animate-fade-up ${
+          spot ? "items-end justify-start p-6 md:p-10" : "items-center justify-center"
+        }`}
+      >
         <div className="w-full max-w-sm mx-4">
           {/* Branding */}
           <div className="text-center mb-8">
@@ -127,12 +159,12 @@ export function LoginForm() {
           <div className="h-1 bg-gradient-to-r from-[#c9a227] via-[#e7cb6b] to-[#c9a227]" />
           <div className="p-8">
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0e4d5c]/10 mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0e4d5c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                </svg>
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/audley-logo-green.png"
+                alt="Audley Travel"
+                className="mx-auto mb-4 h-9 w-auto"
+              />
               <h2 className="text-lg font-semibold text-gray-900">Sign in</h2>
               <p className="text-sm text-gray-500 mt-1">Enter your credentials to continue</p>
             </div>
@@ -237,6 +269,28 @@ export function LoginForm() {
           <p className="text-center text-white/45 text-xs mt-6">Authorised Audley Travel staff only</p>
         </div>
       </div>
+
+      {/* Destination of the day caption */}
+      {spot && (
+        <div className="absolute bottom-10 right-10 z-10 hidden text-right lg:block">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#c9a227]">
+            Destination of the day
+          </p>
+          <p className="mt-1 font-serif text-4xl font-semibold text-white [text-shadow:0_2px_16px_rgba(0,0,0,0.55)]">
+            {spot.name}
+          </p>
+          {spot.peakLabel && (
+            <p className="mt-1.5 text-sm text-white/85 [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]">
+              Peak season: {spot.peakLabel}
+            </p>
+          )}
+          {spot.population && (
+            <p className="mt-0.5 text-sm text-white/65 [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]">
+              Population: {spot.population}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

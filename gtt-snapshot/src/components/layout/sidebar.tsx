@@ -108,8 +108,10 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
           </Button>
         ) : (
           <div className="flex w-full items-center justify-between px-2">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="text-lg font-bold text-white font-serif whitespace-nowrap">GTT Snapshot</span>
+            <Link href="/" className="flex flex-col items-start gap-1">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/audley-logo-white.png" alt="Audley Travel" className="h-6 w-auto" />
+              <span className="font-serif text-[13px] font-semibold tracking-wide text-white/85 whitespace-nowrap">GTT Snapshot</span>
             </Link>
             <Button
               variant="ghost"
