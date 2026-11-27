@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { MyActivityDialog } from "@/components/layout/my-activity-dialog";
 
 interface SearchResultItem {
   id: number;
@@ -38,6 +39,7 @@ export function Header({ user }: HeaderProps) {
   const [specialResults, setSpecialResults] = useState<SpecialSectionResult[]>([]);
   const [tceResults, setTceResults] = useState<TceArticleResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [activityOpen, setActivityOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -286,17 +288,21 @@ export function Header({ user }: HeaderProps) {
       <div className="ml-auto flex items-center gap-4">
         <div className="hidden h-9 w-px bg-[#e8e2d2] sm:block" />
         {user && (
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#0e5a6e] to-[#07222b] text-[13px] font-semibold text-white ring-2 ring-[#c9a227]/60 ring-offset-2 ring-offset-[#fffdf8]">
+          <button
+            onClick={() => setActivityOpen(true)}
+            title="Your activity on the Snapshot"
+            className="group flex cursor-pointer items-center gap-3 rounded-full py-1 pl-1 pr-2 transition-colors hover:bg-[#faf6ee]"
+          >
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#0e5a6e] to-[#07222b] text-[13px] font-semibold text-white ring-2 ring-[#c9a227]/60 ring-offset-2 ring-offset-[#fffdf8] transition-transform group-hover:scale-[1.04]">
               {user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
             </div>
-            <div className="hidden leading-tight md:block">
+            <div className="hidden text-left leading-tight md:block">
               <p className="text-sm font-medium text-foreground">{user.name}</p>
               <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
                 {user.role === 'admin' ? 'Administrator' : 'Advisor'}
               </p>
             </div>
-          </div>
+          </button>
         )}
         {user?.role === 'admin' && !isAdmin && (
           <Link
@@ -316,6 +322,9 @@ export function Header({ user }: HeaderProps) {
         </button>
       </div>
 
+      {user && (
+        <MyActivityDialog user={user} open={activityOpen} onOpenChange={setActivityOpen} />
+      )}
     </header>
   );
 }
