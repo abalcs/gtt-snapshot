@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { MyActivity } from "@/lib/my-activity";
+import { buildStatsImageBlob } from "@/lib/share-stats-image";
 
 interface MyActivityDialogProps {
   user: { name: string; role: string };
@@ -43,6 +44,31 @@ function StatTile({ value, label }: { value: number; label: string }) {
 export function MyActivityDialog({ user, open, onOpenChange }: MyActivityDialogProps) {
   const [activity, setActivity] = useState<MyActivity | null>(null);
   const [failed, setFailed] = useState(false);
+  const [shareState, setShareState] = useState<"idle" | "working" | "copied" | "preview">("idle");
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  const handleShare = async () => {
+    if (!activity) return;
+    setShareState("working");
+    try {
+      const blob = await buildStatsImageBlob(activity, user.name, user.role);
+      try {
+        await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+        setShareState("copied");
+        window.setTimeout(() => setShareState("idle"), 4000);
+      } catch {
+        // Clipboard images are not permitted everywhere; offer the file instead.
+        setPreviewUrl((prev) => {
+          if (prev) URL.revokeObjectURL(prev);
+          return URL.createObjectURL(blob);
+        });
+        setShareState("preview");
+      }
+    } catch {
+      setShareState("idle");
+      setFailed(true);
+    }
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -169,6 +195,42 @@ export function MyActivityDialog({ user, open, onOpenChange }: MyActivityDialogP
                   `${activity.sessionsCount} visit${activity.sessionsCount !== 1 ? "s" : ""} so far · `}
                 Stats build from how you use the Snapshot, and only you and the admins can see them.
               </p>
+
+              <div className="border-t border-[#e8e2d2] pt-4">
+                <button
+                  onClick={handleShare}
+                  disabled={shareState === "working"}
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0e4d5c] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#0d4256] disabled:opacity-60"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98"/><path d="m15.41 6.51-6.82 3.98"/></svg>
+                  {shareState === "working"
+                    ? "Preparing your image..."
+                    : shareState === "copied"
+                      ? "Copied! Paste it into Teams with Ctrl+V"
+                      : "Share my stats"}
+                </button>
+                {shareState === "preview" && previewUrl && (
+                  <div className="mt-3 space-y-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={previewUrl}
+                      alt="Your Snapshot stats card"
+                      className="w-full rounded-lg ring-1 ring-[#e8e2d2]"
+                    />
+                    <p className="text-center text-xs text-muted-foreground">
+                      Your browser would not copy the image directly.{" "}
+                      <a
+                        href={previewUrl}
+                        download="my-snapshot-stats.png"
+                        className="font-medium text-[#0e4d5c] underline"
+                      >
+                        Download it
+                      </a>{" "}
+                      and drop it into Teams instead.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>
