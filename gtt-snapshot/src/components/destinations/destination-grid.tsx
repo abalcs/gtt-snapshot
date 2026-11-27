@@ -144,7 +144,7 @@ export function DestinationGrid({
       </div>
 
       {viewMode === "map" ? (
-        <div className={`rounded-xl border border-border bg-white shadow-[var(--shadow-sm)] p-3 ${compareMode && selectedSlugs.length > 0 ? "pb-20" : ""}`}>
+        <div className={`rounded-xl border border-border bg-white shadow-[var(--shadow-sm)] dark:bg-[#0d232c] p-3 ${compareMode && selectedSlugs.length > 0 ? "pb-20" : ""}`}>
           <WorldMap
             allDestinations={allDestinations}
             filteredSlugs={filteredSlugs}
@@ -189,7 +189,7 @@ export function DestinationGrid({
       {compareMode && selectedSlugs.length === 0 && (
         <div className="fixed bottom-0 left-0 right-0 z-[1001]">
           <div className="mx-auto max-w-2xl px-4 pb-4">
-            <div className="rounded-lg border bg-white/95 backdrop-blur-sm shadow-lg px-4 py-3 text-center text-sm text-muted-foreground">
+            <div className="rounded-lg border bg-white/95 backdrop-blur-sm shadow-lg dark:bg-[#0d232c]/95 px-4 py-3 text-center text-sm text-muted-foreground">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block mr-1.5 -mt-0.5"><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
               Select up to 3 destinations to compare
             </div>

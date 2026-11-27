@@ -88,7 +88,7 @@ interface Preset {
 const CHIP =
   "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer hover:scale-[1.03]";
 const CHIP_ON = "bg-[#0e4d5c] text-white border-[#0e4d5c] shadow-sm";
-const CHIP_OFF = "bg-white text-foreground border-input hover:border-[#0e4d5c]/60";
+const CHIP_OFF = "bg-white text-foreground border-input hover:border-[#0e4d5c]/60 dark:bg-white/5 dark:border-white/15 dark:hover:border-[#6db3c4]/60";
 const MONTH_ON = "bg-[#c9a227] text-[#3d2f04] border-[#c9a227] shadow-sm";
 const CHIP_DISABLED = "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100";
 
@@ -340,7 +340,7 @@ export function FlightFilteredResults({
           <div className="border-t pt-3">
             <button
               onClick={() => setRefineOpen(!refineOpen)}
-              className="flex items-center gap-2 text-sm font-medium text-[#0e4d5c] hover:underline"
+              className="flex items-center gap-2 text-sm font-medium text-[#0e4d5c] hover:underline dark:text-[#6db3c4]"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -437,7 +437,7 @@ export function FlightFilteredResults({
 
           <div className="flex flex-wrap items-center justify-between gap-2 border-t pt-3">
             <p className="text-sm">
-              <span className="font-serif text-lg font-semibold text-[#0e4d5c]">{filtered.length}</span>{" "}
+              <span className="font-serif text-lg font-semibold text-[#0e4d5c] dark:text-[#6db3c4]">{filtered.length}</span>{" "}
               <span className="text-muted-foreground">
                 destination{filtered.length !== 1 ? "s" : ""} fit this brief
               </span>

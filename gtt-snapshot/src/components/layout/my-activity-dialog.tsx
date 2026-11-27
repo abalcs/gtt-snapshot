@@ -32,7 +32,7 @@ function ordinal(n: number): string {
 
 function StatTile({ value, label }: { value: number; label: string }) {
   return (
-    <div className="rounded-xl bg-[#faf6ee] px-4 py-3 text-center ring-1 ring-[#e8e2d2]">
+    <div className="rounded-xl bg-[#faf6ee] px-4 py-3 text-center ring-1 ring-[#e8e2d2] dark:bg-white/5 dark:ring-white/10">
       <p className="font-serif text-2xl font-semibold text-[#0e4d5c]">{value.toLocaleString()}</p>
       <p className="mt-0.5 text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
         {label}
@@ -121,7 +121,7 @@ export function MyActivityDialog({ user, open, onOpenChange }: MyActivityDialogP
           ) : !activity ? (
             <div className="grid grid-cols-2 gap-3 py-1" aria-label="Loading your activity">
               {[0, 1, 2, 3].map((i) => (
-                <div key={i} className="h-[74px] animate-pulse rounded-xl bg-[#faf6ee]" />
+                <div key={i} className="h-[74px] animate-pulse rounded-xl bg-[#faf6ee] dark:bg-white/5" />
               ))}
             </div>
           ) : !activity.hasData ? (
@@ -165,7 +165,7 @@ export function MyActivityDialog({ user, open, onOpenChange }: MyActivityDialogP
                   <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#0e4d5c]/55">
                     Your most explored destinations
                   </p>
-                  <ul className="mt-2 divide-y divide-[#e8e2d2] rounded-xl ring-1 ring-[#e8e2d2]">
+                  <ul className="mt-2 divide-y divide-[#e8e2d2] rounded-xl ring-1 ring-[#e8e2d2] dark:divide-white/10 dark:ring-white/10">
                     {activity.topDestinations.map((d, i) => (
                       <li key={d.slug} className="flex items-center justify-between px-4 py-2.5">
                         <span className="text-sm">
@@ -196,7 +196,7 @@ export function MyActivityDialog({ user, open, onOpenChange }: MyActivityDialogP
                 Stats build from how you use the Snapshot, and only you and the admins can see them.
               </p>
 
-              <div className="border-t border-[#e8e2d2] pt-4">
+              <div className="border-t border-[#e8e2d2] pt-4 dark:border-white/10">
                 <button
                   onClick={handleShare}
                   disabled={shareState === "working"}
@@ -215,7 +215,7 @@ export function MyActivityDialog({ user, open, onOpenChange }: MyActivityDialogP
                     <img
                       src={previewUrl}
                       alt="Your Snapshot stats card"
-                      className="w-full rounded-lg ring-1 ring-[#e8e2d2]"
+                      className="w-full rounded-lg ring-1 ring-[#e8e2d2] dark:ring-white/10"
                     />
                     <p className="text-center text-xs text-muted-foreground">
                       Your browser would not copy the image directly.{" "}

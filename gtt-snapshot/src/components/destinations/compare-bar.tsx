@@ -21,7 +21,7 @@ export function CompareBar({ selectedSlugs, destinationNames, onRemove, onClear 
   };
 
   return (
-    <div className="bg-white border-t shadow-lg">
+    <div className="bg-white border-t shadow-lg dark:bg-[#0d232c]">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
         <span className="text-sm font-medium shrink-0">
           Compare ({selectedSlugs.length}/3):

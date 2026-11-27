@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { MyActivityDialog } from "@/components/layout/my-activity-dialog";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 interface SearchResultItem {
   id: number;
@@ -147,8 +148,8 @@ export function Header({ user }: HeaderProps) {
   return (
     <header className={`flex items-center gap-4 border-b px-6 py-3.5 transition-colors ${
       isAdmin
-        ? "bg-[#fdf6e9] border-[#e3d3ae] shadow-[0_1px_4px_rgba(180,150,100,0.08)]"
-        : "bg-[#fffdf8]/95 backdrop-blur border-[#e8e2d2] shadow-[0_1px_4px_rgba(14,77,92,0.05)]"
+        ? "bg-[#fdf6e9] border-[#e3d3ae] shadow-[0_1px_4px_rgba(180,150,100,0.08)] dark:bg-[#1c1708] dark:border-[#c9a227]/25"
+        : "bg-[#fffdf8]/95 backdrop-blur border-[#e8e2d2] shadow-[0_1px_4px_rgba(14,77,92,0.05)] dark:bg-[#081c24]/95 dark:border-white/10"
     }`}>
       {isAdmin && (
         <div className="flex items-center gap-1.5 mr-2">
@@ -183,9 +184,9 @@ export function Header({ user }: HeaderProps) {
             onFocus={() => {
               if (results.length > 0 || specialResults.length > 0 || tceResults.length > 0) setIsOpen(true);
             }}
-            className="h-11 pl-11 pr-16 rounded-full bg-[#faf6ee] border-[#e8e2d2] shadow-inner placeholder:text-muted-foreground/70 focus-visible:bg-white focus-visible:border-[#0e4d5c]/40 focus-visible:ring-4 focus-visible:ring-[#c9a227]/15 transition-all"
+            className="h-11 pl-11 pr-16 rounded-full bg-[#faf6ee] border-[#e8e2d2] shadow-inner placeholder:text-muted-foreground/70 focus-visible:bg-white focus-visible:border-[#0e4d5c]/40 focus-visible:ring-4 focus-visible:ring-[#c9a227]/15 transition-all dark:bg-white/5 dark:border-white/10 dark:focus-visible:bg-[#0d232c]"
           />
-          <kbd className="absolute right-3.5 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-0.5 rounded-md border border-[#e8e2d2] bg-white px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground shadow-sm">
+          <kbd className="absolute right-3.5 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-0.5 rounded-md border border-[#e8e2d2] bg-white px-1.5 py-0.5 dark:border-white/15 dark:bg-white/10 text-[10px] font-medium text-muted-foreground shadow-sm">
             <span className="text-xs">⌘</span>K
           </kbd>
         </div>
@@ -193,7 +194,7 @@ export function Header({ user }: HeaderProps) {
         {isOpen && (results.length > 0 || specialResults.length > 0 || tceResults.length > 0) && (
           <div
             ref={dropdownRef}
-            className="absolute top-full left-0 right-0 z-50 mt-2 rounded-2xl border border-[#e8e2d2] bg-white/97 backdrop-blur-sm shadow-[var(--shadow-lg)] max-h-80 overflow-y-auto"
+            className="absolute top-full left-0 right-0 z-50 mt-2 rounded-2xl border border-[#e8e2d2] bg-white/97 backdrop-blur-sm dark:border-white/10 dark:bg-[#0d232c] shadow-[var(--shadow-lg)] max-h-80 overflow-y-auto"
           >
             {results.length > 0 && (
               <div className="p-1">
@@ -208,7 +209,7 @@ export function Header({ user }: HeaderProps) {
                       setIsOpen(false);
                       setQuery("");
                     }}
-                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-[#faf6ee] ${
+                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-[#faf6ee] dark:hover:bg-white/5 ${
                       i === selectedIndex ? "bg-[#faf6ee]" : ""
                     }`}
                   >
@@ -239,7 +240,7 @@ export function Header({ user }: HeaderProps) {
                       setIsOpen(false);
                       setQuery("");
                     }}
-                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-[#faf6ee] ${
+                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-[#faf6ee] dark:hover:bg-white/5 ${
                       i + results.length === selectedIndex ? "bg-[#faf6ee]" : ""
                     }`}
                   >
@@ -261,7 +262,7 @@ export function Header({ user }: HeaderProps) {
                       setIsOpen(false);
                       setQuery("");
                     }}
-                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-[#faf6ee] ${
+                    className={`block rounded-sm px-3 py-2 text-sm hover:bg-[#faf6ee] dark:hover:bg-white/5 ${
                       i + results.length + specialResults.length === selectedIndex ? "bg-[#faf6ee]" : ""
                     }`}
                   >
@@ -276,7 +277,7 @@ export function Header({ user }: HeaderProps) {
                 onClick={() => {
                   setIsOpen(false);
                 }}
-                className="block rounded-sm px-3 py-2 text-sm text-muted-foreground hover:bg-[#faf6ee]"
+                className="block rounded-sm px-3 py-2 text-sm text-muted-foreground hover:bg-[#faf6ee] dark:hover:bg-white/5"
               >
                 View all results for &ldquo;{query}&rdquo;
               </Link>
@@ -286,14 +287,15 @@ export function Header({ user }: HeaderProps) {
       </div>
 
       <div className="ml-auto flex items-center gap-4">
-        <div className="hidden h-9 w-px bg-[#e8e2d2] sm:block" />
+        <ThemeToggle />
+        <div className="hidden h-9 w-px bg-[#e8e2d2] dark:bg-white/10 sm:block" />
         {user && (
           <button
             onClick={() => setActivityOpen(true)}
             title="Your activity on the Snapshot"
-            className="group flex cursor-pointer items-center gap-3 rounded-full py-1 pl-1 pr-2 transition-colors hover:bg-[#faf6ee]"
+            className="group flex cursor-pointer items-center gap-3 rounded-full py-1 pl-1 pr-2 transition-colors hover:bg-[#faf6ee] dark:hover:bg-white/5"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#0e5a6e] to-[#07222b] text-[13px] font-semibold text-white ring-2 ring-[#c9a227]/60 ring-offset-2 ring-offset-[#fffdf8] transition-transform group-hover:scale-[1.04]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#0e5a6e] to-[#07222b] text-[13px] font-semibold text-white ring-2 ring-[#c9a227]/60 ring-offset-2 ring-offset-[#fffdf8] dark:ring-offset-[#081c24] transition-transform group-hover:scale-[1.04]">
               {user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
             </div>
             <div className="hidden text-left leading-tight md:block">
@@ -307,7 +309,7 @@ export function Header({ user }: HeaderProps) {
         {user?.role === 'admin' && !isAdmin && (
           <Link
             href="/admin"
-            className="inline-flex items-center gap-1.5 rounded-full border border-[#0e4d5c]/30 bg-white px-3.5 py-1.5 text-sm font-medium text-[#0e4d5c] shadow-sm transition-all hover:bg-[#0e4d5c] hover:text-white"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#0e4d5c]/30 bg-white px-3.5 py-1.5 text-sm font-medium text-[#0e4d5c] shadow-sm transition-all hover:bg-[#0e4d5c] hover:text-white dark:bg-transparent dark:text-[#6db3c4] dark:border-[#6db3c4]/40 dark:hover:bg-[#6db3c4] dark:hover:text-[#052530]"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1-1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
             Admin
@@ -315,7 +317,7 @@ export function Header({ user }: HeaderProps) {
         )}
         <button
           onClick={handleLogout}
-          className="inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-[#faf6ee] hover:text-foreground"
+          className="inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-[#faf6ee] dark:hover:bg-white/5 hover:text-foreground"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
           Sign out

@@ -85,7 +85,14 @@ export default async function RootLayout({
   // Not authenticated or must change password — render bare layout for login/set-password pages
   if (!user || user.must_change_password) {
     return (
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("snapshot-theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}})();`,
+          }}
+        />
+      </head>
         <body className={`${fraunces.variable} ${openSans.variable} antialiased`}>
           {children}
         </body>
@@ -97,7 +104,14 @@ export default async function RootLayout({
   const siteSettings = await getSiteSettings();
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("snapshot-theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body
         className={`${fraunces.variable} ${openSans.variable} antialiased`}
       >
@@ -106,7 +120,7 @@ export default async function RootLayout({
           <div className="flex flex-1 flex-col overflow-hidden">
             <Header user={{ name: user.name, role: user.role }} />
             {siteSettings.announcement_enabled && siteSettings.announcement_text && (
-              <div className="border-b border-[#c9a227]/50 bg-[#c9a227]/15 px-4 py-2 text-center text-[13px] text-[#22332c]">
+              <div className="border-b border-[#c9a227]/50 bg-[#c9a227]/15 px-4 py-2 text-center text-[13px] text-[#22332c] dark:text-[#f0ead8]">
                 {siteSettings.announcement_href ? (
                   <a href={siteSettings.announcement_href} className="font-medium underline decoration-[#c9a227] underline-offset-2 hover:text-[#0e4d5c]">
                     {siteSettings.announcement_text}

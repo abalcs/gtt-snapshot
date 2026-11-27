@@ -89,37 +89,40 @@
 }
 
 .dark {
-  --background: #0d2027;
-  --foreground: #e8f0ec;
-  --card: #123039;
-  --card-foreground: #e8f0ec;
-  --popover: #123039;
-  --popover-foreground: #e8f0ec;
-  --primary: #7fb6c4;
-  --primary-foreground: #1a2b22;
-  --secondary: #2a3a30;
-  --secondary-foreground: #e8f0ec;
-  --muted: #2a3a30;
-  --muted-foreground: #8ca09a;
-  --accent: #2a3a30;
-  --accent-foreground: #e8f0ec;
-  --destructive: #ef4444;
-  --border: rgba(178, 202, 184, 0.2);
-  --input: rgba(178, 202, 184, 0.25);
-  --ring: #7fb6c4;
-  --chart-1: #6b9a88;
-  --chart-2: #9abcad;
-  --chart-3: #b2cab8;
-  --chart-4: #0e4d5c;
-  --chart-5: #2a4a40;
-  --sidebar: #22332a;
-  --sidebar-foreground: #e8f0ec;
-  --sidebar-primary: #6b9a88;
-  --sidebar-primary-foreground: #e8f0ec;
-  --sidebar-accent: #2a3a30;
-  --sidebar-accent-foreground: #e8f0ec;
-  --sidebar-border: rgba(178, 202, 184, 0.2);
-  --sidebar-ring: #6b9a88;
+  --background: #07161c;
+  --foreground: #f0ead8;
+  --card: #0d232c;
+  --card-foreground: #f0ead8;
+  --popover: #0d232c;
+  --popover-foreground: #f0ead8;
+  --primary: #6db3c4;
+  --primary-foreground: #052530;
+  --secondary: #123039;
+  --secondary-foreground: #f0ead8;
+  --muted: #102a33;
+  --muted-foreground: #9db4ad;
+  --accent: #14333d;
+  --accent-foreground: #f0ead8;
+  --destructive: #f87171;
+  --border: rgba(240, 234, 216, 0.1);
+  --input: rgba(240, 234, 216, 0.16);
+  --ring: #c9a227;
+  --chart-1: #6db3c4;
+  --chart-2: #c9a227;
+  --chart-3: #3e7f92;
+  --chart-4: #e7cb6b;
+  --chart-5: #20586b;
+  --sidebar: #0a2b37;
+  --sidebar-foreground: #f3efe4;
+  --sidebar-primary: #c9a227;
+  --sidebar-primary-foreground: #07222b;
+  --sidebar-accent: #175263;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(240, 234, 216, 0.08);
+  --sidebar-ring: #c9a227;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4), 0 6px 14px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 6px 10px rgba(0, 0, 0, 0.45), 0 14px 28px rgba(0, 0, 0, 0.4);
 }
 
 @layer base {
@@ -156,6 +159,12 @@
     height: 1px;
   }
 }
+/* Dark mode scrollbar: quiet, deep teal */
+.dark ::-webkit-scrollbar { width: 10px; height: 10px; }
+.dark ::-webkit-scrollbar-thumb { background: #1d4351; border-radius: 8px; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #2a5a6c; }
+.dark ::-webkit-scrollbar-track { background: transparent; }
+
 /* ---- Premium polish (redesign) ---- */
 ::selection {
   background: rgba(201, 162, 39, 0.35);
