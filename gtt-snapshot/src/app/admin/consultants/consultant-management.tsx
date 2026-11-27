@@ -298,7 +298,7 @@ export function ConsultantManagement() {
                     <span className="flex items-center gap-1.5">
                       {c.name}
                       {c.is_tam && (
-                        <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-300 text-[10px] px-1.5 py-0">TAM</Badge>
+                        <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300 hover:bg-amber-100 border-amber-300 text-[10px] px-1.5 py-0">TAM</Badge>
                       )}
                     </span>
                   </TableCell>

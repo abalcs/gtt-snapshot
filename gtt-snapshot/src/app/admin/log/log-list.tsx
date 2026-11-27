@@ -17,9 +17,9 @@ import { EmptyState } from "@/components/ui/empty-state";
 import type { AdminLogEntry } from "@/lib/types";
 
 const actionColors: Record<string, string> = {
-  created: "bg-green-100 text-green-800 border-green-200",
-  updated: "bg-blue-100 text-blue-800 border-blue-200",
-  deleted: "bg-red-100 text-red-800 border-red-200",
+  created: "bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300 border-green-200",
+  updated: "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300 border-blue-200",
+  deleted: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300 border-red-200",
 };
 
 const actionLabels: Record<string, string> = {

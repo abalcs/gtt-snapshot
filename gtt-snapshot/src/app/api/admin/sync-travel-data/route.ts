@@ -4,6 +4,8 @@ import { batchUpsertTravelData, getAllTravelData } from "@/lib/travel-data-queri
 import { fipsToIsoCode } from "@/lib/fips-codes";
 import * as cheerio from "cheerio";
 
+export const maxDuration = 300;
+
 async function requireAuth(request: NextRequest): Promise<boolean> {
   // Dev bypass
   if (process.env.BYPASS_AUTH === "true") return true;
@@ -253,13 +255,17 @@ const cdcSlugs: Record<string, string> = {
   ZM: "zambia", ZW: "zimbabwe",
 };
 
-async function syncHealth(): Promise<{ count: number; errors: string[] }> {
+async function syncHealth(onlyCodes?: string[]): Promise<{ count: number; errors: string[] }> {
   const errors: string[] = [];
   let count = 0;
 
   // Get all existing travel data codes to know which countries to fetch
   const existing = await getAllTravelData();
-  const codes = existing.map(td => td.country_code).filter(Boolean);
+  const allCodes = existing.map(td => td.country_code).filter(Boolean);
+  const wanted = onlyCodes?.map(c => c.toUpperCase());
+  const codes = wanted && wanted.length > 0
+    ? allCodes.filter(c => wanted.includes(c.toUpperCase()))
+    : allCodes;
 
   if (codes.length === 0) {
     return { count: 0, errors: ["No country codes in travel_data — run advisories or visa sync first"] };
@@ -268,16 +274,20 @@ async function syncHealth(): Promise<{ count: number; errors: string[] }> {
   const entries: { code: string; data: Record<string, unknown> }[] = [];
   const now = new Date().toISOString();
 
-  for (const code of codes) {
-    const slug = cdcSlugs[code];
+  const queue = [...codes];
+  async function worker() {
+    while (queue.length > 0) {
+      const code = queue.shift()!;
+      const slug = cdcSlugs[code];
     if (!slug) {
       errors.push(`CDC ${code}: no CDC slug mapping — skipped`);
       continue;
     }
 
     try {
-      // Rate limit: 1 request/second to be polite to CDC
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Small stagger between requests to be polite to CDC; the pool of
+      // workers below is what keeps the whole sync inside one request.
+      await new Promise(resolve => setTimeout(resolve, 120));
 
       const url = `https://wwwnc.cdc.gov/travel/destinations/traveler/none/${slug}`;
       const res = await fetch(url, {
@@ -375,13 +385,24 @@ async function syncHealth(): Promise<{ count: number; errors: string[] }> {
     } catch (err) {
       errors.push(`CDC ${code}: ${err instanceof Error ? err.message : String(err)}`);
     }
+    }
   }
+  await Promise.all(Array.from({ length: 6 }, () => worker()));
 
   if (entries.length > 0) {
     await batchUpsertTravelData(entries);
   }
 
   return { count, errors };
+}
+
+export async function GET(request: NextRequest) {
+  const authorized = await requireAuth(request);
+  if (!authorized) {
+    return NextResponse.json({ error: "Admin access required" }, { status: 403 });
+  }
+  const data = await getAllTravelData();
+  return NextResponse.json({ data });
 }
 
 export async function POST(request: NextRequest) {
@@ -405,7 +426,9 @@ export async function POST(request: NextRequest) {
     }
 
     if (syncType === "health" || syncType === "all") {
-      results.health = await syncHealth();
+      const codesParam = searchParams.get("codes");
+      const onlyCodes = codesParam ? codesParam.split(",").filter(Boolean) : undefined;
+      results.health = await syncHealth(onlyCodes);
     }
 
     if (!results.advisories && !results.visa && !results.health) {

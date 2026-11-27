@@ -5,10 +5,10 @@ import { TAG_CATEGORIES, type TagCategory } from "@/lib/tags";
 import type { TagDefinition } from "@/lib/types";
 
 const categoryColorMap: Record<TagCategory, string> = {
-  'trip-style': 'bg-blue-100 text-blue-800 border-blue-300',
-  'activities': 'bg-green-100 text-green-800 border-green-300',
-  'traveler-profile': 'bg-purple-100 text-purple-800 border-purple-300',
-  'landscape': 'bg-amber-100 text-amber-800 border-amber-300',
+  'trip-style': 'bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300 border-blue-300 dark:bg-blue-500/15 dark:text-blue-300 dark:border-blue-500/30',
+  'activities': 'bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300 border-green-300 dark:bg-green-500/15 dark:text-green-300 dark:border-green-500/30',
+  'traveler-profile': 'bg-purple-100 text-purple-800 dark:bg-purple-500/15 dark:text-purple-300 border-purple-300 dark:bg-purple-500/15 dark:text-purple-300 dark:border-purple-500/30',
+  'landscape': 'bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300 border-amber-300 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30',
 };
 
 const categoryActiveMap: Record<TagCategory, string> = {

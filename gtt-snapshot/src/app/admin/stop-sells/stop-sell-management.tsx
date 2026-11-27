@@ -48,9 +48,9 @@ function getCountdownText(expires: string | null): string {
 
 function StatusBadge({ status }: { status: "expired" | "expiring_soon" | "active" | "no_date" }) {
   const styles = {
-    expired: "bg-red-100 text-red-800 border-red-200",
-    expiring_soon: "bg-amber-100 text-amber-800 border-amber-200",
-    active: "bg-green-100 text-green-800 border-green-200",
+    expired: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300 border-red-200",
+    expiring_soon: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300 border-amber-200",
+    active: "bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300 border-green-200",
     no_date: "bg-gray-100 text-gray-600 border-gray-200",
   };
   const labels = {
@@ -197,12 +197,12 @@ export function StopSellManagement() {
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-red-700 via-red-600 to-red-500 px-8 py-6 shadow-[var(--shadow-md)]">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-[#0d4256] via-[#0e4d5c] to-[#07222b] px-8 py-6 shadow-[var(--shadow-md)]">
         <div className="absolute inset-0 bg-dots opacity-[0.06]" />
         <div className="relative flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-white">Stop Sell Management</h1>
-            <p className="text-red-100">{entries.length} destinations with stop sells or urgency alerts</p>
+            <p className="text-white/70">{entries.length} destinations with stop sells or urgency alerts</p>
           </div>
           <div className="flex gap-2">
             <Button
@@ -231,10 +231,10 @@ export function StopSellManagement() {
       {/* Summary bar */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {([
-          { key: "expired" as const, label: "Expired", color: "border-red-300 bg-red-50", textColor: "text-red-700", countColor: "text-red-800" },
-          { key: "expiring_soon" as const, label: "Expiring Soon", color: "border-amber-300 bg-amber-50", textColor: "text-amber-700", countColor: "text-amber-800" },
-          { key: "active" as const, label: "Active", color: "border-green-300 bg-green-50", textColor: "text-green-700", countColor: "text-green-800" },
-          { key: "no_date" as const, label: "No Date Set", color: "border-gray-300 bg-gray-50", textColor: "text-gray-600", countColor: "text-gray-800" },
+          { key: "expired" as const, label: "Expired", color: "border-red-300 bg-red-50 dark:border-red-500/30 dark:bg-red-500/10", textColor: "text-red-700 dark:text-red-300", countColor: "text-red-800 dark:text-red-200" },
+          { key: "expiring_soon" as const, label: "Expiring Soon", color: "border-amber-300 bg-amber-50 dark:border-amber-500/30 dark:bg-amber-500/10", textColor: "text-amber-700 dark:text-amber-300", countColor: "text-amber-800 dark:text-amber-200" },
+          { key: "active" as const, label: "Active", color: "border-green-300 bg-green-50 dark:border-green-500/30 dark:bg-green-500/10", textColor: "text-green-700 dark:text-green-300", countColor: "text-green-800 dark:text-green-200" },
+          { key: "no_date" as const, label: "No Date Set", color: "border-gray-300 bg-gray-50 dark:border-gray-500/30 dark:bg-gray-500/10 dark:border-gray-500/30 dark:bg-gray-500/10", textColor: "text-gray-600 dark:text-gray-300", countColor: "text-gray-800 dark:text-gray-100" },
         ]).map(({ key, label, color, textColor, countColor }) => (
           <button
             key={key}

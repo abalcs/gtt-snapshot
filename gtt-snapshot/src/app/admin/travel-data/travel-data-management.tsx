@@ -16,10 +16,10 @@ interface SyncResult {
 function advisoryBadge(level: number | null) {
   if (level === null) return <Badge variant="outline">No data</Badge>;
   const colors: Record<number, string> = {
-    1: "bg-green-100 text-green-800 border-green-300",
-    2: "bg-yellow-100 text-yellow-800 border-yellow-300",
-    3: "bg-orange-100 text-orange-800 border-orange-300",
-    4: "bg-red-100 text-red-800 border-red-300",
+    1: "bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300 border-green-300 dark:bg-green-500/15 dark:text-green-300 dark:border-green-500/30",
+    2: "bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300 border-yellow-300 dark:bg-yellow-500/15 dark:text-yellow-300 dark:border-yellow-500/30",
+    3: "bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300 border-orange-300 dark:bg-orange-500/15 dark:text-orange-300 dark:border-orange-500/30",
+    4: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300 border-red-300 dark:bg-red-500/15 dark:text-red-300 dark:border-red-500/30",
   };
   const labels: Record<number, string> = {
     1: "Exercise Normal Precautions",
@@ -48,33 +48,77 @@ export function TravelDataManagement({ initialData }: { initialData: TravelData[
   const [syncing, setSyncing] = useState<Record<string, boolean>>({});
   const [results, setResults] = useState<Record<string, SyncResult | null>>({});
   const [error, setError] = useState("");
+  const [progress, setProgress] = useState("");
   const [search, setSearch] = useState("");
+
+  async function postSync(type: string, codes?: string[]) {
+    const qs = codes ? `?type=${type}&codes=${codes.join(",")}` : `?type=${type}`;
+    const res = await fetch(`/api/admin/sync-travel-data${qs}`, { method: "POST" });
+    let json: { error?: string; results?: Record<string, SyncResult> } = {};
+    try {
+      json = await res.json();
+    } catch {
+      // A timed-out request returns an HTML error page, not JSON
+    }
+    if (!res.ok) throw new Error(json.error || `Sync failed (HTTP ${res.status})`);
+    return json.results ?? {};
+  }
+
+  async function refreshData() {
+    try {
+      const res = await fetch("/api/admin/sync-travel-data");
+      if (res.ok) {
+        const json = await res.json();
+        if (Array.isArray(json.data)) setData(json.data);
+      }
+    } catch {
+      // Keep showing the previous data if the refresh fails
+    }
+  }
 
   async function handleSync(type: string) {
     setSyncing(prev => ({ ...prev, [type]: true }));
-    setResults(prev => ({ ...prev, [type]: null }));
     setError("");
+    setProgress("");
 
     try {
-      const res = await fetch(`/api/admin/sync-travel-data?type=${type}`, { method: "POST" });
-      const json = await res.json();
-
-      if (!res.ok) {
-        setError(json.error || "Sync failed");
-        return;
+      if (type === "health" || type === "all") {
+        if (type === "all") {
+          const adv = await postSync("advisories");
+          setResults(prev => ({ ...prev, ...adv }));
+          const visa = await postSync("visa");
+          setResults(prev => ({ ...prev, ...visa }));
+        }
+        // Health runs in chunks of 25 countries per request, so no single
+        // request can time out the way the old all-in-one sync did.
+        const codes = data.map(td => td.country_code).filter(Boolean);
+        if (codes.length === 0) {
+          const h = await postSync("health");
+          setResults(prev => ({ ...prev, ...h }));
+        } else {
+          const CHUNK = 25;
+          let total = 0;
+          const errs: string[] = [];
+          for (let i = 0; i < codes.length; i += CHUNK) {
+            const slice = codes.slice(i, i + CHUNK);
+            setProgress(`Health data: ${Math.min(i + CHUNK, codes.length)} of ${codes.length} countries`);
+            const r = await postSync("health", slice);
+            if (r.health) {
+              total += r.health.count;
+              errs.push(...r.health.errors);
+            }
+          }
+          setResults(prev => ({ ...prev, health: { count: total, errors: errs } }));
+        }
+      } else {
+        const r = await postSync(type);
+        setResults(prev => ({ ...prev, ...r }));
       }
-
-      setResults(prev => ({ ...prev, ...json.results }));
-
-      // Refresh data
-      const dataRes = await fetch("/api/admin/sync-travel-data?type=status", { method: "GET" });
-      if (dataRes.status === 405) {
-        // GET not supported, just reload
-        window.location.reload();
-      }
+      await refreshData();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sync failed");
     } finally {
+      setProgress("");
       setSyncing(prev => ({ ...prev, [type]: false }));
     }
   }
@@ -127,7 +171,7 @@ export function TravelDataManagement({ initialData }: { initialData: TravelData[
                 {syncing.advisories ? "Syncing..." : "Sync Advisories"}
               </Button>
               {results.advisories && (
-                <p className="text-xs text-green-600">
+                <p className="text-xs text-green-600 dark:text-green-400">
                   Updated {results.advisories.count} countries
                   {results.advisories.errors.length > 0 && (
                     <span className="text-red-600"> ({results.advisories.errors.length} errors)</span>
@@ -148,7 +192,7 @@ export function TravelDataManagement({ initialData }: { initialData: TravelData[
                 {syncing.visa ? "Syncing..." : "Sync Visa"}
               </Button>
               {results.visa && (
-                <p className="text-xs text-green-600">
+                <p className="text-xs text-green-600 dark:text-green-400">
                   Updated {results.visa.count} countries
                   {results.visa.errors.length > 0 && (
                     <span className="text-red-600"> ({results.visa.errors.length} errors)</span>
@@ -169,7 +213,7 @@ export function TravelDataManagement({ initialData }: { initialData: TravelData[
                 {syncing.health ? "Syncing..." : "Sync Health"}
               </Button>
               {results.health && (
-                <p className="text-xs text-green-600">
+                <p className="text-xs text-green-600 dark:text-green-400">
                   Updated {results.health.count} countries
                   {results.health.errors.length > 0 && (
                     <span className="text-red-600"> ({results.health.errors.length} errors)</span>
@@ -192,15 +236,19 @@ export function TravelDataManagement({ initialData }: { initialData: TravelData[
             </div>
           </div>
 
+          {progress && (
+            <p className="text-xs text-muted-foreground">Syncing... {progress}</p>
+          )}
+
           {error && (
-            <p className="text-sm text-red-600 bg-red-50 rounded p-2">{error}</p>
+            <p className="text-sm text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-500/10 rounded p-2">{error}</p>
           )}
 
           {/* Show detailed errors from sync */}
           {Object.entries(results).map(([type, result]) => {
             if (!result?.errors.length) return null;
             return (
-              <div key={type} className="text-xs text-red-600 bg-red-50 rounded p-2">
+              <div key={type} className="text-xs text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-500/10 rounded p-2">
                 <p className="font-semibold">{type} errors:</p>
                 {result.errors.map((e, i) => (
                   <p key={i}>{e}</p>
@@ -262,7 +310,7 @@ export function TravelDataManagement({ initialData }: { initialData: TravelData[
                       </td>
                       <td className="py-2 px-2">
                         {td.health_synced_at ? (
-                          <Badge variant="outline" className="bg-blue-50 text-blue-700">
+                          <Badge variant="outline" className="bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300">
                             {td.health_vaccines_required.length + td.health_vaccines_recommended.length} vaccines
                           </Badge>
                         ) : (

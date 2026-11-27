@@ -697,7 +697,7 @@ export function DestinationForm({ destination, regions }: Props) {
               const colorMap: Record<string, { active: string; inactive: string }> = {
                 sky:     { active: 'bg-sky-600 text-white border-sky-600',       inactive: 'bg-sky-50 text-sky-700 border-sky-200 hover:bg-sky-100' },
                 emerald: { active: 'bg-emerald-600 text-white border-emerald-600', inactive: 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100' },
-                orange:  { active: 'bg-orange-600 text-white border-orange-600',   inactive: 'bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100' },
+                orange:  { active: 'bg-orange-600 text-white border-orange-600',   inactive: 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-500/10 dark:text-orange-300 dark:border-orange-500/30 hover:bg-orange-100' },
                 rose:    { active: 'bg-rose-600 text-white border-rose-600',       inactive: 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100' },
               };
               const colors = colorMap[season.color] ?? { active: 'bg-gray-600 text-white', inactive: 'bg-gray-100 text-gray-700' };

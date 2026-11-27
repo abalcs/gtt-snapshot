@@ -41,15 +41,15 @@ const categoryLabels: Record<string, string> = {
 };
 
 const categoryColors: Record<string, string> = {
-  "edit-suggestion": "bg-blue-100 text-blue-800",
-  "feature-request": "bg-purple-100 text-purple-800",
-  general: "bg-gray-100 text-gray-800",
+  "edit-suggestion": "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300 dark:bg-blue-500/15 dark:text-blue-300",
+  "feature-request": "bg-purple-100 text-purple-800 dark:bg-purple-500/15 dark:text-purple-300 dark:bg-purple-500/15 dark:text-purple-300",
+  general: "bg-gray-100 text-gray-800 dark:bg-gray-500/15 dark:text-gray-300 dark:bg-gray-500/15 dark:text-gray-300",
 };
 
 const statusColors: Record<string, string> = {
-  new: "bg-green-100 text-green-800",
-  reviewed: "bg-amber-100 text-amber-800",
-  archived: "bg-gray-100 text-gray-500",
+  new: "bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300 dark:bg-green-500/15 dark:text-green-300",
+  reviewed: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300 dark:bg-amber-500/15 dark:text-amber-300",
+  archived: "bg-gray-100 text-gray-500 dark:bg-gray-500/15 dark:text-gray-300 dark:bg-gray-500/15 dark:text-gray-300",
 };
 
 export function FeedbackManagement() {
@@ -280,7 +280,7 @@ export function FeedbackManagement() {
                           <p className="text-xs text-muted-foreground mb-1">
                             Admin Notes
                           </p>
-                          <p className="text-sm whitespace-pre-wrap bg-amber-50 rounded p-3 border border-amber-200">
+                          <p className="text-sm whitespace-pre-wrap bg-amber-50 rounded p-3 border border-amber-200 dark:bg-amber-500/10 dark:border-amber-500/30">
                             {item.admin_notes}
                           </p>
                         </div>

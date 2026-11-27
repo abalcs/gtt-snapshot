@@ -37,7 +37,7 @@ function ComparisonArrow({ comparison }: { comparison: PeriodComparison }) {
   if (change_pct === 0) return <span className="text-xs text-muted-foreground ml-1">—</span>;
   const isUp = change_pct > 0;
   return (
-    <span className={`text-xs font-medium ml-1 ${isUp ? "text-green-600" : "text-red-600"}`}>
+    <span className={`text-xs font-medium ml-1 ${isUp ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
       {isUp ? "↑" : "↓"} {Math.abs(change_pct)}%
     </span>
   );
@@ -62,10 +62,10 @@ function StatCardV2({
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-baseline">
-              <span className="text-2xl font-bold">{value}</span>
+              <span className="font-serif text-3xl font-semibold text-[#0e4d5c] dark:text-[#6db3c4]">{value}</span>
               {comparison && <ComparisonArrow comparison={comparison} />}
             </div>
-            <p className="text-xs text-muted-foreground">{label}</p>
+            <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-muted-foreground">{label}</p>
             {sub && <p className="text-[10px] text-muted-foreground mt-0.5">{sub}</p>}
           </div>
           {sparkData && sparkData.length > 1 && (
@@ -79,9 +79,9 @@ function StatCardV2({
 
 function TierBadge({ tier }: { tier: EngagementTier }) {
   const styles: Record<EngagementTier, string> = {
-    power: "bg-green-100 text-green-700",
-    regular: "bg-blue-100 text-blue-700",
-    inactive: "bg-gray-100 text-gray-500",
+    power: "bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-300 dark:bg-green-500/15 dark:text-green-300",
+    regular: "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300 dark:bg-blue-500/15 dark:text-blue-300",
+    inactive: "bg-gray-100 text-gray-500 dark:bg-gray-500/15 dark:text-gray-300 dark:bg-gray-500/15 dark:text-gray-300",
   };
   return (
     <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${styles[tier]}`}>
@@ -130,7 +130,7 @@ function ActivityHeatmap({ cells }: { cells: HeatmapCell[] }) {
                     style={{
                       backgroundColor: val === 0
                         ? "hsl(var(--muted))"
-                        : `rgba(58, 95, 84, ${0.15 + intensity * 0.85})`,
+                        : `rgba(23, 110, 130, ${0.15 + intensity * 0.85})`,
                     }}
                     title={`${day} ${hour}:00 — ${val} views`}
                   />
@@ -418,7 +418,7 @@ export function AnalyticsDashboard() {
         <div className="flex items-center gap-3">
           <button
             onClick={handleExport}
-            className="px-3 py-1.5 text-xs font-medium rounded-md bg-[#0e4d5c] text-white hover:bg-[#2e4d43] transition-colors"
+            className="px-3 py-1.5 text-xs font-medium rounded-md bg-[#0e4d5c] text-white hover:bg-[#0d4256] transition-colors"
           >
             Export CSV
           </button>
@@ -689,9 +689,9 @@ export function AnalyticsDashboard() {
                           </td>
                           <td className="py-1.5">
                             <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                              d.status === "active" ? "bg-green-100 text-green-700" :
-                              d.status === "stop_sell" ? "bg-red-100 text-red-700" :
-                              "bg-gray-100 text-gray-500"
+                              d.status === "active" ? "bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-300 dark:bg-green-500/15 dark:text-green-300" :
+                              d.status === "stop_sell" ? "bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-300 dark:bg-red-500/15 dark:text-red-300" :
+                              "bg-gray-100 text-gray-500 dark:bg-gray-500/15 dark:text-gray-300 dark:bg-gray-500/15 dark:text-gray-300"
                             }`}>
                               {d.status}
                             </span>

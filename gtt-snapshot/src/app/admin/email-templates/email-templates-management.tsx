@@ -40,8 +40,8 @@ const TEMPLATE_TYPES = ["Standard", "Very Soon Departure", "Long-Range Planning"
 
 const TYPE_COLORS: Record<string, string> = {
   Standard: "bg-emerald-100 text-emerald-800 border-emerald-300",
-  "Very Soon Departure": "bg-amber-100 text-amber-800 border-amber-300",
-  "Long-Range Planning": "bg-blue-100 text-blue-800 border-blue-300",
+  "Very Soon Departure": "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300 border-amber-300 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30",
+  "Long-Range Planning": "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300 border-blue-300 dark:bg-blue-500/15 dark:text-blue-300 dark:border-blue-500/30",
 };
 
 const emptyForm: FormData = {
