@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getSiteSettings } from "@/lib/site-settings";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getAllDestinations, getAdminLogs } from "@/lib/queries";
@@ -38,6 +39,8 @@ export default async function HomePage() {
     })
     .map(([name, destinations]) => ({ name, destinations }));
 
+  const siteSettings = await getSiteSettings();
+
   // Search suggestions: a few recognisable destinations that exist in the data
   const preferred = ["Kenya", "Japan", "Italy", "Peru", "New Zealand", "South Africa", "India"];
   const available = new Set(allDestinations.map((d) => d.name));
@@ -53,10 +56,8 @@ export default async function HomePage() {
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0d4256] via-[#0e4d5c] to-[#07222b] px-8 py-10">
         <div className="absolute inset-0 bg-dots opacity-10" />
         <div className="relative max-w-2xl">
-          <h1 className="text-4xl font-bold tracking-tight text-white">GTT Country Snapshot</h1>
-          <p className="text-white/70 mt-2 text-base">
-            The Audley Travel destination reference guide. Start with a search, or browse by region below.
-          </p>
+          <h1 className="text-4xl font-bold tracking-tight text-white">{siteSettings.hero_title}</h1>
+          <p className="text-white/70 mt-2 text-base">{siteSettings.hero_subtitle}</p>
           <div className="mt-4 h-0.5 w-24 bg-[#c9a227]" />
           <form action="/search" method="get" className="mt-6 flex gap-2">
             <div className="relative flex-1">

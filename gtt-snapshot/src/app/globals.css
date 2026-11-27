@@ -156,3 +156,28 @@
     height: 1px;
   }
 }
+/* ---- Premium polish (redesign) ---- */
+::selection {
+  background: rgba(201, 162, 39, 0.35);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fadeUp 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* Respect reduced motion on the login page: keep the still gradient, drop the video */
+@media (prefers-reduced-motion: reduce) {
+  .login-video { display: none; }
+  .animate-fade-up { animation: none; }
+}
+
+/* Print: advisors print destination pages — strip the app chrome */
+@media print {
+  aside, header { display: none !important; }
+  html, body { height: auto !important; overflow: visible !important; background: #fff !important; }
+  body * { overflow: visible !important; }
+}

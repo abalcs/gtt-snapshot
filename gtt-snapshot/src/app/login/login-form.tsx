@@ -64,7 +64,7 @@ export function LoginForm() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Layer 1: Sage gradient fallback (visible while video loads) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#3a5f54] via-[#2a4a40] to-[#1e3830]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0d4256] via-[#0e4d5c] to-[#07222b]" />
 
       {/* Layer 2: Slow-motion video background */}
       <video
@@ -72,32 +72,34 @@ export function LoginForm() {
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
+        className="login-video absolute inset-0 w-full h-full object-cover"
       >
         <source src={videoUrl} type="video/mp4" />
       </video>
 
       {/* Layer 3: Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#07222b]/70 via-black/35 to-[#07222b]/75" />
 
       {/* Layer 4: Login content */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen">
+      <div className="relative z-10 flex items-center justify-center min-h-screen animate-fade-up">
         <div className="w-full max-w-sm mx-4">
           {/* Branding */}
           <div className="text-center mb-8">
-            <h1 className="text-white text-2xl font-serif font-bold tracking-tight">
+            <p className="text-[#c9a227] text-[11px] font-semibold uppercase tracking-[0.35em]">Audley Travel</p>
+            <h1 className="text-white text-4xl font-serif font-semibold tracking-tight mt-2">
               GTT Country Snapshot
             </h1>
-            <p className="text-white/50 text-sm mt-1">Audley Travel</p>
+            <div className="mx-auto mt-4 h-px w-16 bg-[#c9a227]/80" />
+            <p className="text-white/60 text-sm mt-3">The Global Travel Team destination reference</p>
           </div>
 
           {/* Login card */}
           <div className="backdrop-blur-md bg-white/95 rounded-xl shadow-2xl border border-white/20 overflow-hidden">
-          <div className="h-1 bg-gradient-to-r from-[#3a5f54] via-[#6b9a88] to-[#3a5f54]" />
+          <div className="h-1 bg-gradient-to-r from-[#c9a227] via-[#e7cb6b] to-[#c9a227]" />
           <div className="p-8">
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#3a5f54]/10 mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3a5f54" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0e4d5c]/10 mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0e4d5c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
                   <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                 </svg>
@@ -119,7 +121,7 @@ export function LoginForm() {
                   placeholder="you@audleytravel.com"
                   autoFocus
                   required
-                  className="w-full rounded-lg border border-gray-300 bg-gray-50/50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54]/40 focus:border-[#3a5f54] transition-colors"
+                  className="w-full rounded-lg border border-gray-300 bg-gray-50/50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0e4d5c]/30 focus:border-[#0e4d5c] transition-colors"
                 />
               </div>
 
@@ -134,7 +136,7 @@ export function LoginForm() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   required
-                  className="w-full rounded-lg border border-gray-300 bg-gray-50/50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54]/40 focus:border-[#3a5f54] transition-colors"
+                  className="w-full rounded-lg border border-gray-300 bg-gray-50/50 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0e4d5c]/30 focus:border-[#0e4d5c] transition-colors"
                 />
               </div>
 
@@ -145,7 +147,7 @@ export function LoginForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-lg bg-gradient-to-b from-[#3a5f54] to-[#2a4a40] text-white px-4 py-2.5 text-sm font-medium hover:from-[#2a4a40] hover:to-[#1e3830] transition-all shadow-[var(--shadow-md)] active:translate-y-px disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full rounded-lg bg-gradient-to-b from-[#0e5a6e] to-[#0d4256] text-white px-4 py-2.5 text-sm font-medium hover:from-[#0d4256] hover:to-[#07222b] transition-all shadow-[var(--shadow-md)] active:translate-y-px disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading && (
                   <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -157,13 +159,14 @@ export function LoginForm() {
               </button>
 
               <div className="text-center">
-                <Link href="/recover" className="text-sm text-[#3a5f54] hover:underline">
+                <Link href="/recover" className="text-sm text-[#0e4d5c] hover:underline">
                   Forgot password?
                 </Link>
               </div>
             </form>
           </div>
           </div>
+          <p className="text-center text-white/45 text-xs mt-6">Authorised Audley Travel staff only</p>
         </div>
       </div>
     </div>

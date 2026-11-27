@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/header";
 import { PageTransition } from "@/components/layout/page-transition";
 import { AdminShell } from "@/components/layout/admin-shell";
 import { getSidebarData } from "@/lib/queries";
+import { getSiteSettings } from "@/lib/site-settings";
 import { getPublishedPages } from "@/lib/pages";
 import { getContinentForDestination, getContinentOrder } from "@/lib/continents";
 import { getCurrentUser } from "@/lib/admin-auth";
@@ -93,6 +94,7 @@ export default async function RootLayout({
   }
 
   const sidebarData = await fetchSidebarData();
+  const siteSettings = await getSiteSettings();
 
   return (
     <html lang="en">
@@ -103,6 +105,17 @@ export default async function RootLayout({
           <Sidebar initialData={sidebarData} />
           <div className="flex flex-1 flex-col overflow-hidden">
             <Header user={{ name: user.name, role: user.role }} />
+            {siteSettings.announcement_enabled && siteSettings.announcement_text && (
+              <div className="border-b border-[#c9a227]/50 bg-[#c9a227]/15 px-4 py-2 text-center text-[13px] text-[#22332c]">
+                {siteSettings.announcement_href ? (
+                  <a href={siteSettings.announcement_href} className="font-medium underline decoration-[#c9a227] underline-offset-2 hover:text-[#0e4d5c]">
+                    {siteSettings.announcement_text}
+                  </a>
+                ) : (
+                  siteSettings.announcement_text
+                )}
+              </div>
+            )}
             <AdminShell>
               <PageTransition>
                 {children}
