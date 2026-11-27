@@ -27,12 +27,19 @@ export const EMPTY_FILTERS: ChooserFilters = {
   maxFlightTime: null,
 };
 
+export interface FilterAvailability {
+  tags: boolean;
+  seasons: boolean;
+  accessibility: boolean;
+}
+
 interface FilterPanelProps {
   filters: ChooserFilters;
   onChange: (next: ChooserFilters) => void;
   tagDefinitions: TagDefinition[];
   shownCount: number;
   totalCount: number;
+  availability?: FilterAvailability;
 }
 
 const CHIP =
@@ -49,7 +56,10 @@ function track(type: string, value: string) {
   );
 }
 
-export function FilterPanel({ filters, onChange, tagDefinitions, shownCount, totalCount }: FilterPanelProps) {
+export function FilterPanel({ filters, onChange, tagDefinitions, shownCount, totalCount, availability }: FilterPanelProps) {
+  const tagsAvailable = availability?.tags ?? true;
+  const seasonsAvailable = availability?.seasons ?? true;
+  const accessibilityAvailable = availability?.accessibility ?? true;
   const { tags, seasons, budget, accessibility, months, departureCity, maxFlightTime } = filters;
 
   const toggleIn = (list: string[], value: string) =>
@@ -164,15 +174,21 @@ export function FilterPanel({ filters, onChange, tagDefinitions, shownCount, tot
 
       {/* Seasons */}
       <div>
-        <p className="text-sm font-medium text-muted-foreground mb-2">Best in</p>
+        <p className="text-sm font-medium text-muted-foreground mb-2">
+          Best in
+          {!seasonsAvailable && (
+            <span className="ml-2 text-xs font-normal">(season data isn&apos;t in this copy of the site)</span>
+          )}
+        </p>
         <div className="flex flex-wrap gap-2">
           {SEASONS.map((season) => {
             const isActive = seasons.includes(season.slug);
             return (
               <button
                 key={season.slug}
+                disabled={!seasonsAvailable}
                 onClick={() => toggleSeason(season.slug)}
-                className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF}`}
+                className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF} disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100`}
               >
                 {season.label}
                 <span className={`text-xs ${isActive ? "opacity-80" : "opacity-60"}`}>{season.subtitle}</span>
@@ -204,15 +220,21 @@ export function FilterPanel({ filters, onChange, tagDefinitions, shownCount, tot
 
       {/* Accessibility */}
       <div>
-        <p className="text-sm font-medium text-muted-foreground mb-2">Accessibility needs?</p>
+        <p className="text-sm font-medium text-muted-foreground mb-2">
+          Accessibility needs?
+          {!accessibilityAvailable && (
+            <span className="ml-2 text-xs font-normal">(accessibility data isn&apos;t in this copy of the site)</span>
+          )}
+        </p>
         <div className="flex flex-wrap gap-2">
           {ACCESSIBILITY_FILTERS.map((filter) => {
             const isActive = accessibility.includes(filter.slug);
             return (
               <button
                 key={filter.slug}
+                disabled={!accessibilityAvailable}
                 onClick={() => toggleAccessibility(filter.slug)}
-                className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF}`}
+                className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF} disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100`}
               >
                 {filter.label}
                 <span className={`text-xs ${isActive ? "opacity-80" : "opacity-60"}`}>{filter.description}</span>
@@ -228,15 +250,21 @@ export function FilterPanel({ filters, onChange, tagDefinitions, shownCount, tot
         if (catTags.length === 0) return null;
         return (
           <div key={cat.key}>
-            <p className="text-sm font-medium text-muted-foreground mb-2">{cat.label}</p>
+            <p className="text-sm font-medium text-muted-foreground mb-2">
+              {cat.label}
+              {!tagsAvailable && cat.key === "trip-style" && (
+                <span className="ml-2 text-xs font-normal">(tag data isn&apos;t in this copy of the site)</span>
+              )}
+            </p>
             <div className="flex flex-wrap gap-2">
               {catTags.map((tag) => {
                 const isActive = tags.includes(tag.slug);
                 return (
                   <button
                     key={tag.slug}
+                    disabled={!tagsAvailable}
                     onClick={() => toggleTag(tag.slug)}
-                    className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF}`}
+                    className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF} disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100`}
                   >
                     {tag.label}
                   </button>

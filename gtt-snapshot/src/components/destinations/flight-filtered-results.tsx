@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { FilterPanel, EMPTY_FILTERS, type ChooserFilters } from "@/components/destinations/filter-panel";
+import { FilterPanel, EMPTY_FILTERS, type ChooserFilters, type FilterAvailability } from "@/components/destinations/filter-panel";
 import { DestinationGrid } from "@/components/destinations/destination-grid";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -65,24 +65,7 @@ interface Preset {
   filters: ChooserFilters;
 }
 
-const PRESETS: Preset[] = [
-  {
-    label: "Safari honeymoon",
-    filters: { ...EMPTY_FILTERS, tags: ["safari-and-wildlife", "honeymoon-and-romance"] },
-  },
-  {
-    label: "Family summer",
-    filters: { ...EMPTY_FILTERS, tags: ["family-friendly"], months: [5, 6, 7] },
-  },
-  {
-    label: "Under 10 hours from New York",
-    filters: { ...EMPTY_FILTERS, departureCity: "JFK", maxFlightTime: 10 },
-  },
-  {
-    label: "First big trip",
-    filters: { ...EMPTY_FILTERS, tags: ["first-international-trip"] },
-  },
-];
+
 
 const CHIP =
   "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-all duration-150 cursor-pointer hover:scale-[1.03]";
@@ -97,8 +80,47 @@ export function FlightFilteredResults({
   initialFilters,
   initialViewMode,
 }: FlightFilteredResultsProps) {
-  const [filters, setFilters] = useState<ChooserFilters>(initialFilters);
+  // Some data sets (including the local seed) carry no tags, best_seasons or
+  // accessibility scores at all. Detect that so the UI can say so instead of
+  // silently returning zero results for those filters.
+  const availability: FilterAvailability = {
+    tags: destinations.some((d) => (d.tags ?? []).length > 0),
+    seasons: destinations.some((d) => (d.best_seasons ?? []).length > 0),
+    accessibility: destinations.some(
+      (d) =>
+        d.terrain_difficulty != null ||
+        d.wheelchair_friendliness != null ||
+        d.walking_required != null ||
+        d.altitude_concern != null
+    ),
+  };
+
+  const [filters, setFilters] = useState<ChooserFilters>(() => ({
+    ...initialFilters,
+    tags: availability.tags ? initialFilters.tags : [],
+    seasons: availability.seasons ? initialFilters.seasons : [],
+    accessibility: availability.accessibility ? initialFilters.accessibility : [],
+  }));
   const filtered = useMemo(() => applyFilters(destinations, filters), [destinations, filters]);
+
+  const presets: Preset[] = useMemo(() => {
+    const list: Preset[] = [
+      { label: "Summer highlights", filters: { ...EMPTY_FILTERS, months: [5, 6, 7] } },
+      { label: "Best value", filters: { ...EMPTY_FILTERS, budget: ["best-value"] } },
+      {
+        label: "Under 10 hours from New York",
+        filters: { ...EMPTY_FILTERS, departureCity: "JFK", maxFlightTime: 10 },
+      },
+      { label: "Premium splurge", filters: { ...EMPTY_FILTERS, budget: ["premium"] } },
+    ];
+    if (availability.tags) {
+      list.unshift(
+        { label: "Safari", filters: { ...EMPTY_FILTERS, tags: ["safari-and-wildlife"] } },
+        { label: "Honeymoon", filters: { ...EMPTY_FILTERS, tags: ["honeymoon-and-romance"] } }
+      );
+    }
+    return list;
+  }, [availability.tags]);
 
   // Keep the URL in step (without a page reload) so shortlists stay shareable.
   useEffect(() => {
@@ -160,7 +182,7 @@ export function FlightFilteredResults({
             Take the brief here. The shortlist below updates as you go, and you can refine it further underneath.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
-            {PRESETS.map((preset) => (
+            {presets.map((preset) => (
               <button
                 key={preset.label}
                 onClick={() => setFilters(preset.filters)}
@@ -198,15 +220,21 @@ export function FlightFilteredResults({
           </div>
 
           <div>
-            <p className="mb-2 text-sm font-medium text-muted-foreground">They love</p>
+            <p className="mb-2 text-sm font-medium text-muted-foreground">
+              They love
+              {!availability.tags && (
+                <span className="ml-2 text-xs font-normal">(tag data isn&apos;t in this copy of the site)</span>
+              )}
+            </p>
             <div className="flex flex-wrap gap-2">
               {loveTags.map((tag) => {
                 const isActive = filters.tags.includes(tag.slug);
                 return (
                   <button
                     key={tag.slug}
+                    disabled={!availability.tags}
                     onClick={() => setFilters({ ...filters, tags: toggleIn(filters.tags, tag.slug) })}
-                    className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF}`}
+                    className={`${CHIP} ${isActive ? CHIP_ON : CHIP_OFF} disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100`}
                   >
                     {tag.label}
                   </button>
@@ -302,6 +330,7 @@ export function FlightFilteredResults({
         tagDefinitions={tagDefinitions}
         shownCount={filtered.length}
         totalCount={destinations.length}
+        availability={availability}
       />
 
       {filtered.length > 0 ? (
