@@ -3,7 +3,7 @@ import { getUserByEmail, verifyPassword, createSession } from '@/lib/user-querie
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json();
+    const { email, password, remember } = await request.json();
 
     if (!email || !password) {
       return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
@@ -23,7 +23,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
-    const token = await createSession(user.id);
+    const sessionHours = remember ? 24 * 30 : 24;
+    const token = await createSession(user.id, sessionHours);
 
     const response = NextResponse.json({
       success: true,
@@ -36,7 +37,7 @@ export async function POST(request: NextRequest) {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: 60 * 60 * 24, // 24 hours
+      maxAge: 60 * 60 * sessionHours, // 24 hours, or 30 days with 'keep me signed in'
     });
 
     return response;

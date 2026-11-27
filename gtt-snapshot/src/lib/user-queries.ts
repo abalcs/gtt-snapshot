@@ -79,10 +79,10 @@ export async function verifyPassword(user: User, password: string): Promise<bool
 
 // ── Session CRUD ────────────────────────────────────────
 
-export async function createSession(userId: string): Promise<string> {
+export async function createSession(userId: string, durationHours: number = 24): Promise<string> {
   const token = crypto.randomBytes(32).toString('hex');
   const now = new Date();
-  const expiresAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24h
+  const expiresAt = new Date(now.getTime() + durationHours * 60 * 60 * 1000);
 
   await db().collection('sessions').doc(token).set({
     user_id: userId,
