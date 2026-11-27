@@ -163,7 +163,7 @@ export function Header({ user }: HeaderProps) {
   }, []);
 
   return (
-    <header className={`flex items-center gap-4 border-b px-6 py-3.5 transition-colors ${
+    <header className={`relative z-[1100] flex items-center gap-4 border-b px-6 py-3.5 transition-colors ${
       isAdmin
         ? "bg-[#fdf6e9] border-[#e3d3ae] shadow-[0_1px_4px_rgba(180,150,100,0.08)] dark:bg-[#1c1708] dark:border-[#c9a227]/25"
         : "bg-[#fffdf8]/95 backdrop-blur border-[#e8e2d2] shadow-[0_1px_4px_rgba(14,77,92,0.05)] dark:bg-[#081c24]/95 dark:border-white/10"
