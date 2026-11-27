@@ -123,7 +123,7 @@ export function DestinationGrid({
           onClick={() => compareMode ? exitCompareMode() : setCompareMode(true)}
           className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-sm font-medium transition-colors ${
             compareMode
-              ? "border-[#3a5f54] bg-[#3a5f54] text-white"
+              ? "border-[#0e4d5c] bg-[#0e4d5c] text-white"
               : "border-input hover:bg-muted"
           }`}
         >
@@ -136,7 +136,7 @@ export function DestinationGrid({
               type="checkbox"
               checked={hideDimmed}
               onChange={(e) => setHideDimmed(e.target.checked)}
-              className="h-3.5 w-3.5 rounded border-gray-300 accent-[#3a5f54]"
+              className="h-3.5 w-3.5 rounded border-gray-300 accent-[#0e4d5c]"
             />
             Hide non-matching
           </label>

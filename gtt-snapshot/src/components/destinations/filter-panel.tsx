@@ -163,7 +163,7 @@ export function FilterPanel({ currentTags, currentSeasons, currentBudget, curren
                 onValueChange={([v]) => onMaxFlightTimeChange(v)}
                 className="flex-1"
               />
-              <span className="text-sm font-medium text-[#3a5f54] whitespace-nowrap w-[60px]">
+              <span className="text-sm font-medium text-[#0e4d5c] whitespace-nowrap w-[60px]">
                 {maxFlightTime !== null && maxFlightTime < 20 ? `${maxFlightTime}h` : "Any"}
               </span>
             </div>

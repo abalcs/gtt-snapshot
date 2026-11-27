@@ -285,7 +285,7 @@ export function StopSellManagement() {
                     return (
                       <tr key={entry.slug} className="border-b last:border-b-0 hover:bg-muted/50">
                         <td className="py-2.5 pr-3">
-                          <Link href={`/destinations/${entry.slug}`} className="font-medium text-[#3a5f54] hover:underline">
+                          <Link href={`/destinations/${entry.slug}`} className="font-medium text-[#0e4d5c] hover:underline">
                             {entry.name}
                           </Link>
                         </td>

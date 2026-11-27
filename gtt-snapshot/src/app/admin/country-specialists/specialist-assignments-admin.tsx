@@ -133,7 +133,7 @@ export function SpecialistAssignmentsAdmin() {
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       {/* Header */}
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-[#3a5f54] via-[#2d5246] to-[#1e3830] px-8 py-6 shadow-[var(--shadow-md)]">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-[#0e4d5c] via-[#2d5246] to-[#1e3830] px-8 py-6 shadow-[var(--shadow-md)]">
         <div className="absolute inset-0 bg-dots opacity-[0.06]" />
         <div className="relative flex items-center justify-between">
           <div>
@@ -142,7 +142,7 @@ export function SpecialistAssignmentsAdmin() {
           </div>
           <div className="flex gap-2">
             {!seeded && (
-              <Button onClick={handleSeed} disabled={seeding} className="bg-white text-[#3a5f54] hover:bg-white/90">
+              <Button onClick={handleSeed} disabled={seeding} className="bg-white text-[#0e4d5c] hover:bg-white/90">
                 {seeding ? "Seeding..." : "Seed to Firestore"}
               </Button>
             )}
@@ -160,13 +160,13 @@ export function SpecialistAssignmentsAdmin() {
           placeholder="Search by country or specialist name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54]/30"
+          className="w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#0e4d5c]/30"
         />
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setActiveRegion(null)}
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-              activeRegion === null ? "bg-[#3a5f54] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              activeRegion === null ? "bg-[#0e4d5c] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
             All ({entries.length})
@@ -179,7 +179,7 @@ export function SpecialistAssignmentsAdmin() {
                 onClick={() => setActiveRegion(activeRegion === region ? null : region)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                   activeRegion === region
-                    ? "bg-[#3a5f54] text-white border-[#3a5f54]"
+                    ? "bg-[#0e4d5c] text-white border-[#0e4d5c]"
                     : REGION_COLORS[region] || "bg-gray-50 text-gray-600 border-gray-200"
                 }`}
               >

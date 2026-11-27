@@ -80,7 +80,7 @@ export function MapPopupCard({
       <div className="flex items-center justify-between pt-1 border-t border-border">
         <Link
           href={`/destinations/${destination.slug}`}
-          className="text-xs font-medium text-[#3a5f54] hover:underline"
+          className="text-xs font-medium text-[#0e4d5c] hover:underline"
         >
           View Details &rarr;
         </Link>
@@ -90,7 +90,7 @@ export function MapPopupCard({
               type="checkbox"
               checked={isSelected}
               onChange={() => onToggleCompare(destination.slug)}
-              className="h-3.5 w-3.5 rounded border-gray-300 text-[#3a5f54] accent-[#3a5f54]"
+              className="h-3.5 w-3.5 rounded border-gray-300 text-[#0e4d5c] accent-[#0e4d5c]"
             />
             Compare
           </label>

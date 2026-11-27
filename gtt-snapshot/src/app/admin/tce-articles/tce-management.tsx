@@ -244,7 +244,7 @@ export function TceManagement() {
             const catColors = CATEGORY_COLORS[article.category];
             return (
               <section key={article.slug} className="border rounded-lg overflow-hidden shadow-[var(--shadow-sm)]">
-                <div className="flex items-center bg-gradient-to-r from-[#f0f5f2] to-[#e8f0ec] border-l-4 border-l-[#3a5f54]">
+                <div className="flex items-center bg-gradient-to-r from-[#f0f5f2] to-[#e8f0ec] border-l-4 border-l-[#0e4d5c]">
                   <button
                     onClick={() => toggleExpand(article.slug)}
                     className="flex flex-1 items-center justify-between px-4 py-3 hover:from-[#e8f0ec] hover:to-[#dde9e3] transition-colors"

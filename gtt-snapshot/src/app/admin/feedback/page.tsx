@@ -9,7 +9,7 @@ export default async function FeedbackPage() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-6 p-6">
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-[#3a5f54] via-[#2d5246] to-[#1e3830] px-8 py-6 shadow-[var(--shadow-md)]">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-[#0e4d5c] via-[#2d5246] to-[#1e3830] px-8 py-6 shadow-[var(--shadow-md)]">
         <div className="absolute inset-0 bg-dots opacity-[0.06]" />
         <div className="relative flex items-center justify-between">
           <div>

@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { PricingTable } from "@/components/destinations/pricing-table";
 import { SeasonalityDisplay } from "@/components/destinations/seasonality-display";
 import { ClientTypes } from "@/components/destinations/client-types";
@@ -23,6 +22,15 @@ import { FlightTimeWidget } from "@/components/destinations/flight-time-widget";
 
 export const dynamic = 'force-dynamic';
 
+function SectionHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="mb-3 flex items-center gap-3">
+      <h2 className="font-serif text-[22px] font-semibold tracking-tight">{children}</h2>
+      <span className="h-px flex-1 bg-gradient-to-r from-[#c9a227]/50 via-border to-transparent" />
+    </div>
+  );
+}
+
 function formatInline(text: unknown): string {
   if (!text) return "";
   const str = String(text)
@@ -33,7 +41,7 @@ function formatInline(text: unknown): string {
   return str
     .replace(
       /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
-      '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[#3a5f54] font-medium underline decoration-[#3a5f54]/30 underline-offset-2 hover:decoration-[#3a5f54] transition-colors">$1</a>'
+      '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[#0e4d5c] font-medium underline decoration-[#0e4d5c]/30 underline-offset-2 hover:decoration-[#0e4d5c] transition-colors">$1</a>'
     )
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
 }
@@ -59,6 +67,27 @@ export default async function DestinationDetailPage({
   const pairWithItems = destination.pair_with
     ? destination.pair_with.split(/,|\//).map((s) => s.trim()).filter(Boolean)
     : [];
+
+  // Hero quick facts: peak season range and a short nights label, when the data supports them
+  let bestTime: string | null = null;
+  if (destination.seasonality) {
+    try {
+      const seasons = (Array.isArray(destination.seasonality)
+        ? destination.seasonality
+        : JSON.parse(destination.seasonality)) as { level?: string; date_range?: string }[];
+      const peak = seasons.find((s) => (s.level ?? "").toLowerCase() === "peak");
+      bestTime = peak?.date_range ?? null;
+    } catch { /* seasonality is free text for some destinations */ }
+  }
+  const nightNum = destination.night_min !== null && destination.night_min !== undefined && String(destination.night_min).trim() !== "" && !Number.isNaN(Number(destination.night_min))
+    ? Number(destination.night_min)
+    : null;
+  const nightsLabel = nightNum !== null
+    ? `${nightNum} night${nightNum === 1 ? "" : "s"} minimum`
+    : destination.night_min && String(destination.night_min).trim().length <= 24
+      ? String(destination.night_min).trim()
+      : null;
+  const destByName = new Map(allDestinations.map((d) => [d.name.toLowerCase(), d.slug]));
 
   const coords = getCoordinates(slug);
 
@@ -91,8 +120,8 @@ export default async function DestinationDetailPage({
   return (
     <div className="max-w-4xl mx-auto space-y-6 print:space-y-4">
       {/* Hero Header */}
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-[#3a5f54] via-[#2a4a40] to-[#1e3830] px-8 py-6">
-        <div className="absolute inset-0 bg-dots opacity-[0.06]" />
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0d4256] via-[#0e4d5c] to-[#07222b] px-8 py-7 shadow-[var(--shadow-md)]">
+        <div className="absolute inset-0 bg-dots opacity-10" />
         <div className="relative">
           <div className="flex items-center gap-2 text-sm text-white/60 mb-3">
             <Link href="/" className="hover:text-white/90 transition-colors">Home</Link>
@@ -104,18 +133,18 @@ export default async function DestinationDetailPage({
             <span className="text-white/80">{destination.name}</span>
           </div>
           <div className="flex items-start justify-between gap-4">
-            <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-2">
+            <h1 className="font-serif text-4xl font-semibold tracking-tight text-white flex items-center gap-3">
               {getFlagUrl(destination.name) && (
                 <img
                   src={getFlagUrl(destination.name)}
                   alt=""
-                  className="h-6 w-8 object-cover rounded-sm inline-block"
+                  className="h-8 w-11 object-cover rounded shadow ring-1 ring-white/30 inline-block"
                 />
               )}
               {destination.name}
             </h1>
             <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="bg-white/20 text-white border-white/20">{destination.region_name}</Badge>
+              <Badge variant="secondary" className="bg-[#c9a227]/15 text-[#e8cf7a] border-[#c9a227]/30">{destination.region_name}</Badge>
               {destination.status !== "active" && (
                 <Badge variant="destructive">
                   {destination.status === "stop_sell" ? "Stop Sell" : "Not Selling"}
@@ -129,10 +158,25 @@ export default async function DestinationDetailPage({
             </div>
           )}
           {(destination.date_updated || destination.updated_by) && (
-            <p className="text-sm font-medium text-amber-300 mt-2">
+            <p className="text-[13px] font-medium text-[#e8cf7a]/90 mt-2">
               Last updated{destination.date_updated ? ` on ${destination.date_updated}` : ""}
               {destination.updated_by ? ` by ${destination.updated_by}` : ""}
             </p>
+          )}
+
+          {(bestTime || nightsLabel) && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {bestTime && (
+                <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white/85">
+                  Best time: {bestTime}
+                </span>
+              )}
+              {nightsLabel && (
+                <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white/85">
+                  {nightsLabel}
+                </span>
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -160,12 +204,12 @@ export default async function DestinationDetailPage({
 
       {/* Talking Points */}
       {destination.talking_points && (
-        <Card id="talking-points" className="border-l-4 border-l-[#3a5f54] bg-white scroll-mt-20">
+        <Card id="talking-points" className="border-l-4 border-l-[#c9a227] bg-white scroll-mt-20">
           <CardContent className="pt-4 pb-4">
             <div className="flex items-start gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#3a5f54] mt-0.5 shrink-0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#0e4d5c] mt-0.5 shrink-0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               <div>
-                <h3 className="font-semibold text-[#3a5f54] text-sm">Talking Points</h3>
+                <h3 className="font-serif font-semibold text-[#0e4d5c] text-base">Talking Points</h3>
                 <p className="text-sm text-foreground/80 whitespace-pre-line" dangerouslySetInnerHTML={{ __html: formatInline(destination.talking_points) }} />
               </div>
             </div>
@@ -217,7 +261,7 @@ export default async function DestinationDetailPage({
         {destination.night_min && (
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Night Minimum</CardTitle>
+              <CardTitle className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Night Minimum</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm whitespace-pre-line" dangerouslySetInnerHTML={{ __html: formatInline(destination.night_min) }} />
@@ -227,7 +271,7 @@ export default async function DestinationDetailPage({
         {destination.solo_pricing && (
           <Card className={!pricingVisible ? "relative" : ""}>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Solo Pricing</CardTitle>
+              <CardTitle className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Solo Pricing</CardTitle>
             </CardHeader>
             <CardContent className={!pricingVisible ? "blur-sm select-none" : ""}>
               <p className="text-sm" dangerouslySetInnerHTML={{ __html: formatInline(destination.solo_pricing) }} />
@@ -237,7 +281,7 @@ export default async function DestinationDetailPage({
         {destination.pax_limit && (
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Pax Limit</CardTitle>
+              <CardTitle className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Pax Limit</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm" dangerouslySetInnerHTML={{ __html: formatInline(destination.pax_limit) }} />
@@ -247,7 +291,7 @@ export default async function DestinationDetailPage({
         {destination.how_to_feature && (
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">How to Feature</CardTitle>
+              <CardTitle className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">How to Feature</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm" dangerouslySetInnerHTML={{ __html: formatInline(destination.how_to_feature) }} />
@@ -259,9 +303,8 @@ export default async function DestinationDetailPage({
       {/* Key Facts */}
       {destination.key_facts && (
         <>
-          <Separator />
           <div id="key-facts" className="scroll-mt-20">
-            <h2 className="text-lg font-semibold mb-3">Key Facts</h2>
+            <SectionHeading>Key Facts</SectionHeading>
             <KeyFactsDisplay keyFacts={destination.key_facts} />
           </div>
         </>
@@ -270,9 +313,8 @@ export default async function DestinationDetailPage({
       {/* Pricing */}
       {destination.pricing_tiers.length > 0 && (
         <>
-          <Separator />
           <div id="pricing" className="scroll-mt-20">
-            <h2 className="text-lg font-semibold mb-3">Pricing</h2>
+            <SectionHeading>Pricing</SectionHeading>
             <PricingTable tiers={destination.pricing_tiers} footnotes={destination.pricing_footnotes} obscured={!pricingVisible} />
           </div>
         </>
@@ -281,9 +323,8 @@ export default async function DestinationDetailPage({
       {/* Seasonality */}
       {destination.seasonality && (
         <>
-          <Separator />
           <div id="seasonality" className="scroll-mt-20">
-            <h2 className="text-lg font-semibold mb-3">Seasonality</h2>
+            <SectionHeading>Seasonality</SectionHeading>
             <SeasonalityDisplay seasonality={destination.seasonality} />
           </div>
         </>
@@ -292,9 +333,8 @@ export default async function DestinationDetailPage({
       {/* Client Types */}
       {(destination.client_types_good || destination.client_types_okay || destination.client_types_bad) && (
         <>
-          <Separator />
           <div id="client-types" className="scroll-mt-20">
-            <h2 className="text-lg font-semibold mb-3">Client Types</h2>
+            <SectionHeading>Client Types</SectionHeading>
             <ClientTypes
               good={destination.client_types_good}
               okay={destination.client_types_okay}
@@ -307,9 +347,8 @@ export default async function DestinationDetailPage({
       {/* Mobility & Accessibility */}
       {(destination.terrain_difficulty !== null || destination.wheelchair_friendliness !== null || destination.walking_required !== null || destination.altitude_concern !== null || destination.mobility_notes) && (
         <>
-          <Separator />
           <div id="mobility" className="scroll-mt-20">
-            <h2 className="text-lg font-semibold mb-3">Mobility & Accessibility</h2>
+            <SectionHeading>Mobility & Accessibility</SectionHeading>
             <MobilityAccessibility
               terrainDifficulty={destination.terrain_difficulty}
               wheelchairFriendliness={destination.wheelchair_friendliness}
@@ -324,9 +363,8 @@ export default async function DestinationDetailPage({
       {/* Accommodations */}
       {destination.accommodations && (
         <>
-          <Separator />
           <div id="accommodations" className="scroll-mt-20">
-            <h2 className="text-lg font-semibold mb-3">Accommodations</h2>
+            <SectionHeading>Accommodations</SectionHeading>
             <ul className="list-disc list-inside space-y-1 text-sm leading-relaxed">
               {destination.accommodations.split("\n").filter((l: string) => l.trim()).map((line: string, i: number) => (
                 <li key={i} dangerouslySetInnerHTML={{ __html: formatInline(line.trim()) }} />
@@ -336,7 +374,7 @@ export default async function DestinationDetailPage({
               href={destination.accommodation_url || `https://www.audleytravel.com/us/${slug}/accommodation`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 mt-3 px-3 py-1.5 text-sm font-medium border rounded-md hover:bg-muted transition-colors"
+              className="inline-flex items-center gap-1.5 mt-3 px-3 py-1.5 text-sm font-medium border border-[#0e4d5c]/30 text-[#0e4d5c] rounded-md hover:bg-[#0e4d5c]/5 transition-colors"
             >
               View Accommodations on Audley
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -348,9 +386,8 @@ export default async function DestinationDetailPage({
       {/* General Notes */}
       {(destination.general_notes_1 || destination.general_notes_2) && (
         <>
-          <Separator />
           <div id="general-notes" className="scroll-mt-20 space-y-4">
-            <h2 className="text-lg font-semibold">General Notes</h2>
+            <SectionHeading>General Notes</SectionHeading>
             {destination.general_notes_1 && (
               <p className="text-sm whitespace-pre-line leading-relaxed" dangerouslySetInnerHTML={{ __html: formatInline(destination.general_notes_1) }} />
             )}
@@ -364,15 +401,25 @@ export default async function DestinationDetailPage({
       {/* Pair With */}
       {pairWithItems.length > 0 && (
         <>
-          <Separator />
           <div id="pair-with" className="scroll-mt-20">
-            <h2 className="text-lg font-semibold mb-3">Pair With</h2>
+            <SectionHeading>Pair With</SectionHeading>
             <div className="flex flex-wrap gap-2">
-              {pairWithItems.map((item) => (
-                <Badge key={item} variant="outline" className="text-sm">
-                  {item}
-                </Badge>
-              ))}
+              {pairWithItems.map((item) => {
+                const matchSlug = destByName.get(item.toLowerCase());
+                return matchSlug && matchSlug !== slug ? (
+                  <Link
+                    key={item}
+                    href={`/destinations/${matchSlug}`}
+                    className="rounded-full border border-[#0e4d5c]/25 bg-[#0e4d5c]/5 px-3 py-1 text-sm font-medium text-[#0e4d5c] transition-colors hover:bg-[#0e4d5c]/10"
+                  >
+                    {item}
+                  </Link>
+                ) : (
+                  <Badge key={item} variant="outline" className="text-sm">
+                    {item}
+                  </Badge>
+                );
+              })}
             </div>
           </div>
         </>
@@ -381,9 +428,8 @@ export default async function DestinationDetailPage({
       {/* Related Destinations */}
       {relatedDestinations.length > 0 && (
         <>
-          <Separator />
           <div id="related" className="scroll-mt-20">
-            <h2 className="text-lg font-semibold mb-3">Related Destinations</h2>
+            <SectionHeading>Related Destinations</SectionHeading>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {relatedDestinations.map((dest) => (
                 <DestinationCard key={dest.id} destination={dest} tagDefinitions={tagDefinitions} />

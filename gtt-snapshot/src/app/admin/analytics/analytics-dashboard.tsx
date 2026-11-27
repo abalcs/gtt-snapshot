@@ -27,7 +27,7 @@ function Sparkline({ data, width = 80, height = 24 }: { data: number[]; width?: 
     .join(" ");
   return (
     <svg width={width} height={height} className="inline-block">
-      <polyline points={points} fill="none" stroke="#3a5f54" strokeWidth="1.5" />
+      <polyline points={points} fill="none" stroke="#0e4d5c" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -94,7 +94,7 @@ function ScoreBar({ score, max }: { score: number; max: number }) {
   const pct = Math.min((score / Math.max(max, 1)) * 100, 100);
   return (
     <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-      <div className="h-full bg-[#3a5f54] rounded-full" style={{ width: `${pct}%` }} />
+      <div className="h-full bg-[#0e4d5c] rounded-full" style={{ width: `${pct}%` }} />
     </div>
   );
 }
@@ -153,7 +153,7 @@ function FunnelChart({ stages }: { stages: FunnelStage[] }) {
           <span className="text-xs text-muted-foreground w-28 text-right shrink-0">{stage.label}</span>
           <div className="flex-1 flex justify-center">
             <div
-              className="h-8 bg-[#3a5f54] rounded-sm flex items-center justify-center transition-all"
+              className="h-8 bg-[#0e4d5c] rounded-sm flex items-center justify-center transition-all"
               style={{
                 width: `${Math.max(stage.pct_of_top, 8)}%`,
                 opacity: 1 - i * 0.12,
@@ -262,7 +262,7 @@ function DateRangePicker({
           onClick={() => onRangeChange(d)}
           className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
             range === d
-              ? "bg-[#3a5f54] text-white"
+              ? "bg-[#0e4d5c] text-white"
               : "bg-muted text-muted-foreground hover:bg-muted/80"
           }`}
         >
@@ -305,7 +305,7 @@ function BarChart({ data, maxBars = 20 }: { data: { label: string; value: number
           <span className="text-xs text-muted-foreground w-28 truncate text-right shrink-0">{item.label}</span>
           <div className="flex-1 h-5 bg-muted rounded-sm overflow-hidden">
             <div
-              className="h-full bg-[#3a5f54] rounded-sm transition-all"
+              className="h-full bg-[#0e4d5c] rounded-sm transition-all"
               style={{ width: `${(item.value / max) * 100}%` }}
             />
           </div>
@@ -328,7 +328,7 @@ function HourlyStrip({ hours }: { hours: number[] }) {
         {hours.map((count, i) => (
           <div key={i} className="flex-1 flex flex-col justify-end" title={`${i}:00 — ${count} views`}>
             <div
-              className="bg-[#3a5f54]/70 rounded-t-sm min-h-[2px]"
+              className="bg-[#0e4d5c]/70 rounded-t-sm min-h-[2px]"
               style={{ height: `${(count / max) * 100}%` }}
             />
           </div>
@@ -393,7 +393,7 @@ export function AnalyticsDashboard() {
   if (!mounted || loading) {
     return (
       <div className="flex items-center justify-center py-16 gap-3">
-        <svg className="animate-spin h-5 w-5 text-[#3a5f54]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <svg className="animate-spin h-5 w-5 text-[#0e4d5c]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
         </svg>
@@ -418,7 +418,7 @@ export function AnalyticsDashboard() {
         <div className="flex items-center gap-3">
           <button
             onClick={handleExport}
-            className="px-3 py-1.5 text-xs font-medium rounded-md bg-[#3a5f54] text-white hover:bg-[#2e4d43] transition-colors"
+            className="px-3 py-1.5 text-xs font-medium rounded-md bg-[#0e4d5c] text-white hover:bg-[#2e4d43] transition-colors"
           >
             Export CSV
           </button>
@@ -637,11 +637,11 @@ export function AnalyticsDashboard() {
                         <span className="text-xs text-muted-foreground w-28 truncate text-right shrink-0">{d.slug}</span>
                         <div className="flex-1 h-5 bg-muted rounded-sm overflow-hidden relative">
                           <div
-                            className="absolute top-0 left-0 h-full bg-[#3a5f54]/30 rounded-sm"
+                            className="absolute top-0 left-0 h-full bg-[#0e4d5c]/30 rounded-sm"
                             style={{ width: `${(d.views / maxV) * 100}%` }}
                           />
                           <div
-                            className="absolute top-0 left-0 h-full bg-[#3a5f54] rounded-sm"
+                            className="absolute top-0 left-0 h-full bg-[#0e4d5c] rounded-sm"
                             style={{ width: `${(d.clicks / maxC) * 100}%` }}
                           />
                         </div>
@@ -653,8 +653,8 @@ export function AnalyticsDashboard() {
                   })}
                 </div>
                 <div className="flex gap-4 mt-2 text-[10px] text-muted-foreground">
-                  <span className="flex items-center gap-1"><span className="w-3 h-2 bg-[#3a5f54]/30 rounded-sm inline-block" /> Views</span>
-                  <span className="flex items-center gap-1"><span className="w-3 h-2 bg-[#3a5f54] rounded-sm inline-block" /> Clicks</span>
+                  <span className="flex items-center gap-1"><span className="w-3 h-2 bg-[#0e4d5c]/30 rounded-sm inline-block" /> Views</span>
+                  <span className="flex items-center gap-1"><span className="w-3 h-2 bg-[#0e4d5c] rounded-sm inline-block" /> Clicks</span>
                 </div>
               </CardContent>
             </Card>
@@ -723,7 +723,7 @@ export function AnalyticsDashboard() {
                       </span>
                       <div className="flex-1 h-5 bg-muted rounded-sm overflow-hidden">
                         <div
-                          className={`h-full rounded-sm ${s.zero_results ? "bg-red-400" : "bg-[#3a5f54]"}`}
+                          className={`h-full rounded-sm ${s.zero_results ? "bg-red-400" : "bg-[#0e4d5c]"}`}
                           style={{ width: `${(s.count / Math.max(...data.searches.map(x => x.count), 1)) * 100}%` }}
                         />
                       </div>

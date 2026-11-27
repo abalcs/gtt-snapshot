@@ -18,7 +18,7 @@ export default function HomeLoading() {
       </div>
 
       {/* CTA card */}
-      <div className="rounded-xl border bg-[#3a5f54]/5 border-[#3a5f54]/20 py-6 px-6 space-y-3">
+      <div className="rounded-xl border bg-[#0e4d5c]/5 border-[#0e4d5c]/20 py-6 px-6 space-y-3">
         <div className="h-6 w-64 bg-muted rounded" />
         <div className="h-4 w-96 bg-muted rounded" />
         <div className="h-10 w-36 bg-muted rounded-md" />

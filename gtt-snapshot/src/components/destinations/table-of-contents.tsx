@@ -68,7 +68,7 @@ export function TableOfContents({ sections }: { sections: TOCSection[] }) {
                 className={cn(
                   "shrink-0 text-xs px-3 py-1.5 rounded-full border transition-all duration-150",
                   activeId === s.id
-                    ? "bg-[#3a5f54] text-white border-[#3a5f54] shadow-sm"
+                    ? "bg-[#0e4d5c] text-white border-[#0e4d5c] shadow-sm"
                     : isSticky
                       ? "text-muted-foreground border-border/60 hover:bg-muted hover:text-foreground"
                       : "text-muted-foreground/80 border-border/40 hover:bg-white/80 hover:text-foreground hover:border-border/60"

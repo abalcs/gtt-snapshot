@@ -49,7 +49,7 @@ export function CompareBar({ selectedSlugs, destinationNames, onRemove, onClear 
           <button
             onClick={handleCompare}
             disabled={selectedSlugs.length < 2}
-            className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] text-white px-4 py-2 text-sm font-medium hover:bg-[#2a4a40] transition-colors disabled:opacity-50 disabled:pointer-events-none"
+            className="inline-flex items-center justify-center rounded-md bg-[#0e4d5c] text-white px-4 py-2 text-sm font-medium hover:bg-[#2a4a40] transition-colors disabled:opacity-50 disabled:pointer-events-none"
           >
             Compare
           </button>

@@ -63,7 +63,7 @@ export function SetPasswordForm() {
   if (recoveryCodes) {
     return (
       <div className="min-h-screen flex flex-col bg-gray-50">
-        <div className="bg-[#3a5f54] px-6 py-4">
+        <div className="bg-[#0e4d5c] px-6 py-4">
           <h1 className="text-white text-xl font-serif font-bold tracking-tight">
             GTT Country Snapshot
           </h1>
@@ -74,8 +74,8 @@ export function SetPasswordForm() {
           <div className="w-full max-w-md">
             <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-8">
               <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#3a5f54]/10 mb-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3a5f54" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0e4d5c]/10 mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0e4d5c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
                   </svg>
                 </div>
@@ -111,7 +111,7 @@ export function SetPasswordForm() {
 
               <button
                 onClick={() => { window.location.href = "/"; }}
-                className="w-full rounded-md bg-[#3a5f54] text-white px-4 py-2 text-sm font-medium hover:bg-[#2a4a40] transition-colors"
+                className="w-full rounded-md bg-[#0e4d5c] text-white px-4 py-2 text-sm font-medium hover:bg-[#2a4a40] transition-colors"
               >
                 I&apos;ve saved my codes — Continue
               </button>
@@ -125,7 +125,7 @@ export function SetPasswordForm() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Header bar */}
-      <div className="bg-[#3a5f54] px-6 py-4">
+      <div className="bg-[#0e4d5c] px-6 py-4">
         <h1 className="text-white text-xl font-serif font-bold tracking-tight">
           GTT Country Snapshot
         </h1>
@@ -137,8 +137,8 @@ export function SetPasswordForm() {
         <div className="w-full max-w-sm">
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-8">
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#3a5f54]/10 mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3a5f54" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#0e4d5c]/10 mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0e4d5c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
                 </svg>
               </div>
@@ -158,7 +158,7 @@ export function SetPasswordForm() {
                   onChange={(e) => setPassword(e.target.value)}
                   autoFocus
                   required
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54] focus:border-transparent"
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0e4d5c] focus:border-transparent"
                 />
               </div>
 
@@ -172,7 +172,7 @@ export function SetPasswordForm() {
                   value={confirm}
                   onChange={(e) => setConfirm(e.target.value)}
                   required
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54] focus:border-transparent"
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0e4d5c] focus:border-transparent"
                 />
               </div>
 
@@ -192,7 +192,7 @@ export function SetPasswordForm() {
               <button
                 type="submit"
                 disabled={!allValid || loading}
-                className="w-full rounded-md bg-[#3a5f54] text-white px-4 py-2 text-sm font-medium hover:bg-[#2a4a40] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-md bg-[#0e4d5c] text-white px-4 py-2 text-sm font-medium hover:bg-[#2a4a40] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? "Setting password..." : "Set password"}
               </button>

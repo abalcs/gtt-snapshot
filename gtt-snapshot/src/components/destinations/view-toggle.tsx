@@ -12,7 +12,7 @@ export function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
         onClick={() => onToggle("cards")}
         className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium transition-colors ${
           viewMode === "cards"
-            ? "bg-[#3a5f54] text-white"
+            ? "bg-[#0e4d5c] text-white"
             : "hover:bg-muted"
         }`}
         aria-label="Grid view"
@@ -24,7 +24,7 @@ export function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
         onClick={() => onToggle("map")}
         className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium transition-colors border-l border-input ${
           viewMode === "map"
-            ? "bg-[#3a5f54] text-white"
+            ? "bg-[#0e4d5c] text-white"
             : "hover:bg-muted"
         }`}
         aria-label="Map view"

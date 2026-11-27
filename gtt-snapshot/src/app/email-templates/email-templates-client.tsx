@@ -47,7 +47,7 @@ export function EmailTemplatesClient({ destinations }: { destinations: Destinati
         <section key={destination} className="border rounded-lg overflow-hidden shadow-[var(--shadow-sm)]">
           <button
             onClick={() => toggleDest(destination)}
-            className="flex w-full items-center justify-between px-4 py-3 bg-gradient-to-r from-[#f0f5f2] to-[#e8f0ec] border-l-4 border-l-[#3a5f54] hover:from-[#e8f0ec] hover:to-[#dde9e3] transition-colors"
+            className="flex w-full items-center justify-between px-4 py-3 bg-gradient-to-r from-[#f0f5f2] to-[#e8f0ec] border-l-4 border-l-[#0e4d5c] hover:from-[#e8f0ec] hover:to-[#dde9e3] transition-colors"
           >
             <div className="flex items-center gap-3">
               <h2 className="text-lg font-semibold">{destination}</h2>
@@ -85,7 +85,7 @@ export function EmailTemplatesClient({ destinations }: { destinations: Destinati
                       className={cn(
                         "px-4 py-2 text-sm font-medium border-b-2 transition-colors",
                         (viewTab[destination] ?? 0) === idx
-                          ? "border-[#3a5f54] text-[#3a5f54]"
+                          ? "border-[#0e4d5c] text-[#0e4d5c]"
                           : "border-transparent text-muted-foreground hover:text-foreground"
                       )}
                     >

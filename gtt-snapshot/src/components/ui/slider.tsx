@@ -35,7 +35,7 @@ function Slider({
         <SliderPrimitive.Range
           data-slot="slider-range"
           className="absolute h-full rounded-full"
-          style={{ backgroundColor: "#3a5f54" }}
+          style={{ backgroundColor: "#0e4d5c" }}
         />
       </SliderPrimitive.Track>
       {_values.map((_, i) => (
@@ -43,7 +43,7 @@ function Slider({
           data-slot="slider-thumb"
           key={i}
           className="border-2 bg-background ring-ring/50 block size-4 shrink-0 rounded-full shadow-sm transition-[color,box-shadow] focus-visible:ring-4 focus-visible:outline-hidden disabled:pointer-events-none"
-          style={{ borderColor: "#3a5f54" }}
+          style={{ borderColor: "#0e4d5c" }}
         />
       ))}
     </SliderPrimitive.Root>

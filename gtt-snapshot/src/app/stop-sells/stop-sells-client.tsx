@@ -107,7 +107,7 @@ function DetailModal({ entry, onClose }: { entry: StopSellEntry; onClose: () => 
           <div className="flex items-center justify-between border-t px-6 py-4">
             <Link
               href={`/destinations/${entry.slug}`}
-              className="text-sm font-medium text-[#3a5f54] hover:underline"
+              className="text-sm font-medium text-[#0e4d5c] hover:underline"
             >
               View destination page &rarr;
             </Link>
@@ -185,8 +185,8 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
             onClick={() => setActiveDept(dept)}
             className={`rounded-lg border px-4 py-2 text-sm font-medium transition-all ${
               activeDept === dept
-                ? "border-[#3a5f54] bg-[#3a5f54] text-white shadow-sm"
-                : "border-gray-200 bg-white text-gray-700 hover:border-[#3a5f54]/40 hover:bg-[#3a5f54]/5"
+                ? "border-[#0e4d5c] bg-[#0e4d5c] text-white shadow-sm"
+                : "border-gray-200 bg-white text-gray-700 hover:border-[#0e4d5c]/40 hover:bg-[#0e4d5c]/5"
             }`}
           >
             {dept}
@@ -234,7 +234,7 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
                     onClick={() => setSelectedEntry(entry)}
                     className="hover:bg-gray-50/50 transition-colors cursor-pointer"
                   >
-                    <td className="px-4 py-3 font-medium text-[#3a5f54]">{entry.name}</td>
+                    <td className="px-4 py-3 font-medium text-[#0e4d5c]">{entry.name}</td>
                     <td className="px-4 py-3 text-gray-500">{entry.region_name}</td>
                     <td className="px-4 py-3 text-gray-500">{entry.department}</td>
                     <td className="px-4 py-3">
@@ -299,7 +299,7 @@ export function StopSellsClient({ entries }: { entries: StopSellEntry[] }) {
                     onClick={() => setSelectedEntry(entry)}
                     className="hover:bg-amber-50/50 transition-colors cursor-pointer"
                   >
-                    <td className="px-4 py-3 font-medium text-[#3a5f54]">{entry.name}</td>
+                    <td className="px-4 py-3 font-medium text-[#0e4d5c]">{entry.name}</td>
                     <td className="px-4 py-3 text-gray-500">{entry.region_name}</td>
                     <td className="px-4 py-3 text-gray-500">{entry.department}</td>
                     <td className="px-4 py-3 text-amber-700 max-w-md">

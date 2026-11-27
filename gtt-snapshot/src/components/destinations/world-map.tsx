@@ -33,7 +33,7 @@ function createMarkerIcon(
   const size = opts.selected ? 16 : 12;
   const borderColor = opts.stopSell ? "#ef4444" : "#ffffff";
   const borderWidth = opts.selected ? 3 : 2;
-  const ringColor = opts.selected ? "#3a5f54" : "none";
+  const ringColor = opts.selected ? "#0e4d5c" : "none";
   const ringWidth = opts.selected ? 3 : 0;
   const opacity = opts.dimmed ? 0.3 : 1;
   const totalSize = size + borderWidth * 2 + ringWidth * 2;

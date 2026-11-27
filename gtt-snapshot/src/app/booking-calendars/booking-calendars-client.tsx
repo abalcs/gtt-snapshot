@@ -199,7 +199,7 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
                 <select
                   value={disableInput}
                   onChange={(e) => setDisableInput(e.target.value)}
-                  className="flex-1 px-3 py-1.5 border rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#3a5f54]/30"
+                  className="flex-1 px-3 py-1.5 border rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#0e4d5c]/30"
                 >
                   <option value="">Select a destination to disable...</option>
                   {allDestinations
@@ -235,7 +235,7 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
           <section key={region} className="border rounded-lg overflow-hidden shadow-[var(--shadow-sm)]">
             <button
               onClick={() => toggleRegion(region)}
-              className="flex w-full items-center justify-between px-4 py-3 bg-gradient-to-r from-[#f0f5f2] to-[#e8f0ec] border-l-4 border-l-[#3a5f54] hover:from-[#e8f0ec] hover:to-[#dde9e3] transition-colors"
+              className="flex w-full items-center justify-between px-4 py-3 bg-gradient-to-r from-[#f0f5f2] to-[#e8f0ec] border-l-4 border-l-[#0e4d5c] hover:from-[#e8f0ec] hover:to-[#dde9e3] transition-colors"
             >
               <h2 className="text-lg font-semibold">{region}</h2>
               <span className="flex items-center gap-2 text-muted-foreground text-sm">
@@ -274,7 +274,7 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
                           className={cn(
                             "rounded-full px-3 py-1 text-xs font-medium border transition-all duration-150 hover:scale-[1.03]",
                             isActive
-                              ? "bg-[#3a5f54] text-white border-[#3a5f54] shadow-[var(--shadow-sm)]"
+                              ? "bg-[#0e4d5c] text-white border-[#0e4d5c] shadow-[var(--shadow-sm)]"
                               : "bg-background text-foreground border-border hover:bg-muted"
                           )}
                         >
@@ -302,7 +302,7 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
                             <div>
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
-                                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-[#3a5f54]/10 text-[#3a5f54] text-xs font-semibold shrink-0">
+                                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-[#0e4d5c]/10 text-[#0e4d5c] text-xs font-semibold shrink-0">
                                     {consultant.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                                   </div>
                                   <p className="font-medium">{consultant.name}</p>
@@ -334,7 +334,7 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
                               consultant.calendarUrl.includes("/bookwithme/") ? (
                                 <button
                                   onClick={() => handleExternalBookClick(consultant.calendarUrl!, consultant.name)}
-                                  className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#3a5f54] to-[#2a4a40] px-4 py-2 text-sm font-medium text-white hover:from-[#2a4a40] hover:to-[#1e3830] transition-all shadow-[var(--shadow-sm)] active:translate-y-px gap-1.5"
+                                  className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#0e4d5c] to-[#2a4a40] px-4 py-2 text-sm font-medium text-white hover:from-[#2a4a40] hover:to-[#1e3830] transition-all shadow-[var(--shadow-sm)] active:translate-y-px gap-1.5"
                                 >
                                   Book a Call
                                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -342,7 +342,7 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
                               ) : (
                                 <button
                                   onClick={() => setCalendarModal({ url: consultant.calendarUrl!, name: consultant.name })}
-                                  className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#3a5f54] to-[#2a4a40] px-4 py-2 text-sm font-medium text-white hover:from-[#2a4a40] hover:to-[#1e3830] transition-all shadow-[var(--shadow-sm)] active:translate-y-px"
+                                  className="inline-flex items-center justify-center rounded-md bg-gradient-to-b from-[#0e4d5c] to-[#2a4a40] px-4 py-2 text-sm font-medium text-white hover:from-[#2a4a40] hover:to-[#1e3830] transition-all shadow-[var(--shadow-sm)] active:translate-y-px"
                                 >
                                   Book a Call
                                 </button>
@@ -379,7 +379,7 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
               <div className="flex gap-3">
                 <button
                   onClick={handleConfirmYes}
-                  className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
+                  className="inline-flex items-center justify-center rounded-md bg-[#0e4d5c] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
                 >
                   Yes
                 </button>
@@ -430,7 +430,7 @@ export function BookingCalendarsClient({ regions, taRanks, isAdmin = false, disa
             <div className="flex gap-3">
               <button
                 onClick={handleExternalYes}
-                className="inline-flex items-center justify-center rounded-md bg-[#3a5f54] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
+                className="inline-flex items-center justify-center rounded-md bg-[#0e4d5c] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#2a4a40] transition-colors"
               >
                 Yes
               </button>

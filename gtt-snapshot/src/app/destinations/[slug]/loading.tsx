@@ -28,7 +28,7 @@ export default function DestinationDetailLoading() {
       <div className="h-64 w-full bg-muted rounded-xl" />
 
       {/* Talking points card */}
-      <div className="rounded-xl border bg-[#3a5f54]/5 py-6 px-6 space-y-3">
+      <div className="rounded-xl border bg-[#0e4d5c]/5 py-6 px-6 space-y-3">
         <div className="h-6 w-36 bg-muted rounded" />
         <div className="h-4 w-full bg-muted rounded" />
         <div className="h-4 w-3/4 bg-muted rounded" />

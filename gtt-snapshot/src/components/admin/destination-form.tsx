@@ -101,7 +101,7 @@ function ScoreRow({
             onClick={() => onChange(value === n ? null : n)}
             className={`h-8 w-8 rounded-md text-sm font-medium transition-colors ${
               value === n
-                ? "bg-[#3a5f54] text-white"
+                ? "bg-[#0e4d5c] text-white"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >

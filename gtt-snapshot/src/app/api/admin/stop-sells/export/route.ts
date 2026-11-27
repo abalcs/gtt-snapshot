@@ -92,7 +92,7 @@ export async function GET(request: NextRequest) {
     workbook.creator = "GTT Country Snapshot";
     const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 
-    const headerFill: ExcelJS.Fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF3A5F54" } };
+    const headerFill: ExcelJS.Fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF0e4d5c" } };
     const headerFont: Partial<ExcelJS.Font> = { bold: true, color: { argb: "FFFFFFFF" }, size: 11 };
     const repNotesFill: ExcelJS.Fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFDE7" } };
 
@@ -112,7 +112,7 @@ export async function GET(request: NextRequest) {
     ];
 
     const sectionFont: Partial<ExcelJS.Font> = { bold: true, size: 12, color: { argb: "FF333333" } };
-    const sectionBorder: Partial<ExcelJS.Borders> = { bottom: { style: "medium", color: { argb: "FF3A5F54" } } };
+    const sectionBorder: Partial<ExcelJS.Borders> = { bottom: { style: "medium", color: { argb: "FF0e4d5c" } } };
     const LINE_HEIGHT = 15; // approx pixels per line of text at default font size
     const MIN_ROW_HEIGHT = 15;
 

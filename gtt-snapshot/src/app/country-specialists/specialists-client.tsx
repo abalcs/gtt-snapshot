@@ -90,7 +90,7 @@ export function SpecialistsClient({ entries, regions }: Props) {
           placeholder="Search by country or specialist name..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5f54]/30 focus:border-[#3a5f54]"
+          className="w-full pl-10 pr-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#0e4d5c]/30 focus:border-[#0e4d5c]"
         />
       </div>
 
@@ -100,7 +100,7 @@ export function SpecialistsClient({ entries, regions }: Props) {
           onClick={() => setActiveRegion(null)}
           className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
             activeRegion === null
-              ? "bg-[#3a5f54] text-white"
+              ? "bg-[#0e4d5c] text-white"
               : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >
