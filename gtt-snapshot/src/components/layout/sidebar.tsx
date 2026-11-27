@@ -257,32 +257,6 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
               TCE Resources
             </Link>
 
-            {(["Guides", "Resources", "Tools"] as const).map((sectionName) => {
-              const sectionPages = (data.pages ?? []).filter((p) => p.section === sectionName);
-              if (sectionPages.length === 0) return null;
-              return (
-                <div key={sectionName}>
-                  <div className="pt-3 pb-1 px-3">
-                    <span className="text-xs font-semibold text-[#c9a227]/90 uppercase tracking-wider">{sectionName}</span>
-                    <div className="mt-1.5 h-px bg-gradient-to-r from-[#c9a227]/40 via-white/10 to-transparent" />
-                  </div>
-                  {sectionPages.map((page) => (
-                    <Link
-                      key={page.slug}
-                      href={`/p/${page.slug}`}
-                      className={cn(
-                        "block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
-                        pathname === `/p/${page.slug}` &&
-                          "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_#c9a227]"
-                      )}
-                    >
-                      {page.title}
-                    </Link>
-                  ))}
-                </div>
-              );
-            })}
-
             <div className="pt-3 pb-1 px-3">
               <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">Regions</span>
               <div className="mt-1.5 h-px bg-gradient-to-r from-white/20 via-white/10 to-transparent" />
@@ -344,6 +318,31 @@ export function Sidebar({ initialData }: { initialData: SidebarData }) {
               );
             })}
 
+            {(["Guides", "Resources", "Tools"] as const).map((sectionName) => {
+              const sectionPages = (data.pages ?? []).filter((p) => p.section === sectionName);
+              if (sectionPages.length === 0) return null;
+              return (
+                <div key={sectionName}>
+                  <div className="pt-3 pb-1 px-3">
+                    <span className="text-xs font-semibold text-[#c9a227]/90 uppercase tracking-wider">{sectionName}</span>
+                    <div className="mt-1.5 h-px bg-gradient-to-r from-[#c9a227]/40 via-white/10 to-transparent" />
+                  </div>
+                  {sectionPages.map((page) => (
+                    <Link
+                      key={page.slug}
+                      href={`/p/${page.slug}`}
+                      className={cn(
+                        "block rounded-md px-3 py-2 text-sm text-white/90 hover:bg-white/15 hover:text-white hover:translate-x-0.5 transition-all duration-150",
+                        pathname === `/p/${page.slug}` &&
+                          "bg-white/20 font-medium text-white shadow-[inset_3px_0_0_#c9a227]"
+                      )}
+                    >
+                      {page.title}
+                    </Link>
+                  ))}
+                </div>
+              );
+            })}
           </nav>
         </ScrollArea>
       </div>
