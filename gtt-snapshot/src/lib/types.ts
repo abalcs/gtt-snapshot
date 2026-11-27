@@ -20,6 +20,7 @@ export interface Destination {
   pax_limit: string | null;
   accommodations: string | null;
   accommodation_url: string | null;
+  image_url: string | null;
   how_to_feature: string | null;
   talking_points: string | null;
   pair_with: string | null;

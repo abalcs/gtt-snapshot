@@ -120,9 +120,17 @@ export default async function DestinationDetailPage({
   return (
     <div className="max-w-4xl mx-auto space-y-6 print:space-y-4">
       {/* Hero Header */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0d4256] via-[#0e4d5c] to-[#07222b] px-8 py-7 shadow-[var(--shadow-md)]">
-        <div className="absolute inset-0 bg-dots opacity-10" />
-        <div className="relative">
+      <div className={`relative overflow-hidden rounded-2xl px-8 py-7 shadow-[var(--shadow-md)] ${destination.image_url ? "" : "bg-gradient-to-br from-[#0d4256] via-[#0e4d5c] to-[#07222b]"}`}>
+        {destination.image_url ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={destination.image_url} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#07222b]/90 via-[#07222b]/30 to-[#07222b]/5" />
+          </>
+        ) : (
+          <div className="absolute inset-0 bg-dots opacity-10" />
+        )}
+        <div className={`relative ${destination.image_url ? "flex min-h-[270px] flex-col" : ""}`}>
           <div className="flex items-center gap-2 text-sm text-white/60 mb-3">
             <Link href="/" className="hover:text-white/90 transition-colors">Home</Link>
             <span>/</span>
@@ -132,8 +140,8 @@ export default async function DestinationDetailPage({
             <span>/</span>
             <span className="text-white/80">{destination.name}</span>
           </div>
-          <div className="flex items-start justify-between gap-4">
-            <h1 className="font-serif text-4xl font-semibold tracking-tight text-white flex items-center gap-3">
+          <div className={`flex items-start justify-between gap-4 ${destination.image_url ? "mt-auto" : ""}`}>
+            <h1 className={`font-serif text-4xl font-semibold tracking-tight text-white flex items-center gap-3 ${destination.image_url ? "[text-shadow:0_2px_16px_rgba(7,34,43,0.55)]" : ""}`}>
               {getFlagUrl(destination.name) && (
                 <img
                   src={getFlagUrl(destination.name)}

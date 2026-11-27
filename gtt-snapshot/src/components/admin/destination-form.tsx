@@ -145,6 +145,7 @@ export function DestinationForm({ destination, regions }: Props) {
   const [paxLimit, setPaxLimit] = useState(destination?.pax_limit || "");
   const [accommodations, setAccommodations] = useState(destination?.accommodations || "");
   const [accommodationUrl, setAccommodationUrl] = useState(destination?.accommodation_url || "");
+  const [imageUrl, setImageUrl] = useState(destination?.image_url || "");
   const [howToFeature, setHowToFeature] = useState(destination?.how_to_feature || "");
   const [pairWith, setPairWith] = useState(destination?.pair_with || "");
   const [generalNotes1, setGeneralNotes1] = useState(destination?.general_notes_1 || "");
@@ -275,6 +276,7 @@ export function DestinationForm({ destination, regions }: Props) {
       pax_limit: paxLimit || null,
       accommodations: accommodations || null,
       accommodation_url: accommodationUrl || null,
+      image_url: imageUrl || null,
       how_to_feature: howToFeature || null,
       pair_with: pairWith || null,
       general_notes_1: generalNotes1 || null,
@@ -502,6 +504,14 @@ export function DestinationForm({ destination, regions }: Props) {
           <div>
             <Label htmlFor="accommodations">Accommodations</Label>
             <Textarea id="accommodations" value={accommodations} onChange={(e) => setAccommodations(e.target.value)} rows={3} />
+          </div>
+          <div>
+            <Label htmlFor="imageUrl">Header Photo URL</Label>
+            <Input id="imageUrl" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://… (shown as the banner photo on the destination page; leave blank for none)" />
+            {imageUrl && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={imageUrl} alt="Header preview" className="mt-2 h-32 w-full rounded-md object-cover" />
+            )}
           </div>
           <div>
             <Label htmlFor="accommodationUrl">Accommodation URL Override</Label>
