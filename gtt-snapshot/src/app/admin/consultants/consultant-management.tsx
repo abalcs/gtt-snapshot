@@ -19,6 +19,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
 
@@ -73,6 +74,13 @@ export function ConsultantManagement() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [confirmState, setConfirmState] = useState<
+    | { kind: "seed" }
+    | { kind: "toggle"; consultant: ConsultantDoc }
+    | { kind: "delete"; consultant: ConsultantDoc }
+    | null
+  >(null);
+  const [confirmBusy, setConfirmBusy] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<FormData>(emptyForm);
   const [saving, setSaving] = useState(false);
@@ -101,17 +109,7 @@ export function ConsultantManagement() {
     fetchData();
   }, [fetchData]);
 
-  const handleSeed = async () => {
-    if (!confirm("Seed the consultants collection with default data?")) return;
-    const res = await fetch("/api/admin/seed-consultants", { method: "POST" });
-    const data = await res.json();
-    if (res.ok) {
-      alert(`Seeded ${data.count} consultants.`);
-      fetchData();
-    } else {
-      alert(data.error);
-    }
-  };
+  const handleSeed = () => setConfirmState({ kind: "seed" });
 
   const openAdd = () => {
     setEditingId(null);
@@ -188,19 +186,40 @@ export function ConsultantManagement() {
     }
   };
 
-  const handleToggleStatus = async (c: ConsultantDoc) => {
-    const action = c.status === "active" ? "deactivate" : "reactivate";
-    if (!confirm(`${action.charAt(0).toUpperCase() + action.slice(1)} ${c.name}?`)) return;
+  const handleToggleStatus = (c: ConsultantDoc) =>
+    setConfirmState({ kind: "toggle", consultant: c });
 
-    const res = await fetch(`/api/admin/consultants/${c.id}`, { method: "PATCH" });
-    if (res.ok) fetchData();
-  };
+  const handleDelete = (c: ConsultantDoc) =>
+    setConfirmState({ kind: "delete", consultant: c });
 
-  const handleDelete = async (c: ConsultantDoc) => {
-    if (!confirm(`Permanently delete ${c.name}? This cannot be undone.`)) return;
-
-    const res = await fetch(`/api/admin/consultants/${c.id}`, { method: "DELETE" });
-    if (res.ok) fetchData();
+  const runConfirmed = async () => {
+    if (!confirmState) return;
+    setConfirmBusy(true);
+    try {
+      if (confirmState.kind === "seed") {
+        const res = await fetch("/api/admin/seed-consultants", { method: "POST" });
+        const data = await res.json();
+        if (res.ok) {
+          alert(`Seeded ${data.count} consultants.`);
+          fetchData();
+        } else {
+          alert(data.error);
+        }
+      } else if (confirmState.kind === "toggle") {
+        const res = await fetch(`/api/admin/consultants/${confirmState.consultant.id}`, {
+          method: "PATCH",
+        });
+        if (res.ok) fetchData();
+      } else {
+        const res = await fetch(`/api/admin/consultants/${confirmState.consultant.id}`, {
+          method: "DELETE",
+        });
+        if (res.ok) fetchData();
+      }
+    } finally {
+      setConfirmBusy(false);
+      setConfirmState(null);
+    }
   };
 
   const handleBookingAdjust = async (id: string, action: "increment" | "decrement") => {
@@ -575,6 +594,67 @@ export function ConsultantManagement() {
             </Button>
             <Button onClick={handleSave} disabled={saving}>
               {saving ? "Saving..." : "Save"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Confirmation Dialog (in-app replacement for window.confirm) */}
+      <Dialog
+        open={confirmState !== null}
+        onOpenChange={(open) => {
+          if (!open) setConfirmState(null);
+        }}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {confirmState?.kind === "seed"
+                ? "Seed consultants?"
+                : confirmState?.kind === "toggle"
+                  ? confirmState.consultant.status === "active"
+                    ? `Deactivate ${confirmState.consultant.name}?`
+                    : `Reactivate ${confirmState.consultant.name}?`
+                  : confirmState
+                    ? `Delete ${confirmState.consultant.name}?`
+                    : ""}
+            </DialogTitle>
+            <DialogDescription>
+              {confirmState?.kind === "seed"
+                ? "Seed the consultants collection with default data?"
+                : confirmState?.kind === "toggle"
+                  ? confirmState.consultant.status === "active"
+                    ? "They will be removed from the public booking calendars until reactivated."
+                    : "They will appear on the public booking calendars again."
+                  : "Permanently delete this consultant? This cannot be undone."}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setConfirmState(null)}
+              disabled={confirmBusy}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={runConfirmed}
+              disabled={confirmBusy}
+              className={
+                confirmState?.kind === "delete"
+                  ? "bg-red-600 text-white hover:bg-red-700"
+                  : undefined
+              }
+            >
+              {confirmBusy
+                ? "Working..."
+                : confirmState?.kind === "seed"
+                  ? "Seed"
+                  : confirmState?.kind === "toggle"
+                    ? confirmState.consultant.status === "active"
+                      ? "Deactivate"
+                      : "Reactivate"
+                    : "Delete"}
             </Button>
           </DialogFooter>
         </DialogContent>
